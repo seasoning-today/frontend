@@ -42,54 +42,54 @@ export const RouterInfo = [
       {
         path: 'home/:token',
         element: <AuthPage />,
-        loader: AuthLoader,
+        // loader: AuthLoader,
       },
       {
         path: 'collage',
         element: <CollagePage />,
-        loader: CollageLoader,
+        // loader: CollageLoader,
       },
       {
         path: 'feed',
         element: <FeedPage />,
-        loader: FeedLoader,
+        // loader: FeedLoader,
       },
       {
         path: 'feed/friends-list',
         element: <FriendsListPage />,
-        loader: FriendsListLoader,
+        // loader: FriendsListLoader,
       },
       {
         path: 'mypage',
         element: <MyPage />,
-        loader: UserRestrictLoader,
+        // loader: UserRestrictLoader,
       },
       {
         path: 'mypage/edit',
         element: <EditProfilePage />,
-        loader: EditProfileLoader,
+        // loader: EditProfileLoader,
       },
       /* 소셜 로그인에 대한 페이지 라우팅 */
       {
         path: 'login',
         element: <LoginPage />,
-        loader: LoginLoader,
+        // loader: LoginLoader,
       },
       /* 기타 페이지 라우팅 */
       {
         path: 'search',
         element: <SearchPage />,
-        loader: UserRestrictLoader,
+        // loader: UserRestrictLoader,
       },
       {
         path: 'write',
         element: <WritePage />,
-        //loader: UserRestrictLoader,
+        // loader: UserRestrictLoader,
       },
       {
         path: 'notification',
         element: <NotificationPage />,
-        loader: NotificationLoader,
+        // loader: NotificationLoader,
       },
     ],
   },

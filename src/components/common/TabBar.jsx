@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 
 const Container = styled.div`
-  position: relative;
+  position: fixed;
+  bottom: 0;
 
   width: 24.375rem;
   height: 3.8125rem;

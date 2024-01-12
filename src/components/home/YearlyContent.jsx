@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import SeasonCircle from '@components/home/SeasonCircle';
 
-import yearly_line from '@assets/yearly_line.png';
+import yearly_line from '@assets/home/yearly_line.png';
 
 const Container = styled.section`
   display: flex;
@@ -36,48 +36,48 @@ const YearlyContent = () => {
     <>
       <Container>
         <Row>
-          <SeasonCircle />
-          <SeasonCircle />
-          <SeasonCircle />
+          <SeasonCircle status={`activated`} />
+          <SeasonCircle status={`activated`} />
+          <SeasonCircle status={`activated`} />
         </Row>
         <Row>
-          <SeasonCircle />
-          <SeasonCircle />
+          <SeasonCircle status={`countdown`} countDown={`01:16:20`} />
+          <SeasonCircle status={`activated`} />
         </Row>
         <Row>
-          <SeasonCircle />
-          <SeasonCircle />
-          <SeasonCircle />
+          <SeasonCircle status={`deactivated`} />
+          <SeasonCircle status={`deactivated`} />
+          <SeasonCircle status={`deactivated`} />
         </Row>
         <Row>
-          <SeasonCircle />
-          <SeasonCircle />
+          <SeasonCircle status={`deactivated`} />
+          <SeasonCircle status={`deactivated`} />
         </Row>
         <Row>
-          <SeasonCircle />
-          <SeasonCircle />
-          <SeasonCircle />
+          <SeasonCircle status={`deactivated`} />
+          <SeasonCircle status={`deactivated`} />
+          <SeasonCircle status={`deactivated`} />
         </Row>
         <Row>
-          <SeasonCircle />
-          <SeasonCircle />
+          <SeasonCircle status={`deactivated`} />
+          <SeasonCircle status={`deactivated`} />
         </Row>
         <Row>
-          <SeasonCircle />
-          <SeasonCircle />
-          <SeasonCircle />
+          <SeasonCircle status={`deactivated`} />
+          <SeasonCircle status={`deactivated`} />
+          <SeasonCircle status={`deactivated`} />
         </Row>
         <Row>
-          <SeasonCircle />
-          <SeasonCircle />
+          <SeasonCircle status={`deactivated`} />
+          <SeasonCircle status={`deactivated`} />
         </Row>
         <Row>
-          <SeasonCircle />
-          <SeasonCircle />
-          <SeasonCircle />
+          <SeasonCircle status={`deactivated`} />
+          <SeasonCircle status={`deactivated`} />
+          <SeasonCircle status={`deactivated`} />
         </Row>
         <LastRow>
-          <SeasonCircle />
+          <SeasonCircle status={`deactivated`} />
         </LastRow>
       </Container>
     </>

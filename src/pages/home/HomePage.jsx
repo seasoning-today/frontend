@@ -10,24 +10,25 @@ import axios from 'axios';
 
 import YearlyContent from '@components/home/YearlyContent';
 import SeasonalContent from '@components/home/SeasonalContent';
+import TabBar from '@components/common/TabBar';
+
+import logo from '@assets/components/topbar/logo.png';
+import arrow_svg from '@assets/arrowSvg.png';
 
 const Top = styled.div`
   position: relative;
   display: flex;
   justify-content: space-between;
-  margin-top: 3rem;
-  /* align-items: center; */
 
   width: 24.375rem;
   height: 2.5rem;
 
-  background: #ffffff;
+  background-color: #ffffff;
 `;
 
 const LogoBox = styled.div`
-  margin: 0 1rem;
-
   height: 100%;
+  margin: 0 1rem;
 
   display: flex;
   align-items: center;
@@ -46,12 +47,14 @@ const NavBox = styled.div`
 
 const Season = styled.div`
   position: relative;
-  display: flex;
-  align-items: center;
-
   width: 24.375rem;
   height: 3.5625rem;
-  background: ffffff;
+
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+  padding-left: 1.25rem;
+  column-gap: 0.5rem;
 
   font-family: Noto Serif KR;
   font-size: 2rem;
@@ -59,27 +62,61 @@ const Season = styled.div`
   font-weight: 700;
   line-height: normal;
   color: #333;
+
+  .season__title {
+    font-size: 2rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+
+  .season__description {
+    margin-bottom: 0.5rem;
+
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+`;
+
+const FortuneContainer = styled.div`
+  width: 100%;
+  height: 2.75rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
 `;
 
 const Fortune = styled.div`
   position: relative;
   display: flex;
-  justify-content: space-around;
-  margin: 0.5rem auto;
+  justify-content: space-between;
   align-items: center;
 
   width: 21.875rem;
   height: 2rem;
-  background: #ffffff;
+  padding: 0 1rem;
+
   border-radius: 1.125rem 1rem 1rem 1.125rem;
-  border: 1px solid rgba(202, 202, 202, 0);
+  border: 1px solid rgba(202, 202, 202, 50);
+  background: #fff;
 
   color: #333;
-  font-family: AppleSDGothicNeoR00;
   font-size: 0.875rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+
+  .fortune__title {
+    display: flex;
+    column-gap: 0.32rem;
+  }
+
+  .fortune__date {
+    color: #bfbfbf;
+  }
 `;
 
 const PopupLayout = styled.div`
@@ -88,7 +125,20 @@ const PopupLayout = styled.div`
   justify-content: center;
 `;
 
-const Year = styled.div`
+const Category = styled.div`
+  position: relative;
+  width: 24.375rem;
+  height: 4.4375rem;
+  padding: 1.87rem 1.25rem 0.38rem;
+
+  display: flex;
+  justify-content: space-between;
+  align-content: flex-end;
+
+  background-color: #fff;
+`;
+
+const Year = styled.h1`
   position: relative;
   display: flex;
 
@@ -101,33 +151,57 @@ const Year = styled.div`
   color: #333;
 `;
 
-const Category = styled.div`
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  align-content: flex-end;
-  flex-wrap: wrap;
-
-  width: 24.375rem;
-  height: 4.4375rem;
-  background: #ffffff;
-`;
-
 const Select = styled.div`
+  position: relative;
+  /* width: 4rem; */
+  /* height: 100%; */
+
+  display: flex;
+  align-items: center;
+
   font-family: AppleSDGothicNeoR00;
   font-size: 0.875rem;
   font-style: normal;
   font-weight: 400;
+
+  select {
+    height: 1.25rem;
+
+    border: none;
+    outline: none;
+
+    font-family: AppleSDGothicNeoR00;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+
+    -o-appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+
+  /* IE */
+  select::-ms-expand {
+    display: none;
+  }
+
+  img {
+    width: 0.52419rem;
+    height: 0.3125rem;
+
+    margin-left: 0.25rem;
+  }
 `;
 
-const ContentBorder = styled.div`
+const ContentArea = styled.div`
   position: relative;
-  margin: 0.3rem auto;
   overflow-y: auto;
 
-  width: 24rem;
-  height: 31rem;
-  //border: 1px solid #000;
+  width: 100%;
+  height: calc(100% - 2.5rem - 3.5625rem - 2.75rem - 4.4375rem);
+  padding-bottom: 3.8125rem;
 
   font-family: AppleSDGothicNeoR00;
   font-size: 0.875rem;
@@ -139,17 +213,21 @@ const ContentBorder = styled.div`
 // 여기서부터 운세 팝업창
 const ModalOverlay = styled.div`
   position: fixed;
+  left: 50%;
+  top: 50%;
+  width: 17.6875rem;
+  margin-left: -8.5rem;
+  height: 12.5rem;
+  margin-top: -6.25rem;
+  z-index: 2;
+
   display: flex;
   flex-direction: column;
-  margin-top: 6rem;
+  /* margin-top: 6rem; */
 
-  width: 17.6875rem;
-  height: 12.5rem;
   border-radius: 1.25rem;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  background: aliceblue;
-
-  z-index: 2;
+  background-color: #fff;
 `;
 
 const ModalTop = styled.div`
@@ -282,7 +360,7 @@ const HomePage = () => {
     <>
       <Top>
         <LogoBox>
-          <img src="images/Logo.png" width={30} height={30} />
+          <img src={logo} width={30} height={30} />
           <svg
             style={{
               alignItems: 'center',
@@ -372,64 +450,63 @@ const HomePage = () => {
       </Top>
 
       <Season>
-        <div style={{ fontSize: '2rem' }}>淸明</div>
-        <div style={{ fontSize: '0.875rem', marginLeft: '1rem' }}>
-          청명, 5번째 절기
-        </div>
+        <div className="season__title">淸明</div>
+        <div className="season__description">청명, 5번째 절기</div>
       </Season>
-      <Fortune onClick={Open}>
-        <svg
-          style={{ marginLeft: '-1rem' }}
-          xmlns="http://www.w3.org/2000/svg"
-          width="14"
-          height="14"
-          viewBox="0 0 14 14"
-          fill="none"
-        >
-          <path
-            d="M10.4286 7.57067L10.4286 0.935057L3.79297 0.935059L3.79297 7.57067"
-            stroke="black"
-            stroke-width="0.8"
-            stroke-linejoin="round"
-          />
-          <path
-            d="M10.2949 0.935059L1.61492 9.61506L4.99966 12.9998L9.33966 8.6598L10.4247 7.5748"
-            stroke="black"
-            stroke-width="0.8"
-            stroke-linejoin="round"
-          />
-          <path
-            d="M4.16208 0.935083L12.8421 9.61508L9.45735 12.9998L7.28735 10.8298"
-            stroke="black"
-            stroke-width="0.8"
-            stroke-linejoin="round"
-          />
-        </svg>
-        <div style={{ marginLeft: '-2rem' }}>오늘의 운세</div>
-        <div
-          style={{
-            marginLeft: 'rem',
-            fontSize: '0.75rem',
-            color: '#BFBFBF',
-          }}
-        >
-          11월 18일
-        </div>
-      </Fortune>
+
+      <FortuneContainer>
+        <Fortune onClick={Open}>
+          <div className="fortune__title">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 14 14"
+              fill="none"
+            >
+              <path
+                d="M10.4286 7.57067L10.4286 0.935057L3.79297 0.935059L3.79297 7.57067"
+                stroke="black"
+                stroke-width="0.8"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M10.2949 0.935059L1.61492 9.61506L4.99966 12.9998L9.33966 8.6598L10.4247 7.5748"
+                stroke="black"
+                stroke-width="0.8"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M4.16208 0.935083L12.8421 9.61508L9.45735 12.9998L7.28735 10.8298"
+                stroke="black"
+                stroke-width="0.8"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <div>오늘의 운세</div>
+          </div>
+          <div className="fortune__date">11월 18일</div>
+        </Fortune>
+      </FortuneContainer>
       <PopupLayout>{showPopup && <Popup onClose={Close} />}</PopupLayout>
+
       <Category>
         <Year>2023</Year>
         <Select>
           <select value={selectedCategory} onChange={handleCategoryChange}>
-            <option value="year">연도별보기</option>
-            <option value="season">절기별보기</option>
+            <option value="year">연도별 보기</option>
+            <option value="season">절기별 보기</option>
           </select>
+          <img src={arrow_svg} />
         </Select>
       </Category>
-      <ContentBorder>
+
+      <ContentArea>
         {selectedCategory === 'year' && <YearlyContent />}
         {selectedCategory === 'season' && <SeasonalContent />}
-      </ContentBorder>
+      </ContentArea>
+
+      <TabBar />
     </>
   );
 };

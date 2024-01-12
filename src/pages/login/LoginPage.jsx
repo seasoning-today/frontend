@@ -2,26 +2,34 @@ import React from 'react';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 
+import kakao_btn from '@assets/login/kakao_btn.png';
+
 const Background = styled.div`
   position: relative;
+  width: 100%;
+  height: 100%;
 
-  img {
-    width: 24.375rem;
-    height: 52.75rem;
-  }
+  background-image: url(./src/assets/login/background.png);
+  /* background-repeat: no-repeat; */
+  /* background-position: top center; */
+  background-size: cover;
+  /* background-attachment: fixed; */
 
   overflow: hidden;
 `;
 
-const KakaoLoginBtn = styled.div`
-  position: relative;
+const ButtonRow = styled.div`
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  margin-bottom: 6.38rem;
 
-  margin-top: -11rem;
-  padding: 1rem;
+  display: flex;
+  justify-content: center;
 
   img {
-    width: 22.0625rem;
-    height: 3.3125rem;
+    width: 22rem;
+    height: 3.2rem;
   }
 
   :hover {
@@ -38,10 +46,9 @@ function LoginPage() {
 
   return (
     <Background>
-      <img src="images/LoginBackground2.png" />
-      <KakaoLoginBtn onClick={handleKakaoLogin}>
-        <img src="images/KakaoLoginBtn.png" />
-      </KakaoLoginBtn>
+      <ButtonRow onClick={handleKakaoLogin}>
+        <img src={kakao_btn} />
+      </ButtonRow>
     </Background>
   );
 }
