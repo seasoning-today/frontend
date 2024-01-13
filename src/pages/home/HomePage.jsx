@@ -491,7 +491,7 @@ const HomePage = () => {
       <PopupLayout>{showPopup && <Popup onClose={Close} />}</PopupLayout>
 
       <Category>
-        <Year>2023</Year>
+        <Year>{selectedCategory === 'year' ? '2023' : undefined}</Year>
         <Select>
           <select value={selectedCategory} onChange={handleCategoryChange}>
             <option value="year">연도별 보기</option>
