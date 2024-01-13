@@ -10,10 +10,8 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-top: 0.25rem;
+  padding-top: 0.375rem;
 
-  /* background-image: url(./src/assets/home/sample_circle_image.png);
-  background-size: cover; */
   color: #fff;
   background-color: ${(props) =>
     props.status === 'activated'
@@ -21,6 +19,9 @@ const Container = styled.div`
       : props.status === 'countdown'
       ? '#888'
       : '#ddd'};
+
+  /* background-image: url(./src/assets/home/sample_circle_image.png);
+  background-size: cover; */
 
   .circle__countdown {
     text-align: center;

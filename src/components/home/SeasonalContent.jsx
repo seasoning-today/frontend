@@ -4,6 +4,8 @@ import SeasonMenu from '@components/home/SeasonMenu';
 import ArticleRow from '@components/home/ArticleRow';
 
 const Container = styled.section`
+  /* height: 100%; */
+
   display: flex;
   flex-direction: column;
 `;
@@ -12,13 +14,16 @@ const Menus = styled.section`
   height: 7.31rem;
 
   display: flex;
-  gap: 1.12rem;
+  align-items: flex-start;
+  padding: 0 1.31rem;
+  gap: 1.13rem;
   overflow: scroll;
 `;
 
 const Content = styled.section`
-  height: 22.5rem;
-  overflow: scroll;
+  /* height: 22.5rem; */
+  /* height: 100%; */
+  /* overflow: scroll; */
 
   background-color: #ffffff;
 `;

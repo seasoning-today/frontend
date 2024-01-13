@@ -5,7 +5,29 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 0.37rem;
+  gap: 0.55rem;
+
+  .season__menu__chinese {
+    color: #fff;
+    text-align: center;
+
+    font-family: Noto Serif KR;
+    font-size: 1.1875rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+  }
+
+  .season__menu__korean {
+    color: #8c8c8c;
+    text-align: center;
+
+    font-family: Noto Serif KR;
+    font-size: 0.9375rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
 `;
 
 const Square = styled.div`
@@ -18,16 +40,16 @@ const Square = styled.div`
   justify-content: center;
   align-items: center;
 
-  background-color: #eeeeee;
+  background-color: #333;
 `;
 
 const SeasonMenu = () => {
   return (
     <Container>
       <Square>
-        <div>한자</div>
+        <span className="season__menu__chinese">立春</span>
       </Square>
-      <div>입춘</div>
+      <span className="season__menu__korean">입춘</span>
     </Container>
   );
 };
