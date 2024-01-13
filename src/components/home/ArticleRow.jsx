@@ -28,9 +28,8 @@ const Thumbnail = styled.div`
 
 const Description = styled.p`
   color: #333;
-  text-align: justify;
 
-  font-family: AppleSDGothicNeoR00;
+  font-family: sans-serif;
   font-size: 0.875rem;
   font-style: normal;
   font-weight: 400;
@@ -48,12 +47,14 @@ const Description = styled.p`
   overflow: hidden;
 `;
 
-const ArticleRow = () => {
+const ArticleRow = (props) => {
   return (
     <Container>
-      <Thumbnail>
-        <img src={thumbs} />
-      </Thumbnail>
+      {props.thumbnail && (
+        <Thumbnail>
+          <img src={thumbs} />
+        </Thumbnail>
+      )}
       <Description>
         봄은 자연에서 새로운 생명과 활기가 물씬 풍기는 아름다운 계절입니다.
         새로운 잎이 나고 꽃들이 피어나며 새로운 생명이 시작되는 시기이죠. 봄은

@@ -45,15 +45,12 @@ const SeasonalContent = () => {
         </Menus>
 
         <Content>
+          <ArticleRow thumbnail />
+          <ArticleRow thumbnail />
           <ArticleRow />
-          <ArticleRow />
-          <ArticleRow />
-          <ArticleRow />
-          <ArticleRow />
-          <ArticleRow />
-          <ArticleRow />
-          <ArticleRow />
-          <ArticleRow />
+          <ArticleRow thumbnail />
+          <ArticleRow thumbnail />
+          <ArticleRow thumbnail />
         </Content>
       </Container>
     </>
