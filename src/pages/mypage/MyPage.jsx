@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { useLoaderData } from 'react-router-dom';
+// import { useLoaderData } from 'react-router-dom';
 
 const MyProfile = styled.div`
   position: relative;
@@ -85,9 +85,9 @@ const Hr = styled.div`
 `;
 
 const MyPage = () => {
-  //const { response } = useLoaderData();
-  //console.log(response.data);
-  //const [userData, setUserData] = useState(response.data);
+  // const { response } = useLoaderData();
+  // console.log(response.data);
+  // const [userData, setUserData] = useState(response.data);
 
   return (
     <>

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useLoaderData } from 'react-router-dom';
+// import { useLoaderData } from 'react-router-dom';
 
 import OKButton from '@assets/OKBtn.png';
 
@@ -96,8 +96,8 @@ const OkBtn = styled.div`
 `;
 
 function EditProfilePage() {
-  const { response } = useLoaderData();
-  console.log(response);
+  // const { response } = useLoaderData();
+  // console.log(response);
 
   return (
     <>

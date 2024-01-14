@@ -32,7 +32,7 @@ export const RouterInfo = [
     path: '/',
     element: <Layout />,
     /* 404 에러 페이지 라우팅 */
-    //errorElement: <ErrorPage />,
+    errorElement: <ErrorPage />,
     children: [
       /* 기본 4개 탭에 대한 페이지 라우팅 */
       {
