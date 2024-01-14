@@ -38,7 +38,7 @@ export const RouterInfo = [
       {
         path: 'home',
         element: <HomePage />,
-        //loader: HomeLoader,
+        // loader: HomeLoader,
       },
       {
         path: 'home/:token',
