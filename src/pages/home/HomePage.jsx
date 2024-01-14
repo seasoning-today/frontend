@@ -19,6 +19,7 @@ const Top = styled.div`
   position: relative;
   display: flex;
   justify-content: space-between;
+  margin-top: 1rem;
 
   width: 24.375rem;
   height: 2.5rem;
@@ -54,6 +55,7 @@ const Season = styled.div`
   justify-content: flex-start;
   align-items: flex-end;
   padding-left: 1.25rem;
+
   column-gap: 0.5rem;
 
   font-family: Noto Serif KR;
@@ -81,12 +83,13 @@ const Season = styled.div`
 `;
 
 const FortuneContainer = styled.div`
-  width: 100%;
-  height: 2.75rem;
-
   display: flex;
   justify-content: center;
   align-items: flex-end;
+  margin-top: 0.2rem;
+
+  width: 100%;
+  height: 2.75rem;
 `;
 
 const Fortune = styled.div`
@@ -111,7 +114,7 @@ const Fortune = styled.div`
 
   .fortune__title {
     display: flex;
-    column-gap: 0.32rem;
+    margin-left: -9rem;
   }
 
   .fortune__date {
@@ -200,8 +203,9 @@ const ContentArea = styled.div`
   overflow-y: auto;
 
   width: 100%;
-  height: calc(100% - 2.5rem - 3.5625rem - 2.75rem - 4.4375rem);
+  height: calc(100% - 3.5rem - 3.5625rem - 2.95rem - 4.4375rem);
   padding-bottom: 3.8125rem;
+  margin-top: -0.2rem;
 
   font-family: AppleSDGothicNeoR00;
   font-size: 0.875rem;
@@ -213,12 +217,9 @@ const ContentArea = styled.div`
 // 여기서부터 운세 팝업창
 const ModalOverlay = styled.div`
   position: fixed;
-  left: 50%;
-  top: 50%;
+  margin-top: 5rem;
   width: 17.6875rem;
-  margin-left: -8.5rem;
   height: 12.5rem;
-  margin-top: -6.25rem;
   z-index: 2;
 
   display: flex;
@@ -288,10 +289,15 @@ const Popup = ({ onClose }) => {
     setShowPopup(false);
   };
 
+  const currentDate = new Date();
+  const formattedDate = `${
+    currentDate.getMonth() + 1
+  }월 ${currentDate.getDate()}일`;
+
   return (
     <ModalOverlay>
       <ModalTop>
-        <div>11월 18일</div>
+        <div>{formattedDate}</div>
         <svg
           onClick={Close}
           xmlns="http://www.w3.org/2000/svg"
@@ -328,6 +334,11 @@ const HomePage = () => {
   const Close = () => {
     setShowPopup(false);
   };
+
+  const currentDate = new Date();
+  const formattedDate = `${
+    currentDate.getMonth() + 1
+  }월 ${currentDate.getDate()}일`;
 
   useEffect(() => {
     if (showPopup) {
@@ -456,36 +467,34 @@ const HomePage = () => {
 
       <FortuneContainer>
         <Fortune onClick={Open}>
-          <div className="fortune__title">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="14"
-              height="14"
-              viewBox="0 0 14 14"
-              fill="none"
-            >
-              <path
-                d="M10.4286 7.57067L10.4286 0.935057L3.79297 0.935059L3.79297 7.57067"
-                stroke="black"
-                stroke-width="0.8"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M10.2949 0.935059L1.61492 9.61506L4.99966 12.9998L9.33966 8.6598L10.4247 7.5748"
-                stroke="black"
-                stroke-width="0.8"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M4.16208 0.935083L12.8421 9.61508L9.45735 12.9998L7.28735 10.8298"
-                stroke="black"
-                stroke-width="0.8"
-                stroke-linejoin="round"
-              />
-            </svg>
-            <div>오늘의 운세</div>
-          </div>
-          <div className="fortune__date">11월 18일</div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="14"
+            viewBox="0 0 14 14"
+            fill="none"
+          >
+            <path
+              d="M10.4286 7.57067L10.4286 0.935057L3.79297 0.935059L3.79297 7.57067"
+              stroke="black"
+              stroke-width="0.8"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M10.2949 0.935059L1.61492 9.61506L4.99966 12.9998L9.33966 8.6598L10.4247 7.5748"
+              stroke="black"
+              stroke-width="0.8"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M4.16208 0.935083L12.8421 9.61508L9.45735 12.9998L7.28735 10.8298"
+              stroke="black"
+              stroke-width="0.8"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <div className="fortune__title">오늘의 운세</div>
+          <div className="fortune__date">{formattedDate}</div>
         </Fortune>
       </FortuneContainer>
       <PopupLayout>{showPopup && <Popup onClose={Close} />}</PopupLayout>
