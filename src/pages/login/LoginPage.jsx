@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
 
 import kakao_btn from '@assets/login/kakao_btn.png';
 
@@ -38,7 +37,9 @@ const ButtonRow = styled.div`
 `;
 
 function LoginPage() {
-  const KAKAO_AUTH_URL = `https://api.seasoning.today/kakao/login`;
+  const KAKAO_REST_API_KEY = `c574e4572cdf6171c9cb1fe3af45bf75`; // 후에 환경변수 설정 예정
+  const REDIRECT_URI = 'https://seasoning.today/callback/kakao/login'; // 후에 환경변수 설정 예정
+  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${KAKAO_REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
 
   const handleKakaoLogin = () => {
     window.location.href = KAKAO_AUTH_URL;
@@ -46,9 +47,11 @@ function LoginPage() {
 
   return (
     <Background>
-      <ButtonRow onClick={handleKakaoLogin}>
-        <img src={kakao_btn} />
-      </ButtonRow>
+      <a href={KAKAO_AUTH_URL}>
+        <ButtonRow onClick={handleKakaoLogin}>
+          <img src={kakao_btn} />
+        </ButtonRow>
+      </a>
     </Background>
   );
 }

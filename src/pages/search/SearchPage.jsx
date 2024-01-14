@@ -101,7 +101,7 @@ const SearchPage = () => {
   const [searchResult, setSearchResult] = useState([]);
   const [keyword, setKeyword] = useState('');
 
-  const access_token = localStorage.getItem('access_token');
+  const accessToken = localStorage.getItem('accessToken');
 
   const handleChange = (event) => {
     setKeyword(event.target.value);
@@ -112,7 +112,7 @@ const SearchPage = () => {
       const response = await axios.get(
         `/api/friend/search?keyword=${keyword}`,
         {
-          headers: { Authorization: `Bearer ${access_token}` },
+          headers: { Authorization: `Bearer ${accessToken}` },
         }
       );
       if (response.status === 200) {

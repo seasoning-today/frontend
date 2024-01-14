@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { useLoaderData } from 'react-router-dom';
+// import { useLoaderData } from 'react-router-dom';
 
 const Back = styled.div`
   position: relative;
@@ -133,8 +133,8 @@ const NContent = styled.div`
 `;
 
 const NotificationPage = () => {
-  const { response } = useLoaderData();
-  console.log(response);
+  // const { response } = useLoaderData();
+  // console.log(response);
 
   const [Requests, setRequests] = useState([]);
   const [notifications, setNotifications] = useState([]);

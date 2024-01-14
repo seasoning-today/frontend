@@ -1,8 +1,8 @@
-import { useLoaderData } from 'react-router-dom';
+//import { useLoaderData } from 'react-router-dom';
 
 const CollagePage = () => {
-  const { response } = useLoaderData();
-  console.log(response);
+  // const { response } = useLoaderData();
+  // console.log(response);
 
   return (
     <>

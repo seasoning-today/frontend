@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { useLoaderData, useNavigate, useLocation } from 'react-router-dom';
+import { /*useLoaderData,*/ useNavigate, useLocation } from 'react-router-dom';
 
 const Top = styled.div`
   position: relative;
@@ -162,8 +162,8 @@ const data = [
 ];
 
 const FeedPage = () => {
-  const { response } = useLoaderData();
-  console.log(response);
+  // const { response } = useLoaderData();
+  // console.log(response);
 
   return (
     <>
@@ -190,14 +190,14 @@ const FeedPage = () => {
       <FeedBorder>
         <ContentBorder>
           <ProfileBorder>
-            <ProfilePic>{data[1].profile.image}</ProfilePic>
+            <ProfilePic>{data[0].profile.image}</ProfilePic>
             <PersonalData>
               <span style={{ fontSize: '0.875rem', color: '#333' }}>
-                {data[1].profile.nickname}
+                {data[0].profile.nickname}
               </span>
               <br />
               <span style={{ fontSize: '0.75rem', color: '#C3C3C3' }}>
-                {data[1].profile.accountId}
+                {data[0].profile.accountId}
               </span>
             </PersonalData>
             <Season>
