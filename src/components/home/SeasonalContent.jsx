@@ -12,12 +12,11 @@ const Container = styled.section`
 
 const Menus = styled.section`
   height: 7.31rem;
-
   display: flex;
   align-items: flex-start;
   padding: 0 1.31rem;
   gap: 1.13rem;
-  overflow: scroll;
+  overflow-y: hidden;
 `;
 
 const Content = styled.section`
