@@ -85,9 +85,9 @@ const Hr = styled.div`
 `;
 
 const MyPage = () => {
-  const { response } = useLoaderData();
-  console.log(response.data);
-  const [userData, setUserData] = useState(response.data);
+  //const { response } = useLoaderData();
+  //console.log(response.data);
+  //const [userData, setUserData] = useState(response.data);
 
   return (
     <>
