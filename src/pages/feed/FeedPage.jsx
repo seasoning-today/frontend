@@ -3,177 +3,211 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { /*useLoaderData,*/ useNavigate, useLocation } from 'react-router-dom';
 
+import FeedItem from '@components/feed/FeedItem';
+import TabBar from '@components/common/TabBar';
+
 const Top = styled.div`
   position: relative;
+  width: 100%;
+  height: 3.3125rem;
+
   display: flex;
   justify-content: space-between;
-  margin-top: 3rem;
   align-items: center;
+  padding: 0 1.31rem;
 
-  width: 24.375rem;
-  height: 3.3125rem;
+  background-color: #fff;
   box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.2);
-  background: lightcoral;
 
-  color: #333;
-  font-family: AppleSDGothicNeoEB00;
-  font-size: 1.25rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
+  h1 {
+    margin: 0;
+    padding: 0;
+
+    color: #333;
+
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
 `;
 
-const FeedBorder = styled.div`
+const ContentArea = styled.div`
   position: relative;
-  margin: 1.5rem auto;
-  overflow-x: hidden;
-  overflow-y: auto;
+  width: 100%;
+  height: calc(100% - 3.3125rem);
+  padding: 1.5rem 1.31rem 5.3125rem;
 
-  width: 24rem;
-  height: 39.5rem;
-  //border: 1px solid #000;
-
-  font-family: AppleSDGothicNeoR00;
-  font-size: 0.875rem;
-  font-style: normal;
-  font-weight: 400;
-  color: black;
-`;
-
-const ContentBorder = styled.div`
-  position: relative;
-  margin: 1.5rem auto;
-  overflow-x: hidden;
-  overflow-y: auto;
-
-  width: 23.5rem;
-  height: 24rem;
-  // border: 1px solid red;
-
-  font-family: AppleSDGothicNeoR00;
-  font-size: 0.875rem;
-  font-style: normal;
-  font-weight: 400;
-  color: black;
-`;
-
-const ProfileBorder = styled.div`
-  position: relative;
   display: flex;
-  margin: 0.2rem auto;
-  flex-direction: row;
-  align-items: center;
-
-  width: 23rem;
-  height: 3.5rem;
-  //border: 1px solid blue;
+  flex-direction: column;
+  row-gap: 1.75rem;
+  overflow-x: hidden;
+  overflow-y: auto;
 `;
-
-const ProfilePic = styled.div`
-  position: relative;
-  margin-left: 0.5rem;
-
-  width: 3rem;
-  height: 3rem;
-  background: #d9d9d9;
-  border-radius: 3rem;
-`;
-
-const PersonalData = styled.div`
-  position: relative;
-  margin: 1rem;
-  text-align: left;
-
-  font-family: AppleSDGothicNeoEB00;
-  font-style: normal;
-  font-weight: 400;
-  color: #333;
-`;
-
-const Season = styled.div`
-  position: fixed;
-  margin-left: 17rem;
-
-  font-family: Noto Serif KR;
-  font-style: normal;
-  font-weight: 700;
-`;
-
-const Pic = styled.div`
-  position: relative;
-  margin: 0.3rem auto;
-
-  width: 22.75rem;
-  height: 15rem;
-  background: #d9d9d9;
-`;
-
-const FeedContent = styled.div`
-  position: relative;
-  margin: 0.4rem auto;
-
-  width: 21.75rem;
-  height: 3.375rem;
-
-  font-family: AppleSDGothicNeoR00;
-  font-size: 0.875rem;
-  font-style: normal;
-  font-weight: 400;
-  color: #333;
-
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
-
-const data = [
-  {
-    profile: {
-      nickname: '이세민',
-      accountId: 'devvra1n',
-      image: '',
-    },
-    article: {
-      id: 'devvra1n',
-      year: 2023,
-      term: 1,
-      preview:
-        '야~~~~~~~~~~~개짖는소리좀안나게해라 으으아악 야~~~!!~~~~~~~~개짖는소리좀안나게해라야~~~~~~~~~~~개짖는소리좀안나게해라야~~~~~~~~~~~개짖는소리좀안나게해라야~~~~~~~~~~~개짖는소리좀안나게해라야~~~~~~~~~~~개짖는소리좀안나게해라',
-      image: '',
-    },
-  },
-  {
-    profile: {
-      nickname: '최어진',
-      accountId: 'poodlepoodle',
-      image: 'String',
-    },
-    article: {
-      id: 'poodlepoodle',
-      year: 2023,
-      term: 1,
-      preview:
-        '하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 ',
-      image: 'String',
-    },
-  },
-];
 
 const FeedPage = () => {
   // const { response } = useLoaderData();
   // console.log(response);
 
+  const mockData = [
+    {
+      profile: {
+        nickname: '이세민',
+        accountId: '@devvra1n',
+        image: '',
+      },
+      article: {
+        id: 'devvra1n',
+        year: 2023,
+        term: 1,
+        preview:
+          '야~~~~~~~~~~~개짖는소리좀안나게해라 으으아악 야~~~!!~~~~~~~~개짖는소리좀안나게해라야~~~~~~~~~~~개짖는소리좀안나게해라야~~~~~~~~~~~개짖는소리좀안나게해라야~~~~~~~~~~~개짖는소리좀안나게해라야~~~~~~~~~~~개짖는소리좀안나게해라',
+        image: '',
+      },
+    },
+    {
+      profile: {
+        nickname: '최어진',
+        accountId: '@poodlepoodle',
+        image: 'String',
+      },
+      article: {
+        id: 'poodlepoodle',
+        year: 2023,
+        term: 1,
+        preview:
+          '하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 ',
+        image: 'String',
+      },
+    },
+    {
+      profile: {
+        nickname: '최어진',
+        accountId: '@poodlepoodle',
+        image: 'String',
+      },
+      article: {
+        id: 'poodlepoodle',
+        year: 2023,
+        term: 1,
+        preview:
+          '하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 ',
+        image: 'String',
+      },
+    },
+    {
+      profile: {
+        nickname: '최어진',
+        accountId: '@poodlepoodle',
+        image: 'String',
+      },
+      article: {
+        id: 'poodlepoodle',
+        year: 2023,
+        term: 1,
+        preview:
+          '하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 ',
+        image: 'String',
+      },
+    },
+    {
+      profile: {
+        nickname: '최어진',
+        accountId: '@poodlepoodle',
+        image: 'String',
+      },
+      article: {
+        id: 'poodlepoodle',
+        year: 2023,
+        term: 1,
+        preview:
+          '하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 ',
+        image: 'String',
+      },
+    },
+    {
+      profile: {
+        nickname: '최어진',
+        accountId: '@poodlepoodle',
+        image: 'String',
+      },
+      article: {
+        id: 'poodlepoodle',
+        year: 2023,
+        term: 1,
+        preview:
+          '하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 ',
+        image: 'String',
+      },
+    },
+    {
+      profile: {
+        nickname: '최어진',
+        accountId: '@poodlepoodle',
+        image: 'String',
+      },
+      article: {
+        id: 'poodlepoodle',
+        year: 2023,
+        term: 1,
+        preview:
+          '하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 ',
+        image: 'String',
+      },
+    },
+    {
+      profile: {
+        nickname: '최어진',
+        accountId: '@poodlepoodle',
+        image: 'String',
+      },
+      article: {
+        id: 'poodlepoodle',
+        year: 2023,
+        term: 1,
+        preview:
+          '하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 ',
+        image: 'String',
+      },
+    },
+    {
+      profile: {
+        nickname: '최어진',
+        accountId: '@poodlepoodle',
+        image: 'String',
+      },
+      article: {
+        id: 'poodlepoodle',
+        year: 2023,
+        term: 1,
+        preview:
+          '하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 ',
+        image: 'String',
+      },
+    },
+    {
+      profile: {
+        nickname: '최어진',
+        accountId: '@poodlepoodle',
+        image: 'String',
+      },
+      article: {
+        id: 'poodlepoodle',
+        year: 2023,
+        term: 1,
+        preview:
+          '하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 ',
+        image: 'String',
+      },
+    },
+  ];
+
   return (
     <>
       <Top>
-        <div style={{ marginLeft: '1rem', cursor: 'pointer' }}>
-          친구들의 24절기
-        </div>
+        <h1>친구들의 24절기</h1>
         <Link to={`/feed/friends-list`}>
           <svg
-            style={{ marginRight: '1rem' }}
             xmlns="http://www.w3.org/2000/svg"
             width="24"
             height="24"
@@ -187,30 +221,14 @@ const FeedPage = () => {
           </svg>
         </Link>
       </Top>
-      <FeedBorder>
-        <ContentBorder>
-          <ProfileBorder>
-            <ProfilePic>{data[0].profile.image}</ProfilePic>
-            <PersonalData>
-              <span style={{ fontSize: '0.875rem', color: '#333' }}>
-                {data[0].profile.nickname}
-              </span>
-              <br />
-              <span style={{ fontSize: '0.75rem', color: '#C3C3C3' }}>
-                {data[0].profile.accountId}
-              </span>
-            </PersonalData>
-            <Season>
-              <span style={{ fontSize: '0.75rem', color: '#BFBFBF' }}>
-                입춘
-              </span>
-              <span style={{ fontSize: '1.625rem', color: '#333' }}>立春</span>
-            </Season>
-          </ProfileBorder>
-          <Pic>{data[0].article.image}</Pic>
-          <FeedContent>{data[1].article.preview}</FeedContent>
-        </ContentBorder>
-      </FeedBorder>
+
+      <ContentArea>
+        {mockData.map((data, id) => (
+          <FeedItem key={id} data={data} />
+        ))}
+      </ContentArea>
+
+      <TabBar />
     </>
   );
 };
