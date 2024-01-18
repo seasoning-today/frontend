@@ -54,7 +54,8 @@ const FeedPage = () => {
       profile: {
         nickname: '이세민',
         accountId: '@devvra1n',
-        image: '',
+        image:
+          'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
       },
       article: {
         id: 'devvra1n',
@@ -62,14 +63,14 @@ const FeedPage = () => {
         term: 1,
         preview:
           '야~~~~~~~~~~~개짖는소리좀안나게해라 으으아악 야~~~!!~~~~~~~~개짖는소리좀안나게해라야~~~~~~~~~~~개짖는소리좀안나게해라야~~~~~~~~~~~개짖는소리좀안나게해라야~~~~~~~~~~~개짖는소리좀안나게해라야~~~~~~~~~~~개짖는소리좀안나게해라',
-        image: '',
+        image: false,
       },
     },
     {
       profile: {
         nickname: '최어진',
         accountId: '@poodlepoodle',
-        image: 'String',
+        image: false,
       },
       article: {
         id: 'poodlepoodle',
@@ -77,14 +78,15 @@ const FeedPage = () => {
         term: 1,
         preview:
           '하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 ',
-        image: 'String',
+        image: false,
       },
     },
     {
       profile: {
         nickname: '최어진',
         accountId: '@poodlepoodle',
-        image: 'String',
+        image:
+          'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
       },
       article: {
         id: 'poodlepoodle',
@@ -92,14 +94,14 @@ const FeedPage = () => {
         term: 1,
         preview:
           '하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 ',
-        image: 'String',
+        image: false,
       },
     },
     {
       profile: {
         nickname: '최어진',
         accountId: '@poodlepoodle',
-        image: 'String',
+        image: false,
       },
       article: {
         id: 'poodlepoodle',
@@ -107,14 +109,14 @@ const FeedPage = () => {
         term: 1,
         preview:
           '하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 ',
-        image: 'String',
+        image: false,
       },
     },
     {
       profile: {
         nickname: '최어진',
         accountId: '@poodlepoodle',
-        image: 'String',
+        image: false,
       },
       article: {
         id: 'poodlepoodle',
@@ -122,14 +124,14 @@ const FeedPage = () => {
         term: 1,
         preview:
           '하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 ',
-        image: 'String',
+        image: false,
       },
     },
     {
       profile: {
         nickname: '최어진',
         accountId: '@poodlepoodle',
-        image: 'String',
+        image: false,
       },
       article: {
         id: 'poodlepoodle',
@@ -137,14 +139,14 @@ const FeedPage = () => {
         term: 1,
         preview:
           '하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 ',
-        image: 'String',
+        image: false,
       },
     },
     {
       profile: {
         nickname: '최어진',
         accountId: '@poodlepoodle',
-        image: 'String',
+        image: false,
       },
       article: {
         id: 'poodlepoodle',
@@ -152,14 +154,14 @@ const FeedPage = () => {
         term: 1,
         preview:
           '하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 ',
-        image: 'String',
+        image: false,
       },
     },
     {
       profile: {
         nickname: '최어진',
         accountId: '@poodlepoodle',
-        image: 'String',
+        image: false,
       },
       article: {
         id: 'poodlepoodle',
@@ -167,14 +169,14 @@ const FeedPage = () => {
         term: 1,
         preview:
           '하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 ',
-        image: 'String',
+        image: false,
       },
     },
     {
       profile: {
         nickname: '최어진',
         accountId: '@poodlepoodle',
-        image: 'String',
+        image: false,
       },
       article: {
         id: 'poodlepoodle',
@@ -182,14 +184,14 @@ const FeedPage = () => {
         term: 1,
         preview:
           '하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 ',
-        image: 'String',
+        image: false,
       },
     },
     {
       profile: {
         nickname: '최어진',
         accountId: '@poodlepoodle',
-        image: 'String',
+        image: false,
       },
       article: {
         id: 'poodlepoodle',
@@ -197,7 +199,7 @@ const FeedPage = () => {
         term: 1,
         preview:
           '하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 ',
-        image: 'String',
+        image: false,
       },
     },
   ];

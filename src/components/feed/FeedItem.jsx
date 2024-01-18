@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import UserProfileBox from '@components/common/UserProfileBox';
+
 const ContentLayout = styled.div`
   position: relative;
   width: 100%;
@@ -12,48 +14,6 @@ const ProfileContainer = styled.div`
   position: relative;
   display: flex;
   justify-content: space-between;
-
-  .profile__personal {
-    display: flex;
-    align-items: center;
-    column-gap: 0.62rem;
-  }
-
-  .profile__personal img {
-    position: relative;
-
-    width: 2.5rem;
-    height: 2.5rem;
-    background: #d9d9d9;
-    border-radius: 50%;
-  }
-
-  .profile__personal__data {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    row-gap: 0.1rem;
-  }
-
-  .profile__personal__data__nickname {
-    color: #333;
-
-    font-family: AppleSDGothicNeoM00;
-    font-size: 0.875rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-  }
-
-  .profile__personal__data__account {
-    color: #c3c3c3;
-
-    font-family: AppleSDGothicNeoM00;
-    font-size: 0.75rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-  }
 
   .profile__season {
     display: flex;
@@ -124,17 +84,11 @@ const FeedItem = (props) => {
     <>
       <ContentLayout>
         <ProfileContainer>
-          <section className="profile__personal">
-            <img />
-            <div className="profile__personal__data">
-              <span className="profile__personal__data__nickname">
-                {data.profile.nickname}
-              </span>
-              <span className="profile__personal__data__account">
-                {data.profile.accountId}
-              </span>
-            </div>
-          </section>
+          <UserProfileBox
+            profileImage={data.profile.image}
+            nickname={data.profile.nickname}
+            accountId={data.profile.accountId}
+          />
 
           <section className="profile__season">
             <span className="profile__season__korean">입춘</span>
