@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 // import { useLoaderData } from 'react-router-dom';
 
+import UserProfileBox from '@components/common/UserProfileBox';
 import TabBar from '@components/common/TabBar';
 
 const Top = styled.div`
@@ -17,7 +18,6 @@ const Top = styled.div`
   /* padding: 0 1.31rem; */
 
   background-color: #fff;
-  background-color: yellow;
   box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.2);
 
   h1 {
@@ -44,15 +44,13 @@ const ContentArea = styled.div`
   position: relative;
   width: 100%;
   height: calc(100% - 3.3125rem);
-  padding: 0rem 1.31rem 3.8125rem;
+  padding: 1.75rem 1.5rem 5.5625rem;
 
   display: flex;
   flex-direction: column;
-  row-gap: 1.75rem;
+  row-gap: 1rem;
   overflow-x: hidden;
   overflow-y: auto;
-
-  background-color: blue;
 `;
 
 const FriendsListPage = () => {
@@ -60,6 +58,72 @@ const FriendsListPage = () => {
   // console.log(response);
 
   const mockData = [
+    {
+      nickname: '이세민',
+      accountId: '@devvra1n',
+      image:
+        'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
+    },
+    {
+      nickname: '최어진',
+      accountId: '@poodlepoodle',
+      image: false,
+    },
+    {
+      nickname: '이세민',
+      accountId: '@devvra1n',
+      image:
+        'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
+    },
+    {
+      nickname: '최어진',
+      accountId: '@poodlepoodle',
+      image: false,
+    },
+    {
+      nickname: '이세민',
+      accountId: '@devvra1n',
+      image:
+        'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
+    },
+    {
+      nickname: '최어진',
+      accountId: '@poodlepoodle',
+      image: false,
+    },
+    {
+      nickname: '이세민',
+      accountId: '@devvra1n',
+      image:
+        'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
+    },
+    {
+      nickname: '최어진',
+      accountId: '@poodlepoodle',
+      image: false,
+    },
+    {
+      nickname: '이세민',
+      accountId: '@devvra1n',
+      image:
+        'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
+    },
+    {
+      nickname: '최어진',
+      accountId: '@poodlepoodle',
+      image: false,
+    },
+    {
+      nickname: '이세민',
+      accountId: '@devvra1n',
+      image:
+        'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
+    },
+    {
+      nickname: '최어진',
+      accountId: '@poodlepoodle',
+      image: false,
+    },
     {
       nickname: '이세민',
       accountId: '@devvra1n',
@@ -120,50 +184,18 @@ const FriendsListPage = () => {
         </div>
       </Top>
 
-      <ContentArea></ContentArea>
+      <ContentArea>
+        {list.map((friend, idx) => (
+          <UserProfileBox
+            key={idx}
+            profileImage={friend.image}
+            nickname={friend.nickname}
+            accountId={friend.accountId}
+          />
+        ))}
+      </ContentArea>
 
       <TabBar />
-    </>
-  );
-
-  return (
-    <>
-      <Title>친구 목록</Title>
-      <Back>
-        <Link to="/feed">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-          >
-            <path
-              d="M9.17308 18.6635L2.5 11.9904L9.17308 5.31738L10.2173 6.36158L5.35377 11.2405H21.5096V12.7404H5.3634L10.2423 17.6193L9.17308 18.6635Z"
-              fill="#333333"
-            />
-          </svg>
-        </Link>
-      </Back>
-      <Hr />
-      <Border>
-        {list.map((friend) => (
-          <ProfileBorder key={friend.accountId}>
-            <Pic
-              style={{ backgroundImage: `url(${friend.profileImageUrl})` }}
-            />
-            <PersonalData>
-              <span style={{ fontSize: '0.875rem', color: '#333' }}>
-                {`@${friend.nickname}`}
-              </span>
-              <br />
-              <span
-                style={{ fontSize: '0.75rem', color: '#C3C3C3' }}
-              >{`@${friend.accountId}`}</span>
-            </PersonalData>
-          </ProfileBorder>
-        ))}
-      </Border>
     </>
   );
 };
