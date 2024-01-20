@@ -3,16 +3,32 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
+import UserProfileBox from '@components/common/UserProfileBox';
+
+const Layout = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+
 const Top = styled.div`
   position: relative;
+
+  width: 100%;
+  height: 3.62rem;
+
   display: flex;
-  margin-top: 2rem;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1.37rem 0 1.13rem;
+  column-gap: 1rem;
+
+  border-bottom: 0.03125rem solid #d7d7d7;
+
+  background-color: #fff;
 `;
 
 const Back = styled.div`
   position: relative;
-  margin-top: 0.5rem;
-  margin-left: 1.5rem;
 
   :hover {
     cursor: pointer;
@@ -21,15 +37,15 @@ const Back = styled.div`
 
 const SearchField = styled.input`
   position: relative;
-  margin-left: 0.7rem;
 
-  width: 19.375rem;
+  width: 100%;
   height: 2.375rem;
   border-radius: 0.625rem;
-  background: #f7f7f7;
+  padding: 0.5rem 1.13rem 0.75rem;
+
   border: none;
-  padding: 0.5rem;
-  box-sizing: border-box;
+  outline: none;
+  background-color: #f7f7f7;
 
   font-family: AppleSDGothicNeoR00;
   font-size: 0.875rem;
@@ -39,65 +55,123 @@ const SearchField = styled.input`
   &::placeholder {
     color: #8e8c86;
   }
-  &:focus {
-    outline: none;
-  }
 `;
 
-const Hr = styled.div`
-  position: relative;
-  margin: 1rem auto;
+const SearchResultArea = styled.div`
+  width: 100%;
+  height: calc(100% - 3.62rem);
 
-  width: 23.125rem;
-  height: 0.03125rem;
-  background: #d7d7d7;
-`;
-
-const Border = styled.div`
-  position: relative;
-  margin: 1rem auto;
-  overflow-y: auto;
-
-  width: 22.625rem;
-  height: 38rem;
-  //border: 1px solid #000;
-`;
-
-const ProfileBorder = styled.div`
-  position: relative;
   display: flex;
-  margin: 1rem auto;
-  flex-direction: row;
-  align-items: center;
+  flex-direction: column;
+  padding: 1.5rem 1.31rem;
+  row-gap: 1rem;
 
-  width: 21.75rem;
-  height: 3.75rem;
-  // border: 1px solid #000;
-`;
-
-const Pic = styled.div`
-  position: relative;
-  margin-left: 0.5rem;
-
-  width: 3rem;
-  height: 3rem;
-  background: #d9d9d9;
-  border-radius: 3rem;
-`;
-
-const PersonalData = styled.div`
-  position: relative;
-  margin: 1rem;
-  text-align: left;
-
-  font-family: AppleSDGothicNeoEB00;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  color: #333;
+  overflow-y: scroll;
 `;
 
 const SearchPage = () => {
+  const mockData = [
+    {
+      nickname: '이세민',
+      accountId: '@devvra1n',
+      image:
+        'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
+    },
+    {
+      nickname: '최어진',
+      accountId: '@poodlepoodle',
+      image: false,
+    },
+    {
+      nickname: '이세민',
+      accountId: '@devvra1n',
+      image:
+        'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
+    },
+    {
+      nickname: '최어진',
+      accountId: '@poodlepoodle',
+      image: false,
+    },
+    {
+      nickname: '이세민',
+      accountId: '@devvra1n',
+      image:
+        'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
+    },
+    {
+      nickname: '최어진',
+      accountId: '@poodlepoodle',
+      image: false,
+    },
+    {
+      nickname: '이세민',
+      accountId: '@devvra1n',
+      image:
+        'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
+    },
+    {
+      nickname: '최어진',
+      accountId: '@poodlepoodle',
+      image: false,
+    },
+    {
+      nickname: '이세민',
+      accountId: '@devvra1n',
+      image:
+        'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
+    },
+    {
+      nickname: '최어진',
+      accountId: '@poodlepoodle',
+      image: false,
+    },
+    {
+      nickname: '이세민',
+      accountId: '@devvra1n',
+      image:
+        'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
+    },
+    {
+      nickname: '최어진',
+      accountId: '@poodlepoodle',
+      image: false,
+    },
+    {
+      nickname: '이세민',
+      accountId: '@devvra1n',
+      image:
+        'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
+    },
+    {
+      nickname: '최어진',
+      accountId: '@poodlepoodle',
+      image: false,
+    },
+    {
+      nickname: '이세민',
+      accountId: '@devvra1n',
+      image:
+        'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
+    },
+    {
+      nickname: '최어진',
+      accountId: '@poodlepoodle',
+      image: false,
+    },
+    {
+      nickname: '이세민',
+      accountId: '@devvra1n',
+      image:
+        'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
+    },
+    {
+      nickname: '최어진',
+      accountId: '@poodlepoodle',
+      image: false,
+    },
+  ];
+
   const [searchResult, setSearchResult] = useState([]);
   const [keyword, setKeyword] = useState('');
 
@@ -117,8 +191,6 @@ const SearchPage = () => {
       );
       if (response.status === 200) {
         setSearchResult([response.data]);
-      } else if (response.status === 404) {
-        setSearchResult([]);
       } else {
         setSearchResult([]);
         // console.error('Unexpected response:', response);
@@ -151,7 +223,7 @@ const SearchPage = () => {
   }, [keyword]);
 
   return (
-    <>
+    <Layout>
       <Top>
         <Back>
           <Link to={`/home`}>
@@ -175,25 +247,18 @@ const SearchPage = () => {
           onChange={handleChange}
         />
       </Top>
-      <Hr />
-      <Border>
-        {searchResult.map((result, idx) => (
-          <ProfileBorder key={idx}>
-            <Pic style={{ backgroundImage: `url(${result.image})` }} />
-            <PersonalData>
-              <span style={{ fontSize: '0.875rem', color: '#333' }}>
-                {`${result.nickname}`}
-              </span>
-              <br />
-              <span style={{ fontSize: '0.75rem', color: '#C3C3C3' }}>
-                {`@${result.accountId}`} -{' '}
-                {renderFriendshipStatus(result.friendshipStatus)}
-              </span>
-            </PersonalData>
-          </ProfileBorder>
+
+      <SearchResultArea>
+        {mockData.map((result, idx) => (
+          <UserProfileBox
+            key={idx}
+            profileImage={result.image}
+            nickname={result.nickname}
+            accountId={result.accountId}
+          />
         ))}
-      </Border>
-    </>
+      </SearchResultArea>
+    </Layout>
   );
 };
 
