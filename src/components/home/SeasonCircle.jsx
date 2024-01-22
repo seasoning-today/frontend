@@ -1,6 +1,7 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
-const Container = styled.div`
+const Container = styled(Link)`
   width: 6rem;
   height: 6rem;
 
@@ -53,7 +54,7 @@ const Container = styled.div`
 
 const SeasonCircle = (props) => {
   return (
-    <Container status={props.status}>
+    <Container status={props.status} to={`/write`}>
       {props.status === 'countdown' ? (
         <span className="circle__countdown">{props.countDown}</span>
       ) : (

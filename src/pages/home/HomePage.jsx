@@ -13,13 +13,11 @@ import SeasonalContent from '@components/home/SeasonalContent';
 import TabBar from '@components/common/TabBar';
 
 import logo from '@assets/components/topbar/logo.png';
-import arrow_svg from '@assets/arrowSvg.png';
 
 const Top = styled.div`
   position: relative;
   display: flex;
   justify-content: space-between;
-  margin-top: 1rem;
 
   width: 24.375rem;
   height: 2.5rem;
@@ -162,18 +160,12 @@ const Select = styled.div`
   display: flex;
   align-items: center;
 
-  font-family: AppleSDGothicNeoR00;
-  font-size: 0.875rem;
-  font-style: normal;
-  font-weight: 400;
-
   select {
     height: 1.25rem;
 
     border: none;
     outline: none;
 
-    font-family: AppleSDGothicNeoR00;
     font-size: 0.875rem;
     font-style: normal;
     font-weight: 400;
@@ -188,13 +180,6 @@ const Select = styled.div`
   /* IE */
   select::-ms-expand {
     display: none;
-  }
-
-  img {
-    width: 0.52419rem;
-    height: 0.3125rem;
-
-    margin-left: 0.25rem;
   }
 `;
 
@@ -506,7 +491,18 @@ const HomePage = () => {
             <option value="year">연도별 보기</option>
             <option value="season">절기별 보기</option>
           </select>
-          <img src={arrow_svg} />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <path
+              d="M12.0005 14.6538L7.59668 10.25H16.4043L12.0005 14.6538Z"
+              fill="black"
+            />
+          </svg>
         </Select>
       </Category>
 

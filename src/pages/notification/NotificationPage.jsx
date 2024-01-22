@@ -4,140 +4,147 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 // import { useLoaderData } from 'react-router-dom';
 
-const Back = styled.div`
+import FriendRequest from '@components/notification/FriendRequest';
+import FriendReaction from '@components/notification/FriendReaction';
+import SeasonalNotify from '@components/notification/SeasonalNotify';
+import TabBar from '@components/common/TabBar';
+
+const Top = styled.div`
   position: relative;
+  width: 100%;
+  height: 3.3125rem;
+
   display: flex;
-  margin-top: -1.5rem;
-  margin-left: 1.5rem;
-
-  :hover {
-    cursor: pointer;
-  }
-`;
-
-const Title = styled.div`
-  position: relative;
-  text-align: center;
-  margin-top: 2rem;
-
-  font-family: 'AppleSDGothicNeoEB00';
-  font-size: 1.25rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  color: #000;
-`;
-
-const Hr = styled.div`
-  position: relative;
-  margin: 1rem auto;
-
-  width: 23.125rem;
-  height: 0.03125rem;
-  background: #d7d7d7;
-`;
-
-const Border = styled.div`
-  position: relative;
-  margin: 1rem auto;
-  overflow-x: hidden;
-  overflow-y: auto;
-
-  width: 23.375rem;
-  height: 40.375rem;
-  // border: 1px solid #000;
-`;
-
-const FriendRequest = styled.div`
-  position: relative;
-  display: flex;
-  margin: 0.7rem auto;
-  flex-direction: row;
-  align-items: center;
-
-  width: 22.75rem;
-  height: 4.25rem;
-  // border: 1px solid #000;
-`;
-
-const Pic = styled.div`
-  position: relative;
-  margin-left: 0.5rem;
-
-  width: 3rem;
-  height: 3rem;
-  background: #d9d9d9;
-  border-radius: 3rem;
-`;
-
-const FContent = styled.div`
-  position: relative;
-  margin: 0.5rem;
-  text-align: left;
-
-  font-family: AppleSDGothicNeoEB00;
-  font-size: 0.875rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  color: #333;
-
-  max-width: 9.8rem;
-  word-wrap: break-word;
-`;
-
-const AcceptOrNot = styled.div`
-  position: relative;
   justify-content: center;
-  display: flex;
   align-items: center;
-  margin: 0.3rem;
+  /* padding: 0 1.31rem; */
 
-  width: 3.4375rem;
-  height: 1.6875rem;
-  border-radius: 0.5rem;
+  background-color: #fff;
+  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.2);
 
-  font-family: AppleSDGothicNeoM00;
-  font-size: 0.875rem;
-  font-style: normal;
-  font-weight: 400;
+  h1 {
+    margin: 0;
+    padding: 0;
 
-  :hover {
-    cursor: pointer;
+    color: #000;
+    text-align: center;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+
+  .friends-list__backbutton {
+    position: absolute;
+    left: 1.12rem;
   }
 `;
 
-const Notification = styled.div`
-  position: relative;
+const NotificationContainer = styled.div`
+  width: 100%;
+  height: calc(100% - 3.3125rem);
+
   display: flex;
-  margin: 0.7rem auto;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
+  padding: 1.75rem 1.31rem;
+  row-gap: 1.38rem;
+  overflow-y: scroll;
 
-  width: 22.75rem;
-  height: 4.25rem;
-  //border: 1px solid #000;
-`;
+  .line {
+    width: calc(100% - 2.26rem);
+    height: 0.0625rem;
 
-const NContent = styled.div`
-  position: relative;
-  margin: 0.5rem;
-  text-align: left;
-
-  font-family: AppleSDGothicNeoEB00;
-  font-size: 0.875rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  color: #333;
+    background-color: #e3e3e3;
+  }
 `;
 
 const NotificationPage = () => {
   // const { response } = useLoaderData();
   // console.log(response);
 
-  const [Requests, setRequests] = useState([]);
-  const [notifications, setNotifications] = useState([]);
+  const mockRequest = [
+    {
+      nickname: '최어진',
+      profileImageUrl:
+        'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
+    },
+  ];
+  const mockNotis = [
+    {
+      nickname: '이세민',
+      profileImageUrl:
+        'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
+    },
+    {
+      nickname: '최어진',
+      profileImageUrl: false,
+    },
+    {
+      nickname: '이세민',
+      profileImageUrl:
+        'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
+    },
+    {
+      nickname: '최어진',
+      profileImageUrl: false,
+    },
+  ];
+
+  const [friendRequests, setFriendRequests] = useState(mockRequest);
+  const [notifications, setNotifications] = useState(mockNotis);
+
+  return (
+    <>
+      <Top>
+        <h1>알림</h1>
+
+        <div className="friends-list__backbutton">
+          <Link to={`/home`}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path
+                d="M9.17308 18.6635L2.5 11.9904L9.17308 5.31738L10.2173 6.36158L5.35377 11.2405H21.5096V12.7404H5.3634L10.2423 17.6193L9.17308 18.6635Z"
+                fill="#333333"
+              />
+            </svg>
+          </Link>
+        </div>
+      </Top>
+
+      <NotificationContainer>
+        {friendRequests.map((req, idx) => (
+          <FriendRequest
+            key={idx}
+            profileName={req.nickname}
+            profileImageUrl={req.profileImageUrl}
+          />
+        ))}
+
+        {friendRequests.length > 0 && notifications.length > 0 ? (
+          <div className="line" />
+        ) : undefined}
+
+        {notifications.map((noti, idx) => (
+          <FriendReaction
+            key={idx}
+            profileName={noti.nickname}
+            profileImageUrl={noti.profileImageUrl}
+          />
+        ))}
+        {/* <SeasonalNotify seasonName={`입춘`} /> */}
+      </NotificationContainer>
+
+      <TabBar />
+    </>
+  );
 
   return (
     <>
@@ -182,7 +189,7 @@ const NotificationPage = () => {
         <Hr />
 
         {notifications.map((notification, index) => (
-          <Notification key={index}>
+          <FriendReaction key={index}>
             <Pic style={{ backgroundImage: `url(${notification.image})` }} />
             <NContent>
               <span>{`${notification.text}`}</span>
@@ -191,7 +198,7 @@ const NotificationPage = () => {
                 12시간 전
               </span>
             </NContent>
-          </Notification>
+          </FriendReaction>
         ))}
       </Border>
     </>
