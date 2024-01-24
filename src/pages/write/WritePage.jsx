@@ -2,6 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 
+import AddAnswer from '@components/write/AddAnswer';
+import AddPicture from '@components/write/AddPicture';
+import AddQuestion from '@components/write/AddQuestion';
+
 const Layout = styled.div`
   position: relative;
   width: 100%;
@@ -66,7 +70,7 @@ const Title = styled.div`
   }
 `;
 
-const Content = styled.div`
+const ContentContainer = styled.div`
   /* position: relative; */
   flex-grow: 1;
   width: 100%;
@@ -76,57 +80,21 @@ const Content = styled.div`
   flex-direction: column;
   row-gap: 1.5rem;
   padding: 1.56rem 1.31rem 4.81rem 1.31rem;
+`;
 
-  .write__content__placeholder {
-    color: #8e8c86;
-    text-align: justify;
-    font-size: 0.875rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-  }
+const Answer = styled.textarea`
+  width: 100%;
+  height: auto;
+  color: #333;
+  text-align: justify;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 
-  .write__content__thumbnail {
-    width: 100%;
-    height: 16.3125rem;
-    object-fit: cover;
-
-    border-radius: 0.5rem;
-
-    background-color: #ccc;
-  }
-
-  .write__content__question {
-    width: 100%;
-
-    display: flex;
-    column-gap: 0.88rem;
-  }
-
-  .write__content__question aside {
-    width: 0.2rem;
-    height: 100%;
-
-    background-color: #919191;
-  }
-
-  .write__content__question p {
-    color: #8e8c86;
-    text-align: justify;
-    font-size: 0.875rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-  }
-
-  .write__content__answer {
-    color: #333;
-    text-align: justify;
-    font-size: 0.875rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-  }
+  /* border: none;*/
+  outline: none;
+  resize: none;
 `;
 
 const ToolBar = styled.div`
@@ -148,59 +116,15 @@ const ToolBar = styled.div`
   }
 `;
 
-const data = [];
-
 const WritePage = () => {
-  const [uploadedImages, setUploadedImages] = useState([]);
-  const isPicture = uploadedImages.length > 0;
-  const [isQuestion, setIsQuestion] = useState(false);
-  const [textareaContent, setTextareaContent] = useState('');
-
-  const handleImageUpload = (event) => {
-    const files = event.target.files;
-
-    if (files.length > 0) {
-      const newImages = Array.from(files).map((file) => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setUploadedImages((prevImages) => [...prevImages, reader.result]);
-        };
-        reader.readAsDataURL(file);
-        return file;
-      });
-    }
-  };
-
-  const questionRef = useRef(null);
-
-  useEffect(() => {
-    const hrElement = document.getElementById('hrElement');
-
-    if (questionRef.current && hrElement) {
-      const questionHeight = questionRef.current.getBoundingClientRect().height;
-      hrElement.style.height = `${questionHeight}px`;
-    }
-  }, [isQuestion]);
-
-  useEffect(() => {
-    // Retrieve stored state from localStorage
-    const storedImages =
-      JSON.parse(localStorage.getItem('uploadedImages')) || [];
-    const storedQuestion =
-      JSON.parse(localStorage.getItem('isQuestion')) || false;
-    const storedTextareaContent = localStorage.getItem('textareaContent') || '';
-
-    setUploadedImages(storedImages);
-    setIsQuestion(storedQuestion);
-    setTextareaContent(storedTextareaContent);
-  }, []); // Empty dependency array ensures this effect runs once when the component mounts
-
-  const handleSave = () => {
-    // Save state to localStorage
-    localStorage.setItem('uploadedImages', JSON.stringify(uploadedImages));
-    localStorage.setItem('isQuestion', JSON.stringify(isQuestion));
-    localStorage.setItem('textareaContent', textareaContent);
-  };
+  const Qdata = [
+    {
+      q: '입춘은 봄의 시작입니다. 이번 봄, 당신은 어떤것을 시작하셨나요? 시작할 때의 마음은 어떠셨나요?',
+    },
+    {
+      q: '오늘 가장 좋았던 시간은 언제인가요?',
+    },
+  ];
 
   return (
     <Layout>
@@ -219,9 +143,7 @@ const WritePage = () => {
             />
           </svg>
         </Link>
-        <span className="write__save" onClick={handleSave}>
-          저장
-        </span>
+        <span className="write__save" /*onClick={handleSave}*/>저장</span>
       </Top>
 
       <Title>
@@ -229,68 +151,15 @@ const WritePage = () => {
         <span className="write__title__korean">입춘</span>
       </Title>
 
-      {/* todo: Content 내의 각 문단 요소를 @components/write 내의 컴포넌트로 분리하기 */}
-      <Content>
-        {/* <p className="write__content__placeholder">
-          입춘은 봄의 시작입니다. 이번 봄, 당신은 어떤것을 시작하셨나요? 시작할
-          때의 마음은 어떠셨나요?
-        </p> */}
-
-        <img
-          className="write__content__thumbnail"
-          src={`https://i.pinimg.com/564x/21/b0/97/21b097d07816bf7a57e94d69cb0daed4.jpg`}
-        />
-
-        <div className="write__content__question">
-          <aside />
-          <p>
-            입춘은 봄의 시작입니다. 이번 봄, 당신은 어떤것을 시작하셨나요?
-            시작할 때의 마음은 어떠셨나요?
-          </p>
-        </div>
-
-        {/* todo: p 태그를 input 태그로 수정해서 입력 가능한 인터랙션 요소로 만들기 */}
-        <p className="write__content__answer">
-          봄은 자연에서 새로운 생명과 활기가 물씬 풍기는 아름다운 계절입니다.
-          새로운 잎이 나고 꽃들이 피어나며 새로운 생명이 시작되는 시기이죠. 봄은
-          이러한 자연의 신생을 상징하면서 우리에게도 새로운 시작과 변화의 기회를
-          제공합니다.
-          <br />
-          <br />
-          봄에 새로운 것을 시작할 때, 제 마음은 기대와 흥분으로 가득 찼습니다.
-          새로운 목표를 설정하고 그 목표를 달성하기 위한 계획을 세우는 과정은
-          항상 흥미로웠습니다. 새로운 도전에 대한 열정과 의지를 가지고 시작했고,
-          그것이 제게 새로운 동기부여와 자기계발의 기회가 될 것이라고
-          믿었습니다.
-          <br />
-          <br />
-          봄은 자연의 변화와 활력을 반영하듯이, 제 삶에서도 변화와 성장을
-          환영하고 새로운 것을 시도하는 시기로 바라봅니다. 새로운 계절에는
-          새로운 기회가 숨겨져 있고, 그것을 품으면서 삶을 더욱 풍요롭게 만들어
-          나가고자 합니다.
-        </p>
-
-        <div className="write__content__question">
-          <aside />
-          <p>오늘 가장 좋았던 시간은 언제인가요?</p>
-        </div>
-
-        <p className="write__content__answer">
-          먼저 우리는 도심의 작은 카페에 들러 커피와 각자 좋아하는 디저트를
-          주문했습니다. 이 카페에서 우리는 오랜만에 이야기를 나누고 웃음을
-          공유했어요. 그런 다음에는 공원으로 향해 햇살 아래에서 피크닉을
-          즐겼습니다. 공원에서는 함께 스카이 프리스비를 던지고, 나무 그늘에서
-          책을 읽으며 시간을 보냈어요. 친구와 함께 있을 때, 모든 스트레스와
-          걱정이 사라지고, 우리는 현재의 순간을 최대한 즐기는 것만이
-          중요했습니다. 해가 서서히 지면서 우리는 해질녘의 아름다운 풍경을
-          감상하며 대화를 나눴고, 이날의 특별한 순간을 공유했습니다. 결국, 이
-          재미있는 하루는 어떻게든 더 빠르게 지나갔지만, 그것이 바로 가장 좋았던
-          순간 중 하나였습니다.
-        </p>
-      </Content>
+      <ContentContainer>
+        <AddPicture />
+        <AddQuestion question={Qdata[0].q} />
+        <Answer />
+        <AddQuestion question={Qdata[1].q} />
+      </ContentContainer>
 
       <ToolBar>
-        <div className="write__button__save">
+        <div className="write__button__addpic ">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
