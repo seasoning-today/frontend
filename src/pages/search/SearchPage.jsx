@@ -70,118 +70,16 @@ const SearchResultArea = styled.div`
 `;
 
 const SearchPage = () => {
-  const mockData = [
-    {
-      nickname: '이세민',
-      accountId: '@devvra1n',
-      image:
-        'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
-    },
-    {
-      nickname: '최어진',
-      accountId: '@poodlepoodle',
-      image: false,
-    },
-    {
-      nickname: '이세민',
-      accountId: '@devvra1n',
-      image:
-        'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
-    },
-    {
-      nickname: '최어진',
-      accountId: '@poodlepoodle',
-      image: false,
-    },
-    {
-      nickname: '이세민',
-      accountId: '@devvra1n',
-      image:
-        'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
-    },
-    {
-      nickname: '최어진',
-      accountId: '@poodlepoodle',
-      image: false,
-    },
-    {
-      nickname: '이세민',
-      accountId: '@devvra1n',
-      image:
-        'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
-    },
-    {
-      nickname: '최어진',
-      accountId: '@poodlepoodle',
-      image: false,
-    },
-    {
-      nickname: '이세민',
-      accountId: '@devvra1n',
-      image:
-        'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
-    },
-    {
-      nickname: '최어진',
-      accountId: '@poodlepoodle',
-      image: false,
-    },
-    {
-      nickname: '이세민',
-      accountId: '@devvra1n',
-      image:
-        'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
-    },
-    {
-      nickname: '최어진',
-      accountId: '@poodlepoodle',
-      image: false,
-    },
-    {
-      nickname: '이세민',
-      accountId: '@devvra1n',
-      image:
-        'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
-    },
-    {
-      nickname: '최어진',
-      accountId: '@poodlepoodle',
-      image: false,
-    },
-    {
-      nickname: '이세민',
-      accountId: '@devvra1n',
-      image:
-        'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
-    },
-    {
-      nickname: '최어진',
-      accountId: '@poodlepoodle',
-      image: false,
-    },
-    {
-      nickname: '이세민',
-      accountId: '@devvra1n',
-      image:
-        'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
-    },
-    {
-      nickname: '최어진',
-      accountId: '@poodlepoodle',
-      image: false,
-    },
-  ];
-
   const [searchResult, setSearchResult] = useState([]);
   const [keyword, setKeyword] = useState('');
 
-  const accessToken = localStorage.getItem('accessToken');
-
-  const handleChange = (event) => {
+  const handleChangeKeyword = (event) => {
     setKeyword(event.target.value);
   };
 
   const handleSearch = async () => {
+    const accessToken = localStorage.getItem('accessToken');
+
     try {
       const response = await axios.get(
         `/api/friend/search?keyword=${keyword}`,
@@ -244,16 +142,16 @@ const SearchPage = () => {
         <SearchField
           placeholder={'아이디로 친구를 검색하세요.'}
           value={keyword}
-          onChange={handleChange}
+          onChange={handleChangeKeyword}
         />
       </Top>
 
       <SearchResultArea>
-        {mockData.map((result, idx) => (
+        {searchResult.map((result, idx) => (
           <UserProfileBox
             key={idx}
-            profileImage={result.image}
             nickname={result.nickname}
+            profileImage={result.image}
             accountId={result.accountId}
           />
         ))}

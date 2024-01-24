@@ -20,7 +20,6 @@ import { CollageLoader } from '@utils/api/CollageLoader';
 import { FeedLoader } from '@utils/api/FeedLoader';
 import { FriendsListLoader } from '@utils/api/FriendsListLoader';
 import { LoginLoader } from '@utils/api/LoginLoader';
-import { EditProfileLoader } from '@utils/api/EditProfileLoader';
 import { NotificationLoader } from '@utils/api/NotificationLoader';
 import { UserRestrictLoader } from '@utils/api/UserRestrictLoader';
 
@@ -84,7 +83,7 @@ export const RouterInfo = [
       {
         path: 'search',
         element: <SearchPage />,
-        // loader: UserRestrictLoader,
+        loader: UserRestrictLoader,
       },
       {
         path: 'write',
