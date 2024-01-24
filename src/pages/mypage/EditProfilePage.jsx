@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-// import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 
 const Layout = styled.div`
   position: relative;
@@ -126,7 +126,7 @@ const ConfirmButton = styled.div`
 
   background-color: #004a22;
 
-  :hover {
+  &:hover {
     cursor: pointer;
   }
 
@@ -142,16 +142,22 @@ const ConfirmButton = styled.div`
 `;
 
 function EditProfilePage() {
-  // const { response } = useLoaderData();
-  // console.log(response);
+  const { response } = useLoaderData();
+  const [userData, setUserData] = useState(response.data);
+  const currentId = userData.accountId;
+  const navigate = useNavigate();
 
-  const mockData = {
-    nickname: '김수영',
-    accountId: '@kimsuyoung',
-    profileImageUrl:
-      'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
+  const onChangeId = (event) => {
+    setUserData({ ...userData, accountId: event.target.value });
   };
-  const [userData, setUserData] = useState(mockData);
+
+  const onChangeName = (event) => {
+    setUserData({ ...userData, nickname: event.target.value });
+  };
+
+  const onClickSubmit = (event) => {
+    navigate(`/mypage`);
+  };
 
   return (
     <Layout>
@@ -188,7 +194,7 @@ function EditProfilePage() {
         <InputBox>
           <h2>아이디</h2>
           <section>
-            <input />
+            <input onChange={onChangeId} value={userData.accountId} />
             <div className="check-icon">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -210,12 +216,12 @@ function EditProfilePage() {
         <InputBox>
           <h2>이름</h2>
           <section>
-            <input />
+            <input onChange={onChangeName} value={userData.nickname} />
           </section>
         </InputBox>
       </InfoBox>
 
-      <ConfirmButton>
+      <ConfirmButton onClick={onClickSubmit}>
         <span>확인</span>
       </ConfirmButton>
     </Layout>

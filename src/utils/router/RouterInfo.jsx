@@ -68,7 +68,7 @@ export const RouterInfo = [
       {
         path: 'mypage/edit',
         element: <EditProfilePage />,
-        // loader: EditProfileLoader,
+        loader: UserRestrictLoader,
       },
       /* 소셜 로그인에 대한 페이지 라우팅 */
       {
