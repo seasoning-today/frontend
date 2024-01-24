@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-// import { useLoaderData } from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom';
 
 import TabBar from '@components/common/TabBar';
 
@@ -43,7 +43,6 @@ const ProfileBox = styled.div`
   h2 {
     color: #333;
 
-    font-family: AppleSDGothicNeoEB00;
     font-size: 1.25rem;
     font-style: normal;
     font-weight: 400;
@@ -53,7 +52,6 @@ const ProfileBox = styled.div`
   span {
     color: #333;
 
-    font-family: AppleSDGothicNeoM00;
     font-size: 0.875rem;
     font-style: normal;
     font-weight: 400;
@@ -122,32 +120,16 @@ const Menu = styled(Link)`
   }
 `;
 
-const Hr = styled.div`
-  position: relative;
-
-  width: 100%;
-  height: 0.05rem;
-  background: #f0f0f0;
-`;
-
 const MyPage = () => {
-  // const { response } = useLoaderData();
-  // console.log(response.data);
-
-  const mockData = {
-    nickname: '김수영',
-    accountId: '@kimsuyoung',
-    profileImageUrl:
-      'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
-  };
-  const [userData, setUserData] = useState(mockData);
+  const { response } = useLoaderData();
+  const [userData, setUserData] = useState(response.data);
 
   return (
     <Layout>
       <ProfileBox>
         <div className="mypage__personal-data">
           <h2>{userData.nickname}</h2>
-          <span>{userData.accountId}</span>
+          <span>{`@${userData.accountId}`}</span>
         </div>
 
         {userData.profileImageUrl !== false ? (

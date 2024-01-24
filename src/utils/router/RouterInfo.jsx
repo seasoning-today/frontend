@@ -63,7 +63,7 @@ export const RouterInfo = [
       {
         path: 'mypage',
         element: <MyPage />,
-        // loader: UserRestrictLoader,
+        loader: UserRestrictLoader,
       },
       {
         path: 'mypage/edit',
