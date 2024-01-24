@@ -6,7 +6,6 @@ import {
   Link,
   useLoaderData,
 } from 'react-router-dom';
-//import { useLoaderData } from 'react-router-dom';
 
 import TabBar from '@components/common/TabBar';
 
@@ -120,6 +119,7 @@ const Content = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 0.1rem; /* 임시로 표시하기 위함, 추후 실제 사진 적용 시 삭제 */
+  overflow-y: scroll;
 
   .collage__card {
     height: 6.1875rem;
@@ -132,8 +132,8 @@ const Content = styled.div`
 `;
 
 const CollagePage = () => {
-  // const { response } = useLoaderData();
-  // console.log(response);
+  const { response } = useLoaderData();
+  console.log(response);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -254,7 +254,6 @@ const CollagePage = () => {
         <Select>
           <select value={selectedCategory} onChange={handleCategoryChange}>
             <option value="2023">2023</option>
-            <option value="2022">2022</option>
           </select>
           <svg
             xmlns="http://www.w3.org/2000/svg"

@@ -39,7 +39,7 @@ export const RouterInfo = [
       {
         path: 'collage',
         element: <CollagePage />,
-        // loader: CollageLoader,
+        loader: CollageLoader,
       },
       {
         path: 'feed',
