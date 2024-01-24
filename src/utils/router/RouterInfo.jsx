@@ -80,7 +80,7 @@ export const RouterInfo = [
       {
         path: 'write',
         element: <WritePage />,
-        // loader: UserRestrictLoader,
+        loader: UserRestrictLoader,
       },
       {
         path: 'notification',
