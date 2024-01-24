@@ -52,7 +52,7 @@ export const RouterInfo = [
       {
         path: 'feed',
         element: <FeedPage />,
-        // loader: FeedLoader,
+        loader: FeedLoader,
       },
       {
         path: 'feed/friends-list',

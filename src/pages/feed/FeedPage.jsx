@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { /*useLoaderData,*/ useNavigate, useLocation } from 'react-router-dom';
+import { useLoaderData, useNavigate, useLocation } from 'react-router-dom';
 
 import FeedItem from '@components/feed/FeedItem';
 import TabBar from '@components/common/TabBar';
@@ -46,163 +46,8 @@ const ContentArea = styled.div`
 `;
 
 const FeedPage = () => {
-  // const { response } = useLoaderData();
-  // console.log(response);
-
-  const mockData = [
-    {
-      profile: {
-        nickname: '이세민',
-        accountId: '@devvra1n',
-        image:
-          'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
-      },
-      article: {
-        id: 'devvra1n',
-        year: 2023,
-        term: 1,
-        preview:
-          '야~~~~~~~~~~~개짖는소리좀안나게해라 으으아악 야~~~!!~~~~~~~~개짖는소리좀안나게해라야~~~~~~~~~~~개짖는소리좀안나게해라야~~~~~~~~~~~개짖는소리좀안나게해라야~~~~~~~~~~~개짖는소리좀안나게해라야~~~~~~~~~~~개짖는소리좀안나게해라',
-        image: false,
-      },
-    },
-    {
-      profile: {
-        nickname: '최어진',
-        accountId: '@poodlepoodle',
-        image: false,
-      },
-      article: {
-        id: 'poodlepoodle',
-        year: 2023,
-        term: 1,
-        preview:
-          '하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 ',
-        image: false,
-      },
-    },
-    {
-      profile: {
-        nickname: '최어진',
-        accountId: '@poodlepoodle',
-        image:
-          'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
-      },
-      article: {
-        id: 'poodlepoodle',
-        year: 2023,
-        term: 1,
-        preview:
-          '하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 ',
-        image: false,
-      },
-    },
-    {
-      profile: {
-        nickname: '최어진',
-        accountId: '@poodlepoodle',
-        image: false,
-      },
-      article: {
-        id: 'poodlepoodle',
-        year: 2023,
-        term: 1,
-        preview:
-          '하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 ',
-        image: false,
-      },
-    },
-    {
-      profile: {
-        nickname: '최어진',
-        accountId: '@poodlepoodle',
-        image: false,
-      },
-      article: {
-        id: 'poodlepoodle',
-        year: 2023,
-        term: 1,
-        preview:
-          '하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 ',
-        image: false,
-      },
-    },
-    {
-      profile: {
-        nickname: '최어진',
-        accountId: '@poodlepoodle',
-        image: false,
-      },
-      article: {
-        id: 'poodlepoodle',
-        year: 2023,
-        term: 1,
-        preview:
-          '하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 ',
-        image: false,
-      },
-    },
-    {
-      profile: {
-        nickname: '최어진',
-        accountId: '@poodlepoodle',
-        image: false,
-      },
-      article: {
-        id: 'poodlepoodle',
-        year: 2023,
-        term: 1,
-        preview:
-          '하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 ',
-        image: false,
-      },
-    },
-    {
-      profile: {
-        nickname: '최어진',
-        accountId: '@poodlepoodle',
-        image: false,
-      },
-      article: {
-        id: 'poodlepoodle',
-        year: 2023,
-        term: 1,
-        preview:
-          '하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 ',
-        image: false,
-      },
-    },
-    {
-      profile: {
-        nickname: '최어진',
-        accountId: '@poodlepoodle',
-        image: false,
-      },
-      article: {
-        id: 'poodlepoodle',
-        year: 2023,
-        term: 1,
-        preview:
-          '하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 ',
-        image: false,
-      },
-    },
-    {
-      profile: {
-        nickname: '최어진',
-        accountId: '@poodlepoodle',
-        image: false,
-      },
-      article: {
-        id: 'poodlepoodle',
-        year: 2023,
-        term: 1,
-        preview:
-          '하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 하..세민아제대로좀하렴 ',
-        image: false,
-      },
-    },
-  ];
+  const { response } = useLoaderData();
+  const [feedData, setFeedData] = useState(response.data);
 
   return (
     <>
@@ -225,7 +70,7 @@ const FeedPage = () => {
       </Top>
 
       <ContentArea>
-        {mockData.map((data, id) => (
+        {feedData.map((data, id) => (
           <FeedItem key={id} data={data} />
         ))}
       </ContentArea>
