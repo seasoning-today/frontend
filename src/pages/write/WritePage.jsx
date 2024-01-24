@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
+import Textarea from 'react-textarea-autosize';
 
-import AddAnswer from '@components/write/AddAnswer';
-import AddPicture from '@components/write/AddPicture';
+import AddImage from '@components/write/AddImage';
 import AddQuestion from '@components/write/AddQuestion';
+
+import chat_bubble from '@assets/ChatBubble.png';
 
 const Layout = styled.div`
   position: relative;
@@ -71,10 +73,10 @@ const Title = styled.div`
 `;
 
 const ContentContainer = styled.div`
-  /* position: relative; */
+  position: relative;
   flex-grow: 1;
   width: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
 
   display: flex;
   flex-direction: column;
@@ -82,9 +84,9 @@ const ContentContainer = styled.div`
   padding: 1.56rem 1.31rem 4.81rem 1.31rem;
 `;
 
-const Answer = styled.textarea`
+const Answer = styled(Textarea)`
   width: 100%;
-  height: auto;
+  min-height: 1.2rem;
   color: #333;
   text-align: justify;
   font-size: 0.875rem;
@@ -92,9 +94,22 @@ const Answer = styled.textarea`
   font-weight: 400;
   line-height: normal;
 
-  /* border: none;*/
+  flex-shrink: 0;
+
+  /*border: none;*/
   outline: none;
   resize: none;
+`;
+
+const ChatBubble = styled.img`
+  position: fixed;
+  bottom: 2.5rem;
+  display: flex;
+
+  z-index: 2;
+
+  width: 17.75rem;
+  height: 2.75rem;
 `;
 
 const ToolBar = styled.div`
@@ -113,18 +128,52 @@ const ToolBar = styled.div`
 
   div:hover {
     opacity: 0.3;
+    cursor: pointer;
   }
 `;
 
 const WritePage = () => {
   const Qdata = [
     {
-      q: '입춘은 봄의 시작입니다. 이번 봄, 당신은 어떤것을 시작하셨나요? 시작할 때의 마음은 어떠셨나요?',
+      q: '입춘은 봄의 시작입니다. 이번 봄, 당신은 어떤 것을 시작하셨나요? 시작할 때의 마음은 어떠셨나요?',
     },
     {
       q: '오늘 가장 좋았던 시간은 언제인가요?',
     },
+    {
+      q: '질문 3',
+    },
+    {
+      q: '질문 4',
+    },
+    {
+      q: '질문 5',
+    },
+    {
+      q: '질문 6',
+    },
   ];
+
+  const [QnA, setQnA] = useState([]);
+
+  const handleQuestion = () => {
+    const currentIndex = QnA.length;
+    const newQuestion = Qdata[currentIndex].q;
+
+    setQnA((prev) => [...prev, { question: newQuestion, answer: '' }]);
+  };
+
+  const [showChatBubble, setShowChatBubble] = useState(true);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setShowChatBubble(false);
+    }, 5000);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, []);
 
   return (
     <Layout>
@@ -152,14 +201,17 @@ const WritePage = () => {
       </Title>
 
       <ContentContainer>
-        <AddPicture />
-        <AddQuestion question={Qdata[0].q} />
+        <AddImage />
         <Answer />
-        <AddQuestion question={Qdata[1].q} />
+        {QnA.map((item, index) => (
+          <React.Fragment key={index}>
+            <AddQuestion question={item.question} /> <Answer />
+          </React.Fragment>
+        ))}
       </ContentContainer>
-
+      {showChatBubble && <ChatBubble src={chat_bubble} />}
       <ToolBar>
-        <div className="write__button__addpic ">
+        <div className="write__button__addimg">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -187,7 +239,7 @@ const WritePage = () => {
             />
           </svg>
         </div>
-        <div className="write__button__question">
+        <div className="write__button__question" onClick={handleQuestion}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
