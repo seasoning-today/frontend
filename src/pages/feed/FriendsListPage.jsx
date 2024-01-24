@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
-// import { useLoaderData } from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom';
 
 import UserProfileBox from '@components/common/UserProfileBox';
 import TabBar from '@components/common/TabBar';
@@ -54,112 +53,8 @@ const ContentArea = styled.div`
 `;
 
 const FriendsListPage = () => {
-  // const { response } = useLoaderData();
-  // console.log(response);
-
-  const mockData = [
-    {
-      nickname: '이세민',
-      accountId: '@devvra1n',
-      image:
-        'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
-    },
-    {
-      nickname: '최어진',
-      accountId: '@poodlepoodle',
-      image: false,
-    },
-    {
-      nickname: '이세민',
-      accountId: '@devvra1n',
-      image:
-        'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
-    },
-    {
-      nickname: '최어진',
-      accountId: '@poodlepoodle',
-      image: false,
-    },
-    {
-      nickname: '이세민',
-      accountId: '@devvra1n',
-      image:
-        'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
-    },
-    {
-      nickname: '최어진',
-      accountId: '@poodlepoodle',
-      image: false,
-    },
-    {
-      nickname: '이세민',
-      accountId: '@devvra1n',
-      image:
-        'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
-    },
-    {
-      nickname: '최어진',
-      accountId: '@poodlepoodle',
-      image: false,
-    },
-    {
-      nickname: '이세민',
-      accountId: '@devvra1n',
-      image:
-        'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
-    },
-    {
-      nickname: '최어진',
-      accountId: '@poodlepoodle',
-      image: false,
-    },
-    {
-      nickname: '이세민',
-      accountId: '@devvra1n',
-      image:
-        'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
-    },
-    {
-      nickname: '최어진',
-      accountId: '@poodlepoodle',
-      image: false,
-    },
-    {
-      nickname: '이세민',
-      accountId: '@devvra1n',
-      image:
-        'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
-    },
-    {
-      nickname: '최어진',
-      accountId: '@poodlepoodle',
-      image: false,
-    },
-    {
-      nickname: '이세민',
-      accountId: '@devvra1n',
-      image:
-        'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
-    },
-    {
-      nickname: '최어진',
-      accountId: '@poodlepoodle',
-      image: false,
-    },
-    {
-      nickname: '이세민',
-      accountId: '@devvra1n',
-      image:
-        'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
-    },
-    {
-      nickname: '최어진',
-      accountId: '@poodlepoodle',
-      image: false,
-    },
-  ];
-
-  const [list, setList] = useState(mockData);
+  const { response } = useLoaderData();
+  const [friendList, setFriendList] = useState(response.data);
 
   return (
     <>
@@ -185,10 +80,10 @@ const FriendsListPage = () => {
       </Top>
 
       <ContentArea>
-        {list.map((friend, idx) => (
+        {friendList.map((friend, idx) => (
           <UserProfileBox
             key={idx}
-            profileImage={friend.image}
+            profileImage={friend.profileImageUrl}
             nickname={friend.nickname}
             accountId={friend.accountId}
           />

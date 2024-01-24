@@ -53,7 +53,7 @@ const UserProfileBox = ({ profileImage, nickname, accountId }) => {
         {profileImage !== false ? <img src={profileImage} /> : <img />}
         <div className="profile__personal__data">
           <span className="profile__personal__data__nickname">{nickname}</span>
-          <span className="profile__personal__data__account">{accountId}</span>
+          <span className="profile__personal__data__account">{`@${accountId}`}</span>
         </div>
       </section>
     </Layout>

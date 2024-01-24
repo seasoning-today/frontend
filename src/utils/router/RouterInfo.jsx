@@ -57,7 +57,7 @@ export const RouterInfo = [
       {
         path: 'feed/friends-list',
         element: <FriendsListPage />,
-        // loader: FriendsListLoader,
+        loader: FriendsListLoader,
       },
       {
         path: 'mypage',
