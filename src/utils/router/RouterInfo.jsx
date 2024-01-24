@@ -85,7 +85,7 @@ export const RouterInfo = [
       {
         path: 'notification',
         element: <NotificationPage />,
-        // loader: NotificationLoader,
+        loader: NotificationLoader,
       },
     ],
   },

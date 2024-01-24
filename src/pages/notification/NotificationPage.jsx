@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-// import { useLoaderData } from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom';
 
 import FriendRequest from '@components/notification/FriendRequest';
 import FriendReaction from '@components/notification/FriendReaction';
@@ -62,8 +62,8 @@ const NotificationContainer = styled.div`
 `;
 
 const NotificationPage = () => {
-  // const { response } = useLoaderData();
-  // console.log(response);
+  const { response } = useLoaderData();
+  console.log(response);
 
   const mockRequest = [
     {
@@ -139,68 +139,10 @@ const NotificationPage = () => {
             profileImageUrl={noti.profileImageUrl}
           />
         ))}
-        {/* <SeasonalNotify seasonName={`입춘`} /> */}
+        <SeasonalNotify seasonName={`입춘`} />
       </NotificationContainer>
 
       <TabBar />
-    </>
-  );
-
-  return (
-    <>
-      <Title>알림</Title>
-      <Back>
-        <Link to={`/home`}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-          >
-            <path
-              d="M9.17308 18.6635L2.5 11.9904L9.17308 5.31738L10.2173 6.36158L5.35377 11.2405H21.5096V12.7404H5.3634L10.2423 17.6193L9.17308 18.6635Z"
-              fill="#333333"
-            />
-          </svg>
-        </Link>
-      </Back>
-      <Hr />
-      <Border>
-        {Requests.map((request, index) => (
-          <FriendRequest key={index}>
-            <Pic style={{ backgroundImage: `url(${request.image})` }} />
-            <FContent>
-              <span>{`${request.nickname} 님에게서 친구신청이 왔습니다`}</span>
-
-              <span style={{ fontSize: '0.75rem', color: '#BFBFBF' }}>
-                <br />
-                12시간 전
-              </span>
-            </FContent>
-            <AcceptOrNot style={{ color: '#fff', background: '#0d6b38' }}>
-              <div>수락</div>
-            </AcceptOrNot>
-            <AcceptOrNot style={{ color: '#333', background: '#f0f0f0' }}>
-              <div>거절</div>
-            </AcceptOrNot>
-          </FriendRequest>
-        ))}
-        <Hr />
-
-        {notifications.map((notification, index) => (
-          <FriendReaction key={index}>
-            <Pic style={{ backgroundImage: `url(${notification.image})` }} />
-            <NContent>
-              <span>{`${notification.text}`}</span>
-              <span style={{ fontSize: '0.75rem', color: '#BFBFBF' }}>
-                <br />
-                12시간 전
-              </span>
-            </NContent>
-          </FriendReaction>
-        ))}
-      </Border>
     </>
   );
 };
