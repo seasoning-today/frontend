@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const CallBackPage = () => {
   const authorizeCode = new URL(window.location.href).searchParams.get('code');
-  const backendUrl = 'https://api.seasoning.today/oauth/login/kakao';
+  const backendUrl = '/api/oauth/login/kakao';
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,8 +17,12 @@ const CallBackPage = () => {
         },
       }).then((res) => {
         console.log(res);
-        localStorage.setItem('accessToken', res.data.accessToken);
-        localStorage.setItem('refreshToken', res.data.refreshToken);
+        console.log(res.data);
+        console.log(res.data.firstLogin);
+        console.log(res.data.tokenInfo.accessToken);
+        console.log(res.data.tokenInfo.refreshToken);
+        localStorage.setItem('accessToken', res.data.tokenInfo.accessToken);
+        localStorage.setItem('refreshToken', res.data.tokenInfo.refreshToken);
 
         if (res.data.firstLogin) {
           navigate('/mypage/edit');
