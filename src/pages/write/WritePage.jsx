@@ -36,6 +36,8 @@ const Top = styled.div`
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+
+    cursor: pointer;
   }
 `;
 
@@ -77,6 +79,7 @@ const ContentContainer = styled.div`
   flex-grow: 1;
   width: 100%;
   overflow-y: auto;
+  overflow-x: auto;
 
   display: flex;
   flex-direction: column;
@@ -155,12 +158,64 @@ const WritePage = () => {
   ];
 
   const [QnA, setQnA] = useState([]);
+  const [selectedImages, setSelectedImages] = useState([]);
+  const [textAreasContent, setTextAreasContent] = useState([]);
+  const imageInputRef = useRef(null);
+
+  useEffect(() => {
+    const storedQnA = localStorage.getItem('QnA');
+    const storedImages = localStorage.getItem('selectedImages');
+    const storedTextAreasContent = localStorage.getItem('textAreasContent');
+
+    if (storedQnA) {
+      setQnA(JSON.parse(storedQnA));
+    }
+
+    if (storedImages) {
+      setSelectedImages(JSON.parse(storedImages));
+    }
+
+    if (storedTextAreasContent) {
+      setTextAreasContent(JSON.parse(storedTextAreasContent));
+    }
+  }, []);
+
+  const saveToLocalStorage = () => {
+    localStorage.setItem('QnA', JSON.stringify(QnA));
+    localStorage.setItem('selectedImages', JSON.stringify(selectedImages));
+    localStorage.setItem('textAreasContent', JSON.stringify(textAreasContent));
+  };
 
   const handleQuestion = () => {
     const currentIndex = QnA.length;
     const newQuestion = Qdata[currentIndex].q;
 
     setQnA((prev) => [...prev, { question: newQuestion, answer: '' }]);
+  };
+
+  const handleImageUpload = () => {
+    imageInputRef.current.click();
+  };
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file && selectedImages.length < 2) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setSelectedImages((prev) => [...prev, e.target.result]);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    saveToLocalStorage();
+  };
+
+  const handleSave = () => {
+    saveToLocalStorage();
+    console.log('Data saved to local storage:', {
+      QnA,
+      selectedImages,
+    });
   };
 
   const [showChatBubble, setShowChatBubble] = useState(true);
@@ -192,7 +247,9 @@ const WritePage = () => {
             />
           </svg>
         </Link>
-        <span className="write__save" /*onClick={handleSave}*/>저장</span>
+        <span className="write__save" onClick={handleSave}>
+          저장
+        </span>
       </Top>
 
       <Title>
@@ -201,17 +258,38 @@ const WritePage = () => {
       </Title>
 
       <ContentContainer>
-        <AddImage />
-        <Answer />
+        {selectedImages.map((image, index) => (
+          <AddImage key={index} image={image} />
+        ))}
+        <Answer
+          value={textAreasContent[0]}
+          onChange={(e) => {
+            setTextAreasContent((prev) => {
+              const newContent = [...prev];
+              newContent[0] = e.target.value;
+              return newContent;
+            });
+          }}
+        />
         {QnA.map((item, index) => (
           <React.Fragment key={index}>
-            <AddQuestion question={item.question} /> <Answer />
+            <AddQuestion question={item.question} />{' '}
+            <Answer
+              value={textAreasContent[index + 1]}
+              onChange={(e) => {
+                setTextAreasContent((prev) => {
+                  const newContent = [...prev];
+                  newContent[index + 1] = e.target.value;
+                  return newContent;
+                });
+              }}
+            />
           </React.Fragment>
         ))}
       </ContentContainer>
       {showChatBubble && <ChatBubble src={chat_bubble} />}
       <ToolBar>
-        <div className="write__button__addimg">
+        <div className="write__button__addimg" onClick={handleImageUpload}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -254,6 +332,13 @@ const WritePage = () => {
           </svg>
         </div>
       </ToolBar>
+      <input
+        type="file"
+        accept="image/*"
+        style={{ display: 'none' }}
+        ref={imageInputRef}
+        onChange={handleImageChange}
+      />
     </Layout>
   );
 };

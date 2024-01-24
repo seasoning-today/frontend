@@ -1,5 +1,12 @@
-import React, { useRef, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
+
+const ImagesContainer = styled.div`
+  display: flex;
+
+  overflow-x: auto;
+  gap: 1rem;
+`;
 
 const Images = styled.img`
   width: 100%;
@@ -9,12 +16,10 @@ const Images = styled.img`
   background-color: #ccc;
 `;
 
-const AddImage = () => {
+const AddImage = ({ image }) => {
   return (
     <>
-      <Images
-        src={`https://i.pinimg.com/564x/21/b0/97/21b097d07816bf7a57e94d69cb0daed4.jpg`}
-      />
+      <Images src={image} />
     </>
   );
 };
