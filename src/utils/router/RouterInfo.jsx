@@ -23,9 +23,6 @@ import { LoginLoader } from '@utils/api/LoginLoader';
 import { NotificationLoader } from '@utils/api/NotificationLoader';
 import { UserRestrictLoader } from '@utils/api/UserRestrictLoader';
 
-import AuthPage from '@pages/home/AuthPage';
-import { AuthLoader } from '@utils/api/AuthLoader';
-
 export const RouterInfo = [
   {
     path: '/',
@@ -37,12 +34,7 @@ export const RouterInfo = [
       {
         path: 'home',
         element: <HomePage />,
-        // loader: HomeLoader,
-      },
-      {
-        path: 'home/:token',
-        element: <AuthPage />,
-        // loader: AuthLoader,
+        loader: HomeLoader,
       },
       {
         path: 'collage',

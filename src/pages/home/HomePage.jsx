@@ -265,8 +265,7 @@ const ModalContent = styled.div`
   line-height: normal;
 `;
 
-// 팝업 구현
-const Popup = ({ onClose }) => {
+const Popup = ({ onClose, fortuneText }) => {
   const [showPopup, setShowPopup] = useState(false);
 
   const Close = () => {
@@ -299,19 +298,32 @@ const Popup = ({ onClose }) => {
       </ModalTop>
       <ModalTitle>오늘의 운세</ModalTitle>
       <Hr />
-      <ModalContent>
-        당신의 열정과 노력이 빛을 발하며, 새로운 도약이 가능한 날입니다. 자신을
-        믿고 목표를 향해 나아가세요.
-      </ModalContent>
+      <ModalContent>{fortuneText}</ModalContent>
     </ModalOverlay>
   );
 };
 
 const HomePage = () => {
-  //const { response } = useLoaderData();
-  //console.log(response);
+  const { response } = useLoaderData();
 
-  //팝업
+  /* 운세 팝업 */
+  const [fortuneText, setFortuneText] = useState('');
+
+  useEffect(() => {
+    const fetchTodayFortune = async () => {
+      const accessToken = localStorage.getItem('accessToken');
+
+      await axios({
+        method: 'GET',
+        url: `/api/today-fortune`,
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }).then((res) => {
+        setFortuneText(res.data);
+      });
+    };
+    fetchTodayFortune();
+  }, []);
+
   const [showPopup, setShowPopup] = useState(false);
   const Open = () => {
     setShowPopup(true);
@@ -333,7 +345,7 @@ const HomePage = () => {
     }
   }, [showPopup]);
 
-  //홈
+  /* 홈 */
   const navigate = useNavigate();
   const location = useLocation();
   const [selectedCategory, setSelectedCategory] = useState('year');
@@ -482,7 +494,9 @@ const HomePage = () => {
           <div className="fortune__date">{formattedDate}</div>
         </Fortune>
       </FortuneContainer>
-      <PopupLayout>{showPopup && <Popup onClose={Close} />}</PopupLayout>
+      <PopupLayout>
+        {showPopup && <Popup onClose={Close} fortuneText={fortuneText} />}
+      </PopupLayout>
 
       <Category>
         <Year>{selectedCategory === 'year' ? '2023' : undefined}</Year>
