@@ -11,7 +11,7 @@ const Container = styled.div`
     color: #fff;
     text-align: center;
 
-    font-family: Noto Serif KR;
+    font-family: 'Noto Serif KR';
     font-size: 1.1875rem;
     font-style: normal;
     font-weight: 600;
@@ -22,7 +22,7 @@ const Container = styled.div`
     color: #8c8c8c;
     text-align: center;
 
-    font-family: Noto Serif KR;
+    font-family: 'Noto Serif KR';
     font-size: 0.9375rem;
     font-style: normal;
     font-weight: 500;

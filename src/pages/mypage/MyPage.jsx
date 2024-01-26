@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useLoaderData } from 'react-router-dom';
 
@@ -37,22 +36,22 @@ const ProfileBox = styled.div`
 
     display: flex;
     flex-direction: column;
-    row-gap: 0.15rem;
+    row-gap: 0.25rem;
   }
 
   h2 {
     color: #333;
-
+    font-family: AppleSDGothicNeo;
     font-size: 1.25rem;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 600;
     line-height: normal;
   }
 
   span {
     color: #333;
-
-    font-size: 0.875rem;
+    font-family: AppleSDGothicNeo;
+    font-size: 0.75rem;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
@@ -111,8 +110,7 @@ const Menu = styled(Link)`
 
   span {
     color: #333;
-
-    font-family: AppleSDGothicNeoSB00;
+    font-family: AppleSDGothicNeo;
     font-size: 1rem;
     font-style: normal;
     font-weight: 400;

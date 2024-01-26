@@ -49,7 +49,7 @@ const LogoContainer = styled.div`
 
     color: #bfbfbf;
     text-align: center;
-    font-family: sans-serif;
+    font-family: AppleSDGothicNeo;
     font-size: 1rem;
     font-style: normal;
     font-weight: 400;
