@@ -178,11 +178,9 @@ const WritePage = () => {
       };
       reader.readAsDataURL(file);
     }
-
-    saveToLocalStorage();
   };
 
-  /* 질문 추가, 스크롤 포커스 */
+  /* 질문 추가 */
   const handleQuestion = () => {
     const currentIndex = QnA.length;
     const newQuestion = Qdata[currentIndex].q;
@@ -203,12 +201,10 @@ const WritePage = () => {
     if (storedQnA) {
       setQnA(JSON.parse(storedQnA));
     }
-
     if (storedImages) {
       setSelectedImages(JSON.parse(storedImages));
     }
-
-    if (storedTextAreasContent) {
+    if (storedTextAreasContent != null) {
       setTextAreasContent(JSON.parse(storedTextAreasContent));
     }
   }, []);
@@ -338,6 +334,8 @@ const WritePage = () => {
           </svg>
         </div>
       </ToolBar>
+      {/* input 요소 : 파일 업로드를 위한 역할 (이미지 파일 선택할 수 있는 업로드 창 표시) */}
+      {/* 화면에서 표시하지 않도록 하고 ToolBar 아래에 코드 추가 */}
       <input
         type="file"
         accept="image/*"
