@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { useLoaderData, useLocation } from 'react-router-dom';
+import { useLoaderData, useNavigate, useLocation } from 'react-router-dom';
 
 import TabBar from '@components/common/TabBar';
 
@@ -81,7 +80,7 @@ const MenuBox = styled.div`
   overflow: hidden;
 `;
 
-const Menu = styled(Link)`
+const Menu = styled.div`
   position: relative;
   width: 100%;
 
@@ -121,6 +120,7 @@ const Menu = styled(Link)`
 const MyPage = () => {
   const { response } = useLoaderData();
   const [userData, setUserData] = useState(response.data);
+  const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
@@ -128,6 +128,10 @@ const MyPage = () => {
       setUserData(location.state.updatedUserData);
     }
   }, [location.state]);
+
+  const handleEdit = () => {
+    navigate(`/mypage/edit`, { state: { updatedUserData: userData } });
+  };
 
   return (
     <Layout>
@@ -161,7 +165,7 @@ const MyPage = () => {
               />
             </svg>
           </Menu>
-          <Menu to="/mypage/edit">
+          <Menu onClick={handleEdit}>
             <span>정보수정</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
