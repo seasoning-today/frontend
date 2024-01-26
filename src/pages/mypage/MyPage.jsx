@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, useLocation } from 'react-router-dom';
 
 import TabBar from '@components/common/TabBar';
 
@@ -59,7 +59,7 @@ const ProfileBox = styled.div`
 
   img {
     position: relative;
-
+    object-fit: cover;
     width: 5.125rem;
     height: 5.125rem;
     background: #d9d9d9;
@@ -121,6 +121,13 @@ const Menu = styled(Link)`
 const MyPage = () => {
   const { response } = useLoaderData();
   const [userData, setUserData] = useState(response.data);
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state && location.state.updatedUserData) {
+      setUserData(location.state.updatedUserData);
+    }
+  }, [location.state]);
 
   return (
     <Layout>

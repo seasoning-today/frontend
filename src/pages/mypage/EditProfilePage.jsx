@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import { useLoaderData, useNavigate } from 'react-router-dom';
+import { useLoaderData, useNavigate, useLocation } from 'react-router-dom';
 
 const Layout = styled.div`
   position: relative;
@@ -45,7 +45,7 @@ const ProfileBox = styled.div`
     width: 100%;
     height: 100%;
     border-radius: 50%;
-
+    object-fit: cover;
     background-color: #d9d9d9;
   }
 
@@ -53,6 +53,7 @@ const ProfileBox = styled.div`
     position: absolute;
     right: 0;
     bottom: 0;
+    cursor: pointer;
   }
 `;
 
@@ -144,7 +145,30 @@ function EditProfilePage() {
   const { response } = useLoaderData();
   const [userData, setUserData] = useState(response.data);
   const currentId = userData.accountId;
+  const imageInputRef = useRef(null);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state && location.state.updatedUserData) {
+      setUserData(location.state.updatedUserData);
+    }
+  }, [location.state]);
+
+  const handleImageUpload = () => {
+    imageInputRef.current.click();
+  };
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setUserData({ ...userData, profileImageUrl: e.target.result });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const onChangeId = (event) => {
     setUserData({ ...userData, accountId: event.target.value });
@@ -154,8 +178,8 @@ function EditProfilePage() {
     setUserData({ ...userData, nickname: event.target.value });
   };
 
-  const onClickSubmit = (event) => {
-    navigate(`/mypage`);
+  const onClickSubmit = () => {
+    navigate(`/mypage`, { state: { updatedUserData: userData } });
   };
 
   return (
@@ -171,7 +195,7 @@ function EditProfilePage() {
           ) : (
             <img />
           )}
-          <div className="profile-icon">
+          <div className="profile-icon" onClick={handleImageUpload}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -186,6 +210,13 @@ function EditProfilePage() {
               />
             </svg>
           </div>
+          <input
+            type="file"
+            accept="image/*"
+            style={{ display: 'none' }}
+            ref={imageInputRef}
+            onChange={handleImageChange}
+          />
         </div>
       </ProfileBox>
 
