@@ -24,10 +24,10 @@ const Top = styled.div`
     padding: 0;
 
     color: #333;
-
+    font-family: AppleSDGothicNeo;
     font-size: 1.25rem;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 600;
     line-height: normal;
   }
 `;

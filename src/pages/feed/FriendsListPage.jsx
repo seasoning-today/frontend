@@ -25,11 +25,10 @@ const Top = styled.div`
 
     color: #000;
     text-align: center;
-
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: AppleSDGothicNeo;
     font-size: 1.25rem;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 600;
     line-height: normal;
   }
 
