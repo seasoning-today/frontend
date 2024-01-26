@@ -47,7 +47,7 @@ const SearchField = styled.input`
   outline: none;
   background-color: #f7f7f7;
 
-  font-family: AppleSDGothicNeoR00;
+  font-family: AppleSDGothicNeo;
   font-size: 0.875rem;
   font-style: normal;
   font-weight: 400;
