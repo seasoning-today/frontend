@@ -56,7 +56,7 @@ const Season = styled.div`
 
   column-gap: 0.5rem;
 
-  font-family: Noto Serif KR;
+  font-family: 'Noto Serif KR';
   font-size: 2rem;
   font-style: normal;
   font-weight: 700;
@@ -143,7 +143,7 @@ const Year = styled.h1`
   position: relative;
   display: flex;
 
-  font-family: Noto Serif KR;
+  font-family: 'Noto Serif KR';
   font-size: 1.625rem;
   font-style: normal;
   font-weight: 700;
@@ -190,12 +190,6 @@ const ContentArea = styled.div`
   width: 100%;
   height: calc(100% - 3.5rem - 3.5625rem - 2.95rem - 4.4375rem);
   padding-bottom: 3.8125rem;
-  margin-top: -0.2rem;
-
-  font-family: AppleSDGothicNeoR00;
-  font-size: 0.875rem;
-  font-style: normal;
-  font-weight: 400;
   color: black;
 `;
 
@@ -222,7 +216,7 @@ const ModalTop = styled.div`
   margin: 1rem;
   justify-content: space-between;
   color: #8e8c86;
-  font-family: AppleSDGothicNeoSB00;
+  font-family: AppleSDGothicNeo;
   font-size: 1rem;
   font-style: normal;
   font-weight: 400;
@@ -234,7 +228,7 @@ const ModalTitle = styled.div`
   margin-left: 1.5rem;
 
   color: #333;
-  font-family: AppleSDGothicNeoEB00;
+  font-family: AppleSDGothicNeo;
   font-size: 1.625rem;
   font-style: normal;
   font-weight: 400;
@@ -258,7 +252,7 @@ const ModalContent = styled.div`
 
   width: 14.9375rem;
   color: #333;
-  font-family: AppleSDGothicNeoR00;
+  font-family: AppleSDGothicNeo;
   font-size: 0.875rem;
   font-style: normal;
   font-weight: 400;

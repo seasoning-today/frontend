@@ -29,7 +29,7 @@ const Thumbnail = styled.div`
 const Description = styled.p`
   color: #333;
 
-  font-family: sans-serif;
+  font-family: AppleSDGothicNeo;
   font-size: 0.875rem;
   font-style: normal;
   font-weight: 400;
