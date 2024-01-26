@@ -144,10 +144,12 @@ const ConfirmButton = styled.div`
 function EditProfilePage() {
   const { response } = useLoaderData();
   const [userData, setUserData] = useState(response.data);
-  const currentId = userData.accountId;
   const imageInputRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
+
+  const MAX_ID_LENGTH = 15;
+  const MAX_NAME_LENGTH = 20;
 
   useEffect(() => {
     if (location.state && location.state.updatedUserData) {
@@ -171,11 +173,13 @@ function EditProfilePage() {
   };
 
   const onChangeId = (event) => {
-    setUserData({ ...userData, accountId: event.target.value });
+    const newId = event.target.value.slice(0, MAX_ID_LENGTH);
+    setUserData({ ...userData, accountId: newId });
   };
 
   const onChangeName = (event) => {
-    setUserData({ ...userData, nickname: event.target.value });
+    const newName = event.target.value.slice(0, MAX_NAME_LENGTH);
+    setUserData({ ...userData, nickname: newName });
   };
 
   const onClickSubmit = () => {
