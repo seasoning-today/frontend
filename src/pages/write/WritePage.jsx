@@ -25,7 +25,7 @@ const Top = styled.div`
   .write__save {
     color: #000;
     text-align: right;
-
+    font-family: AppleSDGothicNeo;
     font-size: 1rem;
     font-style: normal;
     font-weight: 400;
@@ -46,7 +46,6 @@ const Title = styled.div`
   .write__title__chinese {
     color: #000;
     text-align: center;
-
     font-family: Noto Serif KR;
     font-size: 2rem;
     font-style: normal;
@@ -80,6 +79,7 @@ const Content = styled.div`
   .write__content__placeholder {
     color: #8e8c86;
     text-align: justify;
+    font-family: AppleSDGothicNeo;
     font-size: 0.875rem;
     font-style: normal;
     font-weight: 400;
@@ -113,6 +113,7 @@ const Content = styled.div`
   .write__content__question p {
     color: #8e8c86;
     text-align: justify;
+    font-family: AppleSDGothicNeo;
     font-size: 0.875rem;
     font-style: normal;
     font-weight: 400;
@@ -122,6 +123,7 @@ const Content = styled.div`
   .write__content__answer {
     color: #333;
     text-align: justify;
+    font-family: AppleSDGothicNeo;
     font-size: 0.875rem;
     font-style: normal;
     font-weight: 400;
