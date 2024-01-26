@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Textarea from 'react-textarea-autosize';
 
 import AddImage from '@components/write/AddImage';
@@ -99,7 +99,7 @@ const Answer = styled(Textarea)`
 
   flex-shrink: 0;
 
-  /*border: none;*/
+  border: none;
   outline: none;
   resize: none;
 `;
@@ -160,7 +160,40 @@ const WritePage = () => {
   const [QnA, setQnA] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
   const [textAreasContent, setTextAreasContent] = useState([]);
+  const [showChatBubble, setShowChatBubble] = useState(true);
   const imageInputRef = useRef(null);
+  const scrollRef = useRef();
+
+  /* 이미지 추가 */
+  const handleImageUpload = () => {
+    imageInputRef.current.click();
+  };
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file && selectedImages.length < 2) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setSelectedImages((prev) => [...prev, e.target.result]);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    saveToLocalStorage();
+  };
+
+  /* 질문 추가, 스크롤 포커스 */
+  const handleQuestion = () => {
+    const currentIndex = QnA.length;
+    const newQuestion = Qdata[currentIndex].q;
+
+    setQnA((prev) => [...prev, { question: newQuestion, answer: '' }]);
+  };
+
+  /* 로컬스토리지 저장 */
+  const handleSave = () => {
+    saveToLocalStorage();
+  };
 
   useEffect(() => {
     const storedQnA = localStorage.getItem('QnA');
@@ -186,40 +219,12 @@ const WritePage = () => {
     localStorage.setItem('textAreasContent', JSON.stringify(textAreasContent));
   };
 
-  const handleQuestion = () => {
-    const currentIndex = QnA.length;
-    const newQuestion = Qdata[currentIndex].q;
+  /* 스크롤 포커스 */
+  useEffect(() => {
+    scrollRef.current.lastChild.scrollIntoView({ behavior: 'smooth' });
+  }, [textAreasContent, QnA]);
 
-    setQnA((prev) => [...prev, { question: newQuestion, answer: '' }]);
-  };
-
-  const handleImageUpload = () => {
-    imageInputRef.current.click();
-  };
-
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    if (file && selectedImages.length < 2) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setSelectedImages((prev) => [...prev, e.target.result]);
-      };
-      reader.readAsDataURL(file);
-    }
-
-    saveToLocalStorage();
-  };
-
-  const handleSave = () => {
-    saveToLocalStorage();
-    console.log('Data saved to local storage:', {
-      QnA,
-      selectedImages,
-    });
-  };
-
-  const [showChatBubble, setShowChatBubble] = useState(true);
-
+  /* 질문 추가 말풍선 */
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setShowChatBubble(false);
@@ -257,12 +262,13 @@ const WritePage = () => {
         <span className="write__title__korean">입춘</span>
       </Title>
 
-      <ContentContainer>
+      <ContentContainer ref={scrollRef}>
         {selectedImages.map((image, index) => (
           <AddImage key={index} image={image} />
         ))}
         <Answer
           value={textAreasContent[0]}
+          placeholder="이곳에 기록해보세요"
           onChange={(e) => {
             setTextAreasContent((prev) => {
               const newContent = [...prev];
