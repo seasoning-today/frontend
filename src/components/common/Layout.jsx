@@ -4,6 +4,7 @@ import { useMediaQuery } from 'react-responsive';
 import { Outlet, useLocation } from 'react-router-dom';
 
 import logo_text from '@assets/layout/logo_text.png';
+import background_image from '@assets/layout/background-img.png';
 
 const Container = styled.div`
   position: relative;
@@ -13,7 +14,7 @@ const Container = styled.div`
   display: flex;
   justify-content: space-evenly;
 
-  background-image: url(./src/assets/background-img-2.png);
+  background-image: url(${background_image});
   background-repeat: no-repeat;
   background-position: top center;
   background-size: cover;
