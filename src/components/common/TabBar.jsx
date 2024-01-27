@@ -21,7 +21,8 @@ const Container = styled.div`
   .active {
     opacity: 1;
   }
-  /* transition: 1s ease all; */
+
+  z-index: 1000;
 `;
 
 const IconContainer = styled.div`
