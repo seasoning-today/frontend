@@ -137,10 +137,10 @@ const ToolBar = styled.div`
 const WritePage = () => {
   const Qdata = [
     {
-      data: '입춘은 봄의 시작입니다. 이번 봄, 당신은 어떤 것을 시작하셨나요? 시작할 때의 마음은 어떠셨나요?',
+      data: '질문 1',
     },
     {
-      data: '오늘 가장 좋았던 시간은 언제인가요?',
+      data: '질문 2',
     },
     {
       data: '질문 3',
@@ -172,6 +172,17 @@ const WritePage = () => {
     }
   };
 
+  /* 질문 추가 말풍선 */
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setShowChatBubble(false);
+    }, 5000);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, []);
+
   /* 질문 추가 */
   const handleQuestion = () => {
     const newQuestion = Qdata[Question.length].data;
@@ -182,6 +193,29 @@ const WritePage = () => {
     setTimeout(() => {
       textareasRefs.current[Question.length].current.focus();
     }, 0);
+  };
+
+  /* 질문 삭제 */
+  const handleDeleteQuestion = (index) => {
+    if (index >= 0 && index < Question.length && Answer[index].trim() === '') {
+      setQuestion((prevQuestion) => {
+        const newQuestion = [...prevQuestion];
+        newQuestion.splice(index, 1);
+        return newQuestion;
+      });
+
+      setAnswer((prevAnswer) => {
+        const newAnswer = [...prevAnswer];
+        newAnswer.splice(index, 1);
+        return newAnswer;
+      });
+
+      if (index > 0) {
+        textareasRefs.current[index - 1].current.focus();
+      } else if (index == 0) {
+        textareasRefs.current.current.focus();
+      }
+    }
   };
 
   /* 로컬스토리지 저장 */
@@ -218,35 +252,8 @@ const WritePage = () => {
 
   /* 스크롤 포커스 */
   useEffect(() => {
-    scrollRef.current.lastChild.scrollIntoView({ behavior: 'smooth' });
+    scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   }, [Question, Answer]);
-
-  /* 질문 추가 말풍선 */
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setShowChatBubble(false);
-    }, 5000);
-
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, []);
-
-  const handleDeleteQuestion = (index) => {
-    if (index >= 0 && index < Question.length && Answer[index].trim() === '') {
-      setQuestion((prevQuestion) => {
-        const newQuestion = [...prevQuestion];
-        newQuestion.splice(index, 1);
-        return newQuestion;
-      });
-
-      if (index > 0) {
-        textareasRefs.current[index - 1].current.focus();
-      } else if (index == 0) {
-        textareasRefs.current.current.focus();
-      }
-    }
-  };
 
   return (
     <Layout>
