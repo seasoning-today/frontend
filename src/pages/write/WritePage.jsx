@@ -154,6 +154,7 @@ const WritePage = () => {
   const [showChatBubble, setShowChatBubble] = useState(true);
   const imageInputRef = useRef(null);
   const scrollRef = useRef();
+  const textareasRefs = useRef(Qdata.map(() => useRef()));
 
   /* 이미지 추가 */
   const handleImageUpload = () => {
@@ -177,6 +178,10 @@ const WritePage = () => {
 
     setQuestion((prev) => [...prev, { question: newQuestion }]);
     setAnswer((prev) => [...prev, '']);
+
+    setTimeout(() => {
+      textareasRefs.current[Question.length].current.focus();
+    }, 0);
   };
 
   /* 로컬스토리지 저장 */
@@ -234,6 +239,10 @@ const WritePage = () => {
         newQuestion.splice(index, 1);
         return newQuestion;
       });
+
+      if (index > 0) {
+        textareasRefs.current[index - 1].current.focus();
+      }
     }
   };
 
@@ -260,7 +269,7 @@ const WritePage = () => {
       </Top>
 
       <Title>
-        <span className="write__title__chinese">立春</span>
+        <span className="write__title__chinese">立春</span>
         <span className="write__title__korean">입춘</span>
       </Title>
 
@@ -269,6 +278,7 @@ const WritePage = () => {
           <AddImage key={index} image={image} />
         ))}
         <Text
+          ref={textareasRefs.current}
           value={BaseText}
           placeholder="이곳에 기록해보세요"
           onChange={(e) => {
@@ -279,6 +289,7 @@ const WritePage = () => {
           <React.Fragment key={index}>
             <AddQuestion q_value={item.question} />
             <Text
+              ref={textareasRefs.current[index]}
               value={Answer[index]}
               onChange={(e) => {
                 setAnswer((prev) => {
