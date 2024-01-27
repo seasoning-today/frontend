@@ -242,6 +242,8 @@ const WritePage = () => {
 
       if (index > 0) {
         textareasRefs.current[index - 1].current.focus();
+      } else if (index == 0) {
+        textareasRefs.current.current.focus();
       }
     }
   };
