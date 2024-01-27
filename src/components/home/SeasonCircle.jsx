@@ -1,9 +1,15 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
+import { CircleBackgrounds } from '@utils/image/CircleBackgrounds';
+import { TermsToChinese } from '@utils/seasoning/TermsToChinese';
+import { TermsToKorean } from '@utils/seasoning/TermsToKorean';
+
 const Container = styled(Link)`
+  position: relative;
   width: 6rem;
   height: 6rem;
+  z-index: 10;
 
   border-radius: 50%;
 
@@ -14,15 +20,34 @@ const Container = styled(Link)`
   padding-top: 0.375rem;
 
   color: #fff;
-  background-color: ${(props) =>
+  /* background-color: ${(props) =>
     props.status === 'activated'
       ? '#333'
       : props.status === 'countdown'
       ? '#888'
-      : '#ddd'};
+      : '#ddd'}; */
 
-  /* background-image: url(./src/assets/home/sample_circle_image.png);
-  background-size: cover; */
+  .circle__background__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6rem;
+    height: 6rem;
+    z-index: -10;
+    border-radius: 50%;
+  }
+
+  .circle__background__color {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6rem;
+    height: 6rem;
+    z-index: -1;
+    border-radius: 50%;
+
+    background-color: rgba(2, 33, 29, 0.75);
+  }
 
   .circle__countdown {
     text-align: center;
@@ -31,6 +56,7 @@ const Container = styled(Link)`
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    z-index: 10;
   }
 
   .circle__chinese {
@@ -40,6 +66,7 @@ const Container = styled(Link)`
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    z-index: 10;
   }
 
   .circle__korean {
@@ -49,18 +76,24 @@ const Container = styled(Link)`
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    z-index: 10;
   }
 `;
 
 const SeasonCircle = (props) => {
   return (
-    <Container status={props.status} to={`/write`}>
+    <Container status={props.status} season={props.season} to={`/write`}>
       {props.status === 'countdown' ? (
         <span className="circle__countdown">{props.countDown}</span>
       ) : (
-        <span className="circle__chinese">立春</span>
+        <span className="circle__chinese">{TermsToChinese[props.season]}</span>
       )}
-      <span className="circle__korean">입춘</span>
+      <span className="circle__korean">{TermsToKorean[props.season]}</span>
+      <img
+        className="circle__background__image"
+        src={CircleBackgrounds[props.season]}
+      />
+      <div className="circle__background__color" />
     </Container>
   );
 };

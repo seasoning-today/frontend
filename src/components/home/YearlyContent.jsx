@@ -36,48 +36,52 @@ const YearlyContent = () => {
     <>
       <Container>
         <Row>
-          <SeasonCircle status={`activated`} />
-          <SeasonCircle status={`activated`} />
-          <SeasonCircle status={`activated`} />
+          <SeasonCircle season={1} status={`activated`} />
+          <SeasonCircle season={2} status={`activated`} />
+          <SeasonCircle season={3} status={`activated`} />
         </Row>
         <Row>
-          <SeasonCircle status={`countdown`} countDown={`01:16:20`} />
-          <SeasonCircle status={`activated`} />
+          <SeasonCircle
+            season={5}
+            status={`countdown`}
+            countDown={`01:16:20`}
+          />
+          <SeasonCircle season={4} status={`activated`} />
         </Row>
         <Row>
-          <SeasonCircle status={`deactivated`} />
-          <SeasonCircle status={`deactivated`} />
-          <SeasonCircle status={`deactivated`} />
+          <SeasonCircle season={6} status={`deactivated`} />
+          <SeasonCircle season={7} status={`deactivated`} />
+          <SeasonCircle season={8} status={`deactivated`} />
         </Row>
         <Row>
-          <SeasonCircle status={`deactivated`} />
-          <SeasonCircle status={`deactivated`} />
+          <SeasonCircle season={10} status={`deactivated`} />
+          <SeasonCircle season={9} status={`deactivated`} />
         </Row>
         <Row>
-          <SeasonCircle status={`deactivated`} />
-          <SeasonCircle status={`deactivated`} />
-          <SeasonCircle status={`deactivated`} />
+          <SeasonCircle season={11} status={`deactivated`} />
+          <SeasonCircle season={12} status={`deactivated`} />
+          <SeasonCircle season={13} status={`deactivated`} />
         </Row>
         <Row>
-          <SeasonCircle status={`deactivated`} />
-          <SeasonCircle status={`deactivated`} />
+          <SeasonCircle season={15} status={`deactivated`} />
+          <SeasonCircle season={14} status={`deactivated`} />
         </Row>
         <Row>
-          <SeasonCircle status={`deactivated`} />
-          <SeasonCircle status={`deactivated`} />
-          <SeasonCircle status={`deactivated`} />
+          <SeasonCircle season={16} status={`deactivated`} />
+          <SeasonCircle season={17} status={`deactivated`} />
+          <SeasonCircle season={18} status={`deactivated`} />
         </Row>
         <Row>
-          <SeasonCircle status={`deactivated`} />
-          <SeasonCircle status={`deactivated`} />
+          <SeasonCircle season={20} status={`deactivated`} />
+          <SeasonCircle season={19} status={`deactivated`} />
         </Row>
         <Row>
-          <SeasonCircle status={`deactivated`} />
-          <SeasonCircle status={`deactivated`} />
-          <SeasonCircle status={`deactivated`} />
+          <SeasonCircle season={21} status={`deactivated`} />
+          <SeasonCircle season={22} status={`deactivated`} />
+          <SeasonCircle season={23} status={`deactivated`} />
         </Row>
         <LastRow>
-          <SeasonCircle status={`deactivated`} />
+          <SeasonCircle season={24} status={`deactivated`} />
         </LastRow>
       </Container>
     </>
