@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 import { useLoaderData, useNavigate, useLocation } from 'react-router-dom';
 
 const Layout = styled.div`
@@ -39,6 +40,8 @@ const ProfileBox = styled.div`
     position: relative;
     width: 5.625rem;
     height: 5.625rem;
+
+    cursor: pointer;
   }
 
   img {
@@ -53,7 +56,10 @@ const ProfileBox = styled.div`
     position: absolute;
     right: 0;
     bottom: 0;
-    cursor: pointer;
+  }
+
+  input {
+    display: none;
   }
 `;
 
@@ -163,6 +169,7 @@ function EditProfilePage() {
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
+
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -182,8 +189,37 @@ function EditProfilePage() {
     setUserData({ ...userData, nickname: newName });
   };
 
-  const onClickSubmit = () => {
-    navigate(`/mypage`, { state: { updatedUserData: userData } });
+  const onClickSubmit = async () => {
+    try {
+      const accessToken = localStorage.getItem('accessToken');
+      const response = await fetch(userData.profileImageUrl);
+      const blob = await response.blob();
+
+      const formData = new FormData();
+      formData.append('image', blob);
+
+      const jsonData = JSON.stringify({
+        accountId: userData.accountId,
+        nickname: userData.nickname,
+      });
+
+      const blobData = new Blob([jsonData], { type: 'application/json' });
+      formData.append('request', blobData);
+
+      const putResponse = await axios({
+        method: 'PUT',
+        url: `/api/user/profile`,
+        data: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      console.log('Profile updated successfully:', putResponse.data);
+      navigate(`/mypage`);
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   return (
@@ -193,13 +229,13 @@ function EditProfilePage() {
       </HeaderBox>
 
       <ProfileBox>
-        <div className="profile-center">
+        <div className="profile-center" onClick={handleImageUpload}>
           {userData.profileImageUrl !== false ? (
             <img src={userData.profileImageUrl} />
           ) : (
             <img />
           )}
-          <div className="profile-icon" onClick={handleImageUpload}>
+          <div className="profile-icon">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -217,7 +253,6 @@ function EditProfilePage() {
           <input
             type="file"
             accept="image/*"
-            style={{ display: 'none' }}
             ref={imageInputRef}
             onChange={handleImageChange}
           />
