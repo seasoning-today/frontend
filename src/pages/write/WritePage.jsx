@@ -86,7 +86,7 @@ const ContentContainer = styled.div`
   padding: 1.56rem 1.31rem 4.81rem 1.31rem;
 `;
 
-const Answer = styled(Textarea)`
+const Text = styled(Textarea)`
   width: 100%;
   min-height: 1.2rem;
   color: #333;
@@ -137,28 +137,20 @@ const ToolBar = styled.div`
 const WritePage = () => {
   const Qdata = [
     {
-      q: '입춘은 봄의 시작입니다. 이번 봄, 당신은 어떤 것을 시작하셨나요? 시작할 때의 마음은 어떠셨나요?',
+      data: '입춘은 봄의 시작입니다. 이번 봄, 당신은 어떤 것을 시작하셨나요? 시작할 때의 마음은 어떠셨나요?',
     },
     {
-      q: '오늘 가장 좋았던 시간은 언제인가요?',
+      data: '오늘 가장 좋았던 시간은 언제인가요?',
     },
     {
-      q: '질문 3',
-    },
-    {
-      q: '질문 4',
-    },
-    {
-      q: '질문 5',
-    },
-    {
-      q: '질문 6',
+      data: '질문 3',
     },
   ];
 
-  const [QnA, setQnA] = useState([]);
+  const [Question, setQuestion] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
-  const [textAreasContent, setTextAreasContent] = useState([]);
+  const [BaseText, setBaseText] = useState([]);
+  const [Answer, setAnswer] = useState([]);
   const [showChatBubble, setShowChatBubble] = useState(true);
   const imageInputRef = useRef(null);
   const scrollRef = useRef();
@@ -181,10 +173,10 @@ const WritePage = () => {
 
   /* 질문 추가 */
   const handleQuestion = () => {
-    const currentIndex = QnA.length;
-    const newQuestion = Qdata[currentIndex].q;
+    const newQuestion = Qdata[Question.length].data;
 
-    setQnA((prev) => [...prev, { question: newQuestion, answer: '' }]);
+    setQuestion((prev) => [...prev, { question: newQuestion }]);
+    setAnswer((prev) => [...prev, '']);
   };
 
   /* 로컬스토리지 저장 */
@@ -193,31 +185,36 @@ const WritePage = () => {
   };
 
   useEffect(() => {
-    const storedQnA = localStorage.getItem('QnA');
+    const storedQuestion = localStorage.getItem('Question');
     const storedImages = localStorage.getItem('selectedImages');
-    const storedTextAreasContent = localStorage.getItem('textAreasContent');
+    const storedBaseText = localStorage.getItem('BaseText');
+    const storedAnswer = localStorage.getItem('Answer');
 
-    if (storedQnA) {
-      setQnA(JSON.parse(storedQnA));
+    if (storedQuestion) {
+      setQuestion(JSON.parse(storedQuestion));
     }
     if (storedImages) {
       setSelectedImages(JSON.parse(storedImages));
     }
-    if (storedTextAreasContent != null) {
-      setTextAreasContent(JSON.parse(storedTextAreasContent));
+    if (storedBaseText) {
+      setBaseText(JSON.parse(storedBaseText));
+    }
+    if (storedAnswer) {
+      setAnswer(JSON.parse(storedAnswer));
     }
   }, []);
 
   const saveToLocalStorage = () => {
-    localStorage.setItem('QnA', JSON.stringify(QnA));
+    localStorage.setItem('Question', JSON.stringify(Question));
     localStorage.setItem('selectedImages', JSON.stringify(selectedImages));
-    localStorage.setItem('textAreasContent', JSON.stringify(textAreasContent));
+    localStorage.setItem('BaseText', JSON.stringify(BaseText));
+    localStorage.setItem('Answer', JSON.stringify(Answer));
   };
 
   /* 스크롤 포커스 */
   useEffect(() => {
     scrollRef.current.lastChild.scrollIntoView({ behavior: 'smooth' });
-  }, [textAreasContent, QnA]);
+  }, [Question, Answer]);
 
   /* 질문 추가 말풍선 */
   useEffect(() => {
@@ -229,6 +226,16 @@ const WritePage = () => {
       clearTimeout(timeoutId);
     };
   }, []);
+
+  const handleDeleteQuestion = (index) => {
+    if (index >= 0 && index < Question.length && Answer[index].trim() === '') {
+      setQuestion((prevQuestion) => {
+        const newQuestion = [...prevQuestion];
+        newQuestion.splice(index, 1);
+        return newQuestion;
+      });
+    }
+  };
 
   return (
     <Layout>
@@ -261,28 +268,29 @@ const WritePage = () => {
         {selectedImages.map((image, index) => (
           <AddImage key={index} image={image} />
         ))}
-        <Answer
-          value={textAreasContent[0]}
+        <Text
+          value={BaseText}
           placeholder="이곳에 기록해보세요"
           onChange={(e) => {
-            setTextAreasContent((prev) => {
-              const newContent = [...prev];
-              newContent[0] = e.target.value;
-              return newContent;
-            });
+            setBaseText(e.target.value);
           }}
         />
-        {QnA.map((item, index) => (
+        {Question.map((item, index) => (
           <React.Fragment key={index}>
-            <AddQuestion question={item.question} />{' '}
-            <Answer
-              value={textAreasContent[index + 1]}
+            <AddQuestion q_value={item.question} />
+            <Text
+              value={Answer[index]}
               onChange={(e) => {
-                setTextAreasContent((prev) => {
+                setAnswer((prev) => {
                   const newContent = [...prev];
-                  newContent[index + 1] = e.target.value;
+                  newContent[index] = e.target.value;
                   return newContent;
                 });
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Backspace') {
+                  handleDeleteQuestion(index);
+                }
               }}
             />
           </React.Fragment>

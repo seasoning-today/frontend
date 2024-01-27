@@ -88,6 +88,7 @@ const FortuneContainer = styled.div`
 
   width: 100%;
   height: 2.75rem;
+  cursor: pointer;
 `;
 
 const Fortune = styled.div`

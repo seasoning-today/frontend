@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-const Question = styled.div`
+const SeasonQuestion = styled.div`
   width: 100%;
 
   display: flex;
@@ -23,12 +23,12 @@ const Question = styled.div`
   }
 `;
 
-const AddQuestion = ({ question }) => {
+const AddQuestion = ({ q_value }) => {
   return (
-    <Question>
+    <SeasonQuestion>
       <div className="write__question__aside" />
-      {question}
-    </Question>
+      {q_value}
+    </SeasonQuestion>
   );
 };
 
