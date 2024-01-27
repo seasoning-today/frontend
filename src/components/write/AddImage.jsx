@@ -14,12 +14,14 @@ const Images = styled.img`
   object-fit: cover;
   border-radius: 0.5rem;
   background-color: #ccc;
+
+  cursor: pointer;
 `;
 
-const AddImage = ({ image }) => {
+const AddImage = ({ image, onClick }) => {
   return (
     <>
-      <Images src={image} />
+      <Images src={image} onClick={onClick} />
     </>
   );
 };

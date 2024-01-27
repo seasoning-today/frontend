@@ -156,12 +156,15 @@ const WritePage = () => {
   const scrollRef = useRef();
   const textareasRefs = useRef(Qdata.map(() => useRef()));
 
-  /* 이미지 추가 */
-  const handleImageUpload = () => {
+  const [selectedImageIndex, setSelectedImageIndex] = useState(null);
+  const handleImageChange = (index) => {
+    setSelectedImageIndex(index);
     imageInputRef.current.click();
   };
 
-  const handleImageChange = (event) => {
+  const handleImageUpload = (event) => {
+    imageInputRef.current.click();
+
     const file = event.target.files[0];
     if (file && selectedImages.length < 2) {
       const reader = new FileReader();
@@ -212,8 +215,6 @@ const WritePage = () => {
 
       if (index > 0) {
         textareasRefs.current[index - 1].current.focus();
-      } else if (index == 0) {
-        textareasRefs.current.current.focus();
       }
     }
   };
@@ -284,7 +285,11 @@ const WritePage = () => {
 
       <ContentContainer ref={scrollRef}>
         {selectedImages.map((image, index) => (
-          <AddImage key={index} image={image} />
+          <AddImage
+            key={index}
+            image={image}
+            onClick={() => handleImageChange(index)}
+          />
         ))}
         <Text
           ref={textareasRefs.current}
@@ -368,7 +373,7 @@ const WritePage = () => {
         accept="image/*"
         style={{ display: 'none' }}
         ref={imageInputRef}
-        onChange={handleImageChange}
+        onChange={handleImageUpload}
       />
     </Layout>
   );
