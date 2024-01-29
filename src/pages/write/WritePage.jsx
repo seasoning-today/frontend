@@ -315,6 +315,8 @@ const WritePage = () => {
 
       if (index > 0) {
         textareasRefs.current[index - 1].current.focus();
+      } else if (index == 0) {
+        textareasRefs.current.current.focus();
       }
     }
   };
@@ -355,7 +357,7 @@ const WritePage = () => {
   /* 스크롤 포커스 */
   useEffect(() => {
     scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-  }, [Question, Answer]);
+  }, [BaseText, Question, Answer]);
 
   return (
     <Layout>
