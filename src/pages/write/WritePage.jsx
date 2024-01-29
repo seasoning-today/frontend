@@ -76,12 +76,29 @@ const ContentContainer = styled.div`
   position: relative;
   width: 100%;
   flex-grow: 1;
+
   display: flex;
+  align-items: center;
   flex-direction: column;
-  row-gap: 1.5rem;
+  row-gap: 1rem;
   padding: 1rem 1.31rem 4.81rem 1.31rem;
 
   overflow-y: auto;
+
+  .dots__container {
+    display: flex;
+    gap: 0.5rem;
+  }
+`;
+
+const Dots = styled.div`
+  display: flex;
+
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: ${({ active }) => (active ? '#333' : '#ccc')};
 `;
 
 const ImagesContainer = styled.div`
@@ -90,6 +107,7 @@ const ImagesContainer = styled.div`
   gap: 1.5rem;
   align-items: center;
   height: 17rem;
+  width: 100%;
 
   padding: 0.3rem;
 `;
@@ -105,6 +123,7 @@ const Images = styled.img`
 
 const Text = styled(Textarea)`
   width: 100%;
+  gap: 1.5rem;
   min-height: 1.2rem;
   color: #333;
   text-align: justify;
@@ -182,9 +201,38 @@ const WritePage = () => {
   const [Answer, setAnswer] = useState([]);
   const [showChatBubble, setShowChatBubble] = useState(true);
   const imageInputRef = useRef(null);
+  const imagescrollRef = useRef();
+  const [activeDotIndex, setActiveDotIndex] = useState(0);
   const scrollRef = useRef();
   const textareasRefs = useRef(Qdata.map(() => useRef()));
   const navigate = useNavigate();
+
+  /* 사진 좌우 스크롤과 Dots 색 조정 */
+  const handleDotClick = (index) => {
+    if (index === 0) {
+      imagescrollRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+    } else if (index === 1) {
+      const scrollRight =
+        imagescrollRef.current.scrollWidth - imagescrollRef.current.clientWidth;
+      imagescrollRef.current.scrollTo({
+        left: scrollRight,
+        behavior: 'smooth',
+      });
+    }
+  };
+
+  const handleImageScroll = () => {
+    const activeIndex =
+      imagescrollRef.current.scrollLeft === 0
+        ? 0
+        : imagescrollRef.current.scrollLeft +
+            imagescrollRef.current.clientWidth ===
+          imagescrollRef.current.scrollWidth
+        ? 1
+        : -1;
+
+    setActiveDotIndex(activeIndex);
+  };
 
   /* 사진 업로드 */
   const handleImageChange = (index) => {
@@ -338,8 +386,17 @@ const WritePage = () => {
       </Title>
 
       <ContentContainer ref={scrollRef}>
+        <div className="dots__container">
+          {selectedImages.map((_, index) => (
+            <Dots
+              key={index}
+              onClick={() => handleDotClick(index)}
+              active={index === activeDotIndex}
+            />
+          ))}
+        </div>
         {selectedImages.length > 0 && (
-          <ImagesContainer>
+          <ImagesContainer ref={imagescrollRef} onScroll={handleImageScroll}>
             {selectedImages.map((image, index) => (
               <Images
                 key={index}

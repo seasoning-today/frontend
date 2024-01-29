@@ -85,8 +85,9 @@ const ContentContainer = styled.div`
   overflow-x: auto;
 
   display: flex;
+  align-items: center;
   flex-direction: column;
-  row-gap: 1.5rem;
+  row-gap: 1rem;
   padding: 1rem 1.31rem 4.81rem 1.31rem;
 
   opacity: ${(props) => (props.showPopup ? '0.6' : '1')};
@@ -97,6 +98,22 @@ const ContentContainer = styled.div`
     object-fit: cover;
     border-radius: 0.5rem;
   }
+
+  .dots__container {
+    display: flex;
+    gap: 0.5rem;
+  }
+`;
+
+const Dots = styled.div`
+  display: flex;
+
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  cursor: pointer;
+
+  background-color: ${({ active }) => (active ? '#333' : '#ccc')};
 `;
 
 const ImagesContainer = styled.div`
@@ -105,6 +122,7 @@ const ImagesContainer = styled.div`
   gap: 1.5rem;
   align-items: center;
   height: 17rem;
+  width: 100%;
 
   padding: 0.3rem;
 `;
@@ -299,10 +317,40 @@ const SavedPage = () => {
   const [count, setCount] = useState(0);
   const [ClickedEmoji, setClickedEmoji] = useState(false);
   const MAX_COUNT = 999;
+  const imagescrollRef = useRef();
+  const [activeDotIndex, setActiveDotIndex] = useState(0);
   const [showMenuPopup, setShowMenuPopup] = useState(false);
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const navigate = useNavigate();
 
+  /* 사진 좌우 스크롤과 Dots 색 조정 */
+  const handleDotClick = (index) => {
+    if (index === 0) {
+      imagescrollRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+    } else if (index === 1) {
+      const scrollRight =
+        imagescrollRef.current.scrollWidth - imagescrollRef.current.clientWidth;
+      imagescrollRef.current.scrollTo({
+        left: scrollRight,
+        behavior: 'smooth',
+      });
+    }
+  };
+
+  const handleImageScroll = () => {
+    const activeIndex =
+      imagescrollRef.current.scrollLeft === 0
+        ? 0
+        : imagescrollRef.current.scrollLeft +
+            imagescrollRef.current.clientWidth ===
+          imagescrollRef.current.scrollWidth
+        ? 1
+        : -1;
+
+    setActiveDotIndex(activeIndex);
+  };
+
+  /* 이모지 */
   const handleEmojiClick = () => {
     if (!ClickedEmoji) {
       setCount(count + 1);
@@ -318,6 +366,7 @@ const SavedPage = () => {
     return `${3 + digitCount * 0.4}rem`;
   };
 
+  /* 우측 상단에 있는 점 3개 */
   const handleMenu = () => {
     setShowMenuPopup(true);
   };
@@ -330,6 +379,7 @@ const SavedPage = () => {
     setShowDeletePopup(true);
   };
 
+  /* 삭제 */
   const RealDelete = () => {};
 
   const CancelDelete = () => {
@@ -338,7 +388,7 @@ const SavedPage = () => {
 
   return (
     <Layout>
-      <Top showMenuPopup={showMenuPopup}>
+      <Top showPopup={showMenuPopup}>
         <Link to={`/home`}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -367,12 +417,21 @@ const SavedPage = () => {
           />
         </svg>
       </Top>
-      <Title showMenuPopup={showMenuPopup}>
+      <Title showPopup={showMenuPopup}>
         <span className="write__title__chinese">立春</span>
         <span className="write__title__korean">입춘</span>
       </Title>
-      <ContentContainer showMenuPopup={showMenuPopup}>
-        <ImagesContainer>
+      <ContentContainer showPopup={showMenuPopup}>
+        <div className="dots__container">
+          {JSON.parse(storedImages).map((_, index) => (
+            <Dots
+              key={index}
+              onClick={() => handleDotClick(index)}
+              active={index === activeDotIndex}
+            />
+          ))}
+        </div>
+        <ImagesContainer ref={imagescrollRef} onScroll={handleImageScroll}>
           {JSON.parse(storedImages).map((image, index) => (
             <img key={index} src={image} />
           ))}
@@ -430,9 +489,9 @@ const SavedPage = () => {
             복구할 수 없어요
             <DeleteButton>
               <span onClick={RealDelete} style={{ color: 'red' }}>
-                네
+                삭제
               </span>
-              <span onClick={CancelDelete}>안돼요</span>
+              <span onClick={CancelDelete}>취소</span>
             </DeleteButton>
           </DeleteModalContent>
         </DeleteModalOverlay>
