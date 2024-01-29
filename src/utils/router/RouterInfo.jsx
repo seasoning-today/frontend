@@ -12,6 +12,7 @@ import CallBackPage from '@pages/login/CallBackPage';
 /* 기타 페이지 */
 import SearchPage from '@pages/search/SearchPage';
 import WritePage from '@pages/write/WritePage';
+import SavedPage from '@pages/write/SavedPage';
 import NotificationPage from '@pages/notification/NotificationPage';
 import ErrorPage from '@pages/error/ErrorPage';
 /* API Loaders */
@@ -80,6 +81,11 @@ export const RouterInfo = [
       {
         path: 'write',
         element: <WritePage />,
+        loader: UserRestrictLoader,
+      },
+      {
+        path: 'saved',
+        element: <SavedPage />,
         loader: UserRestrictLoader,
       },
       {
