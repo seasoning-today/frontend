@@ -382,7 +382,7 @@ const SavedPage = () => {
 
   /* 우측 상단에 있는 점 3개 */
   const handleMenu = () => {
-    setShowMenuPopup(true);
+    setShowMenuPopup((prevShowMenuPopup) => !prevShowMenuPopup);
   };
 
   const handleEdit = () => {
@@ -398,6 +398,7 @@ const SavedPage = () => {
 
   const CancelDelete = () => {
     setShowDeletePopup(false);
+    setShowMenuPopup(false);
   };
 
   return (
