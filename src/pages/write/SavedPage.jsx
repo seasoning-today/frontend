@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 
+import injulgi from '@assets/injulgi.png';
+
 const Layout = styled.div`
   position: relative;
   width: 100%;
@@ -141,7 +143,7 @@ const A = styled.div`
   flex-shrink: 0;
 `;
 
-const ToolBar = styled.div`
+const BottomBar = styled.div`
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -204,7 +206,7 @@ const ModalOverlay = styled.div`
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 4rem;
+  height: 8rem;
   flex-shrink: 0;
   z-index: 2;
 
@@ -212,6 +214,7 @@ const ModalOverlay = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
   border-radius: 1.0625rem 1.0625rem 0rem 0rem;
   background: #fff;
   box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.25);
@@ -222,10 +225,12 @@ const ModalOverlay = styled.div`
 const ModalContent = styled.div`
   position: relative;
   display: flex;
+  justify-content: space-between;
+  padding: 1rem 1.25rem 1rem 1.5rem;
 
+  width: 100%;
   color: #333;
   text-align: center;
-
   font-family: AppleSDGothicNeoSB00;
   font-size: 1rem;
   font-style: normal;
@@ -235,6 +240,56 @@ const ModalContent = styled.div`
   cursor: pointer;
 `;
 
+const DeleteModalOverlay = styled.div`
+  position: absolute;
+  top: 15rem;
+  width: 17.6875rem;
+  height: 12.5rem;
+  z-index: 1000;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 1.25rem;
+  background: #fff;
+  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.25);
+`;
+
+const DeleteModalContent = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+
+  width: 100%;
+  color: #000;
+  text-align: center;
+  font-family: AppleSDGothicNeoSB00;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+
+  img {
+    width: 6rem;
+    height: 5rem;
+  }
+`;
+
+const DeleteButton = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  span {
+    cursor: pointer;
+  }
+`;
+
 const SavedPage = () => {
   const storedQuestion = localStorage.getItem('Question');
   const storedImages = localStorage.getItem('selectedImages');
@@ -242,12 +297,20 @@ const SavedPage = () => {
   const storedAnswer = localStorage.getItem('Answer');
 
   const [count, setCount] = useState(0);
+  const [ClickedEmoji, setClickedEmoji] = useState(false);
   const MAX_COUNT = 999;
-  const [showPopup, setShowPopup] = useState(false);
+  const [showMenuPopup, setShowMenuPopup] = useState(false);
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
   const navigate = useNavigate();
 
   const handleEmojiClick = () => {
-    setCount(count + 1);
+    if (!ClickedEmoji) {
+      setCount(count + 1);
+      setClickedEmoji(true);
+    } else {
+      setCount(count - 1);
+      setClickedEmoji(false);
+    }
   };
 
   const calculateEmojiWidth = () => {
@@ -256,16 +319,26 @@ const SavedPage = () => {
   };
 
   const handleMenu = () => {
-    setShowPopup(true);
+    setShowMenuPopup(true);
   };
 
   const handleEdit = () => {
     navigate('/write');
   };
 
+  const handleDelete = () => {
+    setShowDeletePopup(true);
+  };
+
+  const RealDelete = () => {};
+
+  const CancelDelete = () => {
+    setShowDeletePopup(false);
+  };
+
   return (
     <Layout>
-      <Top showPopup={showPopup}>
+      <Top showMenuPopup={showMenuPopup}>
         <Link to={`/home`}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -294,11 +367,11 @@ const SavedPage = () => {
           />
         </svg>
       </Top>
-      <Title showPopup={showPopup}>
+      <Title showMenuPopup={showMenuPopup}>
         <span className="write__title__chinese">立春</span>
         <span className="write__title__korean">입춘</span>
       </Title>
-      <ContentContainer showPopup={showPopup}>
+      <ContentContainer showMenuPopup={showMenuPopup}>
         <ImagesContainer>
           {JSON.parse(storedImages).map((image, index) => (
             <img key={index} src={image} />
@@ -315,7 +388,7 @@ const SavedPage = () => {
           </React.Fragment>
         ))}
       </ContentContainer>
-      <ToolBar>
+      <BottomBar>
         <div
           onClick={handleEmojiClick}
           style={{ width: calculateEmojiWidth() }}
@@ -335,11 +408,34 @@ const SavedPage = () => {
           {count > MAX_COUNT ? '999+' : count}
         </div>
         <span>공개</span>
-      </ToolBar>
-      {showPopup && (
+      </BottomBar>
+      {showMenuPopup && (
         <ModalOverlay>
-          <ModalContent onClick={handleEdit}>수정하기</ModalContent>
+          <section>
+            <ModalContent onClick={handleEdit}>
+              <>수정하기</>
+            </ModalContent>
+            <ModalContent onClick={handleDelete}>
+              <span style={{ color: 'red' }}>삭제하기</span>
+            </ModalContent>
+          </section>
         </ModalOverlay>
+      )}
+      {showDeletePopup && (
+        <DeleteModalOverlay>
+          <DeleteModalContent>
+            <img src={injulgi} />
+            인절기에게 먹힌 기록장은
+            <br />
+            복구할 수 없어요
+            <DeleteButton>
+              <span onClick={RealDelete} style={{ color: 'red' }}>
+                네
+              </span>
+              <span onClick={CancelDelete}>안돼요</span>
+            </DeleteButton>
+          </DeleteModalContent>
+        </DeleteModalOverlay>
       )}
     </Layout>
   );
