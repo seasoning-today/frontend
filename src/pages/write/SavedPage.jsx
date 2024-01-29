@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom';
+import { useLoaderData, Link, useNavigate } from 'react-router-dom';
+
+import UserProfileBox_S from '@components/common/UserProfileBox_S';
 
 import injulgi from '@assets/injulgi.png';
 
@@ -102,6 +104,11 @@ const ContentContainer = styled.div`
     display: flex;
     gap: 0.5rem;
     margin: 0.001rem auto;
+  }
+
+  .profile__container {
+    display: flex;
+    justify-content: flex-end;
   }
 `;
 
@@ -312,6 +319,9 @@ const DeleteButton = styled.div`
 `;
 
 const SavedPage = () => {
+  const { response } = useLoaderData();
+  const [userData, setUserData] = useState(response.data);
+
   const storedQuestion = localStorage.getItem('Question');
   const storedImages = localStorage.getItem('selectedImages');
   const storedBaseText = localStorage.getItem('BaseText');
@@ -450,6 +460,13 @@ const SavedPage = () => {
             <A> {JSON.parse(storedAnswer)[index]}</A>
           </React.Fragment>
         ))}
+        <div className="profile__container">
+          <UserProfileBox_S
+            profileImage={userData.profileImageUrl}
+            nickname={userData.nickname}
+            accountId={userData.accountId}
+          />
+        </div>
       </ContentContainer>
       <BottomBar>
         <div
@@ -470,9 +487,7 @@ const SavedPage = () => {
           </svg>
           {count > MAX_COUNT ? '999+' : count}
         </div>
-        <span>
-          {JSON.parse(localStorage.getItem('Privacy')) ? '비공개' : '공개'}
-        </span>
+        <span>{JSON.parse(storedPrivacy) ? '비공개' : '공개'}</span>
       </BottomBar>
       {showMenuPopup && (
         <ModalOverlay>
