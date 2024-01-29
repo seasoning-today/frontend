@@ -147,34 +147,52 @@ const WritePage = () => {
     },
   ];
 
-  const [Question, setQuestion] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
+  const [replacingImageIndex, setReplacingImageIndex] = useState(null);
   const [BaseText, setBaseText] = useState([]);
+  const [Question, setQuestion] = useState([]);
   const [Answer, setAnswer] = useState([]);
   const [showChatBubble, setShowChatBubble] = useState(true);
   const imageInputRef = useRef(null);
   const scrollRef = useRef();
   const textareasRefs = useRef(Qdata.map(() => useRef()));
 
-  const [selectedImageIndex, setSelectedImageIndex] = useState(null);
+  /* 사진 업로드 */
   const handleImageChange = (index) => {
-    setSelectedImageIndex(index);
     imageInputRef.current.click();
+
+    setReplacingImageIndex(index);
   };
 
   const handleImageUpload = (event) => {
-    imageInputRef.current.click();
-
-    const file = event.target.files[0];
-    if (file && selectedImages.length < 2) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setSelectedImages((prev) => [...prev, e.target.result]);
-      };
-      reader.readAsDataURL(file);
+    /* 첨부된 사진 변경 */
+    if (replacingImageIndex !== null) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          setSelectedImages((prev) => {
+            const newImages = [...prev];
+            newImages[replacingImageIndex] = e.target.result;
+            return newImages;
+          });
+        };
+        reader.readAsDataURL(file);
+      }
+      setReplacingImageIndex(null);
+    } else {
+      /* 사진 첨부 */
+      imageInputRef.current.click();
+      const file = event.target.files[0];
+      if (file && selectedImages.length < 2) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          setSelectedImages((prev) => [...prev, e.target.result]);
+        };
+        reader.readAsDataURL(file);
+      }
     }
   };
-
   /* 질문 추가 말풍선 */
   useEffect(() => {
     const timeoutId = setTimeout(() => {
