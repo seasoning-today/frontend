@@ -316,6 +316,7 @@ const SavedPage = () => {
   const storedImages = localStorage.getItem('selectedImages');
   const storedBaseText = localStorage.getItem('BaseText');
   const storedAnswer = localStorage.getItem('Answer');
+  const storedPrivacy = localStorage.getItem('Privacy');
 
   const [count, setCount] = useState(0);
   const [ClickedEmoji, setClickedEmoji] = useState(false);
@@ -469,7 +470,9 @@ const SavedPage = () => {
           </svg>
           {count > MAX_COUNT ? '999+' : count}
         </div>
-        <span>공개</span>
+        <span>
+          {JSON.parse(localStorage.getItem('Privacy')) ? '비공개' : '공개'}
+        </span>
       </BottomBar>
       {showMenuPopup && (
         <ModalOverlay>
