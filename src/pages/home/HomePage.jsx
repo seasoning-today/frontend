@@ -246,15 +246,10 @@ const Hr = styled.div`
 `;
 
 const ModalContent = styled.div`
-  position: relative;
-  display: flex;
-  text-align: justify;
-  margin: 1rem auto;
-
   width: 14.9375rem;
   color: #333;
-  font-family: AppleSDGothicNeo;
-  font-size: 0.875rem;
+  font-family: AppleSDGothicNeoSB00;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;

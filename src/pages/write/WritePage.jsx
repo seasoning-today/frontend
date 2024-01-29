@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Textarea from 'react-textarea-autosize';
 
 import AddImage from '@components/write/AddImage';
@@ -91,6 +91,7 @@ const Text = styled(Textarea)`
   min-height: 1.2rem;
   color: #333;
   text-align: justify;
+  font-family: AppleSDGothicNeoR00;
   font-size: 0.875rem;
   font-style: normal;
   font-weight: 400;
@@ -156,6 +157,7 @@ const WritePage = () => {
   const imageInputRef = useRef(null);
   const scrollRef = useRef();
   const textareasRefs = useRef(Qdata.map(() => useRef()));
+  const navigate = useNavigate();
 
   /* 사진 업로드 */
   const handleImageChange = (index) => {
@@ -193,6 +195,7 @@ const WritePage = () => {
       }
     }
   };
+
   /* 질문 추가 말풍선 */
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -237,9 +240,10 @@ const WritePage = () => {
     }
   };
 
-  /* 로컬스토리지 저장 */
+  /* 저장 */
   const handleSave = () => {
     saveToLocalStorage();
+    navigate('/saved');
   };
 
   useEffect(() => {

@@ -13,7 +13,6 @@ const Images = styled.img`
   height: 16.3125rem;
   object-fit: cover;
   border-radius: 0.5rem;
-  background-color: #ccc;
 
   cursor: pointer;
 `;

@@ -86,7 +86,7 @@ export const RouterInfo = [
       {
         path: 'saved',
         element: <SavedPage />,
-        loader: UserRestrictLoader,
+        // loader: UserRestrictLoader,
       },
       {
         path: 'notification',
