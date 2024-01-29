@@ -95,7 +95,7 @@ const ImagesContainer = styled.div`
 `;
 
 const Images = styled.img`
-  width: 21.75625rem;
+  width: 100%;
   height: 16.3125rem;
   object-fit: cover;
   border-radius: 0.5rem;
@@ -209,11 +209,11 @@ const WritePage = () => {
         reader.readAsDataURL(file);
       }
       setReplacingImageIndex(null);
-    } else {
+    } else if (selectedImages.length < 2) {
       /* 사진 첨부 */
       imageInputRef.current.click();
       const file = event.target.files[0];
-      if (file && selectedImages.length < 2) {
+      if (file) {
         const reader = new FileReader();
         reader.onload = (e) => {
           setSelectedImages((prev) => [...prev, e.target.result]);
