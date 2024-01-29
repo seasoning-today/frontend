@@ -75,15 +75,24 @@ const Title = styled.div`
 
 const ContentContainer = styled.div`
   position: relative;
-  flex-grow: 1;
   width: 100%;
-  overflow-y: auto;
-  overflow-x: auto;
-
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
   row-gap: 1.5rem;
-  padding: 1.56rem 1.31rem 4.81rem 1.31rem;
+  padding: 1rem 1.31rem 4.81rem 1.31rem;
+
+  overflow-y: auto;
+`;
+
+const ImagesContainer = styled.div`
+  display: flex;
+  overflow-x: scroll;
+  gap: 1.5rem;
+  align-items: center;
+  height: 17rem;
+
+  padding: 0.3rem;
 `;
 
 const Text = styled(Textarea)`
@@ -133,18 +142,28 @@ const ToolBar = styled.div`
     opacity: 0.3;
     cursor: pointer;
   }
+
+  .write__button__addimg.disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+
+  .write__button__question.disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
 `;
 
 const WritePage = () => {
   const Qdata = [
     {
-      data: '질문 1',
+      data: '오늘의 날씨는?',
     },
     {
-      data: '질문 2',
+      data: 'tmi',
     },
     {
-      data: '질문 3',
+      data: '기분은 어떤가요?',
     },
   ];
 
@@ -209,19 +228,24 @@ const WritePage = () => {
 
   /* 질문 추가 */
   const handleQuestion = () => {
-    const newQuestion = Qdata[Question.length].data;
+    if (Question.length < 3) {
+      const newQuestion = Qdata[Question.length].data;
 
-    setQuestion((prev) => [...prev, { question: newQuestion }]);
-    setAnswer((prev) => [...prev, '']);
+      console.log(`Added question: ${newQuestion}`);
 
-    setTimeout(() => {
-      textareasRefs.current[Question.length].current.focus();
-    }, 0);
+      setQuestion((prev) => [...prev, { question: newQuestion }]);
+      setAnswer((prev) => [...prev, '']);
+
+      setTimeout(() => {
+        textareasRefs.current[Question.length].current.focus();
+      }, 0);
+    }
   };
 
   /* 질문 삭제 */
   const handleDeleteQuestion = (index) => {
     if (index >= 0 && index < Question.length && Answer[index].trim() === '') {
+      console.log(`Deleted question: ${Question[index].question}`);
       setQuestion((prevQuestion) => {
         const newQuestion = [...prevQuestion];
         newQuestion.splice(index, 1);
@@ -306,13 +330,17 @@ const WritePage = () => {
       </Title>
 
       <ContentContainer ref={scrollRef}>
-        {selectedImages.map((image, index) => (
-          <AddImage
-            key={index}
-            image={image}
-            onClick={() => handleImageChange(index)}
-          />
-        ))}
+        {selectedImages.length > 0 && (
+          <ImagesContainer>
+            {selectedImages.map((image, index) => (
+              <AddImage
+                key={index}
+                image={image}
+                onClick={() => handleImageChange(index)}
+              />
+            ))}
+          </ImagesContainer>
+        )}
         <Text
           ref={textareasRefs.current}
           value={BaseText}
@@ -343,9 +371,15 @@ const WritePage = () => {
           </React.Fragment>
         ))}
       </ContentContainer>
+
       {showChatBubble && <ChatBubble src={chat_bubble} />}
       <ToolBar>
-        <div className="write__button__addimg" onClick={handleImageUpload}>
+        <div
+          className={`write__button__addimg ${
+            selectedImages.length === 2 ? 'disabled' : ''
+          }`}
+          onClick={handleImageUpload}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -373,7 +407,12 @@ const WritePage = () => {
             />
           </svg>
         </div>
-        <div className="write__button__question" onClick={handleQuestion}>
+        <div
+          className={`write__button__question ${
+            Question.length === 3 ? 'disabled' : ''
+          }`}
+          onClick={handleQuestion}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -388,8 +427,6 @@ const WritePage = () => {
           </svg>
         </div>
       </ToolBar>
-      {/* input 요소 : 파일 업로드를 위한 역할 (이미지 파일 선택할 수 있는 업로드 창 표시) */}
-      {/* 화면에서 표시하지 않도록 하고 ToolBar 아래에 코드 추가 */}
       <input
         type="file"
         accept="image/*"

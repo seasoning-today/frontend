@@ -85,7 +85,7 @@ const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 1.5rem;
-  padding: 1.56rem 1.31rem 4.81rem 1.31rem;
+  padding: 1rem 1.31rem 4.81rem 1.31rem;
 
   opacity: ${(props) => (props.showPopup ? '0.6' : '1')};
 
@@ -95,6 +95,16 @@ const ContentContainer = styled.div`
     object-fit: cover;
     border-radius: 0.5rem;
   }
+`;
+
+const ImagesContainer = styled.div`
+  display: flex;
+  overflow-x: scroll;
+  gap: 1.5rem;
+  align-items: center;
+  height: 17rem;
+
+  padding: 0.3rem;
 `;
 
 const Q = styled.div`
@@ -231,7 +241,7 @@ const SavedPage = () => {
   const storedBaseText = localStorage.getItem('BaseText');
   const storedAnswer = localStorage.getItem('Answer');
 
-  const [count, setCount] = useState(998);
+  const [count, setCount] = useState(0);
   const MAX_COUNT = 999;
   const [showPopup, setShowPopup] = useState(false);
   const navigate = useNavigate();
@@ -289,9 +299,11 @@ const SavedPage = () => {
         <span className="write__title__korean">입춘</span>
       </Title>
       <ContentContainer showPopup={showPopup}>
-        {JSON.parse(storedImages).map((image, index) => (
-          <img key={index} src={image} />
-        ))}
+        <ImagesContainer>
+          {JSON.parse(storedImages).map((image, index) => (
+            <img key={index} src={image} />
+          ))}
+        </ImagesContainer>
         <A>{JSON.parse(storedBaseText)}</A>
         {JSON.parse(storedQuestion).map((item, index) => (
           <React.Fragment key={index}>
