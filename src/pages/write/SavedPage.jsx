@@ -189,8 +189,7 @@ const BottomBar = styled.div`
   }
 `;
 
-/* 수정 팝업창 */
-
+/* 메뉴 팝업창 */
 const slideUp = keyframes`
   from {
     transform: translateY(100%);
@@ -240,6 +239,7 @@ const ModalContent = styled.div`
   cursor: pointer;
 `;
 
+/* 삭제 팝업창 */
 const DeleteModalOverlay = styled.div`
   position: absolute;
   top: 15rem;

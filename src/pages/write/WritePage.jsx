@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import Textarea from 'react-textarea-autosize';
 
-import AddImage from '@components/write/AddImage';
 import AddQuestion from '@components/write/AddQuestion';
 
 import chat_bubble from '@assets/ChatBubble.png';
@@ -93,6 +92,15 @@ const ImagesContainer = styled.div`
   height: 17rem;
 
   padding: 0.3rem;
+`;
+
+const Images = styled.img`
+  width: 21.75625rem;
+  height: 16.3125rem;
+  object-fit: cover;
+  border-radius: 0.5rem;
+
+  cursor: pointer;
 `;
 
 const Text = styled(Textarea)`
@@ -333,9 +341,9 @@ const WritePage = () => {
         {selectedImages.length > 0 && (
           <ImagesContainer>
             {selectedImages.map((image, index) => (
-              <AddImage
+              <Images
                 key={index}
-                image={image}
+                src={image}
                 onClick={() => handleImageChange(index)}
               />
             ))}
