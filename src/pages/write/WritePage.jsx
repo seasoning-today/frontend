@@ -75,7 +75,6 @@ const Title = styled.div`
 const ContentContainer = styled.div`
   position: relative;
   width: 100%;
-  flex-grow: 1;
 
   display: flex;
   align-items: center;
@@ -106,7 +105,7 @@ const ImagesContainer = styled.div`
   overflow-x: scroll;
   gap: 1.5rem;
   align-items: center;
-  height: 17rem;
+  min-height: 17rem;
   width: 100%;
 
   padding: 0.3rem;

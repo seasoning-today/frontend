@@ -82,10 +82,9 @@ const ContentContainer = styled.div`
   flex-grow: 1;
   width: 100%;
   overflow-y: auto;
-  overflow-x: auto;
 
   display: flex;
-  align-items: center;
+
   flex-direction: column;
   row-gap: 1rem;
   padding: 1rem 1.31rem 4.81rem 1.31rem;
@@ -102,6 +101,7 @@ const ContentContainer = styled.div`
   .dots__container {
     display: flex;
     gap: 0.5rem;
+    margin: 0.001rem auto;
   }
 `;
 
@@ -121,7 +121,7 @@ const ImagesContainer = styled.div`
   overflow-x: scroll;
   gap: 1.5rem;
   align-items: center;
-  height: 17rem;
+  min-height: 17rem;
   width: 100%;
 
   padding: 0.3rem;
@@ -151,14 +151,17 @@ const Q = styled.div`
 `;
 
 const A = styled.div`
+  display: flex;
   color: #333;
-  text-align: justify;
+  text-align: left;
   font-family: AppleSDGothicNeoR00;
   font-size: 0.875rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
   flex-shrink: 0;
+
+  white-space: pre-line;
 `;
 
 const BottomBar = styled.div`
