@@ -88,7 +88,7 @@ const ContentContainer = styled.div`
   display: flex;
 
   flex-direction: column;
-  row-gap: 1rem;
+  row-gap: 1.5rem;
   padding: 1rem 1.31rem 4.81rem 1.31rem;
 
   opacity: ${(props) => (props.showPopup ? '0.6' : '1')};

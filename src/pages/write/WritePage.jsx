@@ -79,7 +79,7 @@ const ContentContainer = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  row-gap: 1rem;
+  row-gap: 1.5rem;
   padding: 1rem 1.31rem 4.81rem 1.31rem;
 
   overflow-y: auto;
@@ -244,7 +244,7 @@ const WritePage = () => {
   const handleImageUpload = (event) => {
     /* 첨부된 사진 변경 */
     if (replacingImageIndex !== null) {
-      const file = event.target.files[0];
+      const file = event.target.files && event.target.files[0];
       if (file) {
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -260,7 +260,7 @@ const WritePage = () => {
     } else if (selectedImages.length < 2) {
       /* 사진 첨부 */
       imageInputRef.current.click();
-      const file = event.target.files[0];
+      const file = event.target.files && event.target.files[0];
       if (file) {
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -271,6 +271,16 @@ const WritePage = () => {
     }
   };
 
+  /* 사진 삭제 */
+  const handleLongPress = (index) => {
+    setSelectedImages((prevselectedImages) => {
+      const newImages = [...prevselectedImages];
+      newImages.splice(index, 1);
+      return newImages;
+    });
+  };
+
+  /* 공개 비공개 설정 */
   const togglePrivacyIcon = () => {
     setPrivacy((prevPrivacy) => !prevPrivacy);
   };
@@ -291,8 +301,6 @@ const WritePage = () => {
     if (Question.length < 3) {
       const newQuestion = Qdata[Question.length].data;
 
-      console.log(`Added question: ${newQuestion}`);
-
       setQuestion((prev) => [...prev, { question: newQuestion }]);
       setAnswer((prev) => [...prev, '']);
 
@@ -305,7 +313,6 @@ const WritePage = () => {
   /* 질문 삭제 */
   const handleDeleteQuestion = (index) => {
     if (index >= 0 && index < Question.length && Answer[index].trim() === '') {
-      console.log(`Deleted question: ${Question[index].question}`);
       setQuestion((prevQuestion) => {
         const newQuestion = [...prevQuestion];
         newQuestion.splice(index, 1);
@@ -326,7 +333,7 @@ const WritePage = () => {
     }
   };
 
-  /* 저장 */
+  /* 로컬스토리지 저장 */
   const handleSave = () => {
     saveToLocalStorage();
     navigate('/saved');
@@ -413,6 +420,7 @@ const WritePage = () => {
                 key={index}
                 src={image}
                 onClick={() => handleImageChange(index)}
+                onContextMenu={() => handleLongPress(index)}
               />
             ))}
           </ImagesContainer>
