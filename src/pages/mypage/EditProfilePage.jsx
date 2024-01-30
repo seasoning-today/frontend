@@ -159,7 +159,7 @@ const ConfirmButton = styled.div`
 function EditProfilePage() {
   const { response } = useLoaderData();
   const [userData, setUserData] = useState(response.data);
-  const [isImageChanged, setIsImageChanged] = useState(true);
+  const [isImageChanged, setIsImageChanged] = useState(false);
   const [isValidForm, setIsValidForm] = useState({
     uniqueId: true,
     validId: true,
@@ -185,6 +185,8 @@ function EditProfilePage() {
         setUserData({ ...userData, profileImageUrl: e.target.result });
       };
       reader.readAsDataURL(file);
+
+      setIsImageChanged(true);
     }
   };
 
@@ -263,17 +265,31 @@ function EditProfilePage() {
 
     try {
       const accessToken = localStorage.getItem('accessToken');
-      const response = await fetch(userData.profileImageUrl);
-      const blob = await response.blob();
+      const formData = new FormData();
 
-      const jsonData = JSON.stringify({
+      if (isImageChanged) {
+        /* 1. 프로필 이미지가 새로 업데이트된 경우 */
+        const imageResponse = await fetch(userData.profileImageUrl);
+        const imageBlob = await imageResponse.blob();
+        formData.append('image', imageBlob);
+      } else {
+        /* 2. 프로필 이미지가 수정되지 않은 경우 */
+        const emptyImageJSON = JSON.stringify({
+          image: null,
+        });
+        const emptyImageBlob = new Blob([emptyImageJSON], {
+          type: 'application/json',
+        });
+        formData.append('image', emptyImageBlob);
+      }
+
+      const formJson = JSON.stringify({
         accountId: userData.accountId,
         nickname: userData.nickname,
       });
-      const blobData = new Blob([jsonData], { type: 'application/json' });
-      const formData = new FormData();
-      formData.append('image', blob);
-      formData.append('request', blobData);
+
+      const formBlob = new Blob([formJson], { type: 'application/json' });
+      formData.append('request', formBlob);
 
       const putResponse = await axios({
         method: 'PUT',
@@ -284,6 +300,7 @@ function EditProfilePage() {
           Authorization: `Bearer ${accessToken}`,
         },
       });
+
       console.log('Profile updated successfully');
       navigate(`/mypage`);
     } catch (error) {
