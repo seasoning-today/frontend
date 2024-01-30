@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import logo from '@assets/components/topbar/logo.png';
+
 const Layout = styled.div`
   width: 100%;
 
@@ -14,10 +16,9 @@ const ProfileImage = styled.img`
   width: 2.9375rem;
   height: 2.9375rem;
   border-radius: 50%;
+  background-color: #f0f0f0;
 
   flex-shrink: 0;
-
-  background-color: green;
 `;
 
 const Content = styled.p`
@@ -56,7 +57,7 @@ const Content = styled.p`
 const SeasonalNotify = ({ seasonName, time }) => {
   return (
     <Layout>
-      <ProfileImage />
+      <ProfileImage src={logo} />
 
       <Content>
         <span className="notification__name">{seasonName}</span>

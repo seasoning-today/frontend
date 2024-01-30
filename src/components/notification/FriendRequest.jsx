@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const Layout = styled.div`
@@ -95,19 +96,46 @@ const Button = styled.div`
   }
 `;
 
-const FriendRequest = ({ profileName, profileImageUrl, time }) => {
+const FriendRequest = ({ accountId, profileName, profileImageUrl, time }) => {
+  const [friendshipAccepted, setFriendshipAccepted] = useState([]);
+
   const handleFriendRequest = async (action) => {
     const accessToken = localStorage.getItem('accessToken');
+
+    try {
+      const size = 10;
+      const lastId = '';
+
+      const response = await axios.get(
+        `/api/notification?size=${size}&lastId=${lastId}`,
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }
+      );
+
+      const friendshipAcceptedData = response.data.filter(
+        (notification) => notification.type === 'FRIENDSHIP_ACCEPTED'
+      );
+
+      setFriendshipAccepted(friendshipAcceptedData);
+    } catch (error) {
+      console.error('Error fetching friend requests:', error);
+    }
+
     try {
       if (action === 'accept') {
-        await axios.put(`/api/friend/add/accept`, {
-          data: { accountId },
-          headers: { Authorization: `Bearer ${accessToken}` },
-        });
+        await axios.put(
+          `/api/friend/add/accept`,
+
+          {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          }
+        );
+        setFriendshipAccepted([...friendshipAccepted, {}]);
       } else if (action === 'decline') {
         await axios.delete(
           `/api/friend/add/decline`,
-          { accountId },
+
           {
             headers: { Authorization: `Bearer ${accessToken}` },
           }
