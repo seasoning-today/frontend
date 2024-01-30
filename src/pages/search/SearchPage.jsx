@@ -63,18 +63,61 @@ const SearchResultArea = styled.div`
 
   display: flex;
   flex-direction: column;
+
   padding: 1.5rem 1.31rem;
   row-gap: 1rem;
 
   overflow-y: scroll;
 `;
 
+const Button = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.5rem;
+  background: #0d6b38;
+  padding: 0.3rem 0.7rem;
+
+  width: 4.8125rem;
+  height: 1.8125rem;
+  flex-shrink: 0;
+
+  margin-top: -3.3rem;
+  margin-left: 17rem;
+
+  span {
+    color: var(--F0, #f0f0f0);
+    text-align: center;
+    font-family: AppleSDGothicNeoSB00;
+    font-size: 0.78rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
 const SearchPage = () => {
   const [searchResult, setSearchResult] = useState([]);
   const [keyword, setKeyword] = useState('');
+  const [buttonClicked, setButtonClicked] = useState(false);
 
   const handleChangeKeyword = (event) => {
     setKeyword(event.target.value);
+  };
+
+  const handleFriendRequest = (index) => {
+    if (!buttonClicked) {
+      const updatedSearchResult = [...searchResult];
+      updatedSearchResult[index].friendshipStatus = 'SENT';
+
+      setSearchResult(updatedSearchResult);
+      setButtonClicked(true);
+    }
   };
 
   const handleSearch = async () => {
@@ -102,17 +145,17 @@ const SearchPage = () => {
   const renderFriendshipStatus = (status) => {
     switch (status) {
       case 'FRIEND':
-        return '이미 친구입니다';
+        return; // 이미 친구
       case 'SENT':
-        return '요청 보낸 상태입니다';
+        return '요청 대기';
       case 'RECEIVED':
-        return '요청 받은 상태입니다';
+        return; // 요청 받은 상태
       case 'UNFRIEND':
-        return '친구가 아닙니다';
+        return '친구 신청';
       case 'SELF':
-        return '본인입니다';
+        return; // 본인
       default:
-        return '알 수 없음';
+        return; // 알 수 없음
     }
   };
 
@@ -148,12 +191,24 @@ const SearchPage = () => {
 
       <SearchResultArea>
         {searchResult.map((result, idx) => (
-          <UserProfileBox
-            key={idx}
-            nickname={result.nickname}
-            profileImage={result.image}
-            accountId={result.accountId}
-          />
+          <React.Fragment>
+            <UserProfileBox
+              key={idx}
+              nickname={result.nickname}
+              profileImage={result.image}
+              accountId={result.accountId}
+              friendshipStatus={result.friendshipStatus}
+            />
+            {(result.friendshipStatus === 'UNFRIEND' ||
+              result.friendshipStatus === 'SENT') && (
+              <Button
+                onClick={() => handleFriendRequest(idx)}
+                style={{ opacity: buttonClicked ? 0.6 : 1 }}
+              >
+                <span>{renderFriendshipStatus(result.friendshipStatus)}</span>
+              </Button>
+            )}
+          </React.Fragment>
         ))}
       </SearchResultArea>
     </Layout>
