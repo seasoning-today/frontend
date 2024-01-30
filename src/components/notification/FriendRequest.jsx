@@ -95,7 +95,29 @@ const Button = styled.div`
   }
 `;
 
-const FriendRequest = ({ profileName, profileImageUrl }) => {
+const FriendRequest = ({ profileName, profileImageUrl, time }) => {
+  const handleFriendRequest = async (action) => {
+    const accessToken = localStorage.getItem('accessToken');
+    try {
+      if (action === 'accept') {
+        await axios.put(`/api/friend/add/accept`, {
+          data: { accountId },
+          headers: { Authorization: `Bearer ${accessToken}` },
+        });
+      } else if (action === 'decline') {
+        await axios.delete(
+          `/api/friend/add/decline`,
+          { accountId },
+          {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          }
+        );
+      }
+    } catch (error) {
+      console.error('Error handling friend request:', error);
+    }
+  };
+
   return (
     <Layout>
       {profileImageUrl !== false ? (
@@ -109,14 +131,20 @@ const FriendRequest = ({ profileName, profileImageUrl }) => {
         <span className="notification__content">
           님에게서 친구신청이 왔습니다
         </span>
-        <span className="notification__time">12시간 전</span>
+        <span className="notification__time">{time}</span>
       </Content>
 
       <ButtonContainer>
-        <Button className="notification__button__approve">
+        <Button
+          className="notification__button__approve"
+          onClick={() => handleFriendRequest('accept')}
+        >
           <span>수락</span>
         </Button>
-        <Button className="notification__button__decline">
+        <Button
+          className="notification__button__decline"
+          onClick={() => handleFriendRequest('decline')}
+        >
           <span>거절</span>
         </Button>
       </ButtonContainer>

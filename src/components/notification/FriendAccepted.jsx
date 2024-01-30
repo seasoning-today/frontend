@@ -23,6 +23,10 @@ const ProfileImage = styled.img`
 const Content = styled.p`
   flex-grow: 1;
 
+  .row {
+    display: flex;
+  }
+
   .notification__name {
     margin-right: 0.25rem;
 
@@ -30,7 +34,7 @@ const Content = styled.p`
     font-family: AppleSDGothicNeo;
     font-size: 0.875rem;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 600;
     line-height: normal;
   }
 
@@ -53,19 +57,24 @@ const Content = styled.p`
   }
 `;
 
-const SeasonalNotify = ({ seasonName, time }) => {
+const FriendAccepted = ({ profileName, profileImageUrl, time }) => {
   return (
     <Layout>
-      <ProfileImage />
+      {profileImageUrl !== false ? (
+        <ProfileImage src={profileImageUrl} />
+      ) : (
+        <ProfileImage />
+      )}
 
       <Content>
-        <span className="notification__name">{seasonName}</span>
-        <span className="notification__content">노트가 열렸습니다</span>
-        <br />
+        <div className=".row">
+          <span className="notification__name">{profileName}</span>
+          <span className="notification__content">님과 친구가 되셨습니다.</span>
+        </div>
         <span className="notification__time">{time}</span>
       </Content>
     </Layout>
   );
 };
 
-export default SeasonalNotify;
+export default FriendAccepted;

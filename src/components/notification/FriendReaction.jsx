@@ -57,7 +57,7 @@ const Content = styled.p`
   }
 `;
 
-const FriendReaction = ({ profileName, profileImageUrl }) => {
+const FriendReaction = ({ profileName, profileImageUrl, time }) => {
   return (
     <Layout>
       {profileImageUrl !== false ? (
@@ -73,7 +73,7 @@ const FriendReaction = ({ profileName, profileImageUrl }) => {
             님이 이모지를 남기셨습니다
           </span>
         </div>
-        <span className="notification__time">12시간 전</span>
+        <span className="notification__time">{time}</span>
       </Content>
     </Layout>
   );

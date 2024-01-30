@@ -99,8 +99,10 @@ const Button = styled.div`
 
   ${(props) =>
     props.friendshipStatus === 'UNFRIEND' &&
-    `cursor: pointer;` &&
-    `opacity: 1`};
+    `
+    cursor: pointer;
+    opacity: 1;
+  `};
 `;
 
 const SearchPage = () => {
@@ -222,7 +224,10 @@ const SearchPage = () => {
               friendshipStatus={result.friendshipStatus}
             />
             {result.friendshipStatus !== 'SELF' && (
-              <Button onClick={() => handleFriendRequest(idx)}>
+              <Button
+                onClick={() => handleFriendRequest(idx)}
+                friendshipStatus={result.friendshipStatus}
+              >
                 <span>{renderFriendshipStatus(result.friendshipStatus)}</span>
               </Button>
             )}

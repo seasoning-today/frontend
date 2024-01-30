@@ -4,8 +4,11 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useLoaderData } from 'react-router-dom';
 
+import { TermsToKorean } from '@utils/seasoning/TermsToKorean';
+
 import FriendRequest from '@components/notification/FriendRequest';
 import FriendReaction from '@components/notification/FriendReaction';
+import FriendAccepted from '@components/notification/FriendAccepted';
 import SeasonalNotify from '@components/notification/SeasonalNotify';
 import TabBar from '@components/common/TabBar';
 
@@ -63,38 +66,72 @@ const NotificationContainer = styled.div`
 
 const NotificationPage = () => {
   const { response } = useLoaderData();
-  console.log(response);
+  // console.log(response);
 
-  const mockRequest = [
-    {
-      nickname: '최어진',
-      profileImageUrl:
-        'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
-    },
-  ];
-  const mockNotis = [
-    {
-      nickname: '이세민',
-      profileImageUrl:
-        'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
-    },
-    {
-      nickname: '최어진',
-      profileImageUrl: false,
-    },
-    {
-      nickname: '이세민',
-      profileImageUrl:
-        'https://mblogthumb-phinf.pstatic.net/MjAxNzA4MjJfMjcw/MDAxNTAzMzU1NTI5Mjg0.OBV0OZkJQHRZzIWAtVDM60JLl9wq5WwiwnRTwgYqDq4g.II9maLicfuatQ8bxN7F6uUt1ZVa_95hP2OVB0Ig4uf8g.JPEG.doghter4our/IMG_0907.jpg?type=w800',
-    },
-    {
-      nickname: '최어진',
-      profileImageUrl: false,
-    },
-  ];
+  const [friendRequests, setFriendRequests] = useState([]);
+  const [friendshipAccepted, setFriendshipAccepted] = useState([]);
+  const [articleFeedbacks, setArticleFeedbacks] = useState([]);
+  const [seasonalNotify, setSeasonalNotify] = useState(null);
 
-  const [friendRequests, setFriendRequests] = useState(mockRequest);
-  const [notifications, setNotifications] = useState(mockNotis);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const accessToken = localStorage.getItem('accessToken');
+        const size = 10;
+        const lastId = '';
+
+        const response = await axios.get(
+          `/api/notification?size=${size}&lastId=${lastId}`,
+          {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          }
+        );
+
+        const friendRequestsData = response.data.filter(
+          (notification) => notification.type === 'FRIENDSHIP_REQUEST'
+        );
+
+        const friendshipAcceptedData = response.data.filter(
+          (notification) => notification.type === 'FRIENDSHIP_ACCEPTED'
+        );
+        const articleFeedbacksData = response.data.filter(
+          (notification) => notification.type === 'ARTICLE_FEEDBACK'
+        );
+        const seasonalNotifyData = response.data.filter(
+          (notification) => notification.type === 'ARTICLE_OPEN'
+        );
+
+        setFriendRequests(friendRequestsData);
+        setFriendshipAccepted(friendshipAcceptedData);
+        setArticleFeedbacks(articleFeedbacksData);
+        setSeasonalNotify(seasonalNotifyData);
+      } catch (error) {
+        console.error('Error fetching friend requests:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const formatNotificationTime = (timestamp) => {
+    const currentTime = new Date();
+    const notificationTime = new Date(timestamp);
+    const timeDifference = currentTime - notificationTime;
+    const seconds = Math.floor(timeDifference / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+
+    if (days > 0) {
+      return `${days}일 전`;
+    } else if (hours > 0) {
+      return `${hours}시간 전`;
+    } else if (minutes > 0) {
+      return `${minutes}분 전`;
+    } else {
+      return '방금 전';
+    }
+  };
 
   return (
     <>
@@ -123,23 +160,37 @@ const NotificationPage = () => {
         {friendRequests.map((req, idx) => (
           <FriendRequest
             key={idx}
-            profileName={req.nickname}
-            profileImageUrl={req.profileImageUrl}
+            profileName={JSON.parse(req.message).nickname}
+            profileImageUrl={JSON.parse(req.message).profileImageUrl}
+            time={formatNotificationTime(req.createdAt)}
+          />
+        ))}
+        {friendRequests.length > 0 ? <div className="line" /> : undefined}
+
+        {friendshipAccepted.map((noti, idx) => (
+          <FriendAccepted
+            key={idx}
+            profileName={JSON.parse(noti.message).nickname}
+            profileImageUrl={JSON.parse(noti.message).profileImageUrl}
+            time={formatNotificationTime(noti.createdAt)}
           />
         ))}
 
-        {friendRequests.length > 0 && notifications.length > 0 ? (
-          <div className="line" />
-        ) : undefined}
-
-        {notifications.map((noti, idx) => (
+        {articleFeedbacks.map((noti, idx) => (
           <FriendReaction
             key={idx}
-            profileName={noti.nickname}
-            profileImageUrl={noti.profileImageUrl}
+            profileName={JSON.parse(noti.message).nickname}
+            profileImageUrl={JSON.parse(noti.message).profileImageUrl}
+            time={formatNotificationTime(noti.createdAt)}
           />
         ))}
-        <SeasonalNotify seasonName={`입춘`} />
+
+        {seasonalNotify && (
+          <SeasonalNotify
+            seasonName={TermsToKorean[JSON.parse(seasonalNotify[0].message)]}
+            time={formatNotificationTime()}
+          />
+        )}
       </NotificationContainer>
 
       <TabBar />
