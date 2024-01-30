@@ -82,6 +82,7 @@ const Button = styled.div`
   width: 4.8125rem;
   height: 1.8125rem;
   flex-shrink: 0;
+  opacity: 0.7;
 
   margin-top: -3.3rem;
   margin-left: 17rem;
@@ -96,27 +97,48 @@ const Button = styled.div`
     line-height: normal;
   }
 
-  &:hover {
-    cursor: pointer;
-  }
+  ${(props) =>
+    props.friendshipStatus === 'UNFRIEND' &&
+    `cursor: pointer;` &&
+    `opacity: 1`};
 `;
 
 const SearchPage = () => {
   const [searchResult, setSearchResult] = useState([]);
   const [keyword, setKeyword] = useState('');
-  const [buttonClicked, setButtonClicked] = useState(false);
 
   const handleChangeKeyword = (event) => {
     setKeyword(event.target.value);
   };
 
-  const handleFriendRequest = (index) => {
-    if (!buttonClicked) {
-      const updatedSearchResult = [...searchResult];
-      updatedSearchResult[index].friendshipStatus = 'SENT';
+  const handleFriendRequest = async (index) => {
+    const friendToRequest = searchResult[index];
 
-      setSearchResult(updatedSearchResult);
-      setButtonClicked(true);
+    if (friendToRequest.friendshipStatus === 'UNFRIEND') {
+      const accessToken = localStorage.getItem('accessToken');
+
+      try {
+        const response = await axios.post(
+          `/api/friend/add`,
+          {
+            accountId: friendToRequest.accountId,
+          },
+          {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          }
+        );
+
+        if (response.status === 200) {
+          const updatedSearchResult = [...searchResult];
+          updatedSearchResult[index].friendshipStatus = 'SENT';
+
+          setSearchResult(updatedSearchResult);
+        } else {
+          // console.error('Unexpected response:', response);
+        }
+      } catch (error) {
+        // console.error('Error sending friend request:', error);
+      }
     }
   };
 
@@ -145,15 +167,15 @@ const SearchPage = () => {
   const renderFriendshipStatus = (status) => {
     switch (status) {
       case 'FRIEND':
-        return; // 이미 친구
+        return '친구';
       case 'SENT':
         return '요청 대기';
       case 'RECEIVED':
-        return; // 요청 받은 상태
+        return '요청 받음';
       case 'UNFRIEND':
         return '친구 신청';
       case 'SELF':
-        return; // 본인
+        return '';
       default:
         return; // 알 수 없음
     }
@@ -199,12 +221,8 @@ const SearchPage = () => {
               accountId={result.accountId}
               friendshipStatus={result.friendshipStatus}
             />
-            {(result.friendshipStatus === 'UNFRIEND' ||
-              result.friendshipStatus === 'SENT') && (
-              <Button
-                onClick={() => handleFriendRequest(idx)}
-                style={{ opacity: buttonClicked ? 0.6 : 1 }}
-              >
+            {result.friendshipStatus !== 'SELF' && (
+              <Button onClick={() => handleFriendRequest(idx)}>
                 <span>{renderFriendshipStatus(result.friendshipStatus)}</span>
               </Button>
             )}
