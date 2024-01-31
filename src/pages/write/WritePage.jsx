@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import Textarea from 'react-textarea-autosize';
 
@@ -333,10 +334,47 @@ const WritePage = () => {
     }
   };
 
-  /* 로컬스토리지 저장 */
-  const handleSave = () => {
-    saveToLocalStorage();
-    navigate('/saved');
+  /* 저장 */
+  const handleSave = async () => {
+    try {
+      const accessToken = localStorage.getItem('accessToken');
+
+      const formData = new FormData();
+      const imageResponse = await fetch(selectedImages);
+      const imageBlob = await imageResponse.blob();
+      formData.append('images', imageBlob);
+
+      const formJson = JSON.stringify({
+        published: privacy,
+        contents: BaseText,
+        Question,
+        Answer,
+      });
+
+      const formBlob = new Blob([formJson], { type: 'application/json' });
+      formData.append('request', formBlob);
+
+      const response = await axios({
+        method: 'POST',
+        url: `/api/article`,
+        data: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      if (response.status === 200) {
+        console.log('Article saved successfully!');
+
+        // saveToLocalStorage();
+        navigate('/saved');
+      } else {
+        console.error('Failed to save article.');
+      }
+    } catch (error) {
+      console.error('Error details:', error.response.data);
+    }
   };
 
   useEffect(() => {
