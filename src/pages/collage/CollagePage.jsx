@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import {
   useNavigate,
@@ -6,6 +6,8 @@ import {
   Link,
   useLoaderData,
 } from 'react-router-dom';
+import html2canvas from 'html2canvas';
+import saveAs from 'file-saver';
 
 import TabBar from '@components/common/TabBar';
 import { SeasonBackgrounds } from '@utils/image/SeasonBackgrounds';
@@ -127,11 +129,16 @@ const Content = styled.div`
   height: calc(100% - 2.5rem - 4rem - 2rem);
   padding: 0 1.88rem 5.8125rem 1.88rem;
 
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-auto-rows: 6.1875rem;
-  grid-gap: 0;
-  overflow-y: scroll;
+  .collage__capture__area {
+    width: 100%;
+    height: 100%;
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 6.1875rem;
+    grid-gap: 0;
+    overflow-y: scroll;
+  }
 `;
 
 const Card = styled.div`
@@ -172,6 +179,58 @@ const CollagePage = () => {
     const newCategory = event.target.value;
     setSelectedCategory(newCategory);
     navigate(`/collage?category=${newCategory}`);
+  };
+
+  const contentRef = useRef(null);
+
+  // const handleSaveImage = async () => {
+  //   if (!contentRef.current) return;
+
+  //   try {
+  //     const div = contentRef.current;
+  //     const canvas = await html2canvas(div, { scale: 2, logging: false });
+  //     canvas.toBlob((blob) => {
+  //       if (blob !== null) {
+  //         saveAs(blob, 'collage.png');
+  //       }
+  //     });
+  //   } catch (error) {
+  //     console.error('Error converting div to image:', error);
+  //   }
+  // };
+
+  const handleSaveImage = async () => {
+    if (!contentRef.current) return;
+
+    try {
+      const div = contentRef.current;
+
+      const originalStyle = {
+        width: div.style.width,
+        height: div.style.height,
+      };
+
+      div.style.width = `${div.scrollWidth}px`;
+      div.style.height = `${div.scrollHeight}px`;
+
+      const canvas = await html2canvas(div, {
+        scale: 2,
+        logging: false,
+        windowHeight: div.scrollHeight,
+        windowWidth: div.scrollWidth,
+      });
+
+      canvas.toBlob((blob) => {
+        if (blob !== null) {
+          saveAs(blob, 'collage.png');
+        }
+      });
+
+      div.style.width = originalStyle.width;
+      div.style.height = originalStyle.height;
+    } catch (error) {
+      console.error('Error converting div to image:', error);
+    }
   };
 
   return (
@@ -289,7 +348,7 @@ const CollagePage = () => {
             />
           </svg>
         </Select>
-        <div className="collage__save-button">
+        <div className="collage__save-button" onClick={handleSaveImage}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -306,83 +365,85 @@ const CollagePage = () => {
       </OptionBox>
 
       <Content>
-        <Card>
-          <img src={SeasonBackgrounds[1]} />
-        </Card>
-        <Card>
-          <img src={SeasonBackgrounds[2]} />
-        </Card>
-        <Card>
-          <img src={SeasonBackgrounds[3]} />
-        </Card>
-        <Card>
-          <img src={SeasonBackgrounds[4]} />
-        </Card>
+        <div className="collage__capture__area" ref={contentRef}>
+          <Card>
+            <img src={SeasonBackgrounds[1]} />
+          </Card>
+          <Card>
+            <img src={SeasonBackgrounds[2]} />
+          </Card>
+          <Card>
+            <img src={SeasonBackgrounds[3]} />
+          </Card>
+          <Card>
+            <img src={SeasonBackgrounds[4]} />
+          </Card>
 
-        <Card>
-          <img src={SeasonBackgrounds[5]} />
-        </Card>
-        <Card>
-          <img src={SeasonBackgrounds[6]} />
-        </Card>
-        <Card>
-          <img src={SeasonBackgrounds[7]} />
-        </Card>
-        <Card>
-          <img src={SeasonBackgrounds[8]} />
-        </Card>
+          <Card>
+            <img src={SeasonBackgrounds[5]} />
+          </Card>
+          <Card>
+            <img src={SeasonBackgrounds[6]} />
+          </Card>
+          <Card>
+            <img src={SeasonBackgrounds[7]} />
+          </Card>
+          <Card>
+            <img src={SeasonBackgrounds[8]} />
+          </Card>
 
-        <Card>
-          <img src={SeasonBackgrounds[9]} />
-        </Card>
-        <Card>
-          <img src={SeasonBackgrounds[10]} />
-        </Card>
-        <Card>
-          <img src={SeasonBackgrounds[11]} />
-        </Card>
-        <Card>
-          <img src={SeasonBackgrounds[12]} />
-        </Card>
+          <Card>
+            <img src={SeasonBackgrounds[9]} />
+          </Card>
+          <Card>
+            <img src={SeasonBackgrounds[10]} />
+          </Card>
+          <Card>
+            <img src={SeasonBackgrounds[11]} />
+          </Card>
+          <Card>
+            <img src={SeasonBackgrounds[12]} />
+          </Card>
 
-        <Card>
-          <img src={SeasonBackgrounds[13]} />
-        </Card>
-        <Card>
-          <img src={SeasonBackgrounds[14]} />
-        </Card>
-        <Card>
-          <img src={SeasonBackgrounds[15]} />
-        </Card>
-        <Card>
-          <img src={SeasonBackgrounds[16]} />
-        </Card>
+          <Card>
+            <img src={SeasonBackgrounds[13]} />
+          </Card>
+          <Card>
+            <img src={SeasonBackgrounds[14]} />
+          </Card>
+          <Card>
+            <img src={SeasonBackgrounds[15]} />
+          </Card>
+          <Card>
+            <img src={SeasonBackgrounds[16]} />
+          </Card>
 
-        <Card>
-          <img src={SeasonBackgrounds[17]} />
-        </Card>
-        <Card>
-          <img src={SeasonBackgrounds[18]} />
-        </Card>
-        <Card>
-          <img src={SeasonBackgrounds[19]} />
-        </Card>
-        <Card>
-          <img src={SeasonBackgrounds[20]} />
-        </Card>
+          <Card>
+            <img src={SeasonBackgrounds[17]} />
+          </Card>
+          <Card>
+            <img src={SeasonBackgrounds[18]} />
+          </Card>
+          <Card>
+            <img src={SeasonBackgrounds[19]} />
+          </Card>
+          <Card>
+            <img src={SeasonBackgrounds[20]} />
+          </Card>
 
-        <Card>
-          <img src={SeasonBackgrounds[21]} />
-        </Card>
-        <Card>
-          <img src={SeasonBackgrounds[22]} />
-        </Card>
-        <Card>
-          <img src={SeasonBackgrounds[23]} />
-        </Card>
-        <Card>
-          <img src={SeasonBackgrounds[24]} />
-        </Card>
+          <Card>
+            <img src={SeasonBackgrounds[21]} />
+          </Card>
+          <Card>
+            <img src={SeasonBackgrounds[22]} />
+          </Card>
+          <Card>
+            <img src={SeasonBackgrounds[23]} />
+          </Card>
+          <Card>
+            <img src={SeasonBackgrounds[24]} />
+          </Card>
+        </div>
       </Content>
 
       <TabBar />
