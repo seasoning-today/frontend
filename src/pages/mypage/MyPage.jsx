@@ -113,7 +113,7 @@ const LinkMenu = styled(Link)`
     line-height: normal;
   }
 
-  .mypage__logout__menu {
+  .important__menu {
     color: #cc0025;
   }
 `;
@@ -151,7 +151,7 @@ const ActionMenu = styled.div`
     line-height: normal;
   }
 
-  .mypage__logout__menu {
+  .important__menu {
     color: #cc0025;
   }
 `;
@@ -198,7 +198,7 @@ const MyPage = () => {
               />
             </svg>
           </LinkMenu>
-          <LinkMenu>
+          <LinkMenu to={`/mypage/account`}>
             <span>계정 설정</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -239,7 +239,7 @@ const MyPage = () => {
       <section>
         <MenuBox>
           <ActionMenu onClick={onClickLogout}>
-            <span className="mypage__logout__menu">로그아웃</span>
+            <span className="important__menu">로그아웃</span>
           </ActionMenu>
         </MenuBox>
       </section>
