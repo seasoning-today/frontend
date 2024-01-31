@@ -367,7 +367,7 @@ const WritePage = () => {
       if (response.status === 200) {
         console.log('Article saved successfully!');
 
-        // saveToLocalStorage();
+        saveToLocalStorage();
         navigate('/saved');
       } else {
         console.error('Failed to save article.');

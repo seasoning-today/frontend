@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
+import axios from 'axios';
 import { useLoaderData, Link, useNavigate } from 'react-router-dom';
 
 import UserProfileBox_S from '@components/common/UserProfileBox_S';
@@ -365,13 +366,21 @@ const SavedPage = () => {
   };
 
   /* 이모지 */
-  const handleEmojiClick = () => {
-    if (!ClickedEmoji) {
-      setCount(count + 1);
-      setClickedEmoji(true);
-    } else {
-      setCount(count - 1);
-      setClickedEmoji(false);
+  const handleEmojiClick = async () => {
+    try {
+      const articleId = '';
+
+      if (!ClickedEmoji) {
+        await axios.post(`/api/article/${articleId}/like`);
+        setCount(count + 1);
+        setClickedEmoji(true);
+      } else {
+        await axios.delete(`/api/article/${articleId}/like`);
+        setCount(count - 1);
+        setClickedEmoji(false);
+      }
+    } catch (error) {
+      console.error('Error while handling emoji click:', error);
     }
   };
 
