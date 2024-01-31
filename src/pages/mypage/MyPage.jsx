@@ -218,7 +218,7 @@ const MyPage = () => {
 
       <section>
         <MenuBox>
-          <LinkMenu>
+          <LinkMenu to={`/notice`}>
             <span>공지사항</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
