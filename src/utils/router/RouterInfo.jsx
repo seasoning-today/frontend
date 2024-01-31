@@ -6,6 +6,7 @@ import FeedPage from '@pages/feed/FeedPage';
 import FriendsListPage from '@pages/feed/FriendsListPage';
 import MyPage from '@pages/mypage/MyPage';
 import EditProfilePage from '@pages/mypage/EditProfilePage';
+import AccountPage from '@pages/mypage/AccountPage';
 /* 소셜 로그인에 대한 페이지 */
 import LoginPage from '@pages/login/LoginPage';
 import CallBackPage from '@pages/login/CallBackPage';
@@ -62,6 +63,11 @@ export const RouterInfo = [
       {
         path: 'mypage/edit',
         element: <EditProfilePage />,
+        loader: UserRestrictLoader,
+      },
+      {
+        path: 'mypage/account',
+        element: <AccountPage />,
         loader: UserRestrictLoader,
       },
       /* 소셜 로그인에 대한 페이지 라우팅 */
