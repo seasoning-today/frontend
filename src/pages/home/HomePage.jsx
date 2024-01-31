@@ -209,6 +209,8 @@ const ModalOverlay = styled.div`
   border-radius: 1.25rem;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   background-color: #fff;
+
+  z-index: 1000;
 `;
 
 const ModalTop = styled.div`
