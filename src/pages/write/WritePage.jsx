@@ -196,16 +196,21 @@ const WritePage = () => {
 
   const [selectedImages, setSelectedImages] = useState([]);
   const [replacingImageIndex, setReplacingImageIndex] = useState(null);
+  const [activeDotIndex, setActiveDotIndex] = useState(0);
+  const imageInputRef = useRef(null);
+
   const [BaseText, setBaseText] = useState([]);
   const [Question, setQuestion] = useState([]);
   const [Answer, setAnswer] = useState([]);
+  const [deletedQuestions, setDeletedQuestions] = useState([]);
   const [showChatBubble, setShowChatBubble] = useState(true);
-  const imageInputRef = useRef(null);
-  const imagescrollRef = useRef();
-  const [activeDotIndex, setActiveDotIndex] = useState(0);
+
   const [privacy, setPrivacy] = useState(true);
+
   const scrollRef = useRef();
+  const imagescrollRef = useRef();
   const textareasRefs = useRef(Qdata.map(() => useRef()));
+
   const navigate = useNavigate();
 
   /* 사진 좌우 스크롤과 Dots 색 조정 */
@@ -300,7 +305,14 @@ const WritePage = () => {
   /* 질문 추가 */
   const handleQuestion = () => {
     if (Question.length < 3) {
-      const newQuestion = Qdata[Question.length].data;
+      let newQuestion;
+
+      /* 삭제된 질문이 있으면 해당 질문을 추가 */
+      if (deletedQuestions.length > 0) {
+        newQuestion = deletedQuestions.pop();
+      } else {
+        newQuestion = Qdata[Question.length].data;
+      }
 
       setQuestion((prev) => [...prev, { question: newQuestion }]);
       setAnswer((prev) => [...prev, '']);
@@ -314,6 +326,11 @@ const WritePage = () => {
   /* 질문 삭제 */
   const handleDeleteQuestion = (index) => {
     if (index >= 0 && index < Question.length && Answer[index].trim() === '') {
+      setDeletedQuestions((prevDeleted) => {
+        const deleted = [...prevDeleted, Question[index].question];
+        return deleted;
+      });
+
       setQuestion((prevQuestion) => {
         const newQuestion = [...prevQuestion];
         newQuestion.splice(index, 1);
@@ -328,7 +345,7 @@ const WritePage = () => {
 
       if (index > 0) {
         textareasRefs.current[index - 1].current.focus();
-      } else if (index == 0) {
+      } else if (index === 0) {
         textareasRefs.current.current.focus();
       }
     }
