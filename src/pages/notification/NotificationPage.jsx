@@ -65,53 +65,21 @@ const NotificationContainer = styled.div`
 `;
 
 const NotificationPage = () => {
-  const { response } = useLoaderData();
-  // console.log(response);
+  const { notificationData } = useLoaderData();
+  const {
+    friendRequestsData,
+    friendshipAcceptedData,
+    friendReactionData,
+    seasonalNotifyData,
+  } = notificationData;
+  console.log(notificationData);
 
-  const [friendRequests, setFriendRequests] = useState([]);
-  const [friendshipAccepted, setFriendshipAccepted] = useState([]);
-  const [articleFeedbacks, setArticleFeedbacks] = useState([]);
-  const [seasonalNotify, setSeasonalNotify] = useState(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const accessToken = localStorage.getItem('accessToken');
-        const size = 10;
-        const lastId = '';
-
-        const response = await axios.get(
-          `/api/notification?size=${size}&lastId=${lastId}`,
-          {
-            headers: { Authorization: `Bearer ${accessToken}` },
-          }
-        );
-
-        const friendRequestsData = response.data.filter(
-          (notification) => notification.type === 'FRIENDSHIP_REQUEST'
-        );
-
-        const friendshipAcceptedData = response.data.filter(
-          (notification) => notification.type === 'FRIENDSHIP_ACCEPTED'
-        );
-        const articleFeedbacksData = response.data.filter(
-          (notification) => notification.type === 'ARTICLE_FEEDBACK'
-        );
-        const seasonalNotifyData = response.data.filter(
-          (notification) => notification.type === 'ARTICLE_OPEN'
-        );
-
-        setFriendRequests(friendRequestsData);
-        setFriendshipAccepted(friendshipAcceptedData);
-        setArticleFeedbacks(articleFeedbacksData);
-        setSeasonalNotify(seasonalNotifyData);
-      } catch (error) {
-        console.error('Error fetching friend requests:', error);
-      }
-    };
-
-    fetchData();
-  }, []);
+  const [friendRequests, setFriendRequests] = useState(friendRequestsData);
+  const [friendshipsAccepted, setFriendshipsAccepted] = useState(
+    friendshipAcceptedData
+  );
+  const [friendReactions, setFriendReactions] = useState(friendReactionData);
+  const [seasonalNotifies, setSeasonalNotifies] = useState(seasonalNotifyData);
 
   const formatNotificationTime = (timestamp) => {
     const currentTime = new Date();
@@ -167,7 +135,7 @@ const NotificationPage = () => {
         ))}
         {friendRequests.length > 0 ? <div className="line" /> : undefined}
 
-        {friendshipAccepted.map((noti, idx) => (
+        {friendshipsAccepted.map((noti, idx) => (
           <FriendAccepted
             key={idx}
             profileName={JSON.parse(noti.message).nickname}
@@ -176,21 +144,26 @@ const NotificationPage = () => {
           />
         ))}
 
-        {articleFeedbacks.map((noti, idx) => (
+        {friendReactions.map((noti, idx) => (
           <FriendReaction
             key={idx}
-            profileName={JSON.parse(noti.message).nickname}
-            profileImageUrl={JSON.parse(noti.message).profileImageUrl}
+            setFriendReactions={
+              JSON.parse(noti.message).nicknamfriendReactionDatae
+            }
+            profileImageUrl={
+              sJSON.parses(noti.message).profileImaseasonalNotifyDatal
+            }
             time={formatNotificationTime(noti.createdAt)}
           />
         ))}
 
-        {seasonalNotify && (
+        {/* {seasonalNotifies.map((noti, idx) => (
           <SeasonalNotify
+            key={idx}
             seasonName={TermsToKorean[JSON.parse(seasonalNotify[0].message)]}
             time={formatNotificationTime()}
           />
-        )}
+        ))} */}
       </NotificationContainer>
 
       <TabBar />

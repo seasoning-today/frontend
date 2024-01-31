@@ -9,11 +9,37 @@ export const NotificationLoader = async ({ request, params }) => {
     return redirect(`/login`);
   }
 
+  const size = 10;
+  const lastId = '';
+
   try {
-    const response = await axios.get(`/api/notification`, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
-    return { response };
+    const response = await axios.get(
+      `/api/notification?size=${size}&lastId=${lastId}`,
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }
+    );
+
+    const friendRequestsData = response.data.filter(
+      (notification) => notification.type === 'FRIENDSHIP_REQUEST'
+    );
+    const friendshipAcceptedData = response.data.filter(
+      (notification) => notification.type === 'FRIENDSHIP_ACCEPTED'
+    );
+    const friendReactionData = response.data.filter(
+      (notification) => notification.type === 'ARTICLE_FEEDBACK'
+    );
+    const seasonalNotifyData = response.data.filter(
+      (notification) => notification.type === 'ARTICLE_OPEN'
+    );
+    const notificationData = {
+      friendRequestsData: friendRequestsData,
+      friendshipAcceptedData: friendshipAcceptedData,
+      friendReactionData: friendReactionData,
+      seasonalNotifyData: seasonalNotifyData,
+    };
+
+    return { notificationData };
   } catch (error) {
     console.error(error);
     console.log('* Response Error... Redirecting to /login');
