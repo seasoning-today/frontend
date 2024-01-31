@@ -14,6 +14,7 @@ import SearchPage from '@pages/search/SearchPage';
 import WritePage from '@pages/write/WritePage';
 import SavedPage from '@pages/write/SavedPage';
 import NotificationPage from '@pages/notification/NotificationPage';
+import NoticePage from '@pages/notice/NoticePage';
 import ErrorPage from '@pages/error/ErrorPage';
 /* API Loaders */
 import { HomeLoader } from '@utils/api/HomeLoader';
@@ -22,6 +23,7 @@ import { FeedLoader } from '@utils/api/FeedLoader';
 import { FriendsListLoader } from '@utils/api/FriendsListLoader';
 import { LoginLoader } from '@utils/api/LoginLoader';
 import { NotificationLoader } from '@utils/api/NotificationLoader';
+import { NoticeLoader } from '@utils/api/NoticeLoader';
 import { UserRestrictLoader } from '@utils/api/UserRestrictLoader';
 
 export const RouterInfo = [
@@ -92,6 +94,11 @@ export const RouterInfo = [
         path: 'notification',
         element: <NotificationPage />,
         loader: NotificationLoader,
+      },
+      {
+        path: 'notice',
+        element: <NoticePage />,
+        loader: NoticeLoader,
       },
     ],
   },
