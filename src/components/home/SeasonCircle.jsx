@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import { CircleBackgrounds } from '@utils/image/CircleBackgrounds';
+import { SeasonBackgrounds } from '@utils/image/SeasonBackgrounds';
 import { TermsToChinese } from '@utils/seasoning/TermsToChinese';
 import { TermsToKorean } from '@utils/seasoning/TermsToKorean';
 
@@ -91,7 +91,7 @@ const SeasonCircle = (props) => {
       <span className="circle__korean">{TermsToKorean[props.season]}</span>
       <img
         className="circle__background__image"
-        src={CircleBackgrounds[props.season]}
+        src={SeasonBackgrounds[props.season]}
       />
       <div className="circle__background__color" />
     </Container>
