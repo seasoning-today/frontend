@@ -8,8 +8,15 @@ import {
 } from 'react-router-dom';
 
 import TabBar from '@components/common/TabBar';
+import { SeasonBackgrounds } from '@utils/image/SeasonBackgrounds';
 
 import logo from '@assets/components/topbar/logo.png';
+
+const Layout = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+`;
 
 const Top = styled.div`
   position: relative;
@@ -43,6 +50,7 @@ const NavBox = styled.div`
 
 const Title = styled.div`
   width: 100%;
+  height: 4rem;
 
   display: flex;
   justify-content: center;
@@ -62,6 +70,7 @@ const Title = styled.div`
 
 const OptionBox = styled.div`
   width: 100%;
+  height: 2rem;
 
   display: flex;
   justify-content: space-between;
@@ -115,26 +124,37 @@ const Select = styled.div`
 
 const Content = styled.div`
   width: 100%;
-  padding: 0 1.88rem;
+  height: calc(100% - 2.5rem - 4rem - 2rem);
+  padding: 0 1.88rem 5.8125rem 1.88rem;
 
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-gap: 0.1rem; /* 임시로 표시하기 위함, 추후 실제 사진 적용 시 삭제 */
+  grid-auto-rows: 6.1875rem;
+  grid-gap: 0;
   overflow-y: scroll;
+`;
 
-  .collage__card {
-    height: 6.1875rem;
+const Card = styled.div`
+  position: relative;
+  width: auto;
+  height: 6.1875rem;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ccc;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    overflow: hidden;
   }
 `;
 
 const CollagePage = () => {
   const { response } = useLoaderData();
-  console.log(response);
+  console.log(response.data);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -155,7 +175,7 @@ const CollagePage = () => {
   };
 
   return (
-    <>
+    <Layout>
       <Top>
         <LogoBox>
           <img src={logo} width={30} height={30} />
@@ -286,39 +306,87 @@ const CollagePage = () => {
       </OptionBox>
 
       <Content>
-        <div className="collage__card">1</div>
-        <div className="collage__card">2</div>
-        <div className="collage__card">3</div>
-        <div className="collage__card">4</div>
+        <Card>
+          <img src={SeasonBackgrounds[1]} />
+        </Card>
+        <Card>
+          <img src={SeasonBackgrounds[2]} />
+        </Card>
+        <Card>
+          <img src={SeasonBackgrounds[3]} />
+        </Card>
+        <Card>
+          <img src={SeasonBackgrounds[4]} />
+        </Card>
 
-        <div className="collage__card">5</div>
-        <div className="collage__card">6</div>
-        <div className="collage__card">7</div>
-        <div className="collage__card">8</div>
+        <Card>
+          <img src={SeasonBackgrounds[5]} />
+        </Card>
+        <Card>
+          <img src={SeasonBackgrounds[6]} />
+        </Card>
+        <Card>
+          <img src={SeasonBackgrounds[7]} />
+        </Card>
+        <Card>
+          <img src={SeasonBackgrounds[8]} />
+        </Card>
 
-        <div className="collage__card">9</div>
-        <div className="collage__card">10</div>
-        <div className="collage__card">11</div>
-        <div className="collage__card">12</div>
+        <Card>
+          <img src={SeasonBackgrounds[9]} />
+        </Card>
+        <Card>
+          <img src={SeasonBackgrounds[10]} />
+        </Card>
+        <Card>
+          <img src={SeasonBackgrounds[11]} />
+        </Card>
+        <Card>
+          <img src={SeasonBackgrounds[12]} />
+        </Card>
 
-        <div className="collage__card">13</div>
-        <div className="collage__card">14</div>
-        <div className="collage__card">15</div>
-        <div className="collage__card">16</div>
+        <Card>
+          <img src={SeasonBackgrounds[13]} />
+        </Card>
+        <Card>
+          <img src={SeasonBackgrounds[14]} />
+        </Card>
+        <Card>
+          <img src={SeasonBackgrounds[15]} />
+        </Card>
+        <Card>
+          <img src={SeasonBackgrounds[16]} />
+        </Card>
 
-        <div className="collage__card">17</div>
-        <div className="collage__card">18</div>
-        <div className="collage__card">19</div>
-        <div className="collage__card">20</div>
+        <Card>
+          <img src={SeasonBackgrounds[17]} />
+        </Card>
+        <Card>
+          <img src={SeasonBackgrounds[18]} />
+        </Card>
+        <Card>
+          <img src={SeasonBackgrounds[19]} />
+        </Card>
+        <Card>
+          <img src={SeasonBackgrounds[20]} />
+        </Card>
 
-        <div className="collage__card">21</div>
-        <div className="collage__card">22</div>
-        <div className="collage__card">23</div>
-        <div className="collage__card">24</div>
+        <Card>
+          <img src={SeasonBackgrounds[21]} />
+        </Card>
+        <Card>
+          <img src={SeasonBackgrounds[22]} />
+        </Card>
+        <Card>
+          <img src={SeasonBackgrounds[23]} />
+        </Card>
+        <Card>
+          <img src={SeasonBackgrounds[24]} />
+        </Card>
       </Content>
 
       <TabBar />
-    </>
+    </Layout>
   );
 };
 
