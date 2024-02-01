@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import { useLoaderData, useNavigate, useLocation } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 
 const Layout = styled.div`
   position: relative;
@@ -329,7 +329,7 @@ function EditProfilePage() {
   return (
     <Layout>
       <HeaderBox>
-        <span>프로필 설정</span>
+        <span>프로필 수정</span>
       </HeaderBox>
 
       <ProfileBox>

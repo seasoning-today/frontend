@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useLoaderData, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useLoaderData, useNavigate } from 'react-router-dom';
 
 import TabBar from '@components/common/TabBar';
 
@@ -27,8 +27,8 @@ const ProfileBox = styled.div`
   padding: 2rem 2.5rem;
 
   width: 100%;
-  background: #fff;
-  box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.2);
 
   .mypage__personal-data {
     position: relative;
@@ -75,12 +75,12 @@ const MenuBox = styled.div`
   flex-direction: column;
   justify-content: space-between;
 
-  border-radius: 1.6875rem;
-  box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 1rem;
+  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.2);
   overflow: hidden;
 `;
 
-const Menu = styled.div`
+const LinkMenu = styled(Link)`
   position: relative;
   width: 100%;
 
@@ -99,21 +99,60 @@ const Menu = styled.div`
   background-color: #fff;
   text-decoration: none;
 
-  &:hover {
-    cursor: pointer;
-  }
+  cursor: pointer;
 
   &:not(:first-child) {
     border-top: 0.03125rem solid #f0f0f0;
   }
 
   span {
-    color: #333;
     font-family: AppleSDGothicNeo;
     font-size: 1rem;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+  }
+
+  .important__menu {
+    color: #cc0025;
+  }
+`;
+
+const ActionMenu = styled.div`
+  position: relative;
+  width: 100%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem 1rem 1.5rem;
+
+  font-family: AppleSDGothicNeoSB00;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  color: #333;
+
+  background-color: #fff;
+  text-decoration: none;
+
+  cursor: pointer;
+
+  &:not(:first-child) {
+    border-top: 0.03125rem solid #f0f0f0;
+  }
+
+  span {
+    font-family: AppleSDGothicNeo;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+
+  .important__menu {
+    color: #cc0025;
   }
 `;
 
@@ -121,16 +160,10 @@ const MyPage = () => {
   const { response } = useLoaderData();
   const [userData, setUserData] = useState(response.data);
   const navigate = useNavigate();
-  const location = useLocation();
 
-  useEffect(() => {
-    if (location.state && location.state.updatedUserData) {
-      setUserData(location.state.updatedUserData);
-    }
-  }, [location.state]);
-
-  const handleEdit = () => {
-    navigate(`/mypage/edit`, { state: { updatedUserData: userData } });
+  const onClickLogout = () => {
+    localStorage.clear();
+    navigate(`/login`);
   };
 
   return (
@@ -150,7 +183,42 @@ const MyPage = () => {
 
       <section>
         <MenuBox>
-          <Menu>
+          <LinkMenu to={`/mypage/edit`}>
+            <span>프로필 수정</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path
+                d="M12.9462 11.9995L8.34619 7.39953L9.40002 6.3457L15.0538 11.9995L9.40002 17.6534L8.34619 16.5995L12.9462 11.9995Z"
+                fill="#BFBFBF"
+              />
+            </svg>
+          </LinkMenu>
+          <LinkMenu to={`/mypage/account`}>
+            <span>계정 설정</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path
+                d="M12.9462 11.9995L8.34619 7.39953L9.40002 6.3457L15.0538 11.9995L9.40002 17.6534L8.34619 16.5995L12.9462 11.9995Z"
+                fill="#BFBFBF"
+              />
+            </svg>
+          </LinkMenu>
+        </MenuBox>
+      </section>
+
+      <section>
+        <MenuBox>
+          <LinkMenu to={`/notice`}>
             <span>공지사항</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -164,30 +232,15 @@ const MyPage = () => {
                 fill="#BFBFBF"
               />
             </svg>
-          </Menu>
-          <Menu onClick={handleEdit}>
-            <span>정보수정</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <path
-                d="M12.9462 11.9995L8.34619 7.39953L9.40002 6.3457L15.0538 11.9995L9.40002 17.6534L8.34619 16.5995L12.9462 11.9995Z"
-                fill="#BFBFBF"
-              />
-            </svg>
-          </Menu>
+          </LinkMenu>
         </MenuBox>
       </section>
 
       <section>
         <MenuBox>
-          <Menu>
-            <span>아이디 검색 허용</span>
-          </Menu>
+          <ActionMenu onClick={onClickLogout}>
+            <span className="important__menu">로그아웃</span>
+          </ActionMenu>
         </MenuBox>
       </section>
 
