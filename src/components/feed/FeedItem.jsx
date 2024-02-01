@@ -55,6 +55,13 @@ const ThumbnailImage = styled.div`
   margin-top: 0.63rem;
 
   background: #d9d9d9;
+
+  img {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 `;
 
 const Content = styled.div`
@@ -87,16 +94,17 @@ const FeedItem = (props) => {
           <UserProfileBox
             profileImage={data.profile.image}
             nickname={data.profile.nickname}
-            accountId={data.profile.accountId}
+            accountId={data.profile.accountID}
           />
-
           <section className="profile__season">
             <span className="profile__season__korean">입춘</span>
             <span className="profile__season__chinese">立春</span>
           </section>
         </ProfileContainer>
 
-        <ThumbnailImage />
+        <ThumbnailImage>
+          <img src={data.article.image} />
+        </ThumbnailImage>
 
         <Content>{data.article.preview}</Content>
       </ContentLayout>

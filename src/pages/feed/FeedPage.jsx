@@ -49,6 +49,8 @@ const FeedPage = () => {
   const { response } = useLoaderData();
   const [feedData, setFeedData] = useState(response.data);
 
+  console.log(feedData);
+
   return (
     <>
       <Top>
