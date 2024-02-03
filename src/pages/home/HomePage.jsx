@@ -241,19 +241,21 @@ const ModalTitle = styled.div`
 const Hr = styled.div`
   position: relative;
   display: flex;
-  margin: 0.5rem auto;
+  margin: 0.3rem auto;
   width: 14.9375rem;
   height: 0.03125rem;
   background: #8e8c86;
 `;
 
 const ModalContent = styled.div`
-  width: 14.9375rem;
+  width: 16rem;
   color: #333;
   font-family: AppleSDGothicNeo;
   font-size: 1rem;
   font-style: normal;
   font-weight: 400;
+  padding-left: 1.2rem;
+  padding-top: 0.5rem;
   line-height: normal;
 `;
 
