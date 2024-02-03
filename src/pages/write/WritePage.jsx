@@ -1,10 +1,11 @@
+import AddQuestion from '@components/write/AddQuestion';
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import Textarea from 'react-textarea-autosize';
 
-import AddQuestion from '@components/write/AddQuestion';
+import { SeasonalQuestions } from '@utils/seasoning/SeasonalQuestions';
 
 import chat_bubble from '@assets/ChatBubble.png';
 
@@ -16,6 +17,10 @@ const Layout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  .write__image-upload__input {
+    display: none;
+  }
 `;
 
 const Top = styled.div`
@@ -143,12 +148,13 @@ const Text = styled(Textarea)`
 const ChatBubble = styled.img`
   position: fixed;
   bottom: 2.5rem;
-  display: flex;
-
-  z-index: 2;
-
   width: 17.75rem;
   height: 2.75rem;
+
+  display: flex;
+  cursor: pointer;
+
+  z-index: 2;
 `;
 
 const ToolBar = styled.div`
@@ -182,34 +188,26 @@ const ToolBar = styled.div`
 `;
 
 const WritePage = () => {
-  const Qdata = [
-    {
-      data: '오늘의 날씨는?',
-    },
-    {
-      data: 'tmi',
-    },
-    {
-      data: '기분은 어떤가요?',
-    },
-  ];
+  const currentTerm = 3;
+  let questions = SeasonalQuestions[currentTerm];
 
   const [selectedImages, setSelectedImages] = useState([]);
   const [replacingImageIndex, setReplacingImageIndex] = useState(null);
   const [activeDotIndex, setActiveDotIndex] = useState(0);
   const imageInputRef = useRef(null);
 
-  const [BaseText, setBaseText] = useState([]);
-  const [Question, setQuestion] = useState([]);
-  const [Answer, setAnswer] = useState([]);
-  const [deletedQuestions, setDeletedQuestions] = useState([]);
-  const [showChatBubble, setShowChatBubble] = useState(true);
+  const [contents, setContents] = useState([
+    { type: 'single', text: '' },
+    // { type: 'question', text: '질문 내용' },
+    // { type: 'answer', text: '' },
+  ]);
 
-  const [privacy, setPrivacy] = useState(true);
+  const [published, setPublished] = useState(true);
 
   const scrollRef = useRef();
   const imagescrollRef = useRef();
-  const textareasRefs = useRef(Qdata.map(() => useRef()));
+  // const textareasRefs = useRef(seasonalQuestions.map(() => useRef()));
+  const [showChatBubble, setShowChatBubble] = useState(true);
 
   const navigate = useNavigate();
 
@@ -241,13 +239,13 @@ const WritePage = () => {
   };
 
   /* 사진 업로드 */
-  const handleImageChange = (index) => {
+  const handleImageUpload = (index) => {
     imageInputRef.current.click();
 
     setReplacingImageIndex(index);
   };
 
-  const handleImageUpload = (event) => {
+  const handleImageChange = (event) => {
     /* 첨부된 사진 변경 */
     if (replacingImageIndex !== null) {
       const file = event.target.files && event.target.files[0];
@@ -287,89 +285,118 @@ const WritePage = () => {
   };
 
   /* 공개 비공개 설정 */
-  const togglePrivacyIcon = () => {
-    setPrivacy((prevPrivacy) => !prevPrivacy);
+  const togglePublished = () => {
+    setPublished((prevPrivacy) => !prevPrivacy);
   };
-
-  /* 질문 추가 말풍선 */
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setShowChatBubble(false);
-    }, 5000);
-
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, []);
 
   /* 질문 추가 */
   const handleQuestion = () => {
-    if (Question.length < 3) {
-      let newQuestion;
-
-      /* 삭제된 질문이 있으면 해당 질문을 추가 */
-      if (deletedQuestions.length > 0) {
-        newQuestion = deletedQuestions.pop();
-      } else {
-        newQuestion = Qdata[Question.length].data;
-      }
-
-      setQuestion((prev) => [...prev, { question: newQuestion }]);
-      setAnswer((prev) => [...prev, '']);
-
-      setTimeout(() => {
-        textareasRefs.current[Question.length].current.focus();
-      }, 0);
+    if (questions.length === 0) {
+      console.log('더 이상 남은 질문이 없습니다.');
+      return;
     }
+
+    const newQuestion = questions.shift();
+    setContents((contents) => [
+      ...contents,
+      { type: 'question', text: newQuestion },
+      { type: 'answer', text: '' },
+    ]);
+    //   if (Question.length < 3) {
+    //     let newQuestion;
+    //     /* 삭제된 질문이 있으면 해당 질문을 추가 */
+    //     if (deletedQuestions.length > 0) {
+    //       newQuestion = deletedQuestions.pop();
+    //     } else {
+    //       newQuestion = Qdata[Question.length].data;
+    //     }
+    //     setQuestion((prev) => [...prev, { question: newQuestion }]);
+    //     setAnswer((prev) => [...prev, '']);
+    //     setTimeout(() => {
+    //       textareasRefs.current[Question.length].current.focus();
+    //     }, 0);
+    //   }
   };
 
   /* 질문 삭제 */
-  const handleDeleteQuestion = (index) => {
-    if (index >= 0 && index < Question.length && Answer[index].trim() === '') {
-      setDeletedQuestions((prevDeleted) => {
-        const deleted = [...prevDeleted, Question[index].question];
-        return deleted;
-      });
+  // const handleDeleteQuestion = (index) => {
+  //   if (index >= 0 && index < Question.length && Answer[index].trim() === '') {
+  //     setDeletedQuestions((prevDeleted) => {
+  //       const deleted = [...prevDeleted, Question[index].question];
+  //       return deleted;
+  //     });
 
-      setQuestion((prevQuestion) => {
-        const newQuestion = [...prevQuestion];
-        newQuestion.splice(index, 1);
-        return newQuestion;
-      });
+  //     setQuestion((prevQuestion) => {
+  //       const newQuestion = [...prevQuestion];
+  //       newQuestion.splice(index, 1);
+  //       return newQuestion;
+  //     });
 
-      setAnswer((prevAnswer) => {
-        const newAnswer = [...prevAnswer];
-        newAnswer.splice(index, 1);
-        return newAnswer;
-      });
+  //     setAnswer((prevAnswer) => {
+  //       const newAnswer = [...prevAnswer];
+  //       newAnswer.splice(index, 1);
+  //       return newAnswer;
+  //     });
 
-      if (index > 0) {
-        textareasRefs.current[index - 1].current.focus();
-      } else if (index === 0) {
-        textareasRefs.current.current.focus();
-      }
-    }
+  //     if (index > 0) {
+  //       textareasRefs.current[index - 1].current.focus();
+  //     } else if (index === 0) {
+  //       textareasRefs.current.current.focus();
+  //     }
+  //   }
+  // };
+
+  const handleTextChange = (text, idx) => {
+    setContents((contents) =>
+      contents.map((item, index) =>
+        index === idx ? { ...item, text: text } : item
+      )
+    );
   };
 
   /* 저장 */
   const handleSave = async () => {
+    console.log('selectedImages:', selectedImages);
+    console.log('contents:');
+    console.log(JSON.stringify(contents, null, '\t'));
+    console.log('published:', published);
+
+    return;
+
     try {
       const accessToken = localStorage.getItem('accessToken');
 
       const formData = new FormData();
-      const imageResponse = await fetch(selectedImages);
-      const imageBlob = await imageResponse.blob();
-      formData.append('images', imageBlob);
 
-      const formJson = JSON.stringify({
-        published: privacy,
-        contents: BaseText,
-        Question,
-        Answer,
+      //       {
+      // 	images: 업로드 이미지들
+      // 	request: {
+      // 		published: boolean, // 공개 여부
+      // 		contents: String, // 본문 내용
+      // 	}
+      // }
+
+      // selectedImages.forEach(async (selectedImage, index) => {
+      //   const imageResponse = await fetch(selectedImage);
+      //   const imageBlob = await imageResponse.blob();
+      //   formData.append(`images`, imageBlob);
+      // });
+      const emptyImageJSON = JSON.stringify({
+        images: null,
       });
+      const emptyImageBlob = new Blob([emptyImageJSON], {
+        type: 'application/json',
+      });
+      formData.append('images', '');
 
-      const formBlob = new Blob([formJson], { type: 'application/json' });
-      formData.append('request', formBlob);
+      const contentsJson = JSON.stringify({
+        published: published,
+        contents: JSON.stringify(contents),
+      });
+      const contentsBlob = new Blob([contentsJson], {
+        type: 'application/json',
+      });
+      formData.append('request', contentsBlob);
 
       const response = await axios({
         method: 'POST',
@@ -384,52 +411,19 @@ const WritePage = () => {
       if (response.status === 200) {
         console.log('Article saved successfully!');
 
-        saveToLocalStorage();
-        navigate('/saved');
+        // navigate('/saved');
       } else {
         console.error('Failed to save article.');
       }
     } catch (error) {
-      console.error('Error details:', error.response.data);
+      console.error('Error details:', error);
     }
-  };
-
-  useEffect(() => {
-    const storedQuestion = localStorage.getItem('Question');
-    const storedImages = localStorage.getItem('selectedImages');
-    const storedBaseText = localStorage.getItem('BaseText');
-    const storedAnswer = localStorage.getItem('Answer');
-    const storedPrivacy = localStorage.getItem('Privacy');
-
-    if (storedQuestion) {
-      setQuestion(JSON.parse(storedQuestion));
-    }
-    if (storedImages) {
-      setSelectedImages(JSON.parse(storedImages));
-    }
-    if (storedBaseText) {
-      setBaseText(JSON.parse(storedBaseText));
-    }
-    if (storedAnswer) {
-      setAnswer(JSON.parse(storedAnswer));
-    }
-    if (storedPrivacy) {
-      setPrivacy(JSON.parse(storedPrivacy));
-    }
-  }, []);
-
-  const saveToLocalStorage = () => {
-    localStorage.setItem('Question', JSON.stringify(Question));
-    localStorage.setItem('selectedImages', JSON.stringify(selectedImages));
-    localStorage.setItem('BaseText', JSON.stringify(BaseText));
-    localStorage.setItem('Answer', JSON.stringify(Answer));
-    localStorage.setItem('Privacy', JSON.stringify(privacy));
   };
 
   /* 스크롤 포커스 */
-  useEffect(() => {
-    scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-  }, [BaseText, Question, Answer]);
+  // useEffect(() => {
+  //   scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+  // }, [BaseText, Question, Answer]);
 
   return (
     <Layout>
@@ -474,50 +468,46 @@ const WritePage = () => {
               <Images
                 key={index}
                 src={image}
-                onClick={() => handleImageChange(index)}
+                onClick={() => handleImageUpload(index)}
                 onContextMenu={() => handleLongPress(index)}
               />
             ))}
           </ImagesContainer>
         )}
-        <Text
-          ref={textareasRefs.current}
-          value={BaseText}
-          placeholder="이곳에 기록해보세요"
-          onChange={(e) => {
-            setBaseText(e.target.value);
-          }}
-        />
-        {Question.map((item, index) => (
-          <React.Fragment key={index}>
-            <AddQuestion q_value={item.question} />
-            <Text
-              ref={textareasRefs.current[index]}
-              value={Answer[index]}
-              onChange={(e) => {
-                setAnswer((prev) => {
-                  const newContent = [...prev];
-                  newContent[index] = e.target.value;
-                  return newContent;
-                });
-              }}
-              onKeyDown={(e) => {
-                if (e.key === 'Backspace') {
-                  handleDeleteQuestion(index);
-                }
-              }}
-            />
-          </React.Fragment>
-        ))}
+
+        {contents.map((item, idx) => {
+          switch (item.type) {
+            case 'single':
+            case 'answer':
+              return (
+                <Text
+                  key={idx}
+                  placeholder="이곳에 기록해보세요"
+                  value={item.text}
+                  onChange={(e) => handleTextChange(e.target.value, idx)}
+                  // ref={textareasRefs.current}
+                />
+              );
+            case 'question':
+              return <AddQuestion key={idx} q_value={item.text} />;
+            default:
+              return undefined;
+          }
+        })}
       </ContentContainer>
 
-      {showChatBubble && <ChatBubble src={chat_bubble} />}
+      {showChatBubble && (
+        <ChatBubble
+          src={chat_bubble}
+          onClick={() => setShowChatBubble(false)}
+        />
+      )}
       <ToolBar>
         <div
           className={`write__button__addimg ${
             selectedImages.length === 2 ? 'disabled' : ''
           }`}
-          onClick={handleImageUpload}
+          onClick={handleImageChange}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -532,21 +522,8 @@ const WritePage = () => {
             />
           </svg>
         </div>
-        <div className="write__button__privacy" onClick={togglePrivacyIcon}>
-          {privacy === true ? (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <path
-                d="M6.3077 21.5C5.80898 21.5 5.38302 21.3234 5.02982 20.9701C4.67661 20.6169 4.5 20.191 4.5 19.6923V10.3077C4.5 9.809 4.67661 9.38304 5.02982 9.02984C5.38302 8.67662 5.80898 8.50001 6.3077 8.50001H7.5V6.50001C7.5 5.25131 7.93782 4.18915 8.81345 3.31351C9.6891 2.43788 10.7513 2.00006 12 2.00006C13.2487 2.00006 14.3109 2.43788 15.1865 3.31351C16.0621 4.18915 16.5 5.25131 16.5 6.50001V8.50001H17.6922C18.191 8.50001 18.6169 8.67662 18.9701 9.02984C19.3233 9.38304 19.5 9.809 19.5 10.3077V19.6923C19.5 20.191 19.3233 20.6169 18.9701 20.9701C18.6169 21.3234 18.191 21.5 17.6922 21.5H6.3077ZM6.3077 20H17.6922C17.782 20 17.8557 19.9711 17.9134 19.9134C17.9711 19.8557 18 19.782 18 19.6923V10.3077C18 10.218 17.9711 10.1442 17.9134 10.0865C17.8557 10.0288 17.782 9.99999 17.6922 9.99999H6.3077C6.21795 9.99999 6.14423 10.0288 6.08652 10.0865C6.02882 10.1442 5.99997 10.218 5.99997 10.3077V19.6923C5.99997 19.782 6.02882 19.8557 6.08652 19.9134C6.14423 19.9711 6.21795 20 6.3077 20ZM12 16.75C12.4859 16.75 12.899 16.5798 13.2394 16.2394C13.5798 15.899 13.75 15.4859 13.75 15C13.75 14.5141 13.5798 14.101 13.2394 13.7606C12.899 13.4202 12.4859 13.25 12 13.25C11.5141 13.25 11.1009 13.4202 10.7606 13.7606C10.4202 14.101 10.25 14.5141 10.25 15C10.25 15.4859 10.4202 15.899 10.7606 16.2394C11.1009 16.5798 11.5141 16.75 12 16.75ZM8.99997 8.50001H15V6.50001C15 5.66668 14.7083 4.95834 14.125 4.37501C13.5416 3.79168 12.8333 3.50001 12 3.50001C11.1666 3.50001 10.4583 3.79168 9.87497 4.37501C9.29164 4.95834 8.99997 5.66668 8.99997 6.50001V8.50001Z"
-                fill="black"
-              />
-            </svg>
-          ) : (
+        <div className="write__button__privacy" onClick={togglePublished}>
+          {published === true ? (
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -559,11 +536,24 @@ const WritePage = () => {
                 fill="black"
               />
             </svg>
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path
+                d="M6.3077 21.5C5.80898 21.5 5.38302 21.3234 5.02982 20.9701C4.67661 20.6169 4.5 20.191 4.5 19.6923V10.3077C4.5 9.809 4.67661 9.38304 5.02982 9.02984C5.38302 8.67662 5.80898 8.50001 6.3077 8.50001H7.5V6.50001C7.5 5.25131 7.93782 4.18915 8.81345 3.31351C9.6891 2.43788 10.7513 2.00006 12 2.00006C13.2487 2.00006 14.3109 2.43788 15.1865 3.31351C16.0621 4.18915 16.5 5.25131 16.5 6.50001V8.50001H17.6922C18.191 8.50001 18.6169 8.67662 18.9701 9.02984C19.3233 9.38304 19.5 9.809 19.5 10.3077V19.6923C19.5 20.191 19.3233 20.6169 18.9701 20.9701C18.6169 21.3234 18.191 21.5 17.6922 21.5H6.3077ZM6.3077 20H17.6922C17.782 20 17.8557 19.9711 17.9134 19.9134C17.9711 19.8557 18 19.782 18 19.6923V10.3077C18 10.218 17.9711 10.1442 17.9134 10.0865C17.8557 10.0288 17.782 9.99999 17.6922 9.99999H6.3077C6.21795 9.99999 6.14423 10.0288 6.08652 10.0865C6.02882 10.1442 5.99997 10.218 5.99997 10.3077V19.6923C5.99997 19.782 6.02882 19.8557 6.08652 19.9134C6.14423 19.9711 6.21795 20 6.3077 20ZM12 16.75C12.4859 16.75 12.899 16.5798 13.2394 16.2394C13.5798 15.899 13.75 15.4859 13.75 15C13.75 14.5141 13.5798 14.101 13.2394 13.7606C12.899 13.4202 12.4859 13.25 12 13.25C11.5141 13.25 11.1009 13.4202 10.7606 13.7606C10.4202 14.101 10.25 14.5141 10.25 15C10.25 15.4859 10.4202 15.899 10.7606 16.2394C11.1009 16.5798 11.5141 16.75 12 16.75ZM8.99997 8.50001H15V6.50001C15 5.66668 14.7083 4.95834 14.125 4.37501C13.5416 3.79168 12.8333 3.50001 12 3.50001C11.1666 3.50001 10.4583 3.79168 9.87497 4.37501C9.29164 4.95834 8.99997 5.66668 8.99997 6.50001V8.50001Z"
+                fill="black"
+              />
+            </svg>
           )}
         </div>
         <div
           className={`write__button__question ${
-            Question.length === 3 ? 'disabled' : ''
+            questions.length === 0 ? 'disabled' : ''
           }`}
           onClick={handleQuestion}
         >
@@ -584,9 +574,9 @@ const WritePage = () => {
       <input
         type="file"
         accept="image/*"
-        style={{ display: 'none' }}
+        className="write__image-upload__input"
         ref={imageInputRef}
-        onChange={handleImageUpload}
+        onChange={handleImageChange}
       />
     </Layout>
   );
