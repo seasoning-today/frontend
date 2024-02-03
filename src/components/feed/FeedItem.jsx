@@ -77,7 +77,7 @@ const Content = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
 
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: AppleSDGothicNeo;
   font-size: 0.875rem;
   font-style: normal;
   font-weight: 400;

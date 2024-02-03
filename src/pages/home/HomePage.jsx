@@ -56,7 +56,7 @@ const Season = styled.div`
 
   column-gap: 0.5rem;
 
-  font-family: 'Noto Serif KR';
+  font-family: Noto Serif KR;
   font-size: 2rem;
   font-style: normal;
   font-weight: 700;
@@ -144,7 +144,7 @@ const Year = styled.h1`
   position: relative;
   display: flex;
 
-  font-family: 'Noto Serif KR';
+  font-family: Noto Serif KR;
   font-size: 1.625rem;
   font-style: normal;
   font-weight: 700;
@@ -250,7 +250,7 @@ const Hr = styled.div`
 const ModalContent = styled.div`
   width: 14.9375rem;
   color: #333;
-  font-family: AppleSDGothicNeoSB00;
+  font-family: AppleSDGothicNeo;
   font-size: 1rem;
   font-style: normal;
   font-weight: 400;

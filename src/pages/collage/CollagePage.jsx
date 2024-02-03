@@ -62,7 +62,7 @@ const Title = styled.div`
   span {
     color: #000;
     text-align: center;
-    font-family: 'Noto Serif KR';
+    font-family: AppleSDGothicNeo;
     font-size: 1.5rem;
     font-style: normal;
     font-weight: 500;
@@ -99,7 +99,7 @@ const Select = styled.div`
     border: none;
     outline: none;
 
-    font-family: 'Noto Serif KR';
+    font-family: AppleSDGothicNeo;
     font-size: 1rem;
     font-style: normal;
     font-weight: 400;

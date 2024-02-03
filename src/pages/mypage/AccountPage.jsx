@@ -75,7 +75,7 @@ const ActionMenu = styled.div`
   align-items: center;
   padding: 1rem 1.25rem 1rem 1.5rem;
 
-  font-family: AppleSDGothicNeoSB00;
+  font-family: AppleSDGothicNeo;
   font-size: 1rem;
   font-style: normal;
   font-weight: 400;

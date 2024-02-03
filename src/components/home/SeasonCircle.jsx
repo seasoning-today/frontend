@@ -51,7 +51,7 @@ const Container = styled(Link)`
 
   .circle__countdown {
     text-align: center;
-    font-family: 'Noto Serif KR';
+    font-family: Noto Serif KR;
     font-size: 1.0625rem;
     font-style: normal;
     font-weight: 400;
@@ -61,7 +61,7 @@ const Container = styled(Link)`
 
   .circle__chinese {
     text-align: center;
-    font-family: 'Noto Serif KR';
+    font-family: Noto Serif KR;
     font-size: 1.5rem;
     font-style: normal;
     font-weight: 400;
@@ -71,7 +71,7 @@ const Container = styled(Link)`
 
   .circle__korean {
     text-align: center;
-    font-family: 'Noto Serif KR';
+    font-family: Noto Serif KR;
     font-size: 0.9375rem;
     font-style: normal;
     font-weight: 400;

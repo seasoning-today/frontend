@@ -144,7 +144,7 @@ const Q = styled.div`
   color: #8e8c86;
   text-align: justify;
 
-  font-family: AppleSDGothicNeoB00;
+  font-family: AppleSDGothicNeo;
   font-size: 0.875rem;
   font-style: normal;
   font-weight: 400;
@@ -162,7 +162,7 @@ const A = styled.div`
   display: flex;
   color: #333;
   text-align: left;
-  font-family: AppleSDGothicNeoR00;
+  font-family: AppleSDGothicNeo;
   font-size: 0.875rem;
   font-style: normal;
   font-weight: 400;
@@ -201,7 +201,7 @@ const BottomBar = styled.div`
 
     color: #333;
     text-align: center;
-    font-family: AppleSDGothicNeoR00;
+    font-family: AppleSDGothicNeo;
     font-size: 0.9rem;
     font-style: normal;
     font-weight: 400;
@@ -210,7 +210,7 @@ const BottomBar = styled.div`
 
   span {
     color: #777;
-    font-family: AppleSDGothicNeoR00;
+    font-family: AppleSDGothicNeo;
     font-size: 0.875rem;
     font-style: normal;
     font-weight: 400;
@@ -259,7 +259,7 @@ const ModalContent = styled.div`
   width: 100%;
   color: #333;
   text-align: center;
-  font-family: AppleSDGothicNeoSB00;
+  font-family: AppleSDGothicNeo;
   font-size: 1rem;
   font-style: normal;
   font-weight: 600;
@@ -296,7 +296,7 @@ const DeleteModalContent = styled.div`
   width: 100%;
   color: #000;
   text-align: center;
-  font-family: AppleSDGothicNeoSB00;
+  font-family: AppleSDGothicNeo;
   font-size: 1rem;
   font-style: normal;
   font-weight: 600;

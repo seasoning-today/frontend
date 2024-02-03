@@ -90,7 +90,7 @@ const Button = styled.div`
   span {
     color: var(--F0, #f0f0f0);
     text-align: center;
-    font-family: AppleSDGothicNeoSB00;
+    font-family: AppleSDGothicNeo;
     font-size: 0.78rem;
     font-style: normal;
     font-weight: 400;

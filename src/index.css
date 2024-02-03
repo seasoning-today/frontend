@@ -1,5 +1,6 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial,
+    'Noto Serif KR' sans-serif, 'AppleSDGothicNeo';
   /* line-height: 1.5;
   font-weight: 400; */
 
@@ -30,8 +31,22 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+
+  font-family: 'Noto Serif KR' sans-serif, 'AppleSDGothicNeo';
 }
 
 a {
   text-decoration: none;
+}
+
+@font-face {
+  font-family: 'Noto Serif KR';
+  font-weight: normal;
+  src: url('./assets/fonts2/NotoSerifKR-Regular.otf');
+}
+
+@font-face {
+  font-family: 'AppleSDGothicNeo';
+  font-weight: normal;
+  src: url('./assets/fonts2/AppleSDGothicNeoR.ttf');
 }
