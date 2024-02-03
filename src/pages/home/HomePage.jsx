@@ -223,6 +223,10 @@ const ModalTop = styled.div`
   font-size: 1rem;
   font-style: normal;
   font-weight: 400;
+
+  svg {
+    cursor: pointer;
+  }
 `;
 
 const ModalTitle = styled.div`
