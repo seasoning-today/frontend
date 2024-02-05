@@ -7,7 +7,6 @@ import yearly_line from '@assets/home/yearly_line.png';
 const Container = styled.section`
   display: flex;
   flex-direction: column;
-  padding: 0.8rem 0;
 
   background-image: url(${yearly_line});
   background-size: cover;
@@ -31,57 +30,53 @@ const LastRow = styled.div`
   justify-content: right;
 `;
 
-const YearlyContent = () => {
+const YearlyContent = ({ termData }) => {
   return (
     <>
       <Container>
         <Row>
-          <SeasonCircle season={1} status={`activated`} />
-          <SeasonCircle season={2} status={`activated`} />
-          <SeasonCircle season={3} status={`activated`} />
+          <SeasonCircle term={1} termData={termData} />
+          <SeasonCircle term={2} termData={termData} />
+          <SeasonCircle term={3} termData={termData} />
         </Row>
         <Row>
-          <SeasonCircle
-            season={5}
-            status={`countdown`}
-            countDown={`01:16:20`}
-          />
-          <SeasonCircle season={4} status={`activated`} />
+          <SeasonCircle term={5} termData={termData} />
+          <SeasonCircle term={4} termData={termData} />
         </Row>
         <Row>
-          <SeasonCircle season={6} status={`deactivated`} />
-          <SeasonCircle season={7} status={`deactivated`} />
-          <SeasonCircle season={8} status={`deactivated`} />
+          <SeasonCircle term={6} termData={termData} />
+          <SeasonCircle term={7} termData={termData} />
+          <SeasonCircle term={8} termData={termData} />
         </Row>
         <Row>
-          <SeasonCircle season={10} status={`deactivated`} />
-          <SeasonCircle season={9} status={`deactivated`} />
+          <SeasonCircle term={10} termData={termData} />
+          <SeasonCircle term={9} termData={termData} />
         </Row>
         <Row>
-          <SeasonCircle season={11} status={`deactivated`} />
-          <SeasonCircle season={12} status={`deactivated`} />
-          <SeasonCircle season={13} status={`deactivated`} />
+          <SeasonCircle term={11} termData={termData} />
+          <SeasonCircle term={12} termData={termData} />
+          <SeasonCircle term={13} termData={termData} />
         </Row>
         <Row>
-          <SeasonCircle season={15} status={`deactivated`} />
-          <SeasonCircle season={14} status={`deactivated`} />
+          <SeasonCircle term={15} termData={termData} />
+          <SeasonCircle term={14} termData={termData} />
         </Row>
         <Row>
-          <SeasonCircle season={16} status={`deactivated`} />
-          <SeasonCircle season={17} status={`deactivated`} />
-          <SeasonCircle season={18} status={`deactivated`} />
+          <SeasonCircle term={16} termData={termData} />
+          <SeasonCircle term={17} termData={termData} />
+          <SeasonCircle term={18} termData={termData} />
         </Row>
         <Row>
-          <SeasonCircle season={20} status={`deactivated`} />
-          <SeasonCircle season={19} status={`deactivated`} />
+          <SeasonCircle term={20} termData={termData} />
+          <SeasonCircle term={19} termData={termData} />
         </Row>
         <Row>
-          <SeasonCircle season={21} status={`deactivated`} />
-          <SeasonCircle season={22} status={`deactivated`} />
-          <SeasonCircle season={23} status={`deactivated`} />
+          <SeasonCircle term={21} termData={termData} />
+          <SeasonCircle term={22} termData={termData} />
+          <SeasonCircle term={23} termData={termData} />
         </Row>
         <LastRow>
-          <SeasonCircle season={24} status={`deactivated`} />
+          <SeasonCircle term={24} termData={termData} />
         </LastRow>
       </Container>
     </>

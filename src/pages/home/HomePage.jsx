@@ -12,6 +12,9 @@ import YearlyContent from '@components/home/YearlyContent';
 import SeasonalContent from '@components/home/SeasonalContent';
 import TabBar from '@components/common/TabBar';
 
+import { TermsToChinese } from '@utils/seasoning/TermsToChinese';
+import { TermsToKorean } from '@utils/seasoning/TermsToKorean';
+
 import logo from '@assets/components/topbar/logo.png';
 
 const Top = styled.div`
@@ -56,7 +59,7 @@ const Season = styled.div`
 
   column-gap: 0.5rem;
 
-  font-family: Noto Serif KR;
+  font-family: sans-serif;
   font-size: 2rem;
   font-style: normal;
   font-weight: 700;
@@ -64,6 +67,7 @@ const Season = styled.div`
   color: #333;
 
   .season__title {
+    font-family: Noto Serif KR;
     font-size: 2rem;
     font-style: normal;
     font-weight: 700;
@@ -302,7 +306,24 @@ const Popup = ({ onClose, fortuneText }) => {
 };
 
 const HomePage = () => {
-  const { response } = useLoaderData();
+  const { homeResponse, termResponse } = useLoaderData();
+  console.log(homeResponse.data);
+  console.log(JSON.stringify(termResponse.data, null, '\t'));
+
+  const [now, setNow] = useState(new Date());
+
+  // useEffect(() => {
+  //   const Timer = setInterval(() => {
+  //     let time = new Date();
+  //     setCurrentTime(time);
+  //   }, 1000);
+  //   console.log('mount!');
+
+  //   return () => {
+  //     clearInterval(Timer);
+  //     console.log('unmount!');
+  //   };
+  // }, []);
 
   /* 운세 팝업 */
   const [fortuneText, setFortuneText] = useState('');
@@ -456,8 +477,14 @@ const HomePage = () => {
       </Top>
 
       <Season>
-        <div className="season__title">淸明</div>
-        <div className="season__description">청명, 5번째 절기</div>
+        <div className="season__title">
+          {TermsToChinese[termResponse.data.currentTerm.sequence]}
+        </div>
+        <div className="season__description">
+          {`${TermsToKorean[termResponse.data.currentTerm.sequence]}, ${
+            termResponse.data.currentTerm.sequence
+          }번째 절기`}
+        </div>
       </Season>
 
       <FortuneContainer>
@@ -472,20 +499,20 @@ const HomePage = () => {
             <path
               d="M10.4286 7.57067L10.4286 0.935057L3.79297 0.935059L3.79297 7.57067"
               stroke="black"
-              stroke-width="0.8"
-              stroke-linejoin="round"
+              strokeWidth="0.8"
+              strokeLinejoin="round"
             />
             <path
               d="M10.2949 0.935059L1.61492 9.61506L4.99966 12.9998L9.33966 8.6598L10.4247 7.5748"
               stroke="black"
-              stroke-width="0.8"
-              stroke-linejoin="round"
+              strokeWidth="0.8"
+              strokeLinejoin="round"
             />
             <path
               d="M4.16208 0.935083L12.8421 9.61508L9.45735 12.9998L7.28735 10.8298"
               stroke="black"
-              stroke-width="0.8"
-              stroke-linejoin="round"
+              strokeWidth="0.8"
+              strokeLinejoin="round"
             />
           </svg>
           <div className="fortune__title">오늘의 운세</div>
@@ -497,7 +524,11 @@ const HomePage = () => {
       </PopupLayout>
 
       <Category>
-        <Year>{selectedCategory === 'year' ? '2023' : undefined}</Year>
+        <Year>
+          {selectedCategory === 'year'
+            ? now.getFullYear().toString()
+            : undefined}
+        </Year>
         <Select>
           <select value={selectedCategory} onChange={handleCategoryChange}>
             <option value="year">연도별 보기</option>
@@ -519,7 +550,9 @@ const HomePage = () => {
       </Category>
 
       <ContentArea>
-        {selectedCategory === 'year' && <YearlyContent />}
+        {selectedCategory === 'year' && (
+          <YearlyContent termData={termResponse.data} />
+        )}
         {selectedCategory === 'season' && <SeasonalContent />}
       </ContentArea>
 

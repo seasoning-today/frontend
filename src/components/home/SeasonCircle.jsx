@@ -19,13 +19,10 @@ const Container = styled(Link)`
   align-items: center;
   padding-top: 0.375rem;
 
-  color: #fff;
-  /* background-color: ${(props) =>
-    props.status === 'activated'
-      ? '#333'
-      : props.status === 'countdown'
-      ? '#888'
-      : '#ddd'}; */
+  cursor: default;
+  color: ${(props) =>
+    props.status === 'activated' ? `rgba(255, 255, 255, 0.75)` : `#1f1f1f`};
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 
   .circle__background__image {
     position: absolute;
@@ -46,7 +43,10 @@ const Container = styled(Link)`
     z-index: -1;
     border-radius: 50%;
 
-    background-color: rgba(2, 33, 29, 0.75);
+    background-color: ${(props) =>
+      props.status === 'activated'
+        ? `rgba(2, 33, 29, 0.75)`
+        : `rgba(255, 255, 255, 0.7)`};
   }
 
   .circle__countdown {
@@ -81,17 +81,43 @@ const Container = styled(Link)`
 `;
 
 const SeasonCircle = (props) => {
+  const { term, termData } = props;
+  const { recordable, currentTerm, nextTerm } = termData;
+
+  const status =
+    term === nextTerm.sequence
+      ? `countdown` // 현재 카운트다운 중인 다음 절기
+      : term < nextTerm.sequence
+      ? `activated` // 이미 열린 절기
+      : `deactivated`; // 아직 열리지 않은 절기
+
   return (
-    <Container status={props.status} season={props.season} to={`/write`}>
-      {props.status === 'countdown' ? (
-        <span className="circle__countdown">{props.countDown}</span>
+    <Container
+      status={status}
+      to={recordable && term === currentTerm.sequence ? `/write` : `#`}
+    >
+      {status === `countdown` ? (
+        <span className="circle__countdown">카운트</span>
+      ) : status === `activated` ? (
+        <span className="circle__chinese">{TermsToChinese[props.term]}</span>
       ) : (
-        <span className="circle__chinese">{TermsToChinese[props.season]}</span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="32"
+          height="32"
+          viewBox="0 0 32 32"
+          fill="none"
+        >
+          <path
+            d="M16 3C12.155 3 9 6.155 9 10V13H6V29H26V13H23V10C23 6.155 19.845 3 16 3ZM16 5C18.755 5 21 7.245 21 10V13H11V10C11 7.245 13.245 5 16 5ZM8 15H24V27H8V15Z"
+            fill="#595959"
+          />
+        </svg>
       )}
-      <span className="circle__korean">{TermsToKorean[props.season]}</span>
+      <span className="circle__korean">{TermsToKorean[props.term]}</span>
       <img
         className="circle__background__image"
-        src={SeasonBackgrounds[props.season]}
+        src={SeasonBackgrounds[props.term]}
       />
       <div className="circle__background__color" />
     </Container>
