@@ -227,7 +227,7 @@ const ModalBackground = styled.div`
   align-items: center;
 
   z-index: 2000;
-  background-color: transparent;
+  background-color: rgba(0, 0, 0, 0.5);
 `;
 
 const ModalOverlay = styled.div`
