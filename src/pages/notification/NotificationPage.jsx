@@ -10,7 +10,6 @@ import FriendRequest from '@components/notification/FriendRequest';
 import FriendReaction from '@components/notification/FriendReaction';
 import FriendAccepted from '@components/notification/FriendAccepted';
 import SeasonalNotify from '@components/notification/SeasonalNotify';
-import TabBar from '@components/common/TabBar';
 
 const Top = styled.div`
   position: relative;
@@ -164,8 +163,6 @@ const NotificationPage = () => {
           />
         ))} */}
       </NotificationContainer>
-
-      <TabBar />
     </>
   );
 };
