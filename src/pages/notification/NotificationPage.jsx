@@ -20,7 +20,6 @@ const Top = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  /* padding: 0 1.31rem; */
 
   background-color: #fff;
   box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.2);
@@ -32,7 +31,7 @@ const Top = styled.div`
     color: #000;
     text-align: center;
 
-    font-family: AppleSDGothicNeo;
+    font-family: 'Apple SD Gothic Neo';
     font-size: 1.25rem;
     font-style: normal;
     font-weight: 400;

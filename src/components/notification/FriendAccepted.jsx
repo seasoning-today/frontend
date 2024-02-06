@@ -31,7 +31,7 @@ const Content = styled.p`
     margin-right: 0.25rem;
 
     color: #333;
-    font-family: AppleSDGothicNeo;
+    font-family: 'Apple SD Gothic Neo';
     font-size: 0.875rem;
     font-style: normal;
     font-weight: 600;
@@ -40,7 +40,7 @@ const Content = styled.p`
 
   .notification__content {
     color: #333;
-    font-family: AppleSDGothicNeo;
+    font-family: 'Apple SD Gothic Neo';
     font-size: 0.875rem;
     font-style: normal;
     font-weight: 400;
@@ -49,7 +49,7 @@ const Content = styled.p`
 
   .notification__time {
     color: #bfbfbf;
-    font-family: AppleSDGothicNeo;
+    font-family: 'Apple SD Gothic Neo';
     font-size: 0.75rem;
     font-style: normal;
     font-weight: 400;
