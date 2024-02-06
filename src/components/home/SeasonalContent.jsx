@@ -20,27 +20,19 @@ const Menus = styled.section`
 `;
 
 const Content = styled.section`
-  /* height: 22.5rem; */
-  /* height: 100%; */
-  /* overflow: scroll; */
-
   background-color: #ffffff;
 `;
 
 const SeasonalContent = () => {
+  const terms = Array.from({ length: 24 }, (_, i) => i + 1);
+
   return (
     <>
       <Container>
         <Menus>
-          <SeasonMenu />
-          <SeasonMenu />
-          <SeasonMenu />
-          <SeasonMenu />
-          <SeasonMenu />
-          <SeasonMenu />
-          <SeasonMenu />
-          <SeasonMenu />
-          <SeasonMenu />
+          {terms.map((term) => (
+            <SeasonMenu key={term} term={term} />
+          ))}
         </Menus>
 
         <Content>
