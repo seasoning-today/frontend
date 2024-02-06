@@ -49,16 +49,6 @@ const Container = styled(Link)`
 
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   }
-
-  .circle__pie {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 6rem;
-    height: 6rem;
-    z-index: 10;
-    border-radius: 50%;
-  }
 `;
 
 const Top = styled.div`
