@@ -1,4 +1,6 @@
 import './index.css';
+import '@assets/fonts/notoserifkr/NotoSerifKR.css';
+import '@assets/fonts/applesdgothicneo/AppleSDGothicNeo.css';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
