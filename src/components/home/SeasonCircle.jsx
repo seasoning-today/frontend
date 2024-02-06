@@ -24,31 +24,6 @@ const Container = styled(Link)`
     props.status === 'activated' ? `rgba(255, 255, 255, 0.75)` : `#1f1f1f`};
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 
-  .circle__background__image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 6rem;
-    height: 6rem;
-    z-index: -10;
-    border-radius: 50%;
-  }
-
-  .circle__background__color {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 6rem;
-    height: 6rem;
-    z-index: -1;
-    border-radius: 50%;
-
-    background-color: ${(props) =>
-      props.status === 'activated'
-        ? `rgba(2, 33, 29, 0.75)`
-        : `rgba(255, 255, 255, 0.7)`};
-  }
-
   .circle__countdown {
     text-align: center;
     font-family: Noto Serif KR;
@@ -78,10 +53,82 @@ const Container = styled(Link)`
     line-height: normal;
     z-index: 10;
   }
+
+  .circle__background__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6rem;
+    height: 6rem;
+    z-index: -10;
+    border-radius: 50%;
+  }
+
+  .circle__background__color {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6rem;
+    height: 6rem;
+    z-index: -1;
+    border-radius: 50%;
+
+    background-color: ${(props) =>
+      props.status === 'activated'
+        ? `rgba(2, 33, 29, 0.75)`
+        : `rgba(255, 255, 255, 0.7)`};
+  }
+
+  .circle__pie {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6rem;
+    height: 6rem;
+    z-index: 10;
+    border-radius: 50%;
+  }
+`;
+
+const DonutContainer = styled.div`
+  position: absolute;
+  top: 50%; /* Adjust these to properly center the donut */
+  left: 50%;
+  transform: translate(-50%, -50%); /* Centers the donut */
+  width: 7.125rem;
+  height: 7.125rem;
+  z-index: 11; /* Ensure it's above the Container content */
+  border-radius: 50%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const SVG = styled.svg`
+  width: 100%;
+  height: 100%;
+`;
+
+const OuterCircle = styled.circle`
+  fill: none;
+  stroke: transparent;
+  stroke-width: 10.75;
+`;
+
+const ProgressCircle = styled.circle`
+  fill: none;
+  stroke: #496559;
+  stroke-width: 10.75;
+  stroke-dasharray: ${(props) => 2 * Math.PI * 90};
+  stroke-dashoffset: ${(props) => 2 * Math.PI * 90 * (1 - props.percentage)};
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: center;
 `;
 
 const SeasonCircle = (props) => {
-  const { term, termData } = props;
+  const { now, term, termData } = props;
   const { recordable, currentTerm, nextTerm } = termData;
 
   const status =
@@ -91,13 +138,24 @@ const SeasonCircle = (props) => {
       ? `activated` // 이미 열린 절기
       : `deactivated`; // 아직 열리지 않은 절기
 
+  const nextTermDate = new Date(nextTerm.date);
+  const remainingTime = nextTermDate - now;
+  const nextPercentage = 1 - remainingTime / 1314864000;
+  const seconds = Math.floor(remainingTime / 1000) % 60;
+  const minutes = Math.floor((remainingTime / 1000 / 60) % 60);
+  const hours = Math.floor(remainingTime / (1000 * 60 * 60));
+
+  const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes
+    .toString()
+    .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
   return (
     <Container
       status={status}
       to={recordable && term === currentTerm.sequence ? `/write` : `#`}
     >
       {status === `countdown` ? (
-        <span className="circle__countdown">카운트</span>
+        <span className="circle__countdown">{formattedTime}</span>
       ) : status === `activated` ? (
         <span className="circle__chinese">{TermsToChinese[props.term]}</span>
       ) : (
@@ -115,6 +173,21 @@ const SeasonCircle = (props) => {
         </svg>
       )}
       <span className="circle__korean">{TermsToKorean[props.term]}</span>
+      {/* <div className="circle__pie" /> */}
+      {status === `countdown` ? (
+        <DonutContainer>
+          <SVG viewBox="0 0 200 200">
+            {/* {//cx, cy:  원의 중심의 x,y 좌표 r: 반지름 크기} */}
+            <OuterCircle cx="100" cy="100" r="90" />
+            <ProgressCircle
+              cx="100"
+              cy="100"
+              r="90"
+              percentage={nextPercentage}
+            />
+          </SVG>
+        </DonutContainer>
+      ) : undefined}
       <img
         className="circle__background__image"
         src={SeasonBackgrounds[props.term]}

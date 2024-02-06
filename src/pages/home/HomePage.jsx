@@ -267,7 +267,7 @@ const ModalContent = styled.div`
   line-height: normal;
 `;
 
-const Popup = ({ onClose, fortuneText }) => {
+const Popup = ({ now, onClose, fortuneText }) => {
   const [showPopup, setShowPopup] = useState(false);
 
   const Close = () => {
@@ -275,15 +275,10 @@ const Popup = ({ onClose, fortuneText }) => {
     setShowPopup(false);
   };
 
-  const currentDate = new Date();
-  const formattedDate = `${
-    currentDate.getMonth() + 1
-  }월 ${currentDate.getDate()}일`;
-
   return (
     <ModalOverlay>
       <ModalTop>
-        <div>{formattedDate}</div>
+        <div>{`${now.getMonth() + 1}월 ${now.getDate()}일`}</div>
         <svg
           onClick={Close}
           xmlns="http://www.w3.org/2000/svg"
@@ -307,15 +302,14 @@ const Popup = ({ onClose, fortuneText }) => {
 
 const HomePage = () => {
   const { homeResponse, termResponse } = useLoaderData();
-  console.log(homeResponse.data);
+  // console.log(homeResponse.data);
   console.log(JSON.stringify(termResponse.data, null, '\t'));
 
   const [now, setNow] = useState(new Date());
 
   // useEffect(() => {
   //   const Timer = setInterval(() => {
-  //     let time = new Date();
-  //     setCurrentTime(time);
+  //     setNow(new Date());
   //   }, 1000);
   //   console.log('mount!');
 
@@ -350,11 +344,6 @@ const HomePage = () => {
   const Close = () => {
     setShowPopup(false);
   };
-
-  const currentDate = new Date();
-  const formattedDate = `${
-    currentDate.getMonth() + 1
-  }월 ${currentDate.getDate()}일`;
 
   useEffect(() => {
     if (showPopup) {
@@ -516,11 +505,15 @@ const HomePage = () => {
             />
           </svg>
           <div className="fortune__title">오늘의 운세</div>
-          <div className="fortune__date">{formattedDate}</div>
+          <div className="fortune__date">{`${
+            now.getMonth() + 1
+          }월 ${now.getDate()}일`}</div>
         </Fortune>
       </FortuneContainer>
       <PopupLayout>
-        {showPopup && <Popup onClose={Close} fortuneText={fortuneText} />}
+        {showPopup && (
+          <Popup now={now} onClose={Close} fortuneText={fortuneText} />
+        )}
       </PopupLayout>
 
       <Category>
@@ -551,7 +544,7 @@ const HomePage = () => {
 
       <ContentArea>
         {selectedCategory === 'year' && (
-          <YearlyContent termData={termResponse.data} />
+          <YearlyContent now={now} termData={termResponse.data} />
         )}
         {selectedCategory === 'season' && <SeasonalContent />}
       </ContentArea>
