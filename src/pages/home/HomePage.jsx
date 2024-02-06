@@ -59,7 +59,6 @@ const Season = styled.div`
 
   column-gap: 0.5rem;
 
-  font-family: sans-serif;
   font-size: 2rem;
   font-style: normal;
   font-weight: 700;
@@ -67,7 +66,7 @@ const Season = styled.div`
   color: #333;
 
   .season__title {
-    font-family: Noto Serif KR;
+    font-family: 'Noto Serif KR';
     font-size: 2rem;
     font-style: normal;
     font-weight: 700;
@@ -77,10 +76,13 @@ const Season = styled.div`
   .season__description {
     margin-bottom: 0.5rem;
 
+    font-family: 'Apple SD Gothic Neo';
     font-size: 0.875rem;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+
+    color: #000;
   }
 `;
 
@@ -92,7 +94,6 @@ const FortuneContainer = styled.div`
 
   width: 100%;
   height: 2.75rem;
-  cursor: pointer;
 `;
 
 const Fortune = styled.div`
@@ -104,24 +105,42 @@ const Fortune = styled.div`
   width: 21.875rem;
   height: 2rem;
   padding: 0 1rem;
+  margin-bottom: 0.2rem;
 
+  cursor: pointer;
   border-radius: 1.125rem 1rem 1rem 1.125rem;
-  border: 1px solid rgba(202, 202, 202, 50);
-  background: #fff;
+  background-color: #fff;
+  box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.2);
 
-  color: #333;
-  font-size: 0.875rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
+  .fortune__title-container {
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    column-gap: 0.32rem;
+  }
 
   .fortune__title {
-    display: flex;
-    margin-left: -9rem;
+    color: #333;
+    font-family: 'Apple SD Gothic Neo';
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+
+    padding-bottom: 0.025rem;
   }
 
   .fortune__date {
     color: #bfbfbf;
+    text-align: right;
+    font-family: 'Apple SD Gothic Neo';
+    font-size: 0.75rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
   }
 `;
 
@@ -148,19 +167,16 @@ const Year = styled.h1`
   position: relative;
   display: flex;
 
-  font-family: Noto Serif KR;
+  color: #333;
+  font-family: 'Noto Serif KR';
   font-size: 1.625rem;
   font-style: normal;
   font-weight: 700;
-  line-height: 2.1775rem;
-
-  color: #333;
+  line-height: 134%;
 `;
 
 const Select = styled.div`
   position: relative;
-  /* width: 4rem; */
-  /* height: 100%; */
 
   display: flex;
   align-items: center;
@@ -171,6 +187,8 @@ const Select = styled.div`
     border: none;
     outline: none;
 
+    color: #333;
+    font-family: 'Apple SD Gothic Neo';
     font-size: 0.875rem;
     font-style: normal;
     font-weight: 400;
@@ -198,17 +216,27 @@ const ContentArea = styled.div`
   color: black;
 `;
 
-// 여기서부터 운세 팝업창
-const ModalOverlay = styled.div`
+// 운세 팝업창
+const ModalBackground = styled.div`
   position: fixed;
-  margin-top: 5rem;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 2000;
+  background-color: transparent;
+`;
+
+const ModalOverlay = styled.div`
+  position: relative;
   width: 17.6875rem;
-  height: 12.5rem;
-  z-index: 2;
 
   display: flex;
   flex-direction: column;
-  /* margin-top: 6rem; */
+  padding: 1.63rem 1.38rem 1.69rem;
 
   border-radius: 1.25rem;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
@@ -219,14 +247,21 @@ const ModalOverlay = styled.div`
 
 const ModalTop = styled.div`
   position: relative;
+  width: 100%;
+
   display: flex;
-  margin: 1rem;
   justify-content: space-between;
-  color: #8e8c86;
-  font-family: AppleSDGothicNeo;
-  font-size: 1rem;
-  font-style: normal;
-  font-weight: 400;
+  align-items: center;
+
+  span {
+    padding-top: 0.2rem;
+
+    color: #8e8c86;
+    font-family: 'Apple SD Gothic Neo';
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+  }
 
   svg {
     cursor: pointer;
@@ -235,11 +270,13 @@ const ModalTop = styled.div`
 
 const ModalTitle = styled.div`
   position: relative;
+  width: 100%;
+
   display: flex;
-  margin-left: 1.5rem;
+  padding: 0.5rem 0;
 
   color: #333;
-  font-family: AppleSDGothicNeo;
+  font-family: 'Apple SD Gothic Neo';
   font-size: 1.625rem;
   font-style: normal;
   font-weight: 400;
@@ -248,22 +285,24 @@ const ModalTitle = styled.div`
 
 const Hr = styled.div`
   position: relative;
-  display: flex;
-  margin: 0.3rem auto;
-  width: 14.9375rem;
+  width: 100%;
   height: 0.03125rem;
-  background: #8e8c86;
+
+  display: flex;
+  margin-bottom: 1.06rem;
+
+  background-color: #8e8c86;
 `;
 
 const ModalContent = styled.div`
-  width: 16rem;
+  width: 100%;
+
   color: #333;
-  font-family: AppleSDGothicNeo;
-  font-size: 1rem;
+  text-align: justify;
+  font-family: 'Apple SD Gothic Neo';
+  font-size: 0.875rem;
   font-style: normal;
   font-weight: 400;
-  padding-left: 1.2rem;
-  padding-top: 0.5rem;
   line-height: normal;
 `;
 
@@ -276,27 +315,29 @@ const Popup = ({ now, onClose, fortuneText }) => {
   };
 
   return (
-    <ModalOverlay>
-      <ModalTop>
-        <div>{`${now.getMonth() + 1}월 ${now.getDate()}일`}</div>
-        <svg
-          onClick={Close}
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-        >
-          <path
-            d="M6.40002 18.6538L5.34619 17.6L10.9462 12L5.34619 6.40002L6.40002 5.34619L12 10.9462L17.6 5.34619L18.6538 6.40002L13.0538 12L18.6538 17.6L17.6 18.6538L12 13.0538L6.40002 18.6538Z"
-            fill="black"
-          />
-        </svg>
-      </ModalTop>
-      <ModalTitle>오늘의 운세</ModalTitle>
-      <Hr />
-      <ModalContent>{fortuneText}</ModalContent>
-    </ModalOverlay>
+    <ModalBackground>
+      <ModalOverlay>
+        <ModalTop>
+          <span>{`${now.getMonth() + 1}월 ${now.getDate()}일`}</span>
+          <svg
+            onClick={Close}
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <path
+              d="M6.40002 18.6538L5.34619 17.6L10.9462 12L5.34619 6.40002L6.40002 5.34619L12 10.9462L17.6 5.34619L18.6538 6.40002L13.0538 12L18.6538 17.6L17.6 18.6538L12 13.0538L6.40002 18.6538Z"
+              fill="black"
+            />
+          </svg>
+        </ModalTop>
+        <ModalTitle>오늘의 운세</ModalTitle>
+        <Hr />
+        <ModalContent>{fortuneText}</ModalContent>
+      </ModalOverlay>
+    </ModalBackground>
   );
 };
 
@@ -374,13 +415,16 @@ const HomePage = () => {
 
   return (
     <>
+      <PopupLayout>
+        {showPopup && (
+          <Popup now={now} onClose={Close} fortuneText={fortuneText} />
+        )}
+      </PopupLayout>
+
       <Top>
         <LogoBox>
           <img src={logo} width={30} height={30} />
           <svg
-            style={{
-              alignItems: 'center',
-            }}
             xmlns="http://www.w3.org/2000/svg"
             width="92"
             height="17"
@@ -478,43 +522,40 @@ const HomePage = () => {
 
       <FortuneContainer>
         <Fortune onClick={Open}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="14"
-            height="14"
-            viewBox="0 0 14 14"
-            fill="none"
-          >
-            <path
-              d="M10.4286 7.57067L10.4286 0.935057L3.79297 0.935059L3.79297 7.57067"
-              stroke="black"
-              strokeWidth="0.8"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M10.2949 0.935059L1.61492 9.61506L4.99966 12.9998L9.33966 8.6598L10.4247 7.5748"
-              stroke="black"
-              strokeWidth="0.8"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M4.16208 0.935083L12.8421 9.61508L9.45735 12.9998L7.28735 10.8298"
-              stroke="black"
-              strokeWidth="0.8"
-              strokeLinejoin="round"
-            />
-          </svg>
-          <div className="fortune__title">오늘의 운세</div>
+          <div className="fortune__title-container">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 14 14"
+              fill="none"
+            >
+              <path
+                d="M10.4286 7.57067L10.4286 0.935057L3.79297 0.935059L3.79297 7.57067"
+                stroke="black"
+                strokeWidth="0.8"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M10.2949 0.935059L1.61492 9.61506L4.99966 12.9998L9.33966 8.6598L10.4247 7.5748"
+                stroke="black"
+                strokeWidth="0.8"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M4.16208 0.935083L12.8421 9.61508L9.45735 12.9998L7.28735 10.8298"
+                stroke="black"
+                strokeWidth="0.8"
+                strokeLinejoin="round"
+              />
+            </svg>
+            <div className="fortune__title">오늘의 운세</div>
+          </div>
           <div className="fortune__date">{`${
             now.getMonth() + 1
           }월 ${now.getDate()}일`}</div>
         </Fortune>
       </FortuneContainer>
-      <PopupLayout>
-        {showPopup && (
-          <Popup now={now} onClose={Close} fortuneText={fortuneText} />
-        )}
-      </PopupLayout>
 
       <Category>
         <Year>
