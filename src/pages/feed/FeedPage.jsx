@@ -24,7 +24,7 @@ const Top = styled.div`
     padding: 0;
 
     color: #333;
-    font-family: AppleSDGothicNeo;
+    font-family: 'Apple SD Gothic Neo';
     font-size: 1.25rem;
     font-style: normal;
     font-weight: 600;

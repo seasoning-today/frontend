@@ -28,7 +28,7 @@ const Layout = styled.div`
   .profile__personal__data__nickname {
     color: #333;
 
-    font-family: AppleSDGothicNeo;
+    font-family: 'Apple SD Gothic Neo';
     font-size: 0.875rem;
     font-style: normal;
     font-weight: 400;
@@ -38,7 +38,7 @@ const Layout = styled.div`
   .profile__personal__data__account {
     color: #c3c3c3;
 
-    font-family: AppleSDGothicNeo;
+    font-family: 'Apple SD Gothic Neo';
     font-size: 0.75rem;
     font-style: normal;
     font-weight: 400;

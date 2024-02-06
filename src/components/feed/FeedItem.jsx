@@ -27,7 +27,7 @@ const ProfileContainer = styled.div`
     color: #bfbfbf;
     text-align: center;
 
-    font-family: Noto Serif KR;
+    font-family: 'Noto Serif KR';
     font-size: 0.75rem;
     font-style: normal;
     font-weight: 400;
@@ -38,7 +38,7 @@ const ProfileContainer = styled.div`
     color: #333;
     text-align: center;
 
-    font-family: Noto Serif KR;
+    font-family: 'Noto Serif KR';
     font-size: 1.625rem;
     font-style: normal;
     font-weight: 700;
