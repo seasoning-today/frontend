@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { useLoaderData } from 'react-router-dom';
 
 import UserProfileBox from '@components/common/UserProfileBox';
-import TabBar from '@components/common/TabBar';
 
 const Top = styled.div`
   position: relative;
@@ -41,7 +40,7 @@ const ContentArea = styled.div`
   position: relative;
   width: 100%;
   height: calc(100% - 3.3125rem);
-  padding: 1.75rem 1.5rem 5.5625rem;
+  padding: 1.75rem 1.5rem;
 
   display: flex;
   flex-direction: column;
@@ -87,8 +86,6 @@ const FriendsListPage = () => {
           />
         ))}
       </ContentArea>
-
-      <TabBar />
     </>
   );
 };
