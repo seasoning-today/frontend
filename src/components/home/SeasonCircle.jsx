@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import { SeasonBackgrounds } from '@utils/image/SeasonBackgrounds';
@@ -165,8 +166,22 @@ const ProgressCircle = styled.circle`
 `;
 
 const SeasonCircle = (props) => {
-  const { now, term, termData } = props;
+  const { term, termData } = props;
   const { recordable, currentTerm, nextTerm } = termData;
+
+  const [now, setNow] = useState(new Date());
+
+  useEffect(() => {
+    const Timer = setInterval(() => {
+      setNow(new Date());
+    }, 1000);
+    console.log('mount!');
+
+    return () => {
+      clearInterval(Timer);
+      console.log('unmount!');
+    };
+  }, []);
 
   const status =
     term === nextTerm.sequence

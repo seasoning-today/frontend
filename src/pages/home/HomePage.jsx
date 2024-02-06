@@ -344,7 +344,7 @@ const Popup = ({ now, onClose, fortuneText }) => {
 const HomePage = () => {
   const { homeResponse, termResponse } = useLoaderData();
   // console.log(homeResponse.data);
-  console.log(JSON.stringify(termResponse.data, null, '\t'));
+  // console.log(JSON.stringify(termResponse.data, null, '\t'));
 
   const [now, setNow] = useState(new Date());
 
@@ -585,7 +585,7 @@ const HomePage = () => {
 
       <ContentArea>
         {selectedCategory === 'year' && (
-          <YearlyContent now={now} termData={termResponse.data} />
+          <YearlyContent termData={termResponse.data} />
         )}
         {selectedCategory === 'season' && <SeasonalContent />}
       </ContentArea>
