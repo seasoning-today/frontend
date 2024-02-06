@@ -17,42 +17,10 @@ const Container = styled(Link)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-top: 0.375rem;
 
   cursor: default;
   color: ${(props) =>
     props.status === 'activated' ? `rgba(255, 255, 255, 0.75)` : `#1f1f1f`};
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-
-  .circle__countdown {
-    text-align: center;
-    font-family: Noto Serif KR;
-    font-size: 1.0625rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    z-index: 10;
-  }
-
-  .circle__chinese {
-    text-align: center;
-    font-family: Noto Serif KR;
-    font-size: 1.5rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    z-index: 10;
-  }
-
-  .circle__korean {
-    text-align: center;
-    font-family: Noto Serif KR;
-    font-size: 0.9375rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    z-index: 10;
-  }
 
   .circle__background__image {
     position: absolute;
@@ -77,6 +45,8 @@ const Container = styled(Link)`
       props.status === 'activated'
         ? `rgba(2, 33, 29, 0.75)`
         : `rgba(255, 255, 255, 0.7)`};
+
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   }
 
   .circle__pie {
@@ -90,36 +60,103 @@ const Container = styled(Link)`
   }
 `;
 
+const Top = styled.div`
+  flex: 6;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+
+  svg {
+    margin-bottom: 0.25rem;
+  }
+
+  .circle__countdown-day {
+    text-align: center;
+    font-family: 'Noto Serif KR';
+    font-size: 0.75rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    z-index: 10;
+  }
+
+  .circle__countdown-number {
+    margin-bottom: 0.25rem;
+
+    text-align: center;
+    font-family: 'Noto Serif KR';
+    font-size: 1.0625rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    z-index: 10;
+  }
+
+  .circle__chinese {
+    text-align: center;
+    font-family: 'Noto Serif KR';
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    z-index: 10;
+  }
+`;
+
+const Bottom = styled.div`
+  flex: 4;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  .circle__korean {
+    text-align: center;
+    font-family: 'Noto Serif KR';
+    font-size: 0.9375rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    z-index: 10;
+  }
+`;
+
 const DonutContainer = styled.div`
   position: absolute;
-  top: 50%; /* Adjust these to properly center the donut */
+  top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); /* Centers the donut */
-  width: 7.125rem;
-  height: 7.125rem;
-  z-index: 11; /* Ensure it's above the Container content */
+  transform: translate(-50%, -50%);
+  width: 7rem;
+  height: 7rem;
+  z-index: 11;
   border-radius: 50%;
 
   display: flex;
   justify-content: center;
   align-items: center;
-`;
 
-const SVG = styled.svg`
-  width: 100%;
-  height: 100%;
+  svg {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const OuterCircle = styled.circle`
   fill: none;
   stroke: transparent;
-  stroke-width: 10.75;
+  stroke-width: 10;
 `;
 
 const ProgressCircle = styled.circle`
   fill: none;
   stroke: #496559;
-  stroke-width: 10.75;
+  stroke-width: 10;
   stroke-dasharray: ${(props) => 2 * Math.PI * 90};
   stroke-dashoffset: ${(props) => 2 * Math.PI * 90 * (1 - props.percentage)};
   stroke-linecap: round;
@@ -142,8 +179,9 @@ const SeasonCircle = (props) => {
   const remainingTime = nextTermDate - now;
   const nextPercentage = 1 - remainingTime / 1314864000;
   const seconds = Math.floor(remainingTime / 1000) % 60;
-  const minutes = Math.floor((remainingTime / 1000 / 60) % 60);
-  const hours = Math.floor(remainingTime / (1000 * 60 * 60));
+  const minutes = Math.floor(remainingTime / 1000 / 60) % 60;
+  const hours = Math.floor(remainingTime / (1000 * 60 * 60)) % 24;
+  const days = Math.floor(remainingTime / (1000 * 60 * 60) / 24);
 
   const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes
     .toString()
@@ -154,30 +192,39 @@ const SeasonCircle = (props) => {
       status={status}
       to={recordable && term === currentTerm.sequence ? `/write` : `#`}
     >
-      {status === `countdown` ? (
-        <span className="circle__countdown">{formattedTime}</span>
-      ) : status === `activated` ? (
-        <span className="circle__chinese">{TermsToChinese[props.term]}</span>
-      ) : (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="32"
-          height="32"
-          viewBox="0 0 32 32"
-          fill="none"
-        >
-          <path
-            d="M16 3C12.155 3 9 6.155 9 10V13H6V29H26V13H23V10C23 6.155 19.845 3 16 3ZM16 5C18.755 5 21 7.245 21 10V13H11V10C11 7.245 13.245 5 16 5ZM8 15H24V27H8V15Z"
-            fill="#595959"
-          />
-        </svg>
-      )}
-      <span className="circle__korean">{TermsToKorean[props.term]}</span>
-      {/* <div className="circle__pie" /> */}
+      <Top>
+        {status === `countdown` ? (
+          <>
+            {days > 0 ? (
+              <span className="circle__countdown-day">{`${days}일`}</span>
+            ) : undefined}
+            <span className="circle__countdown-number">{formattedTime}</span>
+          </>
+        ) : status === `activated` ? (
+          <span className="circle__chinese">{TermsToChinese[props.term]}</span>
+        ) : (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            viewBox="0 0 32 32"
+            fill="none"
+          >
+            <path
+              d="M16 3C12.155 3 9 6.155 9 10V13H6V29H26V13H23V10C23 6.155 19.845 3 16 3ZM16 5C18.755 5 21 7.245 21 10V13H11V10C11 7.245 13.245 5 16 5ZM8 15H24V27H8V15Z"
+              fill="#595959"
+            />
+          </svg>
+        )}
+      </Top>
+
+      <Bottom>
+        <span className="circle__korean">{TermsToKorean[props.term]}</span>
+      </Bottom>
+
       {status === `countdown` ? (
         <DonutContainer>
-          <SVG viewBox="0 0 200 200">
-            {/* {//cx, cy:  원의 중심의 x,y 좌표 r: 반지름 크기} */}
+          <svg viewBox="0 0 200 200">
             <OuterCircle cx="100" cy="100" r="90" />
             <ProgressCircle
               cx="100"
@@ -185,9 +232,10 @@ const SeasonCircle = (props) => {
               r="90"
               percentage={nextPercentage}
             />
-          </SVG>
+          </svg>
         </DonutContainer>
       ) : undefined}
+
       <img
         className="circle__background__image"
         src={SeasonBackgrounds[props.term]}
