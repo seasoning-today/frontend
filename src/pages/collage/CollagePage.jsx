@@ -60,13 +60,13 @@ const Title = styled.div`
   padding: 1.69rem 0 0.5rem 0;
 
   span {
-    color: #000;
+    color: #333;
     text-align: center;
-    font-family: AppleSDGothicNeo;
+    font-family: 'Apple SD Gothic Neo';
     font-size: 1.5rem;
     font-style: normal;
-    font-weight: 500;
-    line-height: 134%; /* 2.01rem */
+    font-weight: 400;
+    line-height: normal;
   }
 `;
 
@@ -99,7 +99,7 @@ const Select = styled.div`
     border: none;
     outline: none;
 
-    font-family: AppleSDGothicNeo;
+    font-family: 'Apple SD Gothic Neo';
     font-size: 1rem;
     font-style: normal;
     font-weight: 400;
