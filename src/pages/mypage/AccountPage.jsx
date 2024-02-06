@@ -30,7 +30,6 @@ const Top = styled.div`
   padding: 0 1.31rem;
 
   background-color: #fff;
-  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.2);
 
   h1 {
     margin: 0;
@@ -39,7 +38,7 @@ const Top = styled.div`
     color: #000;
     text-align: center;
 
-    font-family: AppleSDGothicNeo;
+    font-family: 'Apple SD Gothic Neo';
     font-size: 1.25rem;
     font-style: normal;
     font-weight: 400;
@@ -75,7 +74,7 @@ const ActionMenu = styled.div`
   align-items: center;
   padding: 1rem 1.25rem 1rem 1.5rem;
 
-  font-family: AppleSDGothicNeo;
+  font-family: 'Apple SD Gothic Neo';
   font-size: 1rem;
   font-style: normal;
   font-weight: 400;
@@ -92,7 +91,7 @@ const ActionMenu = styled.div`
   }
 
   span {
-    font-family: AppleSDGothicNeo;
+    font-family: 'Apple SD Gothic Neo';
     font-size: 1rem;
     font-style: normal;
     font-weight: 400;

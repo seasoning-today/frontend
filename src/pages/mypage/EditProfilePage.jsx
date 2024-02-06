@@ -22,7 +22,7 @@ const HeaderBox = styled.div`
 
   span {
     color: #000;
-    font-family: AppleSDGothicNeo;
+    font-family: 'Apple SD Gothic Neo';
     font-size: 1.25rem;
     font-style: normal;
     font-weight: 600;
@@ -84,7 +84,7 @@ const InputBox = styled.div`
 
   h2 {
     color: #333;
-    font-family: AppleSDGothicNeo;
+    font-family: 'Apple SD Gothic Neo';
     font-size: 1rem;
     font-style: normal;
     font-weight: 400;
@@ -101,7 +101,7 @@ const InputBox = styled.div`
     height: 2.75rem;
 
     color: #333;
-    font-family: AppleSDGothicNeo;
+    font-family: 'Apple SD Gothic Neo';
     font-size: 1rem;
     font-style: normal;
     font-weight: 400;
@@ -148,7 +148,7 @@ const ConfirmButton = styled.div`
   span {
     color: #fff;
     text-align: center;
-    font-family: AppleSDGothicNeo;
+    font-family: 'Apple SD Gothic Neo';
     font-size: 1.25rem;
     font-style: normal;
     font-weight: 400;

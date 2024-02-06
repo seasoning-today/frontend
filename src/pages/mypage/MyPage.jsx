@@ -40,7 +40,7 @@ const ProfileBox = styled.div`
 
   h2 {
     color: #333;
-    font-family: AppleSDGothicNeo;
+    font-family: 'Apple SD Gothic Neo';
     font-size: 1.25rem;
     font-style: normal;
     font-weight: 600;
@@ -49,7 +49,7 @@ const ProfileBox = styled.div`
 
   span {
     color: #333;
-    font-family: AppleSDGothicNeo;
+    font-family: 'Apple SD Gothic Neo';
     font-size: 0.75rem;
     font-style: normal;
     font-weight: 400;
@@ -89,7 +89,7 @@ const LinkMenu = styled(Link)`
   align-items: center;
   padding: 1rem 1.25rem 1rem 1.5rem;
 
-  font-family: AppleSDGothicNeo;
+  font-family: 'Apple SD Gothic Neo';
   font-size: 1rem;
   font-style: normal;
   font-weight: 400;
@@ -106,7 +106,7 @@ const LinkMenu = styled(Link)`
   }
 
   span {
-    font-family: AppleSDGothicNeo;
+    font-family: 'Apple SD Gothic Neo';
     font-size: 1rem;
     font-style: normal;
     font-weight: 400;
@@ -127,7 +127,7 @@ const ActionMenu = styled.div`
   align-items: center;
   padding: 1rem 1.25rem 1rem 1.5rem;
 
-  font-family: AppleSDGothicNeo;
+  font-family: 'Apple SD Gothic Neo';
   font-size: 1rem;
   font-style: normal;
   font-weight: 400;
@@ -144,7 +144,7 @@ const ActionMenu = styled.div`
   }
 
   span {
-    font-family: AppleSDGothicNeo;
+    font-family: 'Apple SD Gothic Neo';
     font-size: 1rem;
     font-style: normal;
     font-weight: 400;

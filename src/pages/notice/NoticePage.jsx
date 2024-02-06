@@ -25,7 +25,7 @@ const Top = styled.div`
     color: #000;
     text-align: center;
 
-    font-family: AppleSDGothicNeo;
+    font-family: 'Apple SD Gothic Neo';
     font-size: 1.25rem;
     font-style: normal;
     font-weight: 400;
@@ -66,7 +66,7 @@ const NoticeContainer = styled.div`
 
     color: #8c8c8c;
     text-align: center;
-    font-family: AppleSDGothicNeo;
+    font-family: 'Apple SD Gothic Neo';
     font-size: 1rem;
     font-style: normal;
     font-weight: 400;
