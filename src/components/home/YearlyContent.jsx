@@ -7,6 +7,8 @@ import yearly_line from '@assets/home/yearly_line.png';
 const Container = styled.section`
   display: flex;
   flex-direction: column;
+  row-gap: 1.6rem;
+  margin-top: 0.5rem;
 
   background-image: url(${yearly_line});
   background-size: cover;
@@ -14,16 +16,19 @@ const Container = styled.section`
   background-repeat: no-repeat;
 `;
 
-const Row = styled.div`
-  margin: 0.8rem 0;
+const FirstRow = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 1.31rem;
+`;
 
+const Row = styled.div`
   display: flex;
   justify-content: center;
   gap: 1.31rem;
 `;
 
 const LastRow = styled.div`
-  margin: 0.8rem 0;
   margin-right: 5rem;
 
   display: flex;
@@ -34,11 +39,11 @@ const YearlyContent = ({ now, termData }) => {
   return (
     <>
       <Container>
-        <Row>
+        <FirstRow>
           <SeasonCircle now={now} term={1} termData={termData} />
           <SeasonCircle now={now} term={2} termData={termData} />
           <SeasonCircle now={now} term={3} termData={termData} />
-        </Row>
+        </FirstRow>
         <Row>
           <SeasonCircle now={now} term={5} termData={termData} />
           <SeasonCircle now={now} term={4} termData={termData} />
