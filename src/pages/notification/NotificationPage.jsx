@@ -4,8 +4,6 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useLoaderData } from 'react-router-dom';
 
-import { TermsToKorean } from '@utils/seasoning/TermsToKorean';
-
 import FriendRequest from '@components/notification/FriendRequest';
 import FriendReaction from '@components/notification/FriendReaction';
 import FriendAccepted from '@components/notification/FriendAccepted';
@@ -55,7 +53,7 @@ const NotificationContainer = styled.div`
   overflow-y: scroll;
 
   .line {
-    width: calc(100% - 2.26rem);
+    width: 100%;
     height: 0.0625rem;
 
     background-color: #e3e3e3;
@@ -63,21 +61,9 @@ const NotificationContainer = styled.div`
 `;
 
 const NotificationPage = () => {
-  const { notificationData } = useLoaderData();
-  const {
-    friendRequestsData,
-    friendshipAcceptedData,
-    friendReactionData,
-    seasonalNotifyData,
-  } = notificationData;
-  console.log(notificationData);
-
-  const [friendRequests, setFriendRequests] = useState(friendRequestsData);
-  const [friendshipsAccepted, setFriendshipsAccepted] = useState(
-    friendshipAcceptedData
-  );
-  const [friendReactions, setFriendReactions] = useState(friendReactionData);
-  const [seasonalNotifies, setSeasonalNotifies] = useState(seasonalNotifyData);
+  const { response } = useLoaderData();
+  const [notifications, setNotifications] = useState(response.data);
+  console.log(notifications);
 
   const formatNotificationTime = (timestamp) => {
     const currentTime = new Date();
@@ -123,45 +109,55 @@ const NotificationPage = () => {
       </Top>
 
       <NotificationContainer>
-        {friendRequests.map((req, idx) => (
-          <FriendRequest
-            key={idx}
-            profileName={JSON.parse(req.message).nickname}
-            profileImageUrl={JSON.parse(req.message).profileImageUrl}
-            time={formatNotificationTime(req.createdAt)}
-          />
-        ))}
-        {friendRequests.length > 0 ? <div className="line" /> : undefined}
+        {notifications.map((notification) => {
+          switch (notification.type) {
+            case 'ARTICLE_OPEN':
+              return (
+                <SeasonalNotify
+                  key={notification.id}
+                  seasonName={notification.message}
+                  time={formatNotificationTime()}
+                />
+              );
+            case 'FRIENDSHIP_REQUEST':
+              return (
+                <FriendRequest
+                  key={notification.id}
+                  profileName={JSON.parse(notification.message).nickname}
+                  profileImageUrl={
+                    JSON.parse(notification.message).profileImageUrl
+                  }
+                  time={formatNotificationTime()}
+                />
+              );
+            case 'ARTICLE_FEEDBACK':
+              return (
+                <FriendReaction
+                  key={notification.id}
+                  profileName={JSON.parse(notification.message).nickname}
+                  profileImageUrl={
+                    JSON.parse(notification.message).profileImageUrl
+                  }
+                  time={formatNotificationTime()}
+                />
+              );
+            case 'FRIENDSHIP_ACCEPTED':
+              return (
+                <FriendAccepted
+                  key={notification.id}
+                  profileName={JSON.parse(notification.message).nickname}
+                  profileImageUrl={
+                    JSON.parse(notification.message).profileImageUrl
+                  }
+                  time={formatNotificationTime()}
+                />
+              );
+            default:
+              return undefined;
+          }
+        })}
 
-        {friendshipsAccepted.map((noti, idx) => (
-          <FriendAccepted
-            key={idx}
-            profileName={JSON.parse(noti.message).nickname}
-            profileImageUrl={JSON.parse(noti.message).profileImageUrl}
-            time={formatNotificationTime(noti.createdAt)}
-          />
-        ))}
-
-        {friendReactions.map((noti, idx) => (
-          <FriendReaction
-            key={idx}
-            setFriendReactions={
-              JSON.parse(noti.message).nicknamfriendReactionDatae
-            }
-            profileImageUrl={
-              sJSON.parses(noti.message).profileImaseasonalNotifyDatal
-            }
-            time={formatNotificationTime(noti.createdAt)}
-          />
-        ))}
-
-        {/* {seasonalNotifies.map((noti, idx) => (
-          <SeasonalNotify
-            key={idx}
-            seasonName={TermsToKorean[JSON.parse(seasonalNotify[0].message)]}
-            time={formatNotificationTime()}
-          />
-        ))} */}
+        {notifications.length > 0 ? <div className="line" /> : undefined}
       </NotificationContainer>
     </>
   );

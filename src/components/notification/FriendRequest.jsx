@@ -21,7 +21,7 @@ const ProfileImage = styled.img`
   background-color: green;
 `;
 
-const Content = styled.p`
+const Content = styled.div`
   flex-grow: 1;
 
   .notification__name {
@@ -148,7 +148,7 @@ const FriendRequest = ({ accountId, profileName, profileImageUrl, time }) => {
 
   return (
     <Layout>
-      {profileImageUrl !== false ? (
+      {profileImageUrl ? (
         <ProfileImage src={profileImageUrl} />
       ) : (
         <ProfileImage />
