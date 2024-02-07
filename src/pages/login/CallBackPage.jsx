@@ -1,6 +1,17 @@
 import React, { useEffect } from 'react';
+import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import FadeLoader from 'react-spinners/FadeLoader';
+
+const Layout = styled.div`
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const CallBackPage = () => {
   const authorizeCode = new URL(window.location.href).searchParams.get('code');
@@ -35,9 +46,9 @@ const CallBackPage = () => {
   }, []);
 
   return (
-    <div>
-      <p>로그인 중.</p>
-    </div>
+    <Layout>
+      <FadeLoader color="#333333" width={6} height={16} radius={1} />
+    </Layout>
   );
 };
 
