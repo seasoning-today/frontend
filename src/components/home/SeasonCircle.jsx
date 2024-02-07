@@ -19,7 +19,7 @@ const Container = styled(Link)`
   justify-content: center;
   align-items: center;
 
-  cursor: default;
+  cursor: ${(props) => (props.to === '/write' ? 'pointer' : 'default')};
   color: ${(props) =>
     props.status === 'activated' ? `rgba(255, 255, 255, 0.75)` : `#1f1f1f`};
 
