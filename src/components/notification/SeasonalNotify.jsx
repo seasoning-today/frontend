@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import logo from '@assets/components/topbar/logo.png';
+
 const Layout = styled.div`
   width: 100%;
 
@@ -14,10 +16,9 @@ const ProfileImage = styled.img`
   width: 2.9375rem;
   height: 2.9375rem;
   border-radius: 50%;
+  background-color: #f0f0f0;
 
   flex-shrink: 0;
-
-  background-color: green;
 `;
 
 const Content = styled.p`
@@ -27,7 +28,7 @@ const Content = styled.p`
     margin-right: 0.25rem;
 
     color: #333;
-    font-family: AppleSDGothicNeo;
+    font-family: 'Apple SD Gothic Neo';
     font-size: 0.875rem;
     font-style: normal;
     font-weight: 400;
@@ -36,7 +37,7 @@ const Content = styled.p`
 
   .notification__content {
     color: #333;
-    font-family: AppleSDGothicNeo;
+    font-family: 'Apple SD Gothic Neo';
     font-size: 0.875rem;
     font-style: normal;
     font-weight: 400;
@@ -45,7 +46,7 @@ const Content = styled.p`
 
   .notification__time {
     color: #bfbfbf;
-    font-family: AppleSDGothicNeo;
+    font-family: 'Apple SD Gothic Neo';
     font-size: 0.75rem;
     font-style: normal;
     font-weight: 400;
@@ -53,16 +54,16 @@ const Content = styled.p`
   }
 `;
 
-const SeasonalNotify = ({ seasonName }) => {
+const SeasonalNotify = ({ seasonName, time }) => {
   return (
     <Layout>
-      <ProfileImage />
+      <ProfileImage src={logo} />
 
       <Content>
         <span className="notification__name">{seasonName}</span>
         <span className="notification__content">노트가 열렸습니다</span>
         <br />
-        <span className="notification__time">12시간 전</span>
+        <span className="notification__time">{time}</span>
       </Content>
     </Layout>
   );

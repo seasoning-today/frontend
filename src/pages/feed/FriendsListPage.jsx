@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { useLoaderData } from 'react-router-dom';
 
 import UserProfileBox from '@components/common/UserProfileBox';
-import TabBar from '@components/common/TabBar';
 
 const Top = styled.div`
   position: relative;
@@ -14,7 +13,6 @@ const Top = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  /* padding: 0 1.31rem; */
 
   background-color: #fff;
   box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.2);
@@ -25,7 +23,7 @@ const Top = styled.div`
 
     color: #000;
     text-align: center;
-    font-family: AppleSDGothicNeo;
+    font-family: 'Apple SD Gothic Neo';
     font-size: 1.25rem;
     font-style: normal;
     font-weight: 600;
@@ -42,7 +40,7 @@ const ContentArea = styled.div`
   position: relative;
   width: 100%;
   height: calc(100% - 3.3125rem);
-  padding: 1.75rem 1.5rem 5.5625rem;
+  padding: 1.75rem 1.5rem;
 
   display: flex;
   flex-direction: column;
@@ -88,8 +86,6 @@ const FriendsListPage = () => {
           />
         ))}
       </ContentArea>
-
-      <TabBar />
     </>
   );
 };

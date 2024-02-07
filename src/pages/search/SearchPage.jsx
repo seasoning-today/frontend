@@ -63,10 +63,46 @@ const SearchResultArea = styled.div`
 
   display: flex;
   flex-direction: column;
+
   padding: 1.5rem 1.31rem;
   row-gap: 1rem;
 
   overflow-y: scroll;
+`;
+
+const Button = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.5rem;
+  background: #0d6b38;
+  padding: 0.3rem 0.7rem;
+
+  width: 4.8125rem;
+  height: 1.8125rem;
+  flex-shrink: 0;
+  opacity: 0.7;
+
+  margin-top: -3.3rem;
+  margin-left: 17rem;
+
+  span {
+    color: var(--F0, #f0f0f0);
+    text-align: center;
+    font-family: AppleSDGothicNeo;
+    font-size: 0.78rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+
+  ${(props) =>
+    props.friendshipStatus === 'UNFRIEND' &&
+    `
+    cursor: pointer;
+    opacity: 1;
+  `};
 `;
 
 const SearchPage = () => {
@@ -75,6 +111,37 @@ const SearchPage = () => {
 
   const handleChangeKeyword = (event) => {
     setKeyword(event.target.value);
+  };
+
+  const handleFriendRequest = async (index) => {
+    const friendToRequest = searchResult[index];
+
+    if (friendToRequest.friendshipStatus === 'UNFRIEND') {
+      const accessToken = localStorage.getItem('accessToken');
+
+      try {
+        const response = await axios.post(
+          `/api/friend/add`,
+          {
+            accountId: friendToRequest.accountId,
+          },
+          {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          }
+        );
+
+        if (response.status === 200) {
+          const updatedSearchResult = [...searchResult];
+          updatedSearchResult[index].friendshipStatus = 'SENT';
+
+          setSearchResult(updatedSearchResult);
+        } else {
+          // console.error('Unexpected response:', response);
+        }
+      } catch (error) {
+        // console.error('Error sending friend request:', error);
+      }
+    }
   };
 
   const handleSearch = async () => {
@@ -102,17 +169,17 @@ const SearchPage = () => {
   const renderFriendshipStatus = (status) => {
     switch (status) {
       case 'FRIEND':
-        return '이미 친구입니다';
+        return '친구';
       case 'SENT':
-        return '요청 보낸 상태입니다';
+        return '요청 대기';
       case 'RECEIVED':
-        return '요청 받은 상태입니다';
+        return '요청 받음';
       case 'UNFRIEND':
-        return '친구가 아닙니다';
+        return '친구 신청';
       case 'SELF':
-        return '본인입니다';
+        return '';
       default:
-        return '알 수 없음';
+        return; // 알 수 없음
     }
   };
 
@@ -148,12 +215,23 @@ const SearchPage = () => {
 
       <SearchResultArea>
         {searchResult.map((result, idx) => (
-          <UserProfileBox
-            key={idx}
-            nickname={result.nickname}
-            profileImage={result.image}
-            accountId={result.accountId}
-          />
+          <React.Fragment>
+            <UserProfileBox
+              key={idx}
+              nickname={result.nickname}
+              profileImage={result.image}
+              accountId={result.accountId}
+              friendshipStatus={result.friendshipStatus}
+            />
+            {result.friendshipStatus !== 'SELF' && (
+              <Button
+                onClick={() => handleFriendRequest(idx)}
+                friendshipStatus={result.friendshipStatus}
+              >
+                <span>{renderFriendshipStatus(result.friendshipStatus)}</span>
+              </Button>
+            )}
+          </React.Fragment>
         ))}
       </SearchResultArea>
     </Layout>

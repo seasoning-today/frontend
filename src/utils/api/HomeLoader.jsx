@@ -19,13 +19,16 @@ export const HomeLoader = async ({ request, params }) => {
   const sendParam = category === 'year' ? year : term;
 
   try {
-    const response = await axios.get(
+    const homeResponse = await axios.get(
       `/api/article/list/${category}/${sendParam}`,
       {
         headers: { Authorization: `Bearer ${accessToken}` },
       }
     );
-    return { response };
+    const termResponse = await axios.get(`/api/solarTerm`, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+    return { homeResponse, termResponse };
   } catch (error) {
     console.error(error);
     console.log('* Response Error... Redirecting to /login');

@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const Layout = styled.div`
@@ -27,7 +28,7 @@ const Content = styled.p`
     margin-right: 0.25rem;
 
     color: #333;
-    font-family: AppleSDGothicNeo;
+    font-family: 'Apple SD Gothic Neo';
     font-size: 0.875rem;
     font-style: normal;
     font-weight: 600;
@@ -36,7 +37,7 @@ const Content = styled.p`
 
   .notification__content {
     color: #333;
-    font-family: AppleSDGothicNeo;
+    font-family: 'Apple SD Gothic Neo';
     font-size: 0.875rem;
     font-style: normal;
     font-weight: 400;
@@ -47,7 +48,7 @@ const Content = styled.p`
     margin-left: 0.5rem;
 
     color: #bfbfbf;
-    font-family: AppleSDGothicNeo;
+    font-family: 'Apple SD Gothic Neo';
     font-size: 0.75rem;
     font-style: normal;
     font-weight: 400;
@@ -83,7 +84,7 @@ const Button = styled.div`
 
   span {
     text-align: center;
-    font-family: AppleSDGothicNeo;
+    font-family: 'Apple SD Gothic Neo';
     font-size: 0.875rem;
     font-style: normal;
     font-weight: 400;
@@ -95,7 +96,56 @@ const Button = styled.div`
   }
 `;
 
-const FriendRequest = ({ profileName, profileImageUrl }) => {
+const FriendRequest = ({ accountId, profileName, profileImageUrl, time }) => {
+  const [friendshipAccepted, setFriendshipAccepted] = useState([]);
+
+  const handleFriendRequest = async (action) => {
+    const accessToken = localStorage.getItem('accessToken');
+
+    try {
+      const size = 10;
+      const lastId = '';
+
+      const response = await axios.get(
+        `/api/notification?size=${size}&lastId=${lastId}`,
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }
+      );
+
+      const friendshipAcceptedData = response.data.filter(
+        (notification) => notification.type === 'FRIENDSHIP_ACCEPTED'
+      );
+
+      setFriendshipAccepted(friendshipAcceptedData);
+    } catch (error) {
+      console.error('Error fetching friend requests:', error);
+    }
+
+    try {
+      if (action === 'accept') {
+        await axios.put(
+          `/api/friend/add/accept`,
+
+          {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          }
+        );
+        setFriendshipAccepted([...friendshipAccepted, {}]);
+      } else if (action === 'decline') {
+        await axios.delete(
+          `/api/friend/add/decline`,
+
+          {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          }
+        );
+      }
+    } catch (error) {
+      console.error('Error handling friend request:', error);
+    }
+  };
+
   return (
     <Layout>
       {profileImageUrl !== false ? (
@@ -109,14 +159,20 @@ const FriendRequest = ({ profileName, profileImageUrl }) => {
         <span className="notification__content">
           님에게서 친구신청이 왔습니다
         </span>
-        <span className="notification__time">12시간 전</span>
+        <span className="notification__time">{time}</span>
       </Content>
 
       <ButtonContainer>
-        <Button className="notification__button__approve">
+        <Button
+          className="notification__button__approve"
+          onClick={() => handleFriendRequest('accept')}
+        >
           <span>수락</span>
         </Button>
-        <Button className="notification__button__decline">
+        <Button
+          className="notification__button__decline"
+          onClick={() => handleFriendRequest('decline')}
+        >
           <span>거절</span>
         </Button>
       </ButtonContainer>

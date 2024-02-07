@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 
 const Layout = styled.div`
@@ -21,7 +22,7 @@ const HeaderBox = styled.div`
 
   span {
     color: #000;
-    font-family: AppleSDGothicNeo;
+    font-family: 'Apple SD Gothic Neo';
     font-size: 1.25rem;
     font-style: normal;
     font-weight: 600;
@@ -39,13 +40,15 @@ const ProfileBox = styled.div`
     position: relative;
     width: 5.625rem;
     height: 5.625rem;
+
+    cursor: pointer;
   }
 
   img {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-
+    object-fit: cover;
     background-color: #d9d9d9;
   }
 
@@ -53,6 +56,10 @@ const ProfileBox = styled.div`
     position: absolute;
     right: 0;
     bottom: 0;
+  }
+
+  input {
+    display: none;
   }
 `;
 
@@ -77,7 +84,7 @@ const InputBox = styled.div`
 
   h2 {
     color: #333;
-    font-family: AppleSDGothicNeo;
+    font-family: 'Apple SD Gothic Neo';
     font-size: 1rem;
     font-style: normal;
     font-weight: 400;
@@ -94,7 +101,7 @@ const InputBox = styled.div`
     height: 2.75rem;
 
     color: #333;
-    font-family: AppleSDGothicNeo;
+    font-family: 'Apple SD Gothic Neo';
     font-size: 1rem;
     font-style: normal;
     font-weight: 400;
@@ -104,12 +111,18 @@ const InputBox = styled.div`
     outline: none;
     background-color: white;
   }
+`;
 
-  .check-icon {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    padding-bottom: 0.75rem;
+const CheckIcon = styled.div`
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding-bottom: 0.75rem;
+
+  cursor: pointer;
+
+  svg path {
+    fill: ${(props) => (props.isValid ? '#28a745' : '#c7c5c3')};
   }
 `;
 
@@ -124,6 +137,9 @@ const ConfirmButton = styled.div`
   align-items: center;
 
   background-color: #004a22;
+  opacity: ${(props) => (props.isValidForm ? 1 : 0.25)};
+
+  transition: opacity 0.4s ease-in-out;
 
   &:hover {
     cursor: pointer;
@@ -132,7 +148,7 @@ const ConfirmButton = styled.div`
   span {
     color: #fff;
     text-align: center;
-    font-family: AppleSDGothicNeo;
+    font-family: 'Apple SD Gothic Neo';
     font-size: 1.25rem;
     font-style: normal;
     font-weight: 400;
@@ -143,29 +159,181 @@ const ConfirmButton = styled.div`
 function EditProfilePage() {
   const { response } = useLoaderData();
   const [userData, setUserData] = useState(response.data);
-  const currentId = userData.accountId;
+  const [isImageChanged, setIsImageChanged] = useState(false);
+  const [isValidForm, setIsValidForm] = useState({
+    uniqueId: true,
+    validId: true,
+    validNickname: true,
+    validForm: true,
+  });
+  const imageInputRef = useRef(null);
   const navigate = useNavigate();
 
+  const MAX_ID_LENGTH = 20;
+  const MAX_NAME_LENGTH = 10;
+
+  const handleImageUpload = () => {
+    imageInputRef.current.click();
+  };
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setUserData({ ...userData, profileImageUrl: e.target.result });
+      };
+      reader.readAsDataURL(file);
+
+      setIsImageChanged(true);
+    }
+  };
+
   const onChangeId = (event) => {
-    setUserData({ ...userData, accountId: event.target.value });
+    const newId = event.target.value.trim().slice(0, MAX_ID_LENGTH);
+    setUserData({ ...userData, accountId: newId });
+
+    if (newId === response.data.accountId) {
+      setIsValidForm({ ...isValidForm, validId: true, uniqueId: true });
+      return;
+    }
+
+    const regex = /^(?=[a-z0-9._]{5,20}$)(?!.*[.]{2})[^.].*[^.]$/;
+    if (regex.test(newId)) {
+      setIsValidForm({ ...isValidForm, validId: true, uniqueId: false });
+    } else {
+      setIsValidForm({ ...isValidForm, validId: false, uniqueId: false });
+    }
+  };
+
+  const onCheckUniqueId = async () => {
+    if (isValidForm.uniqueId) {
+      return;
+    }
+
+    try {
+      const accessToken = localStorage.getItem('accessToken');
+      const getResponse = await axios({
+        method: 'GET',
+        url: `/api/user/check-account-id?id=${userData.accountId}`,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      setIsValidForm({ ...isValidForm, uniqueId: true });
+      alert('사용 가능한 아이디입니다.');
+    } catch (error) {
+      if (error.response) {
+        switch (error.response.status) {
+          case 403:
+            alert('인증 오류가 발생했습니다. 로그인 정보를 확인해주세요.');
+            break;
+          case 409:
+            alert('이미 사용 중인 아이디입니다. 다른 아이디를 시도해주세요.');
+            break;
+          default:
+            console.error('Error:', error);
+            alert('오류가 발생했습니다. 나중에 다시 시도해주세요.');
+        }
+      }
+    }
   };
 
   const onChangeName = (event) => {
-    setUserData({ ...userData, nickname: event.target.value });
+    const newName = event.target.value.trim().slice(0, MAX_NAME_LENGTH);
+    setUserData({ ...userData, nickname: newName });
+
+    if (newName === response.data.nickname) {
+      setIsValidForm({ ...isValidForm, validNickname: true });
+      return;
+    }
+
+    const regex = /^[\w가-힣]{2,10}$/;
+    if (regex.test(newName)) {
+      setIsValidForm({ ...isValidForm, validNickname: true });
+    } else {
+      setIsValidForm({ ...isValidForm, validNickname: false });
+    }
   };
 
-  const onClickSubmit = (event) => {
-    navigate(`/mypage`);
+  const onClickSubmit = async () => {
+    if (!isValidForm.validForm) {
+      alert('올바르지 않은 프로필 수정 내용입니다. 다시 한번 체크해 주세요.');
+      return;
+    }
+
+    try {
+      const accessToken = localStorage.getItem('accessToken');
+      const formData = new FormData();
+
+      if (isImageChanged) {
+        /* 1. 프로필 이미지가 새로 업데이트된 경우 */
+        const imageResponse = await fetch(userData.profileImageUrl);
+        const imageBlob = await imageResponse.blob();
+        formData.append('image', imageBlob);
+      } else {
+        /* 2. 프로필 이미지가 수정되지 않은 경우 */
+        const emptyImageJSON = JSON.stringify({
+          image: null,
+        });
+        const emptyImageBlob = new Blob([emptyImageJSON], {
+          type: 'application/json',
+        });
+        formData.append('image', emptyImageBlob);
+      }
+
+      const formJson = JSON.stringify({
+        accountId: userData.accountId,
+        nickname: userData.nickname,
+      });
+
+      const formBlob = new Blob([formJson], { type: 'application/json' });
+      formData.append('request', formBlob);
+
+      const putResponse = await axios({
+        method: 'PUT',
+        url: `/api/user/profile`,
+        data: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      console.log('Profile updated successfully');
+      navigate(`/mypage`);
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
+
+  useEffect(() => {
+    if (
+      isValidForm.validId &&
+      isValidForm.uniqueId &&
+      isValidForm.validNickname
+    ) {
+      setIsValidForm({ ...isValidForm, validForm: true });
+    } else {
+      setIsValidForm({ ...isValidForm, validForm: false });
+    }
+    // console.log(isValidForm);
+  }, [
+    isValidForm.validId,
+    isValidForm.uniqueId,
+    isValidForm.validNickname,
+    isValidForm.validForm,
+  ]);
 
   return (
     <Layout>
       <HeaderBox>
-        <span>프로필 설정</span>
+        <span>프로필 수정</span>
       </HeaderBox>
 
       <ProfileBox>
-        <div className="profile-center">
+        <div className="profile-center" onClick={handleImageUpload}>
           {userData.profileImageUrl !== false ? (
             <img src={userData.profileImageUrl} />
           ) : (
@@ -186,6 +354,12 @@ function EditProfilePage() {
               />
             </svg>
           </div>
+          <input
+            type="file"
+            accept="image/*"
+            ref={imageInputRef}
+            onChange={handleImageChange}
+          />
         </div>
       </ProfileBox>
 
@@ -193,34 +367,45 @@ function EditProfilePage() {
         <InputBox>
           <h2>아이디</h2>
           <section>
-            <input onChange={onChangeId} value={userData.accountId} />
-            <div className="check-icon">
+            <input
+              type="text"
+              onChange={onChangeId}
+              placeholder={response.data.accountId}
+              value={userData.accountId}
+            />
+            <CheckIcon isValid={isValidForm.uniqueId} onClick={onCheckUniqueId}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
-                fill="none"
               >
                 <path
                   d="M9.00015 16.1698L5.53015 12.6998C5.34317 12.5129 5.08957 12.4078 4.82515 12.4078C4.56072 12.4078 4.30712 12.5129 4.12015 12.6998C3.93317 12.8868 3.82813 13.1404 3.82812 13.4048C3.82813 13.5358 3.85391 13.6654 3.90402 13.7864C3.95412 13.9073 4.02756 14.0173 4.12015 14.1098L8.30015 18.2898C8.69015 18.6798 9.32015 18.6798 9.71015 18.2898L20.2901 7.70983C20.4771 7.52286 20.5822 7.26926 20.5822 7.00483C20.5822 6.74041 20.4771 6.48681 20.2901 6.29983C20.1032 6.11286 19.8496 6.00781 19.5851 6.00781C19.3207 6.00781 19.0671 6.11286 18.8801 6.29983L9.00015 16.1698Z"
-                  fill="#8E8C86"
-                  fill-opacity="0.5"
+                  fill="#c7c5ce"
                 />
               </svg>
-            </div>
+            </CheckIcon>
           </section>
         </InputBox>
 
         <InputBox>
           <h2>이름</h2>
           <section>
-            <input onChange={onChangeName} value={userData.nickname} />
+            <input
+              type="text"
+              onChange={onChangeName}
+              placeholder={response.data.nickname}
+              value={userData.nickname}
+            />
           </section>
         </InputBox>
       </InfoBox>
 
-      <ConfirmButton onClick={onClickSubmit}>
+      <ConfirmButton
+        isValidForm={isValidForm.validForm}
+        onClick={onClickSubmit}
+      >
         <span>확인</span>
       </ConfirmButton>
     </Layout>

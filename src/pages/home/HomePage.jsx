@@ -8,9 +8,13 @@ import {
 } from 'react-router-dom';
 import axios from 'axios';
 
+import FortuneModal from '@components/home/FortuneModal';
 import YearlyContent from '@components/home/YearlyContent';
 import SeasonalContent from '@components/home/SeasonalContent';
 import TabBar from '@components/common/TabBar';
+
+import { TermsToChinese } from '@utils/seasoning/TermsToChinese';
+import { TermsToKorean } from '@utils/seasoning/TermsToKorean';
 
 import logo from '@assets/components/topbar/logo.png';
 
@@ -56,7 +60,6 @@ const Season = styled.div`
 
   column-gap: 0.5rem;
 
-  font-family: 'Noto Serif KR';
   font-size: 2rem;
   font-style: normal;
   font-weight: 700;
@@ -64,6 +67,7 @@ const Season = styled.div`
   color: #333;
 
   .season__title {
+    font-family: 'Noto Serif KR';
     font-size: 2rem;
     font-style: normal;
     font-weight: 700;
@@ -73,10 +77,13 @@ const Season = styled.div`
   .season__description {
     margin-bottom: 0.5rem;
 
+    font-family: 'Apple SD Gothic Neo';
     font-size: 0.875rem;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+
+    color: #000;
   }
 `;
 
@@ -99,24 +106,42 @@ const Fortune = styled.div`
   width: 21.875rem;
   height: 2rem;
   padding: 0 1rem;
+  margin-bottom: 0.2rem;
 
+  cursor: pointer;
   border-radius: 1.125rem 1rem 1rem 1.125rem;
-  border: 1px solid rgba(202, 202, 202, 50);
-  background: #fff;
+  background-color: #fff;
+  box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.2);
 
-  color: #333;
-  font-size: 0.875rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
+  .fortune__title-container {
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    column-gap: 0.32rem;
+  }
 
   .fortune__title {
-    display: flex;
-    margin-left: -9rem;
+    color: #333;
+    font-family: 'Apple SD Gothic Neo';
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+
+    padding-bottom: 0.025rem;
   }
 
   .fortune__date {
     color: #bfbfbf;
+    text-align: right;
+    font-family: 'Apple SD Gothic Neo';
+    font-size: 0.75rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
   }
 `;
 
@@ -143,19 +168,16 @@ const Year = styled.h1`
   position: relative;
   display: flex;
 
+  color: #333;
   font-family: 'Noto Serif KR';
   font-size: 1.625rem;
   font-style: normal;
   font-weight: 700;
-  line-height: 2.1775rem;
-
-  color: #333;
+  line-height: 134%;
 `;
 
 const Select = styled.div`
   position: relative;
-  /* width: 4rem; */
-  /* height: 100%; */
 
   display: flex;
   align-items: center;
@@ -166,6 +188,8 @@ const Select = styled.div`
     border: none;
     outline: none;
 
+    color: #333;
+    font-family: 'Apple SD Gothic Neo';
     font-size: 0.875rem;
     font-style: normal;
     font-weight: 400;
@@ -190,115 +214,26 @@ const ContentArea = styled.div`
   width: 100%;
   height: calc(100% - 3.5rem - 3.5625rem - 2.95rem - 4.4375rem);
   padding-bottom: 3.8125rem;
-  color: black;
 `;
-
-// 여기서부터 운세 팝업창
-const ModalOverlay = styled.div`
-  position: fixed;
-  margin-top: 5rem;
-  width: 17.6875rem;
-  height: 12.5rem;
-  z-index: 2;
-
-  display: flex;
-  flex-direction: column;
-  /* margin-top: 6rem; */
-
-  border-radius: 1.25rem;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  background-color: #fff;
-`;
-
-const ModalTop = styled.div`
-  position: relative;
-  display: flex;
-  margin: 1rem;
-  justify-content: space-between;
-  color: #8e8c86;
-  font-family: AppleSDGothicNeo;
-  font-size: 1rem;
-  font-style: normal;
-  font-weight: 400;
-`;
-
-const ModalTitle = styled.div`
-  position: relative;
-  display: flex;
-  margin-left: 1.5rem;
-
-  color: #333;
-  font-family: AppleSDGothicNeo;
-  font-size: 1.625rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-`;
-
-const Hr = styled.div`
-  position: relative;
-  display: flex;
-  margin: 0.5rem auto;
-  width: 14.9375rem;
-  height: 0.03125rem;
-  background: #8e8c86;
-`;
-
-const ModalContent = styled.div`
-  position: relative;
-  display: flex;
-  text-align: justify;
-  margin: 1rem auto;
-
-  width: 14.9375rem;
-  color: #333;
-  font-family: AppleSDGothicNeo;
-  font-size: 0.875rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-`;
-
-const Popup = ({ onClose, fortuneText }) => {
-  const [showPopup, setShowPopup] = useState(false);
-
-  const Close = () => {
-    onClose();
-    setShowPopup(false);
-  };
-
-  const currentDate = new Date();
-  const formattedDate = `${
-    currentDate.getMonth() + 1
-  }월 ${currentDate.getDate()}일`;
-
-  return (
-    <ModalOverlay>
-      <ModalTop>
-        <div>{formattedDate}</div>
-        <svg
-          onClick={Close}
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-        >
-          <path
-            d="M6.40002 18.6538L5.34619 17.6L10.9462 12L5.34619 6.40002L6.40002 5.34619L12 10.9462L17.6 5.34619L18.6538 6.40002L13.0538 12L18.6538 17.6L17.6 18.6538L12 13.0538L6.40002 18.6538Z"
-            fill="black"
-          />
-        </svg>
-      </ModalTop>
-      <ModalTitle>오늘의 운세</ModalTitle>
-      <Hr />
-      <ModalContent>{fortuneText}</ModalContent>
-    </ModalOverlay>
-  );
-};
 
 const HomePage = () => {
-  const { response } = useLoaderData();
+  const { homeResponse, termResponse } = useLoaderData();
+  // console.log(homeResponse.data);
+  // console.log(JSON.stringify(termResponse.data, null, '\t'));
+
+  const [now, setNow] = useState(new Date());
+
+  // useEffect(() => {
+  //   const Timer = setInterval(() => {
+  //     setNow(new Date());
+  //   }, 1000);
+  //   console.log('mount!');
+
+  //   return () => {
+  //     clearInterval(Timer);
+  //     console.log('unmount!');
+  //   };
+  // }, []);
 
   /* 운세 팝업 */
   const [fortuneText, setFortuneText] = useState('');
@@ -318,26 +253,7 @@ const HomePage = () => {
     fetchTodayFortune();
   }, []);
 
-  const [showPopup, setShowPopup] = useState(false);
-  const Open = () => {
-    setShowPopup(true);
-  };
-  const Close = () => {
-    setShowPopup(false);
-  };
-
-  const currentDate = new Date();
-  const formattedDate = `${
-    currentDate.getMonth() + 1
-  }월 ${currentDate.getDate()}일`;
-
-  useEffect(() => {
-    if (showPopup) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
-  }, [showPopup]);
+  const [showModal, setShowModal] = useState(false);
 
   /* 홈 */
   const navigate = useNavigate();
@@ -360,13 +276,20 @@ const HomePage = () => {
 
   return (
     <>
+      <PopupLayout>
+        {showModal && (
+          <FortuneModal
+            now={now}
+            setShowModal={setShowModal}
+            fortuneText={fortuneText}
+          />
+        )}
+      </PopupLayout>
+
       <Top>
         <LogoBox>
           <img src={logo} width={30} height={30} />
           <svg
-            style={{
-              alignItems: 'center',
-            }}
             xmlns="http://www.w3.org/2000/svg"
             width="92"
             height="17"
@@ -452,48 +375,63 @@ const HomePage = () => {
       </Top>
 
       <Season>
-        <div className="season__title">淸明</div>
-        <div className="season__description">청명, 5번째 절기</div>
+        <div className="season__title">
+          {TermsToChinese[termResponse.data.currentTerm.sequence]}
+        </div>
+        <div className="season__description">
+          {`${TermsToKorean[termResponse.data.currentTerm.sequence]}, ${
+            termResponse.data.currentTerm.sequence
+          }번째 절기`}
+        </div>
       </Season>
 
       <FortuneContainer>
-        <Fortune onClick={Open}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="14"
-            height="14"
-            viewBox="0 0 14 14"
-            fill="none"
-          >
-            <path
-              d="M10.4286 7.57067L10.4286 0.935057L3.79297 0.935059L3.79297 7.57067"
-              stroke="black"
-              stroke-width="0.8"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M10.2949 0.935059L1.61492 9.61506L4.99966 12.9998L9.33966 8.6598L10.4247 7.5748"
-              stroke="black"
-              stroke-width="0.8"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M4.16208 0.935083L12.8421 9.61508L9.45735 12.9998L7.28735 10.8298"
-              stroke="black"
-              stroke-width="0.8"
-              stroke-linejoin="round"
-            />
-          </svg>
-          <div className="fortune__title">오늘의 운세</div>
-          <div className="fortune__date">{formattedDate}</div>
+        <Fortune
+          onClick={() => {
+            setShowModal(true);
+          }}
+        >
+          <div className="fortune__title-container">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 14 14"
+              fill="none"
+            >
+              <path
+                d="M10.4286 7.57067L10.4286 0.935057L3.79297 0.935059L3.79297 7.57067"
+                stroke="black"
+                strokeWidth="0.8"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M10.2949 0.935059L1.61492 9.61506L4.99966 12.9998L9.33966 8.6598L10.4247 7.5748"
+                stroke="black"
+                strokeWidth="0.8"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M4.16208 0.935083L12.8421 9.61508L9.45735 12.9998L7.28735 10.8298"
+                stroke="black"
+                strokeWidth="0.8"
+                strokeLinejoin="round"
+              />
+            </svg>
+            <div className="fortune__title">오늘의 운세</div>
+          </div>
+          <div className="fortune__date">{`${
+            now.getMonth() + 1
+          }월 ${now.getDate()}일`}</div>
         </Fortune>
       </FortuneContainer>
-      <PopupLayout>
-        {showPopup && <Popup onClose={Close} fortuneText={fortuneText} />}
-      </PopupLayout>
 
       <Category>
-        <Year>{selectedCategory === 'year' ? '2023' : undefined}</Year>
+        <Year>
+          {selectedCategory === 'year'
+            ? now.getFullYear().toString()
+            : undefined}
+        </Year>
         <Select>
           <select value={selectedCategory} onChange={handleCategoryChange}>
             <option value="year">연도별 보기</option>
@@ -515,7 +453,9 @@ const HomePage = () => {
       </Category>
 
       <ContentArea>
-        {selectedCategory === 'year' && <YearlyContent />}
+        {selectedCategory === 'year' && (
+          <YearlyContent termData={termResponse.data} />
+        )}
         {selectedCategory === 'season' && <SeasonalContent />}
       </ContentArea>
 

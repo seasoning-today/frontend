@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-const Question = styled.div`
+const SeasonQuestion = styled.div`
   width: 100%;
 
   display: flex;
@@ -10,6 +10,7 @@ const Question = styled.div`
   color: #8e8c86;
   text-align: justify;
 
+  font-family: AppleSDGothicNeo;
   font-size: 0.875rem;
   font-style: normal;
   font-weight: 400;
@@ -23,12 +24,12 @@ const Question = styled.div`
   }
 `;
 
-const AddQuestion = ({ question }) => {
+const AddQuestion = ({ q_value }) => {
   return (
-    <Question>
+    <SeasonQuestion>
       <div className="write__question__aside" />
-      {question}
-    </Question>
+      {q_value}
+    </SeasonQuestion>
   );
 };
 
