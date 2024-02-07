@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 
 import FriendRequest from '@components/notification/FriendRequest';
 import FriendReaction from '@components/notification/FriendReaction';
@@ -63,6 +63,7 @@ const NotificationContainer = styled.div`
 const NotificationPage = () => {
   const { response } = useLoaderData();
   const [notifications, setNotifications] = useState(response.data);
+  const navigate = useNavigate();
   console.log(notifications);
 
   const formatNotificationTime = (timestamp) => {
@@ -127,6 +128,8 @@ const NotificationPage = () => {
                   profileImageUrl={
                     JSON.parse(notification.message).profileImageUrl
                   }
+                  friendId={null}
+                  navigate={navigate}
                   time={formatNotificationTime()}
                 />
               );
@@ -156,6 +159,12 @@ const NotificationPage = () => {
               return undefined;
           }
         })}
+
+        <FriendRequest
+          profileName={`poodlepoodle`}
+          profileImageUrl={null}
+          time={formatNotificationTime()}
+        />
 
         {notifications.length > 0 ? <div className="line" /> : undefined}
       </NotificationContainer>

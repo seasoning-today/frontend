@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 
 const Layout = styled.div`
   width: 100%;
@@ -96,50 +97,40 @@ const Button = styled.div`
   }
 `;
 
-const FriendRequest = ({ accountId, profileName, profileImageUrl, time }) => {
-  const [friendshipAccepted, setFriendshipAccepted] = useState([]);
-
+const FriendRequest = ({
+  profileName,
+  profileImageUrl,
+  friendId,
+  navigate,
+  time,
+}) => {
   const handleFriendRequest = async (action) => {
     const accessToken = localStorage.getItem('accessToken');
-
-    try {
-      const size = 10;
-      const lastId = '';
-
-      const response = await axios.get(
-        `/api/notification?size=${size}&lastId=${lastId}`,
-        {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        }
-      );
-
-      const friendshipAcceptedData = response.data.filter(
-        (notification) => notification.type === 'FRIENDSHIP_ACCEPTED'
-      );
-
-      setFriendshipAccepted(friendshipAcceptedData);
-    } catch (error) {
-      console.error('Error fetching friend requests:', error);
-    }
+    const requestBody = {
+      id: friendId,
+    };
 
     try {
       if (action === 'accept') {
-        await axios.put(
-          `/api/friend/add/accept`,
-
-          {
-            headers: { Authorization: `Bearer ${accessToken}` },
-          }
-        );
-        setFriendshipAccepted([...friendshipAccepted, {}]);
+        await axios({
+          method: 'PUT',
+          url: `/api/friend/add/accept`,
+          data: requestBody,
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }).then((res) => {
+          console.log(res);
+          navigate();
+        });
       } else if (action === 'decline') {
-        await axios.delete(
-          `/api/friend/add/decline`,
-
-          {
-            headers: { Authorization: `Bearer ${accessToken}` },
-          }
-        );
+        await axios({
+          method: 'DELETE',
+          url: `/api/friend/add/decline`,
+          data: requestBody,
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }).then((res) => {
+          console.log(res);
+          navigate();
+        });
       }
     } catch (error) {
       console.error('Error handling friend request:', error);
@@ -165,13 +156,17 @@ const FriendRequest = ({ accountId, profileName, profileImageUrl, time }) => {
       <ButtonContainer>
         <Button
           className="notification__button__approve"
-          onClick={() => handleFriendRequest('accept')}
+          onClick={() => {
+            handleFriendRequest('accept');
+          }}
         >
           <span>수락</span>
         </Button>
         <Button
           className="notification__button__decline"
-          onClick={() => handleFriendRequest('decline')}
+          onClick={() => {
+            handleFriendRequest('decline');
+          }}
         >
           <span>거절</span>
         </Button>
