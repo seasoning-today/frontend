@@ -192,25 +192,20 @@ const WritePage = () => {
   const currentTerm = 3;
   let questions = SeasonalQuestions[currentTerm];
 
+  const navigate = useNavigate();
+
   const [selectedImages, setSelectedImages] = useState([]);
   const [replacingImageIndex, setReplacingImageIndex] = useState(null);
   const [activeDotIndex, setActiveDotIndex] = useState(0);
   const imageInputRef = useRef(null);
 
-  const [contents, setContents] = useState([
-    { type: 'single', text: '' },
-    // { type: 'question', text: '질문 내용' },
-    // { type: 'answer', text: '' },
-  ]);
+  const [contents, setContents] = useState([{ type: 'single', text: '' }]);
 
   const [published, setPublished] = useState(true);
 
   const scrollRef = useRef();
   const imagescrollRef = useRef();
   // const textareasRefs = useRef(seasonalQuestions.map(() => useRef()));
-  const [showChatBubble, setShowChatBubble] = useState(true);
-
-  const navigate = useNavigate();
 
   /* 사진 좌우 스크롤과 Dots 색 조정 */
   const handleDotClick = (index) => {
@@ -421,6 +416,22 @@ const WritePage = () => {
   //   scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   // }, [BaseText, Question, Answer]);
 
+  /* 질문 추가 도움말 */
+  const [showChatBubble, setShowChatBubble] = useState(false);
+
+  useEffect(() => {
+    const isChatBubbleShown = localStorage.getItem('isChatBubbleShown');
+
+    if (!isChatBubbleShown || isChatBubbleShown === 'false') {
+      setShowChatBubble(true);
+    }
+  }, []);
+
+  const handleChatBubbleClick = () => {
+    localStorage.setItem('isChatBubbleShown', true);
+    setShowChatBubble(false);
+  };
+
   return (
     <Layout>
       <Top>
@@ -493,10 +504,7 @@ const WritePage = () => {
       </ContentContainer>
 
       {showChatBubble && (
-        <ChatBubble
-          src={chat_bubble}
-          onClick={() => setShowChatBubble(false)}
-        />
+        <ChatBubble src={chat_bubble} onClick={handleChatBubbleClick} />
       )}
       <ToolBar>
         <div
