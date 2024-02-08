@@ -214,6 +214,8 @@ const ContentArea = styled.div`
   width: 100%;
   height: calc(100% - 3.5rem - 3.5625rem - 2.95rem - 4.4375rem);
   padding-bottom: 3.8125rem;
+
+  /* background-color: yellow; */
 `;
 
 const HomePage = () => {
