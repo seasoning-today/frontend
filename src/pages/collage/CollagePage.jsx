@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import saveAs from 'file-saver';
+import axios from 'axios';
 
 import TabBar from '@components/common/TabBar';
 import { SeasonBackgrounds } from '@utils/image/SeasonBackgrounds';
@@ -165,7 +166,10 @@ const CollagePage = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const [selectedCategory, setSelectedCategory] = useState('2023');
+
+  const [selectedCategory, setSelectedCategory] = useState('year');
+  const [now, setNow] = useState(new Date());
+  const [seasonImages, setSeasonImages] = useState([]);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -174,6 +178,26 @@ const CollagePage = () => {
       setSelectedCategory(categoryParam);
     }
   }, [location.search]);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const accessToken = localStorage.getItem('accessToken');
+  //     try {
+  //       const response = await axios({
+  //         method: 'GET',
+  //         url: `/api/article/collage?year=${selectedCategory}`,
+  //         headers: {
+  //           Authorization: `Bearer ${accessToken}`,
+  //         },
+  //       });
+  //       setSeasonImages(response.data);
+  //     } catch (error) {
+  //       console.error('Error fetching collage data:', error);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, [selectedCategory]);
 
   const handleCategoryChange = (event) => {
     const newCategory = event.target.value;
@@ -333,7 +357,7 @@ const CollagePage = () => {
       <OptionBox>
         <Select>
           <select value={selectedCategory} onChange={handleCategoryChange}>
-            <option value="2023">2023</option>
+            <option value="year">{now.getFullYear().toString()}</option>
           </select>
           <svg
             xmlns="http://www.w3.org/2000/svg"
