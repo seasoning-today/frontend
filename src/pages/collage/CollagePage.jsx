@@ -390,6 +390,7 @@ const CollagePage = () => {
 
       <Content>
         <div className="collage__capture__area" ref={contentRef}>
+          {/*<Card style={{ backgroundImage: `url(${SeasonBackgrounds[7]})` }} />*/}
           <Card>
             <img src={SeasonBackgrounds[1]} />
           </Card>
@@ -469,7 +470,6 @@ const CollagePage = () => {
           </Card>
         </div>
       </Content>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/camanjs/4.1.2/caman.full.min.js"></script>
       <TabBar />
     </Layout>
   );
