@@ -25,7 +25,6 @@ const Top = styled.div`
 
     color: #000;
     text-align: center;
-
     font-family: 'Apple SD Gothic Neo';
     font-size: 1.25rem;
     font-style: normal;
@@ -46,23 +45,37 @@ const NotificationContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1.75rem 1.31rem;
+  padding: 1.38rem 1.31rem;
   row-gap: 1.38rem;
   overflow-y: scroll;
+`;
 
-  .line {
-    width: 100%;
-    height: 0.0625rem;
+const Line = styled.div`
+  width: 100%;
+  min-height: 0.0625rem;
 
-    background-color: #e3e3e3;
-  }
+  background-color: #e3e3e3;
 `;
 
 const NotificationPage = () => {
+  const navigate = useNavigate();
   const { response } = useLoaderData();
   const [notifications, setNotifications] = useState(response.data);
-  const navigate = useNavigate();
-  console.log(notifications);
+  const [friendRequests, setFriendRequests] = useState([]);
+  const [otherNotifications, setOtherNotifications] = useState([]);
+
+  useEffect(() => {
+    setFriendRequests(
+      notifications.filter(
+        (notification) => notification.type === `FRIENDSHIP_REQUEST`
+      )
+    );
+    setOtherNotifications(
+      notifications.filter(
+        (notification) => notification.type !== `FRIENDSHIP_REQUEST`
+      )
+    );
+  }, [notifications]);
 
   const formatNotificationTime = (timestamp) => {
     const currentTime = new Date();
@@ -108,26 +121,26 @@ const NotificationPage = () => {
       </Top>
 
       <NotificationContainer>
-        {notifications.map((notification) => {
+        {friendRequests.map((notification) => (
+          <FriendRequest
+            key={notification.id}
+            profileName={JSON.parse(notification.message).nickname}
+            profileImageUrl={JSON.parse(notification.message).profileImageUrl}
+            friendId={JSON.parse(notification.message).id}
+            navigate={navigate}
+            time={formatNotificationTime()}
+          />
+        ))}
+        {friendRequests.length > 0 && otherNotifications.length > 0 ? (
+          <Line />
+        ) : undefined}
+        {otherNotifications.map((notification) => {
           switch (notification.type) {
             case 'ARTICLE_OPEN':
               return (
                 <SeasonalNotify
                   key={notification.id}
                   seasonName={notification.message}
-                  time={formatNotificationTime()}
-                />
-              );
-            case 'FRIENDSHIP_REQUEST':
-              return (
-                <FriendRequest
-                  key={notification.id}
-                  profileName={JSON.parse(notification.message).nickname}
-                  profileImageUrl={
-                    JSON.parse(notification.message).profileImageUrl
-                  }
-                  friendId={JSON.parse(notification.message).id}
-                  navigate={navigate}
                   time={formatNotificationTime()}
                 />
               );
@@ -157,8 +170,6 @@ const NotificationPage = () => {
               return undefined;
           }
         })}
-
-        {notifications.length > 0 ? <div className="line" /> : undefined}
       </NotificationContainer>
     </>
   );
