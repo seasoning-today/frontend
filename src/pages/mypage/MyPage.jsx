@@ -16,6 +16,13 @@ const Layout = styled.div`
     display: flex;
     padding: 0 1rem;
   }
+
+  .mypage__line {
+    width: calc(100% - 2.5rem);
+    height: 0.03125rem;
+
+    background-color: #f0f0f0;
+  }
 `;
 
 const ProfileBox = styled.div`
@@ -100,10 +107,6 @@ const LinkMenu = styled(Link)`
   text-decoration: none;
 
   cursor: pointer;
-
-  &:not(:first-child) {
-    border-top: 0.03125rem solid #f0f0f0;
-  }
 
   span {
     font-family: 'Apple SD Gothic Neo';
@@ -198,6 +201,7 @@ const MyPage = () => {
               />
             </svg>
           </LinkMenu>
+          <div className="mypage__line" />
           <LinkMenu to={`/mypage/account`}>
             <span>계정 설정</span>
             <svg
