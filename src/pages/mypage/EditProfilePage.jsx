@@ -284,6 +284,7 @@ function EditProfilePage() {
       }
 
       const formJson = JSON.stringify({
+        image_modified: isImageChanged,
         accountId: userData.accountId,
         nickname: userData.nickname,
       });

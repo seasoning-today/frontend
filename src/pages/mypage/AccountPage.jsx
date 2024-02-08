@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useLoaderData } from 'react-router-dom';
 
-import TabBar from '@components/common/TabBar';
+import WithdrawModal from '@components/account/WithdrawModal';
 
 const Layout = styled.div`
   width: 100%;
@@ -103,16 +103,26 @@ const ActionMenu = styled.div`
   }
 `;
 
-const AccountPage = () => {
-  const { response } = useLoaderData();
-  console.log(response);
+const PopupLayout = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: center;
+`;
 
-  const onClickWithdraw = () => {
-    alert('탈퇴 기능 구현 중...');
+const AccountPage = () => {
+  const [searchEnabled, setSearchEnabled] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+
+  const toggleSearchEnabled = () => {
+    setSearchEnabled((searchEnabled) => !searchEnabled);
   };
 
   return (
     <Layout>
+      <PopupLayout>
+        {showModal && <WithdrawModal setShowModal={setShowModal} />}
+      </PopupLayout>
+
       <Top>
         <h1>계정 설정</h1>
 
@@ -138,73 +148,130 @@ const AccountPage = () => {
         <MenuBox>
           <ActionMenu>
             <span>아이디 검색 허용</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="36"
-              height="20"
-              viewBox="0 0 36 20"
-              fill="none"
-            >
-              <g filter="url(#filter0_i_1311_4124)">
-                <rect width="36" height="20" rx="10" fill="#D9D9D9" />
-              </g>
-              <circle cx="10" cy="10" r="8" fill="white" />
-              <defs>
-                <filter
-                  id="filter0_i_1311_4124"
-                  x="0"
-                  y="0"
+            <div onClick={toggleSearchEnabled}>
+              {searchEnabled ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
                   width="36"
-                  height="22"
-                  filterUnits="userSpaceOnUse"
-                  colorInterpolationFilters="sRGB"
+                  height="20"
+                  viewBox="0 0 36 20"
+                  fill="none"
                 >
-                  <feFlood floodOpacity="0" result="BackgroundImageFix" />
-                  <feBlend
-                    mode="normal"
-                    in="SourceGraphic"
-                    in2="BackgroundImageFix"
-                    result="shape"
-                  />
-                  <feColorMatrix
-                    in="SourceAlpha"
-                    type="matrix"
-                    values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                    result="hardAlpha"
-                  />
-                  <feOffset dy="2" />
-                  <feGaussianBlur stdDeviation="1" />
-                  <feComposite
-                    in2="hardAlpha"
-                    operator="arithmetic"
-                    k2="-1"
-                    k3="1"
-                  />
-                  <feColorMatrix
-                    type="matrix"
-                    values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"
-                  />
-                  <feBlend
-                    mode="normal"
-                    in2="shape"
-                    result="effect1_innerShadow_1311_4124"
-                  />
-                </filter>
-              </defs>
-            </svg>
+                  <g filter="url(#filter0_i_1496_6479)">
+                    <rect width="36" height="20" rx="10" fill="#2C8253" />
+                  </g>
+                  <circle cx="26" cy="10" r="8" fill="white" />
+                  <defs>
+                    <filter
+                      id="filter0_i_1496_6479"
+                      x="0"
+                      y="0"
+                      width="36"
+                      height="22"
+                      filterUnits="userSpaceOnUse"
+                      colorInterpolationFilters="sRGB"
+                    >
+                      <feFlood floodOpacity="0" result="BackgroundImageFix" />
+                      <feBlend
+                        mode="normal"
+                        in="SourceGraphic"
+                        in2="BackgroundImageFix"
+                        result="shape"
+                      />
+                      <feColorMatrix
+                        in="SourceAlpha"
+                        type="matrix"
+                        values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                        result="hardAlpha"
+                      />
+                      <feOffset dy="2" />
+                      <feGaussianBlur stdDeviation="1" />
+                      <feComposite
+                        in2="hardAlpha"
+                        operator="arithmetic"
+                        k2="-1"
+                        k3="1"
+                      />
+                      <feColorMatrix
+                        type="matrix"
+                        values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"
+                      />
+                      <feBlend
+                        mode="normal"
+                        in2="shape"
+                        result="effect1_innerShadow_1496_6479"
+                      />
+                    </filter>
+                  </defs>
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="36"
+                  height="20"
+                  viewBox="0 0 36 20"
+                  fill="none"
+                >
+                  <g filter="url(#filter0_i_1311_4124)">
+                    <rect width="36" height="20" rx="10" fill="#D9D9D9" />
+                  </g>
+                  <circle cx="10" cy="10" r="8" fill="white" />
+                  <defs>
+                    <filter
+                      id="filter0_i_1311_4124"
+                      x="0"
+                      y="0"
+                      width="36"
+                      height="22"
+                      filterUnits="userSpaceOnUse"
+                      colorInterpolationFilters="sRGB"
+                    >
+                      <feFlood floodOpacity="0" result="BackgroundImageFix" />
+                      <feBlend
+                        mode="normal"
+                        in="SourceGraphic"
+                        in2="BackgroundImageFix"
+                        result="shape"
+                      />
+                      <feColorMatrix
+                        in="SourceAlpha"
+                        type="matrix"
+                        values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                        result="hardAlpha"
+                      />
+                      <feOffset dy="2" />
+                      <feGaussianBlur stdDeviation="1" />
+                      <feComposite
+                        in2="hardAlpha"
+                        operator="arithmetic"
+                        k2="-1"
+                        k3="1"
+                      />
+                      <feColorMatrix
+                        type="matrix"
+                        values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"
+                      />
+                      <feBlend
+                        mode="normal"
+                        in2="shape"
+                        result="effect1_innerShadow_1311_4124"
+                      />
+                    </filter>
+                  </defs>
+                </svg>
+              )}
+            </div>
           </ActionMenu>
         </MenuBox>
       </section>
 
       <section>
         <MenuBox>
-          <ActionMenu onClick={onClickWithdraw}>
+          <ActionMenu onClick={() => setShowModal(true)}>
             <span className="important__menu">회원 탈퇴</span>
           </ActionMenu>
         </MenuBox>
       </section>
-
-      <TabBar />
     </Layout>
   );
 };
