@@ -75,9 +75,9 @@ const Square = styled.div`
   background-color: #333;
 `;
 
-const SeasonMenu = ({ term }) => {
+const SeasonMenu = ({ term, onClick }) => {
   return (
-    <Container>
+    <Container onClick={onClick}>
       <Square>
         <span className="season__menu__chinese">{TermsToChinese[term]}</span>
       </Square>

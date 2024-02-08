@@ -165,11 +165,9 @@ const SeasonCircle = (props) => {
     const Timer = setInterval(() => {
       setNow(new Date());
     }, 1000);
-    console.log('mount!');
 
     return () => {
       clearInterval(Timer);
-      console.log('unmount!');
     };
   }, []);
 
