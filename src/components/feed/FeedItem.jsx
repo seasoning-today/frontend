@@ -108,9 +108,11 @@ const FeedItem = (props) => {
         </section>
       </ProfileContainer>
 
-      <ThumbnailImage>
-        <img src={article.image} />
-      </ThumbnailImage>
+      {article.image ? (
+        <ThumbnailImage>
+          <img src={article.image} />
+        </ThumbnailImage>
+      ) : undefined}
 
       <Content>{article.preview}</Content>
     </ContentLayout>
