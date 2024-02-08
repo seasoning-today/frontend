@@ -1,11 +1,13 @@
-import AddQuestion from '@components/write/AddQuestion';
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLoaderData } from 'react-router-dom';
 import Textarea from 'react-textarea-autosize';
 
+import AddQuestion from '@components/write/AddQuestion';
 import { SeasonalQuestions } from '@utils/seasoning/SeasonalQuestions';
+import { TermsToChinese } from '@utils/seasoning/TermsToChinese';
+import { TermsToKorean } from '@utils/seasoning/TermsToKorean';
 
 import chat_bubble from '@assets/ChatBubble.png';
 
@@ -189,7 +191,8 @@ const ToolBar = styled.div`
 `;
 
 const WritePage = () => {
-  const currentTerm = 3;
+  const { response } = useLoaderData();
+  const currentTerm = response.data.currentTerm.sequence;
   let questions = SeasonalQuestions[currentTerm];
 
   const navigate = useNavigate();
@@ -455,8 +458,12 @@ const WritePage = () => {
       </Top>
 
       <Title>
-        <span className="write__title__chinese">立春</span>
-        <span className="write__title__korean">입춘</span>
+        <span className="write__title__chinese">
+          {TermsToChinese[currentTerm]}
+        </span>
+        <span className="write__title__korean">
+          {TermsToKorean[currentTerm]}
+        </span>
       </Title>
 
       <ContentContainer ref={scrollRef}>

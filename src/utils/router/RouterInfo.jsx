@@ -26,6 +26,7 @@ import { LoginLoader } from '@utils/api/LoginLoader';
 import { NotificationLoader } from '@utils/api/NotificationLoader';
 import { NoticeLoader } from '@utils/api/NoticeLoader';
 import { ArticleLoader } from '@utils/api/ArticleLoader';
+import { CurrentTermLoader } from '@utils/api/CurrentTermLoader';
 import { UserRestrictLoader } from '@utils/api/UserRestrictLoader';
 
 export const RouterInfo = [
@@ -90,7 +91,7 @@ export const RouterInfo = [
       {
         path: 'write',
         element: <WritePage />,
-        loader: UserRestrictLoader,
+        loader: CurrentTermLoader,
       },
       {
         path: 'article/:articleId',
