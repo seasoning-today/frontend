@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { TermsToKorean } from '@utils/seasoning/TermsToKorean';
+
 import logo from '@assets/components/topbar/logo.png';
 
 const Layout = styled.div`
@@ -21,7 +23,7 @@ const ProfileImage = styled.img`
   flex-shrink: 0;
 `;
 
-const Content = styled.p`
+const Content = styled.div`
   flex-grow: 1;
 
   .notification__name {
@@ -54,13 +56,13 @@ const Content = styled.p`
   }
 `;
 
-const SeasonalNotify = ({ seasonName, time }) => {
+const SeasonalNotify = ({ term, time }) => {
   return (
     <Layout>
       <ProfileImage src={logo} />
 
       <Content>
-        <span className="notification__name">{seasonName}</span>
+        <span className="notification__name">{TermsToKorean[term]}</span>
         <span className="notification__content">노트가 열렸습니다</span>
         <br />
         <span className="notification__time">{time}</span>

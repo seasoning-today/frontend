@@ -20,26 +20,7 @@ export const NotificationLoader = async ({ request, params }) => {
       }
     );
 
-    const friendRequestsData = response.data.filter(
-      (notification) => notification.type === 'FRIENDSHIP_REQUEST'
-    );
-    const friendshipAcceptedData = response.data.filter(
-      (notification) => notification.type === 'FRIENDSHIP_ACCEPTED'
-    );
-    const friendReactionData = response.data.filter(
-      (notification) => notification.type === 'ARTICLE_FEEDBACK'
-    );
-    const seasonalNotifyData = response.data.filter(
-      (notification) => notification.type === 'ARTICLE_OPEN'
-    );
-    const notificationData = {
-      friendRequestsData: friendRequestsData,
-      friendshipAcceptedData: friendshipAcceptedData,
-      friendReactionData: friendReactionData,
-      seasonalNotifyData: seasonalNotifyData,
-    };
-
-    return { notificationData };
+    return { response };
   } catch (error) {
     console.error(error);
     console.log('* Response Error... Redirecting to /login');
