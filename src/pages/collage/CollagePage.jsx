@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import saveAs from 'file-saver';
+import Caman from 'caman';
 import axios from 'axios';
 
 import TabBar from '@components/common/TabBar';
