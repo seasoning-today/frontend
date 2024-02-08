@@ -319,15 +319,9 @@ const DeleteButton = styled.div`
   }
 `;
 
-const SavedPage = () => {
+const ArticlePage = () => {
   const { response } = useLoaderData();
   const [userData, setUserData] = useState(response.data);
-
-  const storedQuestion = localStorage.getItem('Question');
-  const storedImages = localStorage.getItem('selectedImages');
-  const storedBaseText = localStorage.getItem('BaseText');
-  const storedAnswer = localStorage.getItem('Answer');
-  const storedPrivacy = localStorage.getItem('Privacy');
 
   const [count, setCount] = useState(0);
   const [ClickedEmoji, setClickedEmoji] = useState(false);
@@ -412,7 +406,7 @@ const SavedPage = () => {
 
   return (
     <Layout>
-      <Top showPopup={showMenuPopup}>
+      {/* <Top showPopup={showMenuPopup}>
         <Link to={`/home`}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -526,9 +520,9 @@ const SavedPage = () => {
             </DeleteButton>
           </DeleteModalContent>
         </DeleteModalOverlay>
-      )}
+      )} */}
     </Layout>
   );
 };
 
-export default SavedPage;
+export default ArticlePage;
