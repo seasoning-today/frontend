@@ -347,6 +347,7 @@ const WritePage = () => {
   //   }
   // };
 
+  /* 콘텐츠 편집 */
   const handleTextChange = (text, idx) => {
     setContents((contents) =>
       contents.map((item, index) =>
@@ -355,49 +356,32 @@ const WritePage = () => {
     );
   };
 
-  /* 저장 */
+  /* 콘텐츠 저장 */
   const handleSave = async () => {
-    console.log('selectedImages:', selectedImages);
-    console.log('contents:');
-    console.log(JSON.stringify(contents, null, '\t'));
-    console.log('published:', published);
-
-    return;
+    // console.log(JSON.stringify(contents, null, '\t'));
 
     try {
       const accessToken = localStorage.getItem('accessToken');
-
       const formData = new FormData();
 
-      //       {
-      // 	images: 업로드 이미지들
-      // 	request: {
-      // 		published: boolean, // 공개 여부
-      // 		contents: String, // 본문 내용
-      // 	}
-      // }
-
-      // selectedImages.forEach(async (selectedImage, index) => {
-      //   const imageResponse = await fetch(selectedImage);
-      //   const imageBlob = await imageResponse.blob();
-      //   formData.append(`images`, imageBlob);
-      // });
-      const emptyImageJSON = JSON.stringify({
-        images: null,
-      });
-      const emptyImageBlob = new Blob([emptyImageJSON], {
-        type: 'application/json',
-      });
-      formData.append('images', '');
+      if (selectedImages.length > 0) {
+        selectedImages.forEach((selectedImage, idx) => {
+          const base64Data = selectedImage.split(',')[1];
+          const imageBlob = base64ToBlob(base64Data, 'image/jpeg');
+          formData.append(`images`, imageBlob, `image-${idx}.jpg`);
+        });
+      } else {
+        formData.append('images', null);
+      }
 
       const contentsJson = JSON.stringify({
         published: published,
         contents: JSON.stringify(contents),
       });
-      const contentsBlob = new Blob([contentsJson], {
-        type: 'application/json',
-      });
-      formData.append('request', contentsBlob);
+      formData.append(
+        'request',
+        new Blob([contentsJson], { type: 'application/json' })
+      );
 
       const response = await axios({
         method: 'POST',
@@ -411,7 +395,7 @@ const WritePage = () => {
 
       if (response.status === 200) {
         console.log('Article saved successfully!');
-
+        console.log(response.data);
         // navigate('/saved');
       } else {
         console.error('Failed to save article.');
@@ -420,6 +404,17 @@ const WritePage = () => {
       console.error('Error details:', error);
     }
   };
+
+  /* base64를 Blob으로 변환 */
+  function base64ToBlob(base64, mimeType) {
+    const byteCharacters = atob(base64);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    return new Blob([byteArray], { type: mimeType });
+  }
 
   /* 스크롤 포커스 */
   // useEffect(() => {
