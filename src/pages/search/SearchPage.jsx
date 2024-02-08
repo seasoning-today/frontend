@@ -76,8 +76,6 @@ const SearchResult = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  background-color: yellow;
 `;
 
 const Button = styled.div`
@@ -92,6 +90,7 @@ const Button = styled.div`
   cursor: pointer;
   background-color: #0d6b38;
   flex-shrink: 0;
+  opacity: ${(props) => (props.active ? `1` : `0.7`)};
 
   span {
     color: #f0f0f0;
@@ -172,20 +171,40 @@ const SearchPage = () => {
     }
   };
 
-  const handleFriendRequest = async (index) => {
+  const sendFriendRequest = async (friendId) => {
     const accessToken = localStorage.getItem('accessToken');
-    const friendToRequest = searchResult[index];
 
     try {
       const response = await axios.post(
         `/api/friend/add`,
         {
-          id: friendToRequest.id,
+          id: friendId,
         },
         {
           headers: { Authorization: `Bearer ${accessToken}` },
         }
       );
+
+      if (response.status === 200) {
+        handleSearch();
+      } else {
+        // console.error('Unexpected response:', response);
+      }
+    } catch (error) {
+      // console.error('Error sending friend request:', error);
+    }
+  };
+
+  const cancelFriendRequest = async (friendId) => {
+    const accessToken = localStorage.getItem('accessToken');
+
+    try {
+      const response = await axios.delete(`/api/friend/add/cancel`, {
+        data: {
+          id: friendId,
+        },
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
 
       if (response.status === 200) {
         handleSearch();
@@ -232,11 +251,12 @@ const SearchPage = () => {
               accountId={result.accountId}
             />
             {result.friendshipStatus === `UNFRIEND` ? (
-              <Button
-                onClick={() => handleFriendRequest(idx)}
-                friendshipStatus={result.friendshipStatus}
-              >
+              <Button active onClick={() => sendFriendRequest(result.id)}>
                 <span>친구 신청</span>
+              </Button>
+            ) : result.friendshipStatus === `SENT` ? (
+              <Button onClick={() => cancelFriendRequest(result.id)}>
+                <span>대기 중...</span>
               </Button>
             ) : result.friendshipStatus !== `SELF` ? (
               <FriendshipStatusBox friendshipStatus={result.friendshipStatus}>
