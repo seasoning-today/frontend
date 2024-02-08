@@ -8,7 +8,6 @@ import {
 } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import saveAs from 'file-saver';
-import domtoimage from 'dom-to-image';
 import axios from 'axios';
 
 import TabBar from '@components/common/TabBar';
@@ -153,6 +152,9 @@ const Card = styled.div`
   align-items: center;
   background-color: #ccc;
 
+  background-size: cover;
+  background-position: center;
+
   img {
     width: 100%;
     height: 100%;
@@ -238,20 +240,17 @@ const CollagePage = () => {
       div.style.width = `${div.scrollWidth}px`;
       div.style.height = `${div.scrollHeight}px`;
 
-      // const canvas = await html2canvas(div, {
-      //   scale: 2,
-      //   logging: false,
-      //   windowHeight: div.scrollHeight,
-      //   windowWidth: div.scrollWidth,
-      // });
-      // canvas.toBlob((blob) => {
-      //   if (blob !== null) {
-      //     saveAs(blob, 'collage.png');
-      //   }
-      // });
-
-      const dataUrl = await domtoimage.toBlob(div);
-      saveAs(dataUrl, 'collage.png');
+      const canvas = await html2canvas(div, {
+        scale: 2,
+        logging: false,
+        windowHeight: div.scrollHeight,
+        windowWidth: div.scrollWidth,
+      });
+      canvas.toBlob((blob) => {
+        if (blob !== null) {
+          saveAs(blob, 'collage.png');
+        }
+      });
 
       div.style.width = originalStyle.width;
       div.style.height = originalStyle.height;
@@ -393,84 +392,39 @@ const CollagePage = () => {
 
       <Content>
         <div className="collage__capture__area" ref={contentRef}>
-          {/*<Card style={{ backgroundImage: `url(${SeasonBackgrounds[7]})` }} />*/}
-          <Card>
+          {/*<Card>
             <img src={SeasonBackgrounds[1]} />
-          </Card>
-          <Card>
-            <img src={SeasonBackgrounds[2]} />
-          </Card>
-          <Card>
-            <img src={SeasonBackgrounds[3]} />
-          </Card>
-          <Card>
-            <img src={SeasonBackgrounds[4]} />
-          </Card>
+          </Card>*/}
 
-          <Card>
-            <img src={SeasonBackgrounds[5]} />
-          </Card>
-          <Card>
-            <img src={SeasonBackgrounds[6]} />
-          </Card>
-          <Card>
-            <img src={SeasonBackgrounds[7]} />
-          </Card>
-          <Card>
-            <img src={SeasonBackgrounds[8]} />
-          </Card>
+          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[1]})` }} />
+          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[2]})` }} />
+          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[3]})` }} />
+          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[4]})` }} />
 
-          <Card>
-            <img src={SeasonBackgrounds[9]} />
-          </Card>
-          <Card>
-            <img src={SeasonBackgrounds[10]} />
-          </Card>
-          <Card>
-            <img src={SeasonBackgrounds[11]} />
-          </Card>
-          <Card>
-            <img src={SeasonBackgrounds[12]} />
-          </Card>
+          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[5]})` }} />
+          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[6]})` }} />
+          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[7]})` }} />
+          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[8]})` }} />
 
-          <Card>
-            <img src={SeasonBackgrounds[13]} />
-          </Card>
-          <Card>
-            <img src={SeasonBackgrounds[14]} />
-          </Card>
-          <Card>
-            <img src={SeasonBackgrounds[15]} />
-          </Card>
-          <Card>
-            <img src={SeasonBackgrounds[16]} />
-          </Card>
+          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[9]})` }} />
+          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[10]})` }} />
+          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[11]})` }} />
+          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[12]})` }} />
 
-          <Card>
-            <img src={SeasonBackgrounds[17]} />
-          </Card>
-          <Card>
-            <img src={SeasonBackgrounds[18]} />
-          </Card>
-          <Card>
-            <img src={SeasonBackgrounds[19]} />
-          </Card>
-          <Card>
-            <img src={SeasonBackgrounds[20]} />
-          </Card>
+          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[13]})` }} />
+          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[14]})` }} />
+          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[15]})` }} />
+          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[16]})` }} />
 
-          <Card>
-            <img src={SeasonBackgrounds[21]} />
-          </Card>
-          <Card>
-            <img src={SeasonBackgrounds[22]} />
-          </Card>
-          <Card>
-            <img src={SeasonBackgrounds[23]} />
-          </Card>
-          <Card>
-            <img src={SeasonBackgrounds[24]} />
-          </Card>
+          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[17]})` }} />
+          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[18]})` }} />
+          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[19]})` }} />
+          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[20]})` }} />
+
+          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[21]})` }} />
+          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[22]})` }} />
+          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[23]})` }} />
+          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[24]})` }} />
         </div>
       </Content>
       <TabBar />
