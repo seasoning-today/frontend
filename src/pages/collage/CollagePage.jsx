@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import saveAs from 'file-saver';
-import Caman from 'caman';
+
 import axios from 'axios';
 
 import TabBar from '@components/common/TabBar';
@@ -470,7 +470,7 @@ const CollagePage = () => {
           </Card>
         </div>
       </Content>
-
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/camanjs/4.1.2/caman.full.min.js"></script>
       <TabBar />
     </Layout>
   );
