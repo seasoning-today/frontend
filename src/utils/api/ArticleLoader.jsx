@@ -13,8 +13,8 @@ export const ArticleLoader = async ({ request, params }) => {
     const response = await axios.get(`/api/article/${params.articleId}`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
-    console.log(response);
-    return { response };
+    // console.log(response);
+    return { articleId: params.articleId, response: response };
   } catch (error) {
     console.error(error);
     console.log('* Response Error... Redirecting to /home');
