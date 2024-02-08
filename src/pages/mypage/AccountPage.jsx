@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useLoaderData } from 'react-router-dom';
 
-import TabBar from '@components/common/TabBar';
+import WithdrawModal from '@components/account/WithdrawModal';
 
 const Layout = styled.div`
   width: 100%;
@@ -103,19 +103,26 @@ const ActionMenu = styled.div`
   }
 `;
 
+const PopupLayout = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: center;
+`;
+
 const AccountPage = () => {
   const [searchEnabled, setSearchEnabled] = useState(true);
+  const [showModal, setShowModal] = useState(false);
 
   const toggleSearchEnabled = () => {
     setSearchEnabled((searchEnabled) => !searchEnabled);
   };
 
-  const onClickWithdraw = () => {
-    alert('탈퇴 기능 구현 중...');
-  };
-
   return (
     <Layout>
+      <PopupLayout>
+        {showModal && <WithdrawModal setShowModal={setShowModal} />}
+      </PopupLayout>
+
       <Top>
         <h1>계정 설정</h1>
 
@@ -260,13 +267,11 @@ const AccountPage = () => {
 
       <section>
         <MenuBox>
-          <ActionMenu onClick={onClickWithdraw}>
+          <ActionMenu onClick={() => setShowModal(true)}>
             <span className="important__menu">회원 탈퇴</span>
           </ActionMenu>
         </MenuBox>
       </section>
-
-      <TabBar />
     </Layout>
   );
 };
