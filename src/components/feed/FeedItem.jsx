@@ -1,8 +1,11 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 import UserProfileBox from '@components/common/UserProfileBox';
+import { TermsToChinese } from '@utils/seasoning/TermsToChinese';
+import { TermsToKorean } from '@utils/seasoning/TermsToKorean';
 
-const ContentLayout = styled.div`
+const ContentLayout = styled(Link)`
   position: relative;
   width: 100%;
 
@@ -85,30 +88,32 @@ const Content = styled.div`
 `;
 
 const FeedItem = (props) => {
-  const data = props.data;
+  const { profile, article } = props.data;
 
   return (
-    <>
-      <ContentLayout>
-        <ProfileContainer>
-          <UserProfileBox
-            profileImage={data.profile.image}
-            nickname={data.profile.nickname}
-            accountId={data.profile.accountID}
-          />
-          <section className="profile__season">
-            <span className="profile__season__korean">입춘</span>
-            <span className="profile__season__chinese">立春</span>
-          </section>
-        </ProfileContainer>
+    <ContentLayout to={`/article/${article.id}`}>
+      <ProfileContainer>
+        <UserProfileBox
+          profileImage={profile.image}
+          nickname={profile.nickname}
+          accountId={profile.accountID}
+        />
+        <section className="profile__season">
+          <span className="profile__season__korean">
+            {TermsToKorean[article.term]}
+          </span>
+          <span className="profile__season__chinese">
+            {TermsToChinese[article.term]}
+          </span>
+        </section>
+      </ProfileContainer>
 
-        <ThumbnailImage>
-          <img src={data.article.image} />
-        </ThumbnailImage>
+      <ThumbnailImage>
+        <img src={article.image} />
+      </ThumbnailImage>
 
-        <Content>{data.article.preview}</Content>
-      </ContentLayout>
-    </>
+      <Content>{article.preview}</Content>
+    </ContentLayout>
   );
 };
 

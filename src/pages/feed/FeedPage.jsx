@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { useLoaderData, useNavigate, useLocation } from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom';
 
 import FeedItem from '@components/feed/FeedItem';
 import TabBar from '@components/common/TabBar';
@@ -47,7 +47,6 @@ const ContentArea = styled.div`
 const FeedPage = () => {
   const { response } = useLoaderData();
   const [feedData, setFeedData] = useState(response.data);
-
   console.log(feedData);
 
   return (
