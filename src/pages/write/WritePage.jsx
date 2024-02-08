@@ -1,11 +1,13 @@
-import AddQuestion from '@components/write/AddQuestion';
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLoaderData } from 'react-router-dom';
 import Textarea from 'react-textarea-autosize';
 
+import AddQuestion from '@components/write/AddQuestion';
 import { SeasonalQuestions } from '@utils/seasoning/SeasonalQuestions';
+import { TermsToChinese } from '@utils/seasoning/TermsToChinese';
+import { TermsToKorean } from '@utils/seasoning/TermsToKorean';
 
 import chat_bubble from '@assets/ChatBubble.png';
 
@@ -86,24 +88,24 @@ const ContentContainer = styled.div`
   align-items: center;
   flex-direction: column;
   row-gap: 1.5rem;
-  padding: 1rem 1.31rem 4.81rem 1.31rem;
+  padding: 0 1.31rem 4.81rem 1.31rem;
 
   overflow-y: auto;
 
   .dots__container {
     display: flex;
-    gap: 0.5rem;
+    column-gap: 0.5rem;
   }
 `;
 
 const Dots = styled.div`
   display: flex;
 
-  width: 0.4rem;
-  height: 0.4rem;
+  width: 0.25rem;
+  height: 0.25rem;
   border-radius: 50%;
   cursor: pointer;
-  background-color: ${({ active }) => (active ? '#333' : '#ccc')};
+  background-color: ${({ active }) => (active ? '#AFAFAF' : '#E9E9E9')};
 `;
 
 const ImagesContainer = styled.div`
@@ -132,7 +134,7 @@ const Text = styled(Textarea)`
   min-height: 1.2rem;
   color: #333;
   text-align: justify;
-  font-family: AppleSDGothicNeoR00;
+  font-family: 'Apple SD Gothic Neo';
   font-size: 0.875rem;
   font-style: normal;
   font-weight: 400;
@@ -146,10 +148,11 @@ const Text = styled(Textarea)`
 `;
 
 const ChatBubble = styled.img`
-  position: fixed;
-  bottom: 2.5rem;
-  width: 17.75rem;
-  height: 2.75rem;
+  position: absolute;
+  left: 3.7rem;
+  bottom: 2.7rem;
+  width: 16.25rem;
+  height: 2.7rem;
 
   display: flex;
   cursor: pointer;
@@ -188,28 +191,24 @@ const ToolBar = styled.div`
 `;
 
 const WritePage = () => {
-  const currentTerm = 3;
+  const { response } = useLoaderData();
+  const currentTerm = response.data.currentTerm.sequence;
   let questions = SeasonalQuestions[currentTerm];
+
+  const navigate = useNavigate();
 
   const [selectedImages, setSelectedImages] = useState([]);
   const [replacingImageIndex, setReplacingImageIndex] = useState(null);
   const [activeDotIndex, setActiveDotIndex] = useState(0);
   const imageInputRef = useRef(null);
 
-  const [contents, setContents] = useState([
-    { type: 'single', text: '' },
-    // { type: 'question', text: '질문 내용' },
-    // { type: 'answer', text: '' },
-  ]);
+  const [contents, setContents] = useState([{ type: 'single', text: '' }]);
 
   const [published, setPublished] = useState(true);
 
   const scrollRef = useRef();
   const imagescrollRef = useRef();
   // const textareasRefs = useRef(seasonalQuestions.map(() => useRef()));
-  const [showChatBubble, setShowChatBubble] = useState(true);
-
-  const navigate = useNavigate();
 
   /* 사진 좌우 스크롤과 Dots 색 조정 */
   const handleDotClick = (index) => {
@@ -346,6 +345,7 @@ const WritePage = () => {
   //   }
   // };
 
+  /* 콘텐츠 편집 */
   const handleTextChange = (text, idx) => {
     setContents((contents) =>
       contents.map((item, index) =>
@@ -354,49 +354,32 @@ const WritePage = () => {
     );
   };
 
-  /* 저장 */
+  /* 콘텐츠 저장 */
   const handleSave = async () => {
-    console.log('selectedImages:', selectedImages);
-    console.log('contents:');
-    console.log(JSON.stringify(contents, null, '\t'));
-    console.log('published:', published);
-
-    return;
+    // console.log(JSON.stringify(contents, null, '\t'));
 
     try {
       const accessToken = localStorage.getItem('accessToken');
-
       const formData = new FormData();
 
-      //       {
-      // 	images: 업로드 이미지들
-      // 	request: {
-      // 		published: boolean, // 공개 여부
-      // 		contents: String, // 본문 내용
-      // 	}
-      // }
-
-      // selectedImages.forEach(async (selectedImage, index) => {
-      //   const imageResponse = await fetch(selectedImage);
-      //   const imageBlob = await imageResponse.blob();
-      //   formData.append(`images`, imageBlob);
-      // });
-      const emptyImageJSON = JSON.stringify({
-        images: null,
-      });
-      const emptyImageBlob = new Blob([emptyImageJSON], {
-        type: 'application/json',
-      });
-      formData.append('images', '');
+      if (selectedImages.length > 0) {
+        selectedImages.forEach((selectedImage, idx) => {
+          const base64Data = selectedImage.split(',')[1];
+          const imageBlob = base64ToBlob(base64Data, 'image/jpeg');
+          formData.append(`images`, imageBlob, `image-${idx}.jpg`);
+        });
+      } else {
+        formData.append('images', null);
+      }
 
       const contentsJson = JSON.stringify({
         published: published,
         contents: JSON.stringify(contents),
       });
-      const contentsBlob = new Blob([contentsJson], {
-        type: 'application/json',
-      });
-      formData.append('request', contentsBlob);
+      formData.append(
+        'request',
+        new Blob([contentsJson], { type: 'application/json' })
+      );
 
       const response = await axios({
         method: 'POST',
@@ -410,8 +393,8 @@ const WritePage = () => {
 
       if (response.status === 200) {
         console.log('Article saved successfully!');
-
-        // navigate('/saved');
+        console.log(response.data);
+        navigate(`/article/${response.data}`);
       } else {
         console.error('Failed to save article.');
       }
@@ -420,10 +403,37 @@ const WritePage = () => {
     }
   };
 
+  /* base64를 Blob으로 변환 */
+  function base64ToBlob(base64, mimeType) {
+    const byteCharacters = atob(base64);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    return new Blob([byteArray], { type: mimeType });
+  }
+
   /* 스크롤 포커스 */
   // useEffect(() => {
   //   scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   // }, [BaseText, Question, Answer]);
+
+  /* 질문 추가 도움말 */
+  const [showChatBubble, setShowChatBubble] = useState(false);
+
+  useEffect(() => {
+    const isChatBubbleShown = localStorage.getItem('isChatBubbleShown');
+
+    if (!isChatBubbleShown || isChatBubbleShown === 'false') {
+      setShowChatBubble(true);
+    }
+  }, []);
+
+  const handleChatBubbleClick = () => {
+    localStorage.setItem('isChatBubbleShown', true);
+    setShowChatBubble(false);
+  };
 
   return (
     <Layout>
@@ -448,8 +458,12 @@ const WritePage = () => {
       </Top>
 
       <Title>
-        <span className="write__title__chinese">立春</span>
-        <span className="write__title__korean">입춘</span>
+        <span className="write__title__chinese">
+          {TermsToChinese[currentTerm]}
+        </span>
+        <span className="write__title__korean">
+          {TermsToKorean[currentTerm]}
+        </span>
       </Title>
 
       <ContentContainer ref={scrollRef}>
@@ -497,10 +511,7 @@ const WritePage = () => {
       </ContentContainer>
 
       {showChatBubble && (
-        <ChatBubble
-          src={chat_bubble}
-          onClick={() => setShowChatBubble(false)}
-        />
+        <ChatBubble src={chat_bubble} onClick={handleChatBubbleClick} />
       )}
       <ToolBar>
         <div
