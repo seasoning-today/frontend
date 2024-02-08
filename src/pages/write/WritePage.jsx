@@ -132,7 +132,7 @@ const Text = styled(Textarea)`
   min-height: 1.2rem;
   color: #333;
   text-align: justify;
-  font-family: AppleSDGothicNeoR00;
+  font-family: 'Apple SD Gothic Neo';
   font-size: 0.875rem;
   font-style: normal;
   font-weight: 400;
@@ -146,10 +146,11 @@ const Text = styled(Textarea)`
 `;
 
 const ChatBubble = styled.img`
-  position: fixed;
-  bottom: 2.5rem;
-  width: 17.75rem;
-  height: 2.75rem;
+  position: absolute;
+  left: 3.7rem;
+  bottom: 2.7rem;
+  width: 16.25rem;
+  height: 2.7rem;
 
   display: flex;
   cursor: pointer;

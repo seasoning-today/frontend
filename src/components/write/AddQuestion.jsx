@@ -10,7 +10,7 @@ const SeasonQuestion = styled.div`
   color: #8e8c86;
   text-align: justify;
 
-  font-family: AppleSDGothicNeo;
+  font-family: 'Apple SD Gothic Neo';
   font-size: 0.875rem;
   font-style: normal;
   font-weight: 400;
