@@ -238,18 +238,20 @@ const CollagePage = () => {
       div.style.width = `${div.scrollWidth}px`;
       div.style.height = `${div.scrollHeight}px`;
 
-      const canvas = await html2canvas(div, {
-        scale: 2,
-        logging: false,
-        windowHeight: div.scrollHeight,
-        windowWidth: div.scrollWidth,
-      });
+      // const canvas = await html2canvas(div, {
+      //   scale: 2,
+      //   logging: false,
+      //   windowHeight: div.scrollHeight,
+      //   windowWidth: div.scrollWidth,
+      // });
+      // canvas.toBlob((blob) => {
+      //   if (blob !== null) {
+      //     saveAs(blob, 'collage.png');
+      //   }
+      // });
 
-      canvas.toBlob((blob) => {
-        if (blob !== null) {
-          saveAs(blob, 'collage.png');
-        }
-      });
+      const dataUrl = await domtoimage.toBlob(div);
+      saveAs(dataUrl, 'collage.png');
 
       div.style.width = originalStyle.width;
       div.style.height = originalStyle.height;
