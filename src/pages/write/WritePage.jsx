@@ -86,7 +86,7 @@ const ContentContainer = styled.div`
   align-items: center;
   flex-direction: column;
   row-gap: 1.5rem;
-  padding: 1rem 1.31rem 4.81rem 1.31rem;
+  padding: 0 1.31rem 4.81rem 1.31rem;
 
   overflow-y: auto;
 
@@ -391,7 +391,7 @@ const WritePage = () => {
       if (response.status === 200) {
         console.log('Article saved successfully!');
         console.log(response.data);
-        // navigate('/saved');
+        navigate(`/article/${response.data}`);
       } else {
         console.error('Failed to save article.');
       }
