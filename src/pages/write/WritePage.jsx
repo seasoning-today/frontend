@@ -92,18 +92,18 @@ const ContentContainer = styled.div`
 
   .dots__container {
     display: flex;
-    gap: 0.5rem;
+    column-gap: 0.5rem;
   }
 `;
 
 const Dots = styled.div`
   display: flex;
 
-  width: 0.4rem;
-  height: 0.4rem;
+  width: 0.25rem;
+  height: 0.25rem;
   border-radius: 50%;
   cursor: pointer;
-  background-color: ${({ active }) => (active ? '#333' : '#ccc')};
+  background-color: ${({ active }) => (active ? '#AFAFAF' : '#E9E9E9')};
 `;
 
 const ImagesContainer = styled.div`
