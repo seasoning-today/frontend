@@ -80,9 +80,6 @@ const WithdrawModal = ({ setShowModal }) => {
   const handleWithdraw = async () => {
     const accessToken = localStorage.getItem('accessToken');
 
-    alert('탈퇴 시도');
-    return;
-
     try {
       const response = await axios.delete(`/api/user`, {
         headers: { Authorization: `Bearer ${accessToken}` },
