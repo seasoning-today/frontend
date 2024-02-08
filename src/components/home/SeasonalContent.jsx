@@ -7,18 +7,17 @@ import ArticleRow from '@components/home/ArticleRow';
 
 const Container = styled.section`
   position: relative;
-  /* width: 100%; */
-  /* height: 100%; */
+  width: 100%;
+  height: 100%;
 
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  background-color: yellow;
 `;
 
 const Menus = styled.section`
   position: relative;
+  width: 100%;
   height: 7.31rem;
 
   display: flex;
@@ -26,7 +25,7 @@ const Menus = styled.section`
   padding: 0 1.31rem;
   gap: 1.13rem;
   overflow-x: scroll;
-  /* overflow-y: hidden; */
+  overflow-y: hidden;
 `;
 
 const Content = styled.section`
@@ -34,14 +33,16 @@ const Content = styled.section`
   width: 100%;
   height: calc(100% - 7.31rem);
 
-  /* display: flex;
+  display: flex;
   flex-direction: column;
-  align-items: center; */
+  align-items: center;
+  overflow-y: auto;
+  overflow-x: hidden;
 `;
 
 const Line = styled.div`
   width: calc(100% - 1.25rem);
-  height: 0.03125rem;
+  min-height: 0.03125rem;
   background-color: #a9a9a9;
 `;
 
@@ -53,7 +54,7 @@ const SeasonalContent = () => {
   console.log(articles);
 
   useEffect(() => {
-    console.log(`${selectedTerm}번 절기에 대한 글을 불러옵니다...`);
+    console.log(`${selectedTerm}번 절기에 대한 글을 불러옵니다.`);
 
     const fetchArticlesByTerm = async () => {
       const accessToken = localStorage.getItem('accessToken');
@@ -82,58 +83,12 @@ const SeasonalContent = () => {
       </Menus>
 
       <Content>
-        {/* {articles.length >= 0 ? <Line /> : undefined}
         {articles.map((article, idx) => (
           <React.Fragment key={idx}>
-            <ArticleRow thumbnail={article.image} text={article.preview} />
             <Line />
+            <ArticleRow thumbnail={article.image} text={article.preview} />
           </React.Fragment>
         ))}
-        <ArticleRow
-          thumbnail={`https://image.fmkorea.com/files/attach/new3/20240208/486616/6334843684/6702009047/5ffffb04008e296e138671ef25ff09bf.png`}
-          text={'테스트 테스트 테스트 테스트'}
-        />
-        <Line />
-        <ArticleRow
-          thumbnail={`https://image.fmkorea.com/files/attach/new3/20240208/486616/6334843684/6702009047/5ffffb04008e296e138671ef25ff09bf.png`}
-          text={'테스트 테스트 테스트 테스트'}
-        />
-        <Line />
-        <ArticleRow
-          thumbnail={`https://image.fmkorea.com/files/attach/new3/20240208/486616/6334843684/6702009047/5ffffb04008e296e138671ef25ff09bf.png`}
-          text={
-            '테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트'
-          }
-        />
-        <Line />
-        <ArticleRow
-          thumbnail={`https://image.fmkorea.com/files/attach/new3/20240208/486616/6334843684/6702009047/5ffffb04008e296e138671ef25ff09bf.png`}
-          text={
-            '테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트'
-          }
-        />
-        <Line />
-        <ArticleRow
-          thumbnail={`https://image.fmkorea.com/files/attach/new3/20240208/486616/6334843684/6702009047/5ffffb04008e296e138671ef25ff09bf.png`}
-          text={
-            '테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트'
-          }
-        />
-        <Line />
-        <ArticleRow
-          thumbnail={`https://image.fmkorea.com/files/attach/new3/20240208/486616/6334843684/6702009047/5ffffb04008e296e138671ef25ff09bf.png`}
-          text={
-            '테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트'
-          }
-        />
-        <Line />
-        <ArticleRow
-          thumbnail={`https://image.fmkorea.com/files/attach/new3/20240208/486616/6334843684/6702009047/5ffffb04008e296e138671ef25ff09bf.png`}
-          text={
-            '테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트'
-          }
-        />
-        <Line /> */}
       </Content>
     </Container>
   );
