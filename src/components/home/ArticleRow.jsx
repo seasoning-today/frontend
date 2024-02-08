@@ -1,6 +1,7 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
-const Container = styled.div`
+const Container = styled(Link)`
   width: 100%;
   height: 5.88rem;
   padding: 0.75rem 1.38rem;
@@ -48,7 +49,7 @@ const Description = styled.p`
 
 const ArticleRow = (props) => {
   return (
-    <Container>
+    <Container to={`/article/${props.articleId}`}>
       {props.thumbnail && (
         <Thumbnail>
           <img src={props.thumbnail} />

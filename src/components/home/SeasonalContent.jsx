@@ -83,10 +83,14 @@ const SeasonalContent = () => {
       </Menus>
 
       <Content>
-        {articles.map((article, idx) => (
-          <React.Fragment key={idx}>
+        {articles.map((article) => (
+          <React.Fragment key={article.id}>
             <Line />
-            <ArticleRow thumbnail={article.image} text={article.preview} />
+            <ArticleRow
+              articleId={article.id}
+              thumbnail={article.image}
+              text={article.preview}
+            />
           </React.Fragment>
         ))}
       </Content>
