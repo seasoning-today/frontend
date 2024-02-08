@@ -106,32 +106,27 @@ const FriendRequest = ({
 }) => {
   const handleFriendRequest = async (action) => {
     const accessToken = localStorage.getItem('accessToken');
-    const requestBody = {
-      id: friendId,
-    };
 
     try {
       if (action === 'accept') {
-        await axios({
-          method: 'PUT',
-          url: `/api/friend/add/accept`,
-          data: requestBody,
-          headers: { Authorization: `Bearer ${accessToken}` },
-        }).then((res) => {
-          console.log(res);
-          navigate();
-        });
+        const acceptResponse = await axios.put(
+          `/api/friend/add/accept`,
+          {
+            id: friendId,
+          },
+          {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          }
+        );
       } else if (action === 'decline') {
-        await axios({
-          method: 'DELETE',
-          url: `/api/friend/add/decline`,
-          data: requestBody,
+        const declineResponse = await axios.delete(`/api/friend/add/decline`, {
+          data: {
+            id: friendId,
+          },
           headers: { Authorization: `Bearer ${accessToken}` },
-        }).then((res) => {
-          console.log(res);
-          navigate();
         });
       }
+      navigate();
     } catch (error) {
       console.error('Error handling friend request:', error);
     }

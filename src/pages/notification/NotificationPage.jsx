@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 
@@ -19,7 +18,6 @@ const Top = styled.div`
   align-items: center;
 
   background-color: #fff;
-  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.2);
 
   h1 {
     margin: 0;
@@ -128,7 +126,7 @@ const NotificationPage = () => {
                   profileImageUrl={
                     JSON.parse(notification.message).profileImageUrl
                   }
-                  friendId={null}
+                  friendId={JSON.parse(notification.message).id}
                   navigate={navigate}
                   time={formatNotificationTime()}
                 />
@@ -159,12 +157,6 @@ const NotificationPage = () => {
               return undefined;
           }
         })}
-
-        <FriendRequest
-          profileName={`poodlepoodle`}
-          profileImageUrl={null}
-          time={formatNotificationTime()}
-        />
 
         {notifications.length > 0 ? <div className="line" /> : undefined}
       </NotificationContainer>
