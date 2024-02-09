@@ -50,7 +50,7 @@ const LogoContainer = styled.div`
 
     color: #bfbfbf;
     text-align: center;
-    font-family: AppleSDGothicNeo;
+    font-family: 'Apple SD Gothic Neo';
     font-size: 1rem;
     font-style: normal;
     font-weight: 400;
