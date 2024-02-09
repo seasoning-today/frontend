@@ -15,7 +15,6 @@ const Top = styled.div`
   align-items: center;
 
   background-color: #fff;
-  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.2);
 
   h1 {
     margin: 0;

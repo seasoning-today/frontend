@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { useLoaderData, useNavigate, useLocation } from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom';
 
 import FeedItem from '@components/feed/FeedItem';
 import TabBar from '@components/common/TabBar';
@@ -17,7 +17,6 @@ const Top = styled.div`
   padding: 0 1.31rem;
 
   background-color: #fff;
-  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.2);
 
   h1 {
     margin: 0;
@@ -48,7 +47,6 @@ const ContentArea = styled.div`
 const FeedPage = () => {
   const { response } = useLoaderData();
   const [feedData, setFeedData] = useState(response.data);
-
   console.log(feedData);
 
   return (
