@@ -40,6 +40,7 @@ const ButtonRow = styled.div`
 function LoginPage() {
   const KAKAO_REST_API_KEY = `c574e4572cdf6171c9cb1fe3af45bf75`; // 후에 환경변수 설정 예정
   const REDIRECT_URI = 'https://seasoning.today/callback/kakao/login'; // 후에 환경변수 설정 예정
+  // const REDIRECT_URI = 'https://localhost:3000/login/callback/kakao/login'; // 후에 환경변수 설정 예정
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${KAKAO_REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
 
   const handleKakaoLogin = () => {
@@ -48,11 +49,9 @@ function LoginPage() {
 
   return (
     <Background>
-      <a href={KAKAO_AUTH_URL}>
-        <ButtonRow onClick={handleKakaoLogin}>
-          <img src={kakao_btn} />
-        </ButtonRow>
-      </a>
+      <ButtonRow onClick={handleKakaoLogin}>
+        <img src={kakao_btn} />
+      </ButtonRow>
     </Background>
   );
 }
