@@ -17,6 +17,11 @@ const Layout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  /* iOS Safari */
+  @supports (-webkit-touch-callout: none) {
+    padding-bottom: 5rem;
+  }
 `;
 
 const Top = styled.div`
@@ -185,7 +190,7 @@ const Bottom = styled.div`
   padding: 0 1rem 2rem 1.31rem;
 
   background-color: #fff;
-  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px -0.5px 1px 0px rgba(0, 0, 0, 0.1);
 
   span {
     color: #777;
@@ -207,7 +212,6 @@ const EmojiButton = styled.div`
   cursor: pointer;
   border-radius: 0.3125rem;
   background-color: #f0f0f0;
-  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.2);
 
   span {
     color: #333;
