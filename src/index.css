@@ -1,3 +1,15 @@
+/* iOS only */
+/* @supports (-webkit-touch-callout: none) {
+  height: -webkit-fill-available;
+} */
+
+html {
+  /* height: -webkit-fill-available; */
+  /* 익스플로러 IE 10 확대 제어 */
+  /* -ms-content-zooming: none; */
+  /* -ms-touch-action: pan-x pan-y; */
+}
+
 * {
   padding: 0;
   margin: 0;
@@ -20,6 +32,7 @@ body {
   display: flex;
   place-items: center;
   min-width: 320px;
+  /* height: -webkit-fill-available; */
   min-height: 100vh;
 }
 

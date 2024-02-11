@@ -42,6 +42,11 @@ const ContentArea = styled.div`
   row-gap: 1.75rem;
   overflow-x: hidden;
   overflow-y: auto;
+
+  /* iOS Safari */
+  @supports (-webkit-touch-callout: none) {
+    padding-bottom: 10rem;
+  }
 `;
 
 const FeedPage = () => {

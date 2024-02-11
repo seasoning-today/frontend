@@ -11,6 +11,11 @@ const Layout = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 1.18rem;
+
+  /* iOS Safari */
+  @supports (-webkit-touch-callout: none) {
+    margin-bottom: 5rem;
+  }
 `;
 
 const HeaderBox = styled.div`

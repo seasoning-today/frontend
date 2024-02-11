@@ -139,6 +139,11 @@ const Content = styled.div`
     grid-gap: 0;
     overflow-y: scroll;
   }
+
+  /* iOS Safari */
+  @supports (-webkit-touch-callout: none) {
+    padding-bottom: 10rem;
+  }
 `;
 
 const Card = styled.div`
