@@ -38,6 +38,11 @@ export const RouterInfo = [
     children: [
       /* 기본 4개 탭에 대한 페이지 라우팅 */
       {
+        index: true,
+        element: <HomePage />,
+        loader: HomeLoader,
+      },
+      {
         path: 'home',
         element: <HomePage />,
         loader: HomeLoader,
