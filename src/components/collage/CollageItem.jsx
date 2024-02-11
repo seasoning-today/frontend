@@ -1,6 +1,7 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
-const Card = styled.div`
+const Card = styled(Link)`
   position: relative;
   width: auto;
   height: 6.1875rem;
@@ -19,12 +20,14 @@ const Card = styled.div`
     object-fit: cover;
     overflow: hidden;
   }
+
+  cursor: ${({ to }) => (to ? `pointer` : `default`)};
 `;
 
-const CollageItem = (props) => {
+const CollageItem = ({ thumbnail, articleId }) => {
   return (
-    <Card>
-      <img src={props.thumbnail} />
+    <Card to={articleId ? `/article/${articleId}` : ``}>
+      <img src={thumbnail} />
     </Card>
   );
 };

@@ -338,6 +338,10 @@ const CollagePage = () => {
             <div key={term}>
               {collageData.data.some((item) => item.term === term) ? (
                 <CollageItem
+                  articleId={
+                    collageData.data.find((item) => item.term === term)
+                      .articleId
+                  }
                   thumbnail={
                     collageData.data.find((item) => item.term === term).image
                   }
