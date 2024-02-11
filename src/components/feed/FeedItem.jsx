@@ -96,7 +96,7 @@ const FeedItem = (props) => {
         <UserProfileBox
           profileImage={profile.image}
           nickname={profile.nickname}
-          accountId={profile.accountID}
+          accountId={profile.accountId}
         />
         <section className="profile__season">
           <span className="profile__season__korean">
