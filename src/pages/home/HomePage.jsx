@@ -194,11 +194,6 @@ const Select = styled.div`
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-
-    -o-appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
   }
 
   /* IE */
