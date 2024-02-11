@@ -11,18 +11,20 @@ export const CollageLoader = async ({ request, params }) => {
 
   const url = new URL(request.url);
   let yearParam = url.searchParams.get('year'); // string || null
-  yearParam = yearParam === null ? '2023' : yearParam;
+  yearParam = yearParam === null ? '2024' : yearParam;
   console.log(yearParam);
 
   try {
     const response = await axios.get(`/api/article/collage?year=${yearParam}`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
-    return { response };
+
+    const collageData = response;
+    return { collageData };
   } catch (error) {
     console.error(error);
     console.log('* Response Error... Redirecting to /login');
-    return redirect(`/login`);
+    //return redirect(`/login`);
   }
 
   return null;

@@ -8,10 +8,10 @@ import {
 } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import saveAs from 'file-saver';
-import axios from 'axios';
 
 import TabBar from '@components/common/TabBar';
 import { SeasonBackgrounds } from '@utils/image/SeasonBackgrounds';
+import CollageItem from '@components/collage/CollageItem';
 
 import logo from '@assets/components/topbar/logo.png';
 
@@ -142,37 +142,16 @@ const Content = styled.div`
   }
 `;
 
-const Card = styled.div`
-  position: relative;
-  width: auto;
-  height: 6.1875rem;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #ccc;
-
-  background-size: cover;
-  background-position: center;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    overflow: hidden;
-  }
-`;
-
 const CollagePage = () => {
-  const { response } = useLoaderData();
-  console.log(response.data);
+  const { collageData } = useLoaderData();
+  console.log(collageData.data);
 
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [selectedCategory, setSelectedCategory] = useState('year');
+  const [selectedCategory, setSelectedCategory] = useState(2024);
   const [now, setNow] = useState(new Date());
-  const [seasonImages, setSeasonImages] = useState([]);
+  const terms = Array.from({ length: 24 }, (_, i) => i + 1);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -182,26 +161,6 @@ const CollagePage = () => {
     }
   }, [location.search]);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const accessToken = localStorage.getItem('accessToken');
-  //     try {
-  //       const response = await axios({
-  //         method: 'GET',
-  //         url: `/api/article/collage?year=${selectedCategory}`,
-  //         headers: {
-  //           Authorization: `Bearer ${accessToken}`,
-  //         },
-  //       });
-  //       setSeasonImages(response.data);
-  //     } catch (error) {
-  //       console.error('Error fetching collage data:', error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, [selectedCategory]);
-
   const handleCategoryChange = (event) => {
     const newCategory = event.target.value;
     setSelectedCategory(newCategory);
@@ -209,22 +168,6 @@ const CollagePage = () => {
   };
 
   const contentRef = useRef(null);
-
-  // const handleSaveImage = async () => {
-  //   if (!contentRef.current) return;
-
-  //   try {
-  //     const div = contentRef.current;
-  //     const canvas = await html2canvas(div, { scale: 2, logging: false });
-  //     canvas.toBlob((blob) => {
-  //       if (blob !== null) {
-  //         saveAs(blob, 'collage.png');
-  //       }
-  //     });
-  //   } catch (error) {
-  //     console.error('Error converting div to image:', error);
-  //   }
-  // };
 
   const handleSaveImage = async () => {
     if (!contentRef.current) return;
@@ -392,41 +335,18 @@ const CollagePage = () => {
 
       <Content>
         <div className="collage__capture__area" ref={contentRef}>
-          {/*<Card>
-            <img src={SeasonBackgrounds[1]} />
-          </Card>*/}
-
-          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[1]})` }} />
-          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[2]})` }} />
-          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[3]})` }} />
-          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[4]})` }} />
-
-          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[5]})` }} />
-          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[6]})` }} />
-          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[7]})` }} />
-          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[8]})` }} />
-
-          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[9]})` }} />
-          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[10]})` }} />
-          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[11]})` }} />
-          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[12]})` }} />
-
-          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[13]})` }} />
-          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[14]})` }} />
-          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[15]})` }} />
-          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[16]})` }} />
-
-          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[17]})` }} />
-          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[18]})` }} />
-          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[19]})` }} />
-          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[20]})` }} />
-
-          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[21]})` }} />
-          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[22]})` }} />
-          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[23]})` }} />
-          <Card style={{ backgroundImage: `url(${SeasonBackgrounds[24]})` }} />
+          {terms.map((item, index) => (
+            <div key={item}>
+              {index + 1 === collageData.data[0].term ? (
+                <CollageItem thumbnail={collageData.data[0].image} />
+              ) : (
+                <CollageItem thumbnail={SeasonBackgrounds[item]} />
+              )}
+            </div>
+          ))}
         </div>
       </Content>
+
       <TabBar />
     </Layout>
   );
