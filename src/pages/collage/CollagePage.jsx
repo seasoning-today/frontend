@@ -144,7 +144,6 @@ const Content = styled.div`
 
 const CollagePage = () => {
   const { collageData } = useLoaderData();
-  console.log(collageData.data);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -335,12 +334,16 @@ const CollagePage = () => {
 
       <Content>
         <div className="collage__capture__area" ref={contentRef}>
-          {terms.map((item, index) => (
-            <div key={item}>
-              {index + 1 === collageData.data[0].term ? (
-                <CollageItem thumbnail={collageData.data[0].image} />
+          {terms.map((term) => (
+            <div key={term}>
+              {collageData.data.some((item) => item.term === term) ? (
+                <CollageItem
+                  thumbnail={
+                    collageData.data.find((item) => item.term === term).image
+                  }
+                />
               ) : (
-                <CollageItem thumbnail={SeasonBackgrounds[item]} />
+                <CollageItem thumbnail={SeasonBackgrounds[term]} />
               )}
             </div>
           ))}
