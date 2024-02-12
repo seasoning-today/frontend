@@ -96,11 +96,6 @@ const ContentContainer = styled.div`
     display: flex;
     column-gap: 0.5rem;
   }
-
-  /* iOS Safari */
-  @supports (-webkit-touch-callout: none) {
-    padding-bottom: 10rem;
-  }
 `;
 
 const Dots = styled.div`
@@ -159,11 +154,6 @@ const ChatBubble = styled.img`
   width: 16.25rem;
   height: 2.7rem;
 
-  /* iOS Safari */
-  @supports (-webkit-touch-callout: none) {
-    bottom: 7.7rem;
-  }
-
   display: flex;
   cursor: pointer;
 
@@ -175,11 +165,6 @@ const ToolBar = styled.div`
   bottom: 0;
   width: 100%;
   height: 3.25rem;
-
-  /* iOS Safari */
-  @supports (-webkit-touch-callout: none) {
-    bottom: 5rem;
-  }
 
   display: flex;
   align-items: center;
