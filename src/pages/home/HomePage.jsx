@@ -173,11 +173,6 @@ const ContentArea = styled.div`
   width: 100%;
   height: calc(100% - 2.5rem - 3.5625rem - 2.95rem - 4.4375rem);
   padding-bottom: 3.8125rem;
-
-  /* iOS Safari */
-  @supports (-webkit-touch-callout: none) {
-    padding-bottom: 10rem;
-  }
 `;
 
 const HomePage = () => {

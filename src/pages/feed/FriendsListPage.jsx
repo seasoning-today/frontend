@@ -50,7 +50,6 @@ const ContentArea = styled.div`
 
 const FriendsListPage = () => {
   const { response } = useLoaderData();
-  const [friendList, setFriendList] = useState(response.data);
 
   return (
     <>
@@ -76,7 +75,7 @@ const FriendsListPage = () => {
       </Top>
 
       <ContentArea>
-        {friendList.map((friend, idx) => (
+        {response.data.map((friend, idx) => (
           <UserProfileBox
             key={idx}
             profileImage={friend.profileImageUrl}

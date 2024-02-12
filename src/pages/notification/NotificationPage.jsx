@@ -48,11 +48,6 @@ const NotificationContainer = styled.div`
   padding: 1.38rem 1.31rem;
   row-gap: 1.38rem;
   overflow-y: scroll;
-
-  /* iOS Safari */
-  @supports (-webkit-touch-callout: none) {
-    padding-bottom: 7.5rem;
-  }
 `;
 
 const Line = styled.div`
