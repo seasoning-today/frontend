@@ -75,6 +75,11 @@ const ContentContainer = styled.div`
 
   overflow-y: auto;
 
+  /* iOS Safari */
+  @supports (-webkit-touch-callout: none) {
+    padding-bottom: 5rem;
+  }
+
   background-color: white;
 `;
 

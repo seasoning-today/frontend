@@ -96,7 +96,7 @@ const Select = styled.div`
 const Content = styled.div`
   width: 100%;
   height: calc(100% - 2.5rem - 4rem - 2rem);
-  padding: 0 1.88rem 5.8125rem 1.88rem;
+  padding: 0 1.88rem 3.8125rem 1.88rem;
 
   .collage__capture__area {
     width: 100%;
@@ -107,11 +107,6 @@ const Content = styled.div`
     grid-auto-rows: 6.1875rem;
     grid-gap: 0;
     overflow-y: scroll;
-  }
-
-  /* iOS Safari */
-  @supports (-webkit-touch-callout: none) {
-    padding-bottom: 10rem;
   }
 `;
 

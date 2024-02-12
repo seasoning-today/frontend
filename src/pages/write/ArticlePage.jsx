@@ -17,11 +17,6 @@ const Layout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  /* iOS Safari */
-  @supports (-webkit-touch-callout: none) {
-    padding-bottom: 5rem;
-  }
 `;
 
 const Top = styled.div`
