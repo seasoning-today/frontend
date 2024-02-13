@@ -12,6 +12,7 @@ import saveAs from 'file-saver';
 import TopBar from '@components/common/TopBar';
 import TabBar from '@components/common/TabBar';
 import { SeasonBackgrounds } from '@utils/image/SeasonBackgrounds';
+import CollageItem from '@components/collage/CollageItem';
 
 const Layout = styled.div`
   position: relative;
@@ -110,31 +111,15 @@ const Content = styled.div`
   }
 `;
 
-const Card = styled.div`
-  position: relative;
-  width: auto;
-  height: 6.1875rem;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #ccc;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    overflow: hidden;
-  }
-`;
-
 const CollagePage = () => {
-  const { response } = useLoaderData();
-  console.log(response.data);
+  const { collageData } = useLoaderData();
 
   const navigate = useNavigate();
   const location = useLocation();
-  const [selectedCategory, setSelectedCategory] = useState('2023');
+
+  const [selectedCategory, setSelectedCategory] = useState(2024);
+  const [now, setNow] = useState(new Date());
+  const terms = Array.from({ length: 24 }, (_, i) => i + 1);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -151,22 +136,6 @@ const CollagePage = () => {
   };
 
   const contentRef = useRef(null);
-
-  // const handleSaveImage = async () => {
-  //   if (!contentRef.current) return;
-
-  //   try {
-  //     const div = contentRef.current;
-  //     const canvas = await html2canvas(div, { scale: 2, logging: false });
-  //     canvas.toBlob((blob) => {
-  //       if (blob !== null) {
-  //         saveAs(blob, 'collage.png');
-  //       }
-  //     });
-  //   } catch (error) {
-  //     console.error('Error converting div to image:', error);
-  //   }
-  // };
 
   const handleSaveImage = async () => {
     if (!contentRef.current) return;
@@ -188,7 +157,6 @@ const CollagePage = () => {
         windowHeight: div.scrollHeight,
         windowWidth: div.scrollWidth,
       });
-
       canvas.toBlob((blob) => {
         if (blob !== null) {
           saveAs(blob, 'collage.png');
@@ -213,7 +181,7 @@ const CollagePage = () => {
       <OptionBox>
         <Select>
           <select value={selectedCategory} onChange={handleCategoryChange}>
-            <option value="2023">2023</option>
+            <option value="year">{now.getFullYear().toString()}</option>
           </select>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -246,83 +214,23 @@ const CollagePage = () => {
 
       <Content>
         <div className="collage__capture__area" ref={contentRef}>
-          <Card>
-            <img src={SeasonBackgrounds[1]} />
-          </Card>
-          <Card>
-            <img src={SeasonBackgrounds[2]} />
-          </Card>
-          <Card>
-            <img src={SeasonBackgrounds[3]} />
-          </Card>
-          <Card>
-            <img src={SeasonBackgrounds[4]} />
-          </Card>
-
-          <Card>
-            <img src={SeasonBackgrounds[5]} />
-          </Card>
-          <Card>
-            <img src={SeasonBackgrounds[6]} />
-          </Card>
-          <Card>
-            <img src={SeasonBackgrounds[7]} />
-          </Card>
-          <Card>
-            <img src={SeasonBackgrounds[8]} />
-          </Card>
-
-          <Card>
-            <img src={SeasonBackgrounds[9]} />
-          </Card>
-          <Card>
-            <img src={SeasonBackgrounds[10]} />
-          </Card>
-          <Card>
-            <img src={SeasonBackgrounds[11]} />
-          </Card>
-          <Card>
-            <img src={SeasonBackgrounds[12]} />
-          </Card>
-
-          <Card>
-            <img src={SeasonBackgrounds[13]} />
-          </Card>
-          <Card>
-            <img src={SeasonBackgrounds[14]} />
-          </Card>
-          <Card>
-            <img src={SeasonBackgrounds[15]} />
-          </Card>
-          <Card>
-            <img src={SeasonBackgrounds[16]} />
-          </Card>
-
-          <Card>
-            <img src={SeasonBackgrounds[17]} />
-          </Card>
-          <Card>
-            <img src={SeasonBackgrounds[18]} />
-          </Card>
-          <Card>
-            <img src={SeasonBackgrounds[19]} />
-          </Card>
-          <Card>
-            <img src={SeasonBackgrounds[20]} />
-          </Card>
-
-          <Card>
-            <img src={SeasonBackgrounds[21]} />
-          </Card>
-          <Card>
-            <img src={SeasonBackgrounds[22]} />
-          </Card>
-          <Card>
-            <img src={SeasonBackgrounds[23]} />
-          </Card>
-          <Card>
-            <img src={SeasonBackgrounds[24]} />
-          </Card>
+          {terms.map((term) => (
+            <div key={term}>
+              {collageData.data.some((item) => item.term === term) ? (
+                <CollageItem
+                  articleId={
+                    collageData.data.find((item) => item.term === term)
+                      .articleId
+                  }
+                  thumbnail={
+                    collageData.data.find((item) => item.term === term).image
+                  }
+                />
+              ) : (
+                <CollageItem thumbnail={SeasonBackgrounds[term]} />
+              )}
+            </div>
+          ))}
         </div>
       </Content>
 
