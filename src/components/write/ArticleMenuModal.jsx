@@ -2,27 +2,14 @@ import styled, { keyframes } from 'styled-components';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const ModalBackground = styled.div`
-  position: fixed;
-  width: 100%;
-  height: 100%;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  z-index: 10;
-  background-color: rgba(0, 0, 0, 0.5);
-`;
+import withModalBackground from '@components/hoc/withModalBackground';
 
 const slideUp = keyframes`
   from {
     transform: translateY(100%);
-    opacity: 0;
   }
   to {
     transform: translateY(0);
-    opacity: 1;
   }
 `;
 
@@ -30,7 +17,7 @@ const ModalOverlay = styled.div`
   position: absolute;
   bottom: 0;
   width: 100%;
-  /* height: 8rem; */
+  height: 8rem;
   flex-shrink: 0;
   z-index: 1000;
 
@@ -70,29 +57,26 @@ const ModalContent = styled.div`
   }
 `;
 
-const ArticleMenuModal = ({ setShowMenuModal, setShowDeleteModal }) => {
-  const onCloseModal = () => {
-    setShowMenuModal(false);
-  };
-  const handleArticleEdit = () => {
-    setShowMenuModal(false);
-  };
+const ArticleMenuModal = ({ onCloseModal, setShowDeleteModal }) => {
   const handleArticleDelete = () => {
+    onCloseModal();
     setShowDeleteModal(true);
   };
 
   return (
-    <ModalBackground>
-      <ModalOverlay>
-        <ModalContent onClick={handleArticleEdit}>
-          <span>수정하기</span>
-        </ModalContent>
-        <ModalContent warning onClick={handleArticleDelete}>
-          <span>삭제하기</span>
-        </ModalContent>
-      </ModalOverlay>
-    </ModalBackground>
+    <ModalOverlay>
+      <ModalContent
+        onClick={() => {
+          alert('수정하기 구현 중...');
+        }}
+      >
+        <span>수정하기</span>
+      </ModalContent>
+      <ModalContent warning onClick={handleArticleDelete}>
+        <span>삭제하기</span>
+      </ModalContent>
+    </ModalOverlay>
   );
 };
 
-export default ArticleMenuModal;
+export default withModalBackground(ArticleMenuModal);
