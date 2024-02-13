@@ -124,6 +124,7 @@ const Images = styled.img`
   height: 16.3125rem;
   object-fit: cover;
   border-radius: 0.5rem;
+  flex-shrink: 0;
 
   cursor: pointer;
 `;
@@ -225,12 +226,15 @@ const WritePage = () => {
   };
 
   const handleImageScroll = () => {
+    const scrollLeft = imagescrollRef.current.scrollLeft;
+    const clientWidth = imagescrollRef.current.clientWidth;
+    const scrollWidth = imagescrollRef.current.scrollWidth;
+
     const activeIndex =
-      imagescrollRef.current.scrollLeft === 0
+      scrollLeft === 0
         ? 0
-        : imagescrollRef.current.scrollLeft +
-            imagescrollRef.current.clientWidth ===
-          imagescrollRef.current.scrollWidth
+        : Math.ceil(scrollLeft / clientWidth) ===
+          Math.floor(scrollWidth / clientWidth)
         ? 1
         : -1;
 
