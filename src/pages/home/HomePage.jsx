@@ -12,6 +12,12 @@ import TabBar from '@components/common/TabBar';
 import { TermsToChinese } from '@utils/seasoning/TermsToChinese';
 import { TermsToKorean } from '@utils/seasoning/TermsToKorean';
 
+const Layout = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+`;
+
 const Season = styled.div`
   position: relative;
   width: 100%;
@@ -107,12 +113,6 @@ const Fortune = styled.div`
     font-weight: 400;
     line-height: normal;
   }
-`;
-
-const PopupLayout = styled.div`
-  position: relative;
-  display: flex;
-  justify-content: center;
 `;
 
 const Category = styled.div`
@@ -234,16 +234,16 @@ const HomePage = () => {
   };
 
   return (
-    <>
-      <PopupLayout>
-        {showModal && (
-          <FortuneModal
-            now={now}
-            setShowModal={setShowModal}
-            fortuneText={fortuneText}
-          />
-        )}
-      </PopupLayout>
+    <Layout>
+      {showModal && (
+        <FortuneModal
+          now={now}
+          fortuneText={fortuneText}
+          onCloseModal={() => {
+            setShowModal(false);
+          }}
+        />
+      )}
 
       <TopBar />
 
@@ -333,7 +333,7 @@ const HomePage = () => {
       </ContentArea>
 
       <TabBar />
-    </>
+    </Layout>
   );
 };
 
