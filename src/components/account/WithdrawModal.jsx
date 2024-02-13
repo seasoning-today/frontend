@@ -2,18 +2,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const ModalBackground = styled.div`
-  position: fixed;
-  width: 100%;
-  height: 100%;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  z-index: 2000;
-  background-color: rgba(0, 0, 0, 0.5);
-`;
+import withModalBackground from '@components/hoc/withModalBackground';
 
 const ModalOverlay = styled.div`
   position: relative;
@@ -74,7 +63,7 @@ const Button = styled.div`
   }
 `;
 
-const WithdrawModal = ({ setShowModal }) => {
+const WithdrawModal = ({ onCloseModal }) => {
   const navigate = useNavigate();
 
   const handleWithdraw = async () => {
@@ -93,20 +82,18 @@ const WithdrawModal = ({ setShowModal }) => {
   };
 
   return (
-    <ModalBackground>
-      <ModalOverlay>
-        <Title>정말로 회원 탈퇴 하시겠습니까?</Title>
-        <ButtonContainer>
-          <Button warning onClick={handleWithdraw}>
-            <span>탈퇴하기</span>
-          </Button>
-          <Button onClick={() => setShowModal(false)}>
-            <span>취소</span>
-          </Button>
-        </ButtonContainer>
-      </ModalOverlay>
-    </ModalBackground>
+    <ModalOverlay>
+      <Title>정말로 회원 탈퇴 하시겠습니까?</Title>
+      <ButtonContainer>
+        <Button warning onClick={handleWithdraw}>
+          <span>탈퇴하기</span>
+        </Button>
+        <Button onClick={onCloseModal}>
+          <span>취소</span>
+        </Button>
+      </ButtonContainer>
+    </ModalOverlay>
   );
 };
 
-export default WithdrawModal;
+export default withModalBackground(WithdrawModal);

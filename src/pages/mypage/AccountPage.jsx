@@ -119,9 +119,13 @@ const AccountPage = () => {
 
   return (
     <Layout>
-      <PopupLayout>
-        {showModal && <WithdrawModal setShowModal={setShowModal} />}
-      </PopupLayout>
+      {showModal && (
+        <WithdrawModal
+          onCloseModal={() => {
+            setShowModal(false);
+          }}
+        />
+      )}
 
       <Top>
         <h1>계정 설정</h1>
