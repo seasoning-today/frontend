@@ -502,12 +502,15 @@ const WritePage = () => {
         {contents.map((item, idx) => {
           switch (item.type) {
             case 'single':
-              return <Text placeholder="오늘을 기록해보세요" />;
             case 'answer':
               return (
                 <Text
                   key={idx}
-                  placeholder="이곳에 기록해보세요"
+                  placeholder={
+                    item.type === 'single'
+                      ? '오늘을 기록해보세요'
+                      : '이곳에 기록해보세요'
+                  }
                   value={item.text}
                   onChange={(e) => handleTextChange(e.target.value, idx)}
                   // ref={textareasRefs.current}
