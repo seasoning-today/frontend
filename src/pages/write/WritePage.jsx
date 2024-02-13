@@ -245,9 +245,15 @@ const WritePage = () => {
   };
 
   const handleImageChange = (event) => {
+    const file = event.target.files && event.target.files[0];
+
+    if (file && file.size > 10 * 1024 * 1024) {
+      alert('이미지 파일 크기는 10MB를 초과할 수 없습니다.');
+      return;
+    }
+
     /* 첨부된 사진 변경 */
     if (replacingImageIndex !== null) {
-      const file = event.target.files && event.target.files[0];
       if (file) {
         const reader = new FileReader();
         reader.onload = (e) => {
