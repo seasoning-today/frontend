@@ -2,18 +2,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const ModalBackground = styled.div`
-  position: fixed;
-  width: 100%;
-  height: 100%;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  z-index: 2000;
-  background-color: rgba(0, 0, 0, 0.5);
-`;
+import withModalBackground from '@components/hoc/withModalBackground';
 
 const ModalOverlay = styled.div`
   position: relative;
@@ -74,21 +63,17 @@ const Button = styled.div`
   }
 `;
 
-const ArticleDeleteModal = ({
-  articleId,
-  setShowMenuModal,
-  setShowDeleteModal,
-}) => {
+const ArticleDeleteModal = ({ articleId, onCloseModal }) => {
   const navigate = useNavigate();
 
   const handleDelete = async () => {
     const accessToken = localStorage.getItem('accessToken');
-    console.log(articleId);
 
     try {
       const response = await axios.delete(`/api/article/${articleId}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
+
       navigate(`/home`);
     } catch (error) {
       console.error('Error trying delete article:', error);
@@ -96,25 +81,18 @@ const ArticleDeleteModal = ({
   };
 
   return (
-    <ModalBackground>
-      <ModalOverlay>
-        <Title>삭제한 기록장은 복구되지 않습니다.</Title>
-        <ButtonContainer>
-          <Button warning onClick={handleDelete}>
-            <span>삭제하기</span>
-          </Button>
-          <Button
-            onClick={() => {
-              setShowMenuModal(false);
-              setShowDeleteModal(false);
-            }}
-          >
-            <span>취소</span>
-          </Button>
-        </ButtonContainer>
-      </ModalOverlay>
-    </ModalBackground>
+    <ModalOverlay>
+      <Title>삭제한 기록장은 복구되지 않습니다.</Title>
+      <ButtonContainer>
+        <Button warning onClick={handleDelete}>
+          <span>삭제하기</span>
+        </Button>
+        <Button onClick={onCloseModal}>
+          <span>취소</span>
+        </Button>
+      </ButtonContainer>
+    </ModalOverlay>
   );
 };
 
-export default ArticleDeleteModal;
+export default withModalBackground(ArticleDeleteModal);

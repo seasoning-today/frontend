@@ -219,63 +219,6 @@ const EmojiButton = styled.div`
   }
 `;
 
-const PopupLayout = styled.div`
-  position: relative;
-  display: flex;
-  justify-content: center;
-`;
-
-/* 삭제 팝업창 */
-/* const DeleteModalOverlay = styled.div`
-  position: absolute;
-  top: 15rem;
-  width: 17.6875rem;
-  height: 12.5rem;
-  z-index: 1000;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 1.25rem;
-  background: #fff;
-  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.25);
-`;
-
-const DeleteModalContent = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-
-  width: 100%;
-  color: #000;
-  text-align: center;
-  font-family: 'Apple SD Gothic Neo';
-  font-size: 1rem;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-
-  img {
-    width: 6rem;
-    height: 5rem;
-  }
-`;
-
-const DeleteButton = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-
-  span {
-    cursor: pointer;
-  }
-`; */
-
 const ArticlePage = () => {
   const { articleId, response } = useLoaderData();
   const articleData = response.data;
@@ -357,21 +300,23 @@ const ArticlePage = () => {
 
   return (
     <Layout>
-      <PopupLayout>
-        {showMenuModal && (
-          <ArticleMenuModal
-            setShowMenuModal={setShowMenuModal}
-            setShowDeleteModal={setShowDeleteModal}
-          />
-        )}
-        {showDeleteModal && (
-          <ArticleDeleteModal
-            articleId={articleId}
-            setShowMenuModal={setShowMenuModal}
-            setShowDeleteModal={setShowDeleteModal}
-          />
-        )}
-      </PopupLayout>
+      {showMenuModal && (
+        <ArticleMenuModal
+          onCloseModal={() => {
+            setShowMenuModal(false);
+          }}
+          setShowDeleteModal={setShowDeleteModal}
+        />
+      )}
+      {showDeleteModal && (
+        <ArticleDeleteModal
+          articleId={articleId}
+          onCloseModal={() => {
+            setShowMenuModal(false);
+            setShowDeleteModal(false);
+          }}
+        />
+      )}
 
       <Top>
         <Link to={`/home`}>
@@ -489,23 +434,6 @@ const ArticlePage = () => {
         </EmojiButton>
         <span>{articleData.published ? '' : '비공개'}</span>
       </Bottom>
-
-      {/* {showDeleteModal && (
-        <DeleteModalOverlay>
-          <DeleteModalContent>
-            <img src={injulgi} />
-            인절기에게 먹힌 기록장은
-            <br />
-            복구할 수 없어요
-            <DeleteButton>
-              <span onClick={RealDelete} style={{ color: 'red' }}>
-                삭제
-              </span>
-              <span onClick={CancelDelete}>취소</span>
-            </DeleteButton>
-          </DeleteModalContent>
-        </DeleteModalOverlay>
-      )} */}
     </Layout>
   );
 };
