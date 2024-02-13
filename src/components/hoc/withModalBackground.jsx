@@ -1,4 +1,13 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
 
 const ModalBackground = styled.div`
   position: absolute;
@@ -10,6 +19,7 @@ const ModalBackground = styled.div`
   align-items: center;
 
   background-color: rgba(0, 0, 0, 0.5);
+  animation: ${fadeIn} 0.3s ease-out;
   z-index: 1001;
 `;
 
