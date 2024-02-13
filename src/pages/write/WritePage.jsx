@@ -502,6 +502,7 @@ const WritePage = () => {
         {contents.map((item, idx) => {
           switch (item.type) {
             case 'single':
+              return <Text placeholder="오늘을 기록해보세요" />;
             case 'answer':
               return (
                 <Text
