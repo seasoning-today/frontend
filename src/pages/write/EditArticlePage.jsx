@@ -193,7 +193,7 @@ const ToolBar = styled.div`
 
 const EditArticlePage = () => {
   const { articleResponse, termResponse } = useLoaderData();
-  console.log(articleResponse);
+  console.log(articleResponse.data);
   const currentTerm = termResponse.data.currentTerm.sequence;
   let questions = SeasonalQuestions[currentTerm];
 
@@ -204,9 +204,11 @@ const EditArticlePage = () => {
   const [activeDotIndex, setActiveDotIndex] = useState(0);
   const imageInputRef = useRef(null);
 
-  const [contents, setContents] = useState([{ type: 'single', text: '' }]);
+  const [contents, setContents] = useState(
+    JSON.parse(articleResponse.data.contents)
+  );
 
-  const [published, setPublished] = useState(true);
+  const [published, setPublished] = useState(articleResponse.data.published);
 
   const scrollRef = useRef();
   const imagescrollRef = useRef();
