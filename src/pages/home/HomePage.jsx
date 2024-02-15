@@ -177,8 +177,8 @@ const ContentArea = styled.div`
 
 const HomePage = () => {
   const { homeResponse, termResponse } = useLoaderData();
-  // console.log(homeResponse.data);
-  // console.log(JSON.stringify(termResponse.data, null, '\t'));
+  console.log(homeResponse.data);
+  console.log(JSON.stringify(termResponse.data, null, '\t'));
 
   const [now, setNow] = useState(new Date());
 

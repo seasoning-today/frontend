@@ -172,14 +172,14 @@ const SeasonCircle = (props) => {
   }, []);
 
   const status =
-    term === nextTerm.sequence
+    term === currentTerm.sequence
       ? `countdown` // 현재 카운트다운 중인 다음 절기
-      : term < nextTerm.sequence
+      : term < currentTerm.sequence
       ? `activated` // 이미 열린 절기
       : `deactivated`; // 아직 열리지 않은 절기
 
-  const nextTermDate = new Date(nextTerm.date);
-  const remainingTime = nextTermDate - now;
+  const countDownTermDate = new Date(nextTerm.date);
+  const remainingTime = countDownTermDate - now;
   const nextPercentage = 1 - remainingTime / 1314864000;
   const seconds = Math.floor(remainingTime / 1000) % 60;
   const minutes = Math.floor(remainingTime / 1000 / 60) % 60;
