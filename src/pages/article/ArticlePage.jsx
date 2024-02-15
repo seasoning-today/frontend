@@ -222,8 +222,8 @@ const ArticlePage = () => {
   const { articleId, response } = useLoaderData();
   const articleData = response.data;
   const contents = JSON.parse(articleData.contents);
-  // console.log(JSON.stringify(articleData, null, '\t'));
-  // console.log(JSON.stringify(contents, null, '\t'));
+  console.log(JSON.stringify(articleData, null, '\t'));
+  console.log(JSON.stringify(contents, null, '\t'));
 
   const [emojiCount, setEmojiCount] = useState(articleData.likesCount);
   const [isClickedEmoji, setIsClickedEmoji] = useState(articleData.userLikes);
@@ -359,20 +359,25 @@ const ArticlePage = () => {
       </Top>
 
       <ContentContainer>
-        <div className="dots__container">
-          {articleData.images.map((_, idx) => (
-            <Dots
-              key={idx}
-              onClick={() => handleDotClick(idx)}
-              active={idx === activeDotIndex}
-            />
-          ))}
-        </div>
-        <ImagesContainer ref={imagescrollRef} onScroll={handleImageScroll}>
-          {articleData.images.map((image, idx) => (
-            <Images key={idx} src={image.url} />
-          ))}
-        </ImagesContainer>
+        {articleData.images.length > 0 && (
+          <>
+            <div className="dots__container">
+              {articleData.images.map((_, idx) => (
+                <Dots
+                  key={idx}
+                  onClick={() => handleDotClick(idx)}
+                  active={idx === activeDotIndex}
+                />
+              ))}
+            </div>
+            <ImagesContainer ref={imagescrollRef} onScroll={handleImageScroll}>
+              {articleData.images.map((image, idx) => (
+                <Images key={idx} src={image.url} />
+              ))}
+            </ImagesContainer>
+          </>
+        )}
+
         {contents.map((item, idx) => {
           switch (item.type) {
             case 'single':
