@@ -222,8 +222,6 @@ const ArticlePage = () => {
   const { articleId, response } = useLoaderData();
   const articleData = response.data;
   const contents = JSON.parse(articleData.contents);
-  console.log(JSON.stringify(articleData, null, '\t'));
-  console.log(JSON.stringify(contents, null, '\t'));
 
   const [emojiCount, setEmojiCount] = useState(articleData.likesCount);
   const [isClickedEmoji, setIsClickedEmoji] = useState(articleData.userLikes);
@@ -233,8 +231,6 @@ const ArticlePage = () => {
 
   const [showMenuModal, setShowMenuModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-
-  const navigate = useNavigate();
 
   /* 사진 좌우 스크롤과 Dots 색 조정 */
   const handleDotClick = (index) => {
@@ -304,6 +300,7 @@ const ArticlePage = () => {
     <Layout>
       {showMenuModal && (
         <ArticleMenuModal
+          articleId={articleId}
           onCloseModal={() => {
             setShowMenuModal(false);
           }}

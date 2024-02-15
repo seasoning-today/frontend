@@ -57,7 +57,9 @@ const ModalContent = styled.div`
   }
 `;
 
-const ArticleMenuModal = ({ onCloseModal, setShowDeleteModal }) => {
+const ArticleMenuModal = ({ articleId, onCloseModal, setShowDeleteModal }) => {
+  const navigate = useNavigate();
+
   const handleArticleDelete = () => {
     onCloseModal();
     setShowDeleteModal(true);
@@ -67,7 +69,7 @@ const ArticleMenuModal = ({ onCloseModal, setShowDeleteModal }) => {
     <ModalOverlay>
       <ModalContent
         onClick={() => {
-          alert('수정하기 구현 중...');
+          navigate(`/article/edit/${articleId}`);
         }}
       >
         <span>수정하기</span>
