@@ -13,6 +13,7 @@ import CallBackPage from '@pages/login/CallBackPage';
 /* 기타 페이지 */
 import SearchPage from '@pages/search/SearchPage';
 import WritePage from '@pages/write/WritePage';
+import EditArticlePage from '@pages/write/EditArticlePage';
 import ArticlePage from '@pages/article/ArticlePage';
 import NotificationPage from '@pages/notification/NotificationPage';
 import NoticePage from '@pages/notice/NoticePage';
@@ -26,7 +27,8 @@ import { LoginLoader } from '@utils/api/LoginLoader';
 import { NotificationLoader } from '@utils/api/NotificationLoader';
 import { NoticeLoader } from '@utils/api/NoticeLoader';
 import { ArticleLoader } from '@utils/api/ArticleLoader';
-import { CurrentTermLoader } from '@utils/api/CurrentTermLoader';
+import { WriteLoader } from '@utils/api/WriteLoader';
+import { EditArticleLoader } from '@utils/api/EditArticleLoader';
 import { UserRestrictLoader } from '@utils/api/UserRestrictLoader';
 
 export const RouterInfo = [
@@ -96,7 +98,12 @@ export const RouterInfo = [
       {
         path: 'write',
         element: <WritePage />,
-        loader: CurrentTermLoader,
+        loader: WriteLoader,
+      },
+      {
+        path: 'article/edit/:articleId',
+        element: <EditArticlePage />,
+        loader: EditArticleLoader,
       },
       {
         path: 'article/:articleId',

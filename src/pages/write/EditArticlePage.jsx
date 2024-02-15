@@ -191,8 +191,9 @@ const ToolBar = styled.div`
   }
 `;
 
-const WritePage = () => {
-  const { termResponse } = useLoaderData();
+const EditArticlePage = () => {
+  const { articleResponse, termResponse } = useLoaderData();
+  console.log(articleResponse);
   const currentTerm = termResponse.data.currentTerm.sequence;
   let questions = SeasonalQuestions[currentTerm];
 
@@ -607,4 +608,4 @@ const WritePage = () => {
   );
 };
 
-export default WritePage;
+export default EditArticlePage;

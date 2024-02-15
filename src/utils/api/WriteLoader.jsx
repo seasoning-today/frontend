@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { redirect } from 'react-router-dom';
 
-export const CurrentTermLoader = async ({ request, params }) => {
+export const WriteLoader = async ({ request, params }) => {
   /* (공통 로직) localStorage에 “accessToken” 이 존재하지 않는 경우 처리 */
   const accessToken = localStorage.getItem('accessToken');
   if (accessToken === null) {
@@ -10,10 +10,10 @@ export const CurrentTermLoader = async ({ request, params }) => {
   }
 
   try {
-    const response = await axios.get(`/api/solarTerm`, {
+    const termResponse = await axios.get(`/api/solarTerm`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
-    return { response };
+    return { termResponse };
   } catch (error) {
     console.error(error);
     console.log('* Response Error... Redirecting to /login');
