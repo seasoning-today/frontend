@@ -13,7 +13,7 @@ import CallBackPage from '@pages/login/CallBackPage';
 /* 기타 페이지 */
 import SearchPage from '@pages/search/SearchPage';
 import WritePage from '@pages/write/WritePage';
-import ArticlePage from '@pages/write/ArticlePage';
+import ArticlePage from '@pages/article/ArticlePage';
 import NotificationPage from '@pages/notification/NotificationPage';
 import NoticePage from '@pages/notice/NoticePage';
 import ErrorPage from '@pages/error/ErrorPage';

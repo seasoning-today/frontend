@@ -4,8 +4,8 @@ import axios from 'axios';
 import { useLoaderData, Link, useNavigate } from 'react-router-dom';
 
 import AddQuestion from '@components/write/AddQuestion';
-import ArticleMenuModal from '@components/write/ArticleMenuModal';
-import ArticleDeleteModal from '@components/write/ArticleDeleteModal';
+import ArticleMenuModal from '@components/article/ArticleMenuModal';
+import ArticleDeleteModal from '@components/article/ArticleDeleteModal';
 import { TermsToChinese } from '@utils/seasoning/TermsToChinese';
 import { TermsToKorean } from '@utils/seasoning/TermsToKorean';
 
