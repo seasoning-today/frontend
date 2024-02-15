@@ -6,7 +6,7 @@ import { SeasonBackgrounds } from '@utils/image/SeasonBackgrounds';
 import { TermsToChinese } from '@utils/seasoning/TermsToChinese';
 import { TermsToKorean } from '@utils/seasoning/TermsToKorean';
 
-const Container = styled(Link)`
+const Container = styled.div`
   position: relative;
   width: 6rem;
   height: 6rem;
@@ -19,7 +19,6 @@ const Container = styled(Link)`
   justify-content: center;
   align-items: center;
 
-  cursor: ${(props) => (props.to === '/write' ? 'pointer' : 'default')};
   color: ${(props) =>
     props.status === 'activated' ? `rgba(255, 255, 255, 0.75)` : `#1f1f1f`};
 
@@ -47,6 +46,45 @@ const Container = styled(Link)`
         ? `rgba(2, 33, 29, 0.75)`
         : `rgba(255, 255, 255, 0.7)`};
 
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  }
+`;
+
+const LinkContainer = styled(Link)`
+  position: relative;
+  width: 6rem;
+  height: 6rem;
+  z-index: 10;
+
+  border-radius: 50%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  color: #1f1f1f;
+
+  .circle__background__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6rem;
+    height: 6rem;
+    z-index: -10;
+    border-radius: 50%;
+  }
+
+  .circle__background__color {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6rem;
+    height: 6rem;
+    z-index: -1;
+    border-radius: 50%;
+
+    background-color: rgba(255, 255, 255, 0.7);
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   }
 `;
@@ -190,42 +228,20 @@ const SeasonCircle = (props) => {
     .toString()
     .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
-  return (
-    <Container
-      status={status}
-      to={recordable && term === currentTerm.sequence ? `/write` : `#`}
-    >
-      <Top>
-        {status === `countdown` ? (
-          <>
-            {days > 0 ? (
-              <span className="circle__countdown-day">{`${days}일`}</span>
-            ) : undefined}
-            <span className="circle__countdown-number">{formattedTime}</span>
-          </>
-        ) : status === `activated` ? (
-          <span className="circle__chinese">{TermsToChinese[props.term]}</span>
-        ) : (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="32"
-            height="32"
-            viewBox="0 0 32 32"
-            fill="none"
-          >
-            <path
-              d="M16 3C12.155 3 9 6.155 9 10V13H6V29H26V13H23V10C23 6.155 19.845 3 16 3ZM16 5C18.755 5 21 7.245 21 10V13H11V10C11 7.245 13.245 5 16 5ZM8 15H24V27H8V15Z"
-              fill="#595959"
-            />
-          </svg>
-        )}
-      </Top>
+  if (status === `countdown`) {
+    return (
+      <LinkContainer to={`/write`}>
+        <Top>
+          {days > 0 ? (
+            <span className="circle__countdown-day">{`${days}일`}</span>
+          ) : undefined}
+          <span className="circle__countdown-number">{formattedTime}</span>
+        </Top>
 
-      <Bottom>
-        <span className="circle__korean">{TermsToKorean[props.term]}</span>
-      </Bottom>
+        <Bottom>
+          <span className="circle__korean">{TermsToKorean[props.term]}</span>
+        </Bottom>
 
-      {status === `countdown` ? (
         <DonutContainer>
           <svg viewBox="0 0 200 200">
             <OuterCircle cx="100" cy="100" r="90" />
@@ -237,15 +253,50 @@ const SeasonCircle = (props) => {
             />
           </svg>
         </DonutContainer>
-      ) : undefined}
 
-      <img
-        className="circle__background__image"
-        src={SeasonBackgrounds[props.term]}
-      />
-      <div className="circle__background__color" />
-    </Container>
-  );
+        <img
+          className="circle__background__image"
+          src={SeasonBackgrounds[props.term]}
+        />
+        <div className="circle__background__color" />
+      </LinkContainer>
+    );
+  } else {
+    return (
+      <Container status={status}>
+        <Top>
+          {status === `activated` ? (
+            <span className="circle__chinese">
+              {TermsToChinese[props.term]}
+            </span>
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              viewBox="0 0 32 32"
+              fill="none"
+            >
+              <path
+                d="M16 3C12.155 3 9 6.155 9 10V13H6V29H26V13H23V10C23 6.155 19.845 3 16 3ZM16 5C18.755 5 21 7.245 21 10V13H11V10C11 7.245 13.245 5 16 5ZM8 15H24V27H8V15Z"
+                fill="#595959"
+              />
+            </svg>
+          )}
+        </Top>
+
+        <Bottom>
+          <span className="circle__korean">{TermsToKorean[props.term]}</span>
+        </Bottom>
+
+        <img
+          className="circle__background__image"
+          src={SeasonBackgrounds[props.term]}
+        />
+        <div className="circle__background__color" />
+      </Container>
+    );
+  }
 };
 
 export default SeasonCircle;
