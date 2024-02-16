@@ -142,7 +142,7 @@ const ImagesContainer = styled.div`
 const Images = styled.img`
   width: 100%;
   height: 16.3125rem;
-  object-fit: cover;
+  object-fit: ${({ isLarge }) => (isLarge ? 'contain' : 'cover')};
   border-radius: 0.5rem;
   flex-shrink: 0;
 
@@ -261,14 +261,15 @@ const WritePage = () => {
     setActiveDotIndex(activeIndex);
   };
 
-  /* 사진 업로드 */
-  const handleImageUpload = (index) => {
-    imageInputRef.current.click();
-
-    setReplacingImageIndex(index);
+  /* 사진 컨테이너를 초과하는 너비인지 판단 */
+  const isLarge = (imageSrc) => {
+    const image = new Image();
+    image.src = imageSrc;
+    return image.width > 348;
   };
 
-  const handleImageChange = (event) => {
+  /* 사진 업로드 */
+  const handleImageUpload = (event) => {
     const file = event.target.files && event.target.files[0];
 
     if (file && file.size > 10 * 1024 * 1024) {
@@ -302,6 +303,12 @@ const WritePage = () => {
         reader.readAsDataURL(file);
       }
     }
+  };
+
+  const handleImageChange = (index) => {
+    imageInputRef.current.click();
+
+    setReplacingImageIndex(index);
   };
 
   /* 사진 삭제 */
@@ -504,7 +511,8 @@ const WritePage = () => {
                 <Images
                   key={index}
                   src={image}
-                  onClick={() => handleImageUpload(index)}
+                  onClick={() => handleImageChange(index)}
+                  isLarge={isLarge(image)}
                 />
                 <svg
                   onClick={() => handleImageDelete(index)}
@@ -569,7 +577,7 @@ const WritePage = () => {
           className={`write__button__addimg ${
             selectedImages.length === 2 ? 'disabled' : ''
           }`}
-          onClick={handleImageChange}
+          onClick={handleImageUpload}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -638,7 +646,7 @@ const WritePage = () => {
         accept="image/*"
         className="write__image-upload__input"
         ref={imageInputRef}
-        onChange={handleImageChange}
+        onChange={handleImageUpload}
       />
     </Layout>
   );
