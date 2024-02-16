@@ -62,7 +62,7 @@ const FeedPage = () => {
       <Top>
         <h1>친구들의 24절기</h1>
         <NavBox>
-          <Link to={`/search`}>
+          <Link to={`/feed/friends-search`}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"

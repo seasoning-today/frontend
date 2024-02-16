@@ -11,7 +11,7 @@ import AccountPage from '@pages/mypage/AccountPage';
 import LoginPage from '@pages/login/LoginPage';
 import CallBackPage from '@pages/login/CallBackPage';
 /* 기타 페이지 */
-import SearchPage from '@pages/search/SearchPage';
+import SearchPage from '@pages/feed/SearchPage';
 import WritePage from '@pages/write/WritePage';
 import EditArticlePage from '@pages/write/EditArticlePage';
 import ArticlePage from '@pages/article/ArticlePage';
@@ -91,7 +91,7 @@ export const RouterInfo = [
       },
       /* 기타 페이지 라우팅 */
       {
-        path: 'search',
+        path: 'feed/friends-search',
         element: <SearchPage />,
         loader: UserRestrictLoader,
       },
