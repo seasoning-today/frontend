@@ -399,6 +399,14 @@ const WritePage = () => {
       const accessToken = localStorage.getItem('accessToken');
       const formData = new FormData();
 
+      if (
+        !selectedImages.length &&
+        !contents.some((item) => item.text.trim())
+      ) {
+        alert('내용을 입력하세요.');
+        return;
+      }
+
       if (selectedImages.length > 0) {
         selectedImages.forEach((selectedImage, idx) => {
           const base64Data = selectedImage.split(',')[1];
@@ -553,8 +561,8 @@ const WritePage = () => {
                   key={idx}
                   placeholder={
                     item.type === 'single'
-                      ? '오늘을 기록해보세요'
-                      : '이곳에 기록해보세요'
+                      ? '오늘을 기록해 보세요.'
+                      : '이곳에 기록해 보세요.'
                   }
                   value={item.text}
                   onChange={(e) => handleTextChange(e.target.value, idx)}
