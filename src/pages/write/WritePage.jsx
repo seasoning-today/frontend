@@ -94,18 +94,22 @@ const ContentContainer = styled.div`
 
   .dots__container {
     display: flex;
-    column-gap: 0.5rem;
+    column-gap: 0.4rem;
+
+    margin-top: -3rem;
+    margin-bottom: 1.2rem;
   }
 `;
 
 const Dots = styled.div`
   display: flex;
 
-  width: 0.25rem;
-  height: 0.25rem;
+  width: 0.3125rem;
+  height: 0.3125rem;
   border-radius: 50%;
   cursor: pointer;
-  background-color: ${({ active }) => (active ? '#AFAFAF' : '#E9E9E9')};
+  background-color: ${({ active }) =>
+    active ? '#FFF' : 'rgba(255, 255, 255, 0.40)'};
 `;
 
 const ImagesContainer = styled.div`
@@ -117,6 +121,22 @@ const ImagesContainer = styled.div`
   width: 100%;
 
   padding: 0.3rem;
+
+  .with__delete__icon {
+    display: flex;
+    width: 100%;
+    height: 16.3125rem;
+    flex-shrink: 0;
+
+    svg {
+      position: relative;
+      flex-shrink: 0;
+      right: 2rem;
+      top: 0.5rem;
+
+      cursor: pointer;
+    }
+  }
 `;
 
 const Images = styled.img`
@@ -131,7 +151,6 @@ const Images = styled.img`
 
 const Text = styled(Textarea)`
   width: 100%;
-  gap: 1.5rem;
   min-height: 1.2rem;
   color: #333;
   text-align: justify;
@@ -285,7 +304,7 @@ const WritePage = () => {
   };
 
   /* 사진 삭제 */
-  const handleLongPress = (index) => {
+  const handleImageDelete = (index) => {
     setSelectedImages((prevselectedImages) => {
       const newImages = [...prevselectedImages];
       newImages.splice(index, 1);
@@ -477,26 +496,43 @@ const WritePage = () => {
       </Title>
 
       <ContentContainer ref={scrollRef}>
-        <div className="dots__container">
-          {selectedImages.map((_, index) => (
-            <Dots
-              key={index}
-              onClick={() => handleDotClick(index)}
-              active={index === activeDotIndex}
-            />
-          ))}
-        </div>
         {selectedImages.length > 0 && (
           <ImagesContainer ref={imagescrollRef} onScroll={handleImageScroll}>
             {selectedImages.map((image, index) => (
-              <Images
-                key={index}
-                src={image}
-                onClick={() => handleImageUpload(index)}
-                onContextMenu={() => handleLongPress(index)}
-              />
+              <div className="with__delete__icon">
+                <Images
+                  key={index}
+                  src={image}
+                  onClick={() => handleImageUpload(index)}
+                />
+                <svg
+                  onClick={() => handleImageDelete(index)}
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <path
+                    d="M6.39953 18.6534L5.3457 17.5995L10.9457 11.9995L5.3457 6.39953L6.39953 5.3457L11.9995 10.9457L17.5995 5.3457L18.6534 6.39953L13.0534 11.9995L18.6534 17.5995L17.5995 18.6534L11.9995 13.0534L6.39953 18.6534Z"
+                    fill="white"
+                    fill-opacity="0.7"
+                  />
+                </svg>
+              </div>
             ))}
           </ImagesContainer>
+        )}
+        {selectedImages.length > 1 && (
+          <div className="dots__container">
+            {selectedImages.map((_, index) => (
+              <Dots
+                key={index}
+                onClick={() => handleDotClick(index)}
+                active={index === activeDotIndex}
+              />
+            ))}
+          </div>
         )}
 
         {contents.map((item, idx) => {
