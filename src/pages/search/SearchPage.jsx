@@ -220,7 +220,7 @@ const SearchPage = () => {
     <Layout>
       <Top>
         <Back>
-          <Link to={`/home`}>
+          <Link to={`/feed`}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
