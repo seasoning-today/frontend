@@ -62,7 +62,7 @@ const Title = styled.div`
     color: #000;
     text-align: center;
     font-family: 'Noto Serif KR';
-    font-size: 2rem;
+    font-size: 1.875rem;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
@@ -213,6 +213,7 @@ const ToolBar = styled.div`
 const WritePage = () => {
   const { termResponse } = useLoaderData();
   const currentTerm = termResponse.data.currentTerm.sequence;
+  const currentYear = termResponse.data.currentTerm.date;
   let questions = SeasonalQuestions[currentTerm];
 
   const navigate = useNavigate();
@@ -491,7 +492,7 @@ const WritePage = () => {
           {TermsToChinese[currentTerm]}
         </span>
         <span className="write__title__korean">
-          {TermsToKorean[currentTerm]}
+          {currentYear.split('-')[0]}, {TermsToKorean[currentTerm]}
         </span>
       </Title>
 
