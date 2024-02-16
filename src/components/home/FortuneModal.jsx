@@ -8,7 +8,7 @@ const ModalOverlay = styled.div`
 
   display: flex;
   flex-direction: column;
-  padding: 1.63rem 1.38rem 1.69rem;
+  padding: 1.63rem 2rem 2rem;
 
   border-radius: 1.25rem;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
@@ -26,8 +26,6 @@ const ModalTop = styled.div`
   align-items: center;
 
   span {
-    padding-top: 0.2rem;
-
     color: #8e8c86;
     font-family: 'Apple SD Gothic Neo';
     font-size: 1rem;
@@ -45,7 +43,7 @@ const ModalTitle = styled.div`
   width: 100%;
 
   display: flex;
-  padding: 0.5rem 0;
+  padding-top: 0.5rem;
 
   color: #333;
   font-family: 'Apple SD Gothic Neo';
@@ -61,7 +59,7 @@ const Hr = styled.div`
   height: 0.03125rem;
 
   display: flex;
-  margin-bottom: 1.06rem;
+  margin: 0.56rem 0 1.06rem;
 
   background-color: #8e8c86;
 `;
