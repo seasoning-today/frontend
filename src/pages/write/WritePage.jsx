@@ -497,6 +497,7 @@ const WritePage = () => {
             />
           </svg>
         </Link>
+
         <span className="write__save" onClick={handleSave}>
           저장
         </span>

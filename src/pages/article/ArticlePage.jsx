@@ -82,7 +82,10 @@ const ContentContainer = styled.div`
 
   .dots__container {
     display: flex;
-    column-gap: 0.5rem;
+    column-gap: 0.4rem;
+
+    margin-top: -3rem;
+    margin-bottom: 1.2rem;
   }
 `;
 
@@ -93,7 +96,8 @@ const Dots = styled.div`
   height: 0.25rem;
   border-radius: 50%;
   cursor: pointer;
-  background-color: ${({ active }) => (active ? '#AFAFAF' : '#E9E9E9')};
+  background-color: ${({ active }) =>
+    active ? '#FFF' : 'rgba(255, 255, 255, 0.40)'};
 `;
 
 const ImagesContainer = styled.div`
@@ -337,7 +341,7 @@ const ArticlePage = () => {
             {TermsToChinese[articleData.term]}
           </span>
           <span className="article__title__korean">
-            {TermsToKorean[articleData.term]}
+            {articleData.year}, {TermsToKorean[articleData.term]}
           </span>
         </Title>
         <svg
@@ -358,21 +362,23 @@ const ArticlePage = () => {
       <ContentContainer>
         {articleData.images.length > 0 && (
           <>
-            <div className="dots__container">
-              {articleData.images.map((_, idx) => (
-                <Dots
-                  key={idx}
-                  onClick={() => handleDotClick(idx)}
-                  active={idx === activeDotIndex}
-                />
-              ))}
-            </div>
             <ImagesContainer ref={imagescrollRef} onScroll={handleImageScroll}>
               {articleData.images.map((image, idx) => (
                 <Images key={idx} src={image.url} />
               ))}
             </ImagesContainer>
           </>
+        )}
+        {articleData.images.length > 1 && (
+          <div className="dots__container">
+            {articleData.images.map((_, idx) => (
+              <Dots
+                key={idx}
+                onClick={() => handleDotClick(idx)}
+                active={idx === activeDotIndex}
+              />
+            ))}
+          </div>
         )}
 
         {contents.map((item, idx) => {
