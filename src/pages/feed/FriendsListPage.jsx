@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import { useLoaderData } from 'react-router-dom';
 
 import UserProfileBox from '@components/common/UserProfileBox';
@@ -48,8 +49,63 @@ const ContentArea = styled.div`
   overflow-y: auto;
 `;
 
+const List = styled.div`
+  width: 100%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const Button = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 5.1875rem;
+  height: 1.6875rem;
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.8rem;
+
+  cursor: pointer;
+  background-color: var(--F0, #f0f0f0);
+  flex-shrink: 0;
+
+  span {
+    color: var(--1F, #1f1f1f);
+    text-align: center;
+    font-family: 'Apple SD Gothic Neo';
+    font-size: 0.78rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+`;
+
 const FriendsListPage = () => {
   const { response } = useLoaderData();
+
+  const deleteFriendRequest = async (friendId) => {
+    const accessToken = localStorage.getItem('accessToken');
+
+    try {
+      const response = await axios.delete(`/api/friend/unfriend`, {
+        data: {
+          id: friendId,
+        },
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+
+      if (response.status === 200) {
+        console.log('Friend request successfully deleted.');
+      } else {
+        // console.error('Unexpected response:', response);
+      }
+    } catch (error) {
+      console.error('Error sending friend request:', error);
+    }
+  };
 
   return (
     <>
@@ -76,12 +132,17 @@ const FriendsListPage = () => {
 
       <ContentArea>
         {response.data.map((friend, idx) => (
-          <UserProfileBox
-            key={idx}
-            profileImage={friend.profileImageUrl}
-            nickname={friend.nickname}
-            accountId={friend.accountId}
-          />
+          <List key={idx}>
+            <UserProfileBox
+              key={idx}
+              profileImage={friend.profileImageUrl}
+              nickname={friend.nickname}
+              accountId={friend.accountId}
+            />
+            <Button onClick={() => deleteFriendRequest(friend.id)}>
+              <span>친구 삭제</span>
+            </Button>
+          </List>
         ))}
       </ContentArea>
     </>
