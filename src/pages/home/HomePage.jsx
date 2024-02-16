@@ -147,7 +147,9 @@ const Select = styled.div`
   align-items: center;
 
   select {
+    width: 5.7rem;
     height: 1.25rem;
+    text-align: center;
 
     border: none;
     outline: none;
