@@ -77,6 +77,7 @@ const SeasonalContent = () => {
           <SeasonMenu
             key={term}
             term={term}
+            selectedTerm={selectedTerm}
             onClick={() => setSelectedTerm(term)}
           />
         ))}

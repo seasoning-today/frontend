@@ -24,7 +24,7 @@ const Container = styled.div`
     font-weight: 500;
     line-height: normal;
 
-    z-index: 11;
+    z-index: 12;
   }
 
   .season__menu__korean {
@@ -45,7 +45,7 @@ const Container = styled.div`
     width: 4.0625rem;
     height: 4.0625rem;
     z-index: 10;
-    border-radius: 1.5625rem;
+    border-radius: 1.5rem;
   }
 
   .season__background__color {
@@ -54,10 +54,14 @@ const Container = styled.div`
     left: 0;
     width: 4.0625rem;
     height: 4.0625rem;
-    z-index: 10;
-    border-radius: 1.5625rem;
+    z-index: 11;
+    border-radius: 1.5rem;
 
-    background-color: rgba(2, 33, 29, 0.75);
+    background-color: ${({ term, selectedTerm }) =>
+      term === selectedTerm
+        ? `rgba(2, 33, 29, 0.75)`
+        : `rgba(255, 255, 255, 0.7)`};
+    transition: background-color 0.3s ease-in-out;
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   }
 `;
@@ -75,9 +79,9 @@ const Square = styled.div`
   background-color: #333;
 `;
 
-const SeasonMenu = ({ term, onClick }) => {
+const SeasonMenu = ({ term, selectedTerm, onClick }) => {
   return (
-    <Container onClick={onClick}>
+    <Container term={term} selectedTerm={selectedTerm} onClick={onClick}>
       <Square>
         <span className="season__menu__chinese">{TermsToChinese[term]}</span>
       </Square>
