@@ -226,6 +226,7 @@ const ArticlePage = () => {
   const { articleId, response } = useLoaderData();
   const articleData = response.data;
   const contents = JSON.parse(articleData.contents);
+  console.log(articleData);
 
   const [emojiCount, setEmojiCount] = useState(articleData.likesCount);
   const [isClickedEmoji, setIsClickedEmoji] = useState(articleData.userLikes);
@@ -397,12 +398,11 @@ const ArticlePage = () => {
       <ProfileBox>
         <div className="profile__column">
           <span className="profile__personal__data__nickname">
-            {`nickname`}
+            {articleData.profile.nickname}
           </span>
-          <span className="profile__personal__data__account">{`@${`accountId`}`}</span>
+          <span className="profile__personal__data__account">{`@${articleData.profile.accountId}`}</span>
         </div>
-        {/* {profileImage ? <img src={profileImage} /> : <img />} */}
-        <img />
+        <img src={articleData.profile.image} />
       </ProfileBox>
 
       <Bottom>
