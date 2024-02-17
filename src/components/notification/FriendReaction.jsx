@@ -57,7 +57,7 @@ const Content = styled.div`
   }
 `;
 
-const FriendReaction = ({ profileName, profileImageUrl, time }) => {
+const FriendReaction = ({ profileName, profileImageUrl, createdAt }) => {
   return (
     <Layout>
       {profileImageUrl ? (
@@ -73,7 +73,7 @@ const FriendReaction = ({ profileName, profileImageUrl, time }) => {
             님이 이모지를 남기셨습니다
           </span>
         </div>
-        <span className="notification__time">{time}</span>
+        <span className="notification__time">{createdAt}</span>
       </Content>
     </Layout>
   );

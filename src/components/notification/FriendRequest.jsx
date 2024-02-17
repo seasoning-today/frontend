@@ -102,8 +102,10 @@ const FriendRequest = ({
   profileImageUrl,
   friendId,
   setNotifications,
-  time,
+  createdAt,
 }) => {
+  console.log(createdAt);
+
   const handleFriendRequest = async (action) => {
     const accessToken = localStorage.getItem('accessToken');
 
@@ -154,7 +156,7 @@ const FriendRequest = ({
         <span className="notification__content">
           님에게서 친구신청이 왔습니다
         </span>
-        <span className="notification__time">{time}</span>
+        <span className="notification__time">{createdAt}</span>
       </Content>
 
       <ButtonContainer>

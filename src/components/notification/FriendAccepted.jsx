@@ -57,7 +57,7 @@ const Content = styled.div`
   }
 `;
 
-const FriendAccepted = ({ profileName, profileImageUrl, time }) => {
+const FriendAccepted = ({ profileName, profileImageUrl, createdAt }) => {
   return (
     <Layout>
       {profileImageUrl ? (
@@ -71,7 +71,7 @@ const FriendAccepted = ({ profileName, profileImageUrl, time }) => {
           <span className="notification__name">{profileName}</span>
           <span className="notification__content">님과 친구가 되셨습니다.</span>
         </div>
-        <span className="notification__time">{time}</span>
+        <span className="notification__time">{createdAt}</span>
       </Content>
     </Layout>
   );

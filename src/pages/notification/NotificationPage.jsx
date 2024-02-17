@@ -80,10 +80,9 @@ const NotificationPage = () => {
     const currentTime = new Date();
     const notificationTime = new Date(timestamp);
     const timeDifference = currentTime - notificationTime;
-    const seconds = Math.floor(timeDifference / 1000);
-    const minutes = Math.floor(seconds / 60);
-    const hours = Math.floor(minutes / 60);
-    const days = Math.floor(hours / 24);
+    const minutes = Math.floor(timeDifference / 1000 / 60);
+    const hours = Math.floor(timeDifference / 1000 / 60 / 60);
+    const days = Math.floor(timeDifference / 1000 / 60 / 60 / 24);
 
     if (days > 0) {
       return `${days}일 전`;
@@ -127,7 +126,7 @@ const NotificationPage = () => {
             profileImageUrl={notification.profile.image}
             friendId={notification.profile.id}
             setNotifications={setNotifications}
-            time={formatNotificationTime(notification.createdAt)}
+            createdAt={formatNotificationTime(notification.createdAt)}
           />
         ))}
         {friendRequests.length > 0 && otherNotifications.length > 0 ? (
@@ -140,7 +139,7 @@ const NotificationPage = () => {
                 <SeasonalNotify
                   key={notification.id}
                   seasonName={notification.message}
-                  time={formatNotificationTime(notification.createdAt)}
+                  createdAt={formatNotificationTime(notification.createdAt)}
                 />
               );
             case 'ARTICLE_FEEDBACK':
@@ -149,7 +148,7 @@ const NotificationPage = () => {
                   key={notification.id}
                   profileName={notification.profile.nickname}
                   profileImageUrl={notification.profile.image}
-                  time={formatNotificationTime(notification.createdAt)}
+                  createdAt={formatNotificationTime(notification.createdAt)}
                 />
               );
             case 'FRIENDSHIP_ACCEPTED':
@@ -158,7 +157,7 @@ const NotificationPage = () => {
                   key={notification.id}
                   profileName={notification.profile.nickname}
                   profileImageUrl={notification.profile.image}
-                  time={formatNotificationTime(notification.createdAt)}
+                  createdAt={formatNotificationTime(notification.createdAt)}
                 />
               );
             default:

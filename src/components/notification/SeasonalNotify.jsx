@@ -55,7 +55,7 @@ const Content = styled.div`
   }
 `;
 
-const SeasonalNotify = ({ term, time }) => {
+const SeasonalNotify = ({ term, createdAt }) => {
   return (
     <Layout>
       <ProfileImage>
@@ -81,7 +81,7 @@ const SeasonalNotify = ({ term, time }) => {
         <span className="notification__name">{TermsToKorean[term]}</span>
         <span className="notification__content">노트가 열렸습니다</span>
         <br />
-        <span className="notification__time">{time}</span>
+        <span className="notification__time">{createdAt}</span>
       </Content>
     </Layout>
   );
