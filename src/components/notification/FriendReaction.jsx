@@ -1,6 +1,7 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
-const Layout = styled.div`
+const Layout = styled(Link)`
   width: 100%;
 
   display: flex;
@@ -57,9 +58,14 @@ const Content = styled.div`
   }
 `;
 
-const FriendReaction = ({ profileName, profileImageUrl, createdAt }) => {
+const FriendReaction = ({
+  articleId,
+  profileName,
+  profileImageUrl,
+  createdAt,
+}) => {
   return (
-    <Layout>
+    <Layout to={`/article/${articleId}`}>
       {profileImageUrl ? (
         <ProfileImage src={profileImageUrl} />
       ) : (

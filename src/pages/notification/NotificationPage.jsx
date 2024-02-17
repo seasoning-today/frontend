@@ -146,6 +146,7 @@ const NotificationPage = () => {
               return (
                 <FriendReaction
                   key={notification.id}
+                  articleId={notification.message}
                   profileName={notification.profile.nickname}
                   profileImageUrl={notification.profile.image}
                   createdAt={formatNotificationTime(notification.createdAt)}
