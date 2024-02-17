@@ -86,8 +86,6 @@ const ContentContainer = styled.div`
 function Layout() {
   // const isMobile = useMediaQuery({ maxWidth: 768 });
   const isMobile = useMediaQuery({ maxWidth: 900 });
-  const location = useLocation();
-  console.log(location.pathname);
 
   return (
     <Container>
