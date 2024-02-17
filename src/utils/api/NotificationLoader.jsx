@@ -13,14 +13,14 @@ export const NotificationLoader = async ({ request, params }) => {
   const lastId = '';
 
   try {
-    const response = await axios.get(
+    const notificationResponse = await axios.get(
       `/api/notification?size=${size}&lastId=${lastId}`,
       {
         headers: { Authorization: `Bearer ${accessToken}` },
       }
     );
-
-    return { response };
+    console.log(notificationResponse.data);
+    return { notificationResponse };
   } catch (error) {
     console.error(error);
     console.log('* Response Error... Redirecting to /login');

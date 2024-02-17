@@ -101,7 +101,7 @@ const FriendRequest = ({
   profileName,
   profileImageUrl,
   friendId,
-  navigate,
+  setNotifications,
   time,
 }) => {
   const handleFriendRequest = async (action) => {
@@ -109,7 +109,7 @@ const FriendRequest = ({
 
     try {
       if (action === 'accept') {
-        const acceptResponse = await axios.put(
+        const acceptResponse = await axios.post(
           `/api/friend/add/accept`,
           {
             id: friendId,
@@ -126,7 +126,16 @@ const FriendRequest = ({
           headers: { Authorization: `Bearer ${accessToken}` },
         });
       }
-      navigate();
+
+      const size = 10;
+      const lastId = '';
+      const notificationResponse = await axios.get(
+        `/api/notification?size=${size}&lastId=${lastId}`,
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }
+      );
+      setNotifications(notificationResponse.data);
     } catch (error) {
       console.error('Error handling friend request:', error);
     }

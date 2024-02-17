@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { useLoaderData, useNavigate } from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom';
 
 import FriendRequest from '@components/notification/FriendRequest';
 import FriendReaction from '@components/notification/FriendReaction';
@@ -58,9 +58,8 @@ const Line = styled.div`
 `;
 
 const NotificationPage = () => {
-  const navigate = useNavigate();
-  const { response } = useLoaderData();
-  const [notifications, setNotifications] = useState(response.data);
+  const { notificationResponse } = useLoaderData();
+  const [notifications, setNotifications] = useState(notificationResponse.data);
   const [friendRequests, setFriendRequests] = useState([]);
   const [otherNotifications, setOtherNotifications] = useState([]);
 
@@ -124,11 +123,11 @@ const NotificationPage = () => {
         {friendRequests.map((notification) => (
           <FriendRequest
             key={notification.id}
-            profileName={JSON.parse(notification.message).nickname}
-            profileImageUrl={JSON.parse(notification.message).profileImageUrl}
-            friendId={JSON.parse(notification.message).id}
-            navigate={navigate}
-            time={formatNotificationTime()}
+            profileName={notification.profile.nickname}
+            profileImageUrl={notification.profile.image}
+            friendId={notification.profile.id}
+            setNotifications={setNotifications}
+            time={formatNotificationTime(notification.createdAt)}
           />
         ))}
         {friendRequests.length > 0 && otherNotifications.length > 0 ? (
@@ -141,29 +140,25 @@ const NotificationPage = () => {
                 <SeasonalNotify
                   key={notification.id}
                   seasonName={notification.message}
-                  time={formatNotificationTime()}
+                  time={formatNotificationTime(notification.createdAt)}
                 />
               );
             case 'ARTICLE_FEEDBACK':
               return (
                 <FriendReaction
                   key={notification.id}
-                  profileName={JSON.parse(notification.message).nickname}
-                  profileImageUrl={
-                    JSON.parse(notification.message).profileImageUrl
-                  }
-                  time={formatNotificationTime()}
+                  profileName={notification.profile.nickname}
+                  profileImageUrl={notification.profile.image}
+                  time={formatNotificationTime(notification.createdAt)}
                 />
               );
             case 'FRIENDSHIP_ACCEPTED':
               return (
                 <FriendAccepted
                   key={notification.id}
-                  profileName={JSON.parse(notification.message).nickname}
-                  profileImageUrl={
-                    JSON.parse(notification.message).profileImageUrl
-                  }
-                  time={formatNotificationTime()}
+                  profileName={notification.profile.nickname}
+                  profileImageUrl={notification.profile.image}
+                  time={formatNotificationTime(notification.createdAt)}
                 />
               );
             default:
