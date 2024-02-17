@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import axios from 'axios';
 import { useLoaderData, Link, useNavigate } from 'react-router-dom';
 
@@ -26,10 +26,21 @@ const Top = styled.div`
   flex-shrink: 0;
 
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 
-  svg {
-    margin: 1.44rem 1.31rem;
+  .article__nav-item__left {
+    position: absolute;
+    top: 1.69rem;
+    left: 1.63rem;
+
+    cursor: pointer;
+  }
+
+  .article__nav-item__right {
+    position: absolute;
+    top: 1.69rem;
+    right: 1.31rem;
+
     cursor: pointer;
   }
 `;
@@ -83,7 +94,7 @@ const ContentContainer = styled.div`
   align-items: center;
   flex-direction: column;
   row-gap: 1.5rem;
-  padding: 1rem 1.31rem 1rem 1.31rem;
+  padding: 0.5rem 1.31rem 1rem 1.31rem;
 
   .dots__container {
     display: flex;
@@ -218,10 +229,10 @@ const ProfileBox = styled.div`
 `;
 
 const ArticlePage = () => {
-  const { articleId, response } = useLoaderData();
-  const articleData = response.data;
+  const { articleId, articleResponse, userResponse } = useLoaderData();
+  const articleData = articleResponse.data;
   const contents = JSON.parse(articleData.contents);
-  // console.log(articleData);
+  const isAuthor = userResponse.data.id === articleData.profile.id;
 
   const [emojiCount, setEmojiCount] = useState(articleData.likesCount);
   const [isClickedEmoji, setIsClickedEmoji] = useState(articleData.userLikes);
@@ -231,6 +242,8 @@ const ArticlePage = () => {
 
   const [showMenuModal, setShowMenuModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const navigate = useNavigate();
 
   /* 사진 좌우 스크롤과 Dots 색 조정 */
   const handleDotClick = (index) => {
@@ -318,7 +331,12 @@ const ArticlePage = () => {
       )}
 
       <Top>
-        <Link to={`/home`}>
+        <div
+          className="article__nav-item__left"
+          onClick={() => {
+            navigate(-1);
+          }}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -327,11 +345,11 @@ const ArticlePage = () => {
             fill="none"
           >
             <path
-              d="M9.17308 18.6634L2.5 11.9904L9.17308 5.31732L10.2173 6.36152L5.35377 11.2404H21.5096V12.7404H5.3634L10.2423 17.6192L9.17308 18.6634Z"
-              fill="#333333"
+              d="M6.39953 18.6534L5.3457 17.5995L10.9457 11.9995L5.3457 6.39953L6.39953 5.3457L11.9995 10.9457L17.5995 5.3457L18.6534 6.39953L13.0534 11.9995L18.6534 17.5995L17.5995 18.6534L11.9995 13.0534L6.39953 18.6534Z"
+              fill="black"
             />
           </svg>
-        </Link>
+        </div>
         <Title>
           <span className="article__title__chinese">
             {TermsToChinese[articleData.term]}
@@ -340,19 +358,23 @@ const ArticlePage = () => {
             {articleData.year}, {TermsToKorean[articleData.term]}
           </span>
         </Title>
-        <svg
-          onClick={handleMenu}
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-        >
-          <path
-            d="M12 19.2692C11.5875 19.2692 11.2344 19.1223 10.9406 18.8286C10.6469 18.5348 10.5 18.1817 10.5 17.7692C10.5 17.3567 10.6469 17.0036 10.9406 16.7099C11.2344 16.4161 11.5875 16.2693 12 16.2693C12.4125 16.2693 12.7656 16.4161 13.0593 16.7099C13.3531 17.0036 13.5 17.3567 13.5 17.7692C13.5 18.1817 13.3531 18.5348 13.0593 18.8286C12.7656 19.1223 12.4125 19.2692 12 19.2692ZM12 13.5C11.5875 13.5 11.2344 13.3531 10.9406 13.0594C10.6469 12.7656 10.5 12.4125 10.5 12C10.5 11.5875 10.6469 11.2344 10.9406 10.9407C11.2344 10.6469 11.5875 10.5 12 10.5C12.4125 10.5 12.7656 10.6469 13.0593 10.9407C13.3531 11.2344 13.5 11.5875 13.5 12C13.5 12.4125 13.3531 12.7656 13.0593 13.0594C12.7656 13.3531 12.4125 13.5 12 13.5ZM12 7.73076C11.5875 7.73076 11.2344 7.58389 10.9406 7.29014C10.6469 6.9964 10.5 6.64329 10.5 6.23079C10.5 5.8183 10.6469 5.46519 10.9406 5.17144C11.2344 4.8777 11.5875 4.73083 12 4.73083C12.4125 4.73083 12.7656 4.8777 13.0593 5.17144C13.3531 5.46519 13.5 5.8183 13.5 6.23079C13.5 6.64329 13.3531 6.9964 13.0593 7.29014C12.7656 7.58389 12.4125 7.73076 12 7.73076Z"
-            fill="black"
-          />
-        </svg>
+        {isAuthor && (
+          <div className="article__nav-item__right">
+            <svg
+              onClick={handleMenu}
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path
+                d="M12 19.2692C11.5875 19.2692 11.2344 19.1223 10.9406 18.8286C10.6469 18.5348 10.5 18.1817 10.5 17.7692C10.5 17.3567 10.6469 17.0036 10.9406 16.7099C11.2344 16.4161 11.5875 16.2693 12 16.2693C12.4125 16.2693 12.7656 16.4161 13.0593 16.7099C13.3531 17.0036 13.5 17.3567 13.5 17.7692C13.5 18.1817 13.3531 18.5348 13.0593 18.8286C12.7656 19.1223 12.4125 19.2692 12 19.2692ZM12 13.5C11.5875 13.5 11.2344 13.3531 10.9406 13.0594C10.6469 12.7656 10.5 12.4125 10.5 12C10.5 11.5875 10.6469 11.2344 10.9406 10.9407C11.2344 10.6469 11.5875 10.5 12 10.5C12.4125 10.5 12.7656 10.6469 13.0593 10.9407C13.3531 11.2344 13.5 11.5875 13.5 12C13.5 12.4125 13.3531 12.7656 13.0593 13.0594C12.7656 13.3531 12.4125 13.5 12 13.5ZM12 7.73076C11.5875 7.73076 11.2344 7.58389 10.9406 7.29014C10.6469 6.9964 10.5 6.64329 10.5 6.23079C10.5 5.8183 10.6469 5.46519 10.9406 5.17144C11.2344 4.8777 11.5875 4.73083 12 4.73083C12.4125 4.73083 12.7656 4.8777 13.0593 5.17144C13.3531 5.46519 13.5 5.8183 13.5 6.23079C13.5 6.64329 13.3531 6.9964 13.0593 7.29014C12.7656 7.58389 12.4125 7.73076 12 7.73076Z"
+                fill="black"
+              />
+            </svg>
+          </div>
+        )}
       </Top>
 
       <ScrollView>

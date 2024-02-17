@@ -10,11 +10,20 @@ export const ArticleLoader = async ({ request, params }) => {
   }
 
   try {
-    const response = await axios.get(`/api/article/${params.articleId}`, {
+    const articleResponse = await axios.get(
+      `/api/article/${params.articleId}`,
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }
+    );
+    const userResponse = await axios.get(`/api/user/profile`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
-    // console.log(response);
-    return { articleId: params.articleId, response: response };
+    return {
+      articleId: params.articleId,
+      articleResponse: articleResponse,
+      userResponse: userResponse,
+    };
   } catch (error) {
     console.error(error);
     console.log('* Response Error... Redirecting to /home');
