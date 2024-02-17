@@ -15,12 +15,16 @@ export const CollageLoader = async ({ request, params }) => {
   console.log(yearParam);
 
   try {
-    const response = await axios.get(`/api/article/collage?year=${yearParam}`, {
+    const collageResponse = await axios.get(
+      `/api/article/collage?year=${yearParam}`,
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }
+    );
+    const newNotificationResponse = await axios.get(`/api/notification/new`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
-
-    const collageData = response;
-    return { collageData };
+    return { collageResponse, newNotificationResponse };
   } catch (error) {
     console.error(error);
     console.log('* Response Error... Redirecting to /login');

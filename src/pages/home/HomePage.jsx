@@ -178,9 +178,11 @@ const ContentArea = styled.div`
 `;
 
 const HomePage = () => {
-  const { homeResponse, termResponse } = useLoaderData();
-  console.log(homeResponse.data);
-  console.log(JSON.stringify(termResponse.data, null, '\t'));
+  const { homeResponse, termResponse, newNotificationResponse } =
+    useLoaderData();
+  // console.log(homeResponse.data);
+  // console.log(JSON.stringify(termResponse.data, null, '\t'));
+  // console.log(newNotificationResponse.data);
 
   const [now, setNow] = useState(new Date());
 
@@ -247,7 +249,7 @@ const HomePage = () => {
         />
       )}
 
-      <TopBar />
+      <TopBar isNewNotification={newNotificationResponse.data} />
 
       <Season>
         <div className="season__title">

@@ -28,7 +28,10 @@ export const HomeLoader = async ({ request, params }) => {
     const termResponse = await axios.get(`/api/solarTerm`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
-    return { homeResponse, termResponse };
+    const newNotificationResponse = await axios.get(`/api/notification/new`, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+    return { homeResponse, termResponse, newNotificationResponse };
   } catch (error) {
     console.error(error);
     console.log('* Response Error... Redirecting to /login');
