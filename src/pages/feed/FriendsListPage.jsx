@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { useLoaderData } from 'react-router-dom';
+import { Link, useNavigate, useLoaderData } from 'react-router-dom';
 
 import UserProfileBox from '@components/common/UserProfileBox';
 
@@ -69,11 +68,11 @@ const Button = styled.div`
   padding: 0.4rem 0.8rem;
 
   cursor: pointer;
-  background-color: var(--F0, #f0f0f0);
+  background-color: #f0f0f0;
   flex-shrink: 0;
 
   span {
-    color: var(--1F, #1f1f1f);
+    color: #1f1f1f;
     text-align: center;
     font-family: 'Apple SD Gothic Neo';
     font-size: 0.78rem;
@@ -85,6 +84,7 @@ const Button = styled.div`
 
 const FriendsListPage = () => {
   const { response } = useLoaderData();
+  const navigate = useNavigate();
 
   const deleteFriendRequest = async (friendId) => {
     const accessToken = localStorage.getItem('accessToken');
@@ -99,6 +99,7 @@ const FriendsListPage = () => {
 
       if (response.status === 200) {
         console.log('Friend request successfully deleted.');
+        navigate();
       } else {
         // console.error('Unexpected response:', response);
       }
