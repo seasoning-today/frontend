@@ -61,7 +61,7 @@ const Container = styled.div`
       term === selectedTerm
         ? `rgba(2, 33, 29, 0.75)`
         : `rgba(255, 255, 255, 0.7)`};
-    transition: background-color 0.3s ease-in-out;
+    transition: background-color 0.2s ease-in-out;
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   }
 `;
