@@ -163,6 +163,7 @@ const MyPage = () => {
   const { response } = useLoaderData();
   const [userData, setUserData] = useState(response.data);
   const navigate = useNavigate();
+  console.log(userData);
 
   const onClickLogout = () => {
     localStorage.clear();
@@ -178,7 +179,7 @@ const MyPage = () => {
         </div>
 
         {userData.profileImageUrl !== false ? (
-          <img src={userData.profileImageUrl} />
+          <img src={userData.image} />
         ) : (
           <img />
         )}

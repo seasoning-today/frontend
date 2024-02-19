@@ -343,11 +343,7 @@ function EditProfilePage() {
 
         <ProfileBox>
           <div className="profile-center" onClick={handleImageUpload}>
-            {userData.profileImageUrl !== false ? (
-              <img src={userData.profileImageUrl} />
-            ) : (
-              <img />
-            )}
+            <img src={userData.image} />
             <div className="profile-icon">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
