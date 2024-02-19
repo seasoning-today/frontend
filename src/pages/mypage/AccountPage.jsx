@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useLoaderData } from 'react-router-dom';
 
@@ -104,11 +105,25 @@ const ActionMenu = styled.div`
 `;
 
 const AccountPage = () => {
-  const [searchEnabled, setSearchEnabled] = useState(true);
+  const { userSearchable } = useLoaderData();
+  const [searchEnabled, setSearchEnabled] = useState(userSearchable);
   const [showModal, setShowModal] = useState(false);
 
-  const toggleSearchEnabled = () => {
-    setSearchEnabled((searchEnabled) => !searchEnabled);
+  const toggleSearchEnabled = async () => {
+    const accessToken = localStorage.getItem('accessToken');
+
+    try {
+      const toggleSearchEnabledResponse = await axios.put(
+        `/api/user?searchable=${searchEnabled ? `false` : `true`}`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }
+      );
+      setSearchEnabled((searchEnabled) => !searchEnabled);
+    } catch (error) {
+      console.error('Error handling friend request:', error);
+    }
   };
 
   return (

@@ -25,6 +25,7 @@ import { FeedLoader } from '@utils/api/FeedLoader';
 import { FriendsListLoader } from '@utils/api/FriendsListLoader';
 import { NotificationLoader } from '@utils/api/NotificationLoader';
 import { NoticeLoader } from '@utils/api/NoticeLoader';
+import { AccountLoader } from '@utils/api/AccountLoader';
 import { ArticleLoader } from '@utils/api/ArticleLoader';
 import { WriteLoader } from '@utils/api/WriteLoader';
 import { EditArticleLoader } from '@utils/api/EditArticleLoader';
@@ -76,7 +77,7 @@ export const RouterInfo = [
       {
         path: 'mypage/account',
         element: <AccountPage />,
-        loader: UserRestrictLoader,
+        loader: AccountLoader,
       },
       /* 소셜 로그인에 대한 페이지 라우팅 */
       {
