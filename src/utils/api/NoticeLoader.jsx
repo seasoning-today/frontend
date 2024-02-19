@@ -10,8 +10,7 @@ export const NoticeLoader = async ({ request, params }) => {
   }
 
   try {
-    /* 임시로 공지사항 API를 알림 API로 연결해 놓았으니 추후 변경 필요 */
-    const noticeResponse = await axios.get(`/api/notification`, {
+    const noticeResponse = await axios.get(`/api/notice`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
     return { noticeData: noticeResponse.data };

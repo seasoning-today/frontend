@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useLoaderData } from 'react-router-dom';
 
-import TabBar from '@components/common/TabBar';
-
 const Top = styled.div`
   position: relative;
   width: 100%;
@@ -16,7 +14,6 @@ const Top = styled.div`
   padding: 0 1.31rem;
 
   background-color: #fff;
-  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.2);
 
   h1 {
     margin: 0;
@@ -45,16 +42,9 @@ const NoticeContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 1.31rem 3.8125rem;
-  row-gap: 1.38rem;
+  padding: 1.12rem 0.63rem;
+  row-gap: 1.56rem;
   overflow-y: scroll;
-
-  .line {
-    width: calc(100% - 2.26rem);
-    height: 0.0625rem;
-
-    background-color: #e3e3e3;
-  }
 
   .notice__empty {
     width: 100%;
@@ -71,6 +61,51 @@ const NoticeContainer = styled.div`
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+  }
+`;
+
+const Notice = styled.div`
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  .notice__content {
+    width: 100%;
+
+    padding: 0 0.63rem;
+
+    text-align: left;
+    color: #333;
+    font-family: 'Apple SD Gothic Neo';
+    font-size: 0.6875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 135%;
+  }
+
+  .notice__date {
+    width: 100%;
+
+    padding: 0 0.63rem;
+    margin-top: 0.62rem;
+
+    text-align: left;
+    color: #8c8c8c;
+    font-family: 'Apple SD Gothic Neo';
+    font-size: 0.6875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+
+  .notice__line {
+    width: 100%;
+    min-height: 0.03125rem;
+
+    margin-top: 1.12rem;
+
+    background-color: #a9a9a9;
   }
 `;
 
@@ -101,12 +136,20 @@ const NoticePage = () => {
       </Top>
 
       <NoticeContainer>
-        <div className="notice__empty">
-          <span>현재 공지사항이 없습니다.</span>
-        </div>
+        {noticeData.length > 0 ? (
+          noticeData.map((notice, idx) => (
+            <Notice key={idx}>
+              <span className="notice__content">{notice.content}</span>
+              <span className="notice__date">{notice.date}</span>
+              <div className="notice__line" />
+            </Notice>
+          ))
+        ) : (
+          <div className="notice__empty">
+            <span>현재 공지사항이 없습니다.</span>
+          </div>
+        )}
       </NoticeContainer>
-
-      <TabBar />
     </>
   );
 };
