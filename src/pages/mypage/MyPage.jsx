@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Link, useLoaderData, useNavigate } from 'react-router-dom';
 
@@ -161,9 +161,8 @@ const ActionMenu = styled.div`
 
 const MyPage = () => {
   const { response } = useLoaderData();
-  const [userData, setUserData] = useState(response.data);
+  const userData = response.data;
   const navigate = useNavigate();
-  console.log(userData);
 
   const onClickLogout = () => {
     localStorage.clear();
@@ -178,11 +177,7 @@ const MyPage = () => {
           <span>{`@${userData.accountId}`}</span>
         </div>
 
-        {userData.profileImageUrl !== false ? (
-          <img src={userData.image} />
-        ) : (
-          <img />
-        )}
+        <img src={userData.image} />
       </ProfileBox>
 
       <section>
