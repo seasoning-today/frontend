@@ -160,8 +160,7 @@ const ActionMenu = styled.div`
 `;
 
 const MyPage = () => {
-  const { response } = useLoaderData();
-  const userData = response.data;
+  const { userData } = useLoaderData();
   const navigate = useNavigate();
 
   const onClickLogout = () => {

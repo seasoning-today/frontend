@@ -21,13 +21,19 @@ export const ArticleLoader = async ({ request, params }) => {
     });
     return {
       articleId: params.articleId,
-      articleResponse: articleResponse,
-      userResponse: userResponse,
+      articleData: articleResponse.data,
+      userData: userResponse.data,
     };
   } catch (error) {
     console.error(error);
-    console.log('* Response Error... Redirecting to /home');
-    return redirect(`/home`);
+
+    if (error.response && error.response.status === 401) {
+      console.log('* Unauthorized... Redirecting to /login');
+      return redirect(`/login`);
+    } else {
+      console.log('* Response Error... Redirecting to /home');
+      return redirect(`/home`);
+    }
   }
 
   return null;

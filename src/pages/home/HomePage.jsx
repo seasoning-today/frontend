@@ -178,11 +178,8 @@ const ContentArea = styled.div`
 `;
 
 const HomePage = () => {
-  const { homeResponse, termResponse, newNotificationResponse } =
-    useLoaderData();
-  // console.log(homeResponse.data);
-  // console.log(JSON.stringify(termResponse.data, null, '\t'));
-  // console.log(newNotificationResponse.data);
+  const { homeData, termData, newNotificationData } = useLoaderData();
+  // console.log(JSON.stringify(termData, null, '\t'));
 
   const [now, setNow] = useState(new Date());
 
@@ -249,15 +246,15 @@ const HomePage = () => {
         />
       )}
 
-      <TopBar isNewNotification={newNotificationResponse.data} />
+      <TopBar isNewNotification={newNotificationData} />
 
       <Season>
         <div className="season__title">
-          {TermsToChinese[termResponse.data.currentTerm.sequence]}
+          {TermsToChinese[termData.currentTerm.sequence]}
         </div>
         <div className="season__description">
-          {`${TermsToKorean[termResponse.data.currentTerm.sequence]}, ${
-            termResponse.data.currentTerm.sequence
+          {`${TermsToKorean[termData.currentTerm.sequence]}, ${
+            termData.currentTerm.sequence
           }번째 절기`}
         </div>
       </Season>
@@ -330,9 +327,7 @@ const HomePage = () => {
       </Category>
 
       <ContentArea>
-        {selectedCategory === 'year' && (
-          <YearlyContent termData={termResponse.data} />
-        )}
+        {selectedCategory === 'year' && <YearlyContent termData={termData} />}
         {selectedCategory === 'season' && <SeasonalContent />}
       </ContentArea>
 

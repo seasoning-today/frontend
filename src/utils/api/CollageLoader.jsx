@@ -12,7 +12,6 @@ export const CollageLoader = async ({ request, params }) => {
   const url = new URL(request.url);
   let yearParam = url.searchParams.get('year'); // string || null
   yearParam = yearParam === null ? '2024' : yearParam;
-  console.log(yearParam);
 
   try {
     const collageResponse = await axios.get(
@@ -24,11 +23,20 @@ export const CollageLoader = async ({ request, params }) => {
     const newNotificationResponse = await axios.get(`/api/notification/new`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
-    return { collageResponse, newNotificationResponse };
+    return {
+      collageData: collageResponse.data,
+      newNotificationData: newNotificationResponse.data,
+    };
   } catch (error) {
     console.error(error);
-    console.log('* Response Error... Redirecting to /login');
-    //return redirect(`/login`);
+
+    if (error.response && error.response.status === 401) {
+      console.log('* Unauthorized... Redirecting to /login');
+      return redirect(`/login`);
+    } else {
+      console.log('* Response Error... Redirecting to /home');
+      return redirect(`/home`);
+    }
   }
 
   return null;

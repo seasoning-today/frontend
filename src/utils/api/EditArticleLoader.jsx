@@ -24,11 +24,17 @@ export const EditArticleLoader = async ({ request, params }) => {
     });
 
     /* todo: 위에서 articleResponse에서 본인이 작성자일 경우만 대조해서 통과시켜야 함 */
-    return { articleResponse, termResponse };
+    return { articleData: articleResponse.data, termData: termResponse.data };
   } catch (error) {
     console.error(error);
-    console.log('* Response Error... Redirecting to /login');
-    return redirect(`/login`);
+
+    if (error.response && error.response.status === 401) {
+      console.log('* Unauthorized... Redirecting to /login');
+      return redirect(`/login`);
+    } else {
+      console.log('* Response Error... Redirecting to /home');
+      return redirect(`/home`);
+    }
   }
 
   return null;

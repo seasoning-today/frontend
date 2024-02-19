@@ -229,10 +229,9 @@ const ProfileBox = styled.div`
 `;
 
 const ArticlePage = () => {
-  const { articleId, articleResponse, userResponse } = useLoaderData();
-  const articleData = articleResponse.data;
+  const { articleId, articleData, userData } = useLoaderData();
   const contents = JSON.parse(articleData.contents);
-  const isAuthor = userResponse.data.id === articleData.profile.id;
+  const isAuthor = userData.id === articleData.profile.id;
 
   const [emojiCount, setEmojiCount] = useState(articleData.likesCount);
   const [isClickedEmoji, setIsClickedEmoji] = useState(articleData.userLikes);

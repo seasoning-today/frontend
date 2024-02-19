@@ -192,9 +192,8 @@ const ToolBar = styled.div`
 `;
 
 const EditArticlePage = () => {
-  const { articleResponse, termResponse } = useLoaderData();
-  console.log(articleResponse.data);
-  const currentTerm = termResponse.data.currentTerm.sequence;
+  const { articleData, termData } = useLoaderData();
+  const currentTerm = termData.currentTerm.sequence;
   let questions = SeasonalQuestions[currentTerm];
 
   const navigate = useNavigate();
@@ -204,11 +203,9 @@ const EditArticlePage = () => {
   const [activeDotIndex, setActiveDotIndex] = useState(0);
   const imageInputRef = useRef(null);
 
-  const [contents, setContents] = useState(
-    JSON.parse(articleResponse.data.contents)
-  );
+  const [contents, setContents] = useState(JSON.parse(articleData.contents));
 
-  const [published, setPublished] = useState(articleResponse.data.published);
+  const [published, setPublished] = useState(articleData.published);
 
   const scrollRef = useRef();
   const imagescrollRef = useRef();
@@ -304,7 +301,6 @@ const EditArticlePage = () => {
   /* 질문 추가 */
   const handleQuestion = () => {
     if (questions.length === 0) {
-      console.log('더 이상 남은 질문이 없습니다.');
       return;
     }
 
@@ -369,8 +365,6 @@ const EditArticlePage = () => {
 
   /* 콘텐츠 저장 */
   const handleSave = async () => {
-    // console.log(JSON.stringify(contents, null, '\t'));
-
     try {
       const accessToken = localStorage.getItem('accessToken');
       const formData = new FormData();
@@ -405,8 +399,6 @@ const EditArticlePage = () => {
       });
 
       if (response.status === 200) {
-        console.log('Article saved successfully!');
-        console.log(response.data);
         navigate(`/article/${response.data}`);
       } else {
         console.error('Failed to save article.');

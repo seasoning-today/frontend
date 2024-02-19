@@ -10,14 +10,20 @@ export const FriendsListLoader = async ({ request, params }) => {
   }
 
   try {
-    const response = await axios.get(`/api/friend/list`, {
+    const friendListResponse = await axios.get(`/api/friend/list`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
-    return { response };
+    return { friendListData: friendListResponse.data };
   } catch (error) {
     console.error(error);
-    console.log('* Response Error... Redirecting to /login');
-    return redirect(`/login`);
+
+    if (error.response && error.response.status === 401) {
+      console.log('* Unauthorized... Redirecting to /login');
+      return redirect(`/login`);
+    } else {
+      console.log('* Response Error... Redirecting to /home');
+      return redirect(`/home`);
+    }
   }
 
   return null;

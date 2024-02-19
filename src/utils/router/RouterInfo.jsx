@@ -23,7 +23,6 @@ import { HomeLoader } from '@utils/api/HomeLoader';
 import { CollageLoader } from '@utils/api/CollageLoader';
 import { FeedLoader } from '@utils/api/FeedLoader';
 import { FriendsListLoader } from '@utils/api/FriendsListLoader';
-import { LoginLoader } from '@utils/api/LoginLoader';
 import { NotificationLoader } from '@utils/api/NotificationLoader';
 import { NoticeLoader } from '@utils/api/NoticeLoader';
 import { ArticleLoader } from '@utils/api/ArticleLoader';
@@ -83,7 +82,6 @@ export const RouterInfo = [
       {
         path: 'login',
         element: <LoginPage />,
-        // loader: LoginLoader,
       },
       {
         path: 'callback/kakao/login',

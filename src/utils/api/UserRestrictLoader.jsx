@@ -10,14 +10,20 @@ export const UserRestrictLoader = async ({ request, params }) => {
   }
 
   try {
-    const response = await axios.get(`/api/user/profile`, {
+    const userResponse = await axios.get(`/api/user/profile`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
-    return { response };
+    return { userData: userResponse.data };
   } catch (error) {
     console.error(error);
-    console.log('* Response Error... Redirecting to /login');
-    return redirect(`/login`);
+
+    if (error.response && error.response.status === 401) {
+      console.log('* Unauthorized... Redirecting to /login');
+      return redirect(`/login`);
+    } else {
+      console.log('* Response Error... Redirecting to /home');
+      return redirect(`/home`);
+    }
   }
 
   return null;

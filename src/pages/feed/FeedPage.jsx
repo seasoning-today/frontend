@@ -53,9 +53,8 @@ const ContentArea = styled.div`
 `;
 
 const FeedPage = () => {
-  const { response } = useLoaderData();
-  const [feedData, setFeedData] = useState(response.data);
-  console.log(feedData);
+  const { initialFeedData } = useLoaderData();
+  const [feedData, setFeedData] = useState(initialFeedData);
 
   return (
     <>

@@ -83,22 +83,21 @@ const Button = styled.div`
 `;
 
 const FriendsListPage = () => {
-  const { response } = useLoaderData();
+  const { friendListData } = useLoaderData();
   const navigate = useNavigate();
 
-  const deleteFriendRequest = async (friendId) => {
+  const unfriendRequest = async (friendId) => {
     const accessToken = localStorage.getItem('accessToken');
 
     try {
-      const response = await axios.delete(`/api/friend/unfriend`, {
+      const unfriendResponse = await axios.delete(`/api/friend/unfriend`, {
         data: {
           id: friendId,
         },
         headers: { Authorization: `Bearer ${accessToken}` },
       });
 
-      if (response.status === 200) {
-        console.log('Friend request successfully deleted.');
+      if (unfriendResponse.status === 200) {
         navigate();
       } else {
         // console.error('Unexpected response:', response);
@@ -132,7 +131,7 @@ const FriendsListPage = () => {
       </Top>
 
       <ContentArea>
-        {response.data.map((friend, idx) => (
+        {friendListData.map((friend, idx) => (
           <List key={idx}>
             <UserProfileBox
               key={idx}
@@ -140,7 +139,7 @@ const FriendsListPage = () => {
               nickname={friend.nickname}
               accountId={friend.accountId}
             />
-            <Button onClick={() => deleteFriendRequest(friend.id)}>
+            <Button onClick={() => unfriendRequest(friend.id)}>
               <span>친구 삭제</span>
             </Button>
           </List>

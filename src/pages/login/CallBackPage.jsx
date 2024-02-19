@@ -27,11 +27,6 @@ const CallBackPage = () => {
           'Content-Type': 'application/json;charset=utf-8',
         },
       }).then((res) => {
-        console.log(res);
-        console.log(res.data);
-        console.log(res.data.firstLogin);
-        console.log(res.data.tokenInfo.accessToken);
-        console.log(res.data.tokenInfo.refreshToken);
         localStorage.setItem('accessToken', res.data.tokenInfo.accessToken);
         localStorage.setItem('refreshToken', res.data.tokenInfo.refreshToken);
 

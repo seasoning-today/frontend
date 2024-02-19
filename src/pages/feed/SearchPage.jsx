@@ -147,7 +147,6 @@ const SearchPage = () => {
       );
       if (response.status === 200) {
         setSearchResult([response.data]);
-        console.log(response.data);
       } else {
         setSearchResult([]);
         // console.error('Unexpected response:', response);

@@ -11,14 +11,20 @@ export const NoticeLoader = async ({ request, params }) => {
 
   try {
     /* 임시로 공지사항 API를 알림 API로 연결해 놓았으니 추후 변경 필요 */
-    const response = await axios.get(`/api/notification`, {
+    const noticeResponse = await axios.get(`/api/notification`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
-    return { response };
+    return { noticeData: noticeResponse.data };
   } catch (error) {
     console.error(error);
-    console.log('* Response Error... Redirecting to /login');
-    return redirect(`/login`);
+
+    if (error.response && error.response.status === 401) {
+      console.log('* Unauthorized... Redirecting to /login');
+      return redirect(`/login`);
+    } else {
+      console.log('* Response Error... Redirecting to /home');
+      return redirect(`/home`);
+    }
   }
 
   return null;

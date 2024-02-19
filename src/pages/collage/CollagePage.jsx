@@ -112,7 +112,7 @@ const Content = styled.div`
 `;
 
 const CollagePage = () => {
-  const { collageResponse, newNotificationResponse } = useLoaderData();
+  const { collageData, newNotificationData } = useLoaderData();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -172,7 +172,7 @@ const CollagePage = () => {
 
   return (
     <Layout>
-      <TopBar isNewNotification={newNotificationResponse.data} />
+      <TopBar isNewNotification={newNotificationData} />
 
       <Title>
         <span>나의 24절기</span>
@@ -216,15 +216,13 @@ const CollagePage = () => {
         <div className="collage__capture__area" ref={contentRef}>
           {terms.map((term) => (
             <div key={term}>
-              {collageResponse.data.some((item) => item.term === term) ? (
+              {collageData.some((item) => item.term === term) ? (
                 <CollageItem
                   articleId={
-                    collageResponse.data.find((item) => item.term === term)
-                      .articleId
+                    collageData.find((item) => item.term === term).articleId
                   }
                   thumbnail={
-                    collageResponse.data.find((item) => item.term === term)
-                      .image
+                    collageData.find((item) => item.term === term).image
                   }
                 />
               ) : (

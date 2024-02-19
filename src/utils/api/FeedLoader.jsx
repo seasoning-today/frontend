@@ -13,18 +13,24 @@ export const FeedLoader = async ({ request, params }) => {
   }
 
   try {
-    const response = await axios.get(
+    const feedResponse = await axios.get(
       // `/api/article/friends?size=${size}&lastId=${articleId}`,
       `/api/article/friends`,
       {
         headers: { Authorization: `Bearer ${accessToken}` },
       }
     );
-    return { response };
+    return { initialFeedData: feedResponse.data };
   } catch (error) {
     console.error(error);
-    console.log('* Response Error... Redirecting to /login');
-    return redirect(`/login`);
+
+    if (error.response && error.response.status === 401) {
+      console.log('* Unauthorized... Redirecting to /login');
+      return redirect(`/login`);
+    } else {
+      console.log('* Response Error... Redirecting to /home');
+      return redirect(`/home`);
+    }
   }
 
   return null;

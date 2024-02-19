@@ -19,12 +19,17 @@ export const NotificationLoader = async ({ request, params }) => {
         headers: { Authorization: `Bearer ${accessToken}` },
       }
     );
-    console.log(notificationResponse.data);
-    return { notificationResponse };
+    return { initialNotificationData: notificationResponse.data };
   } catch (error) {
     console.error(error);
-    console.log('* Response Error... Redirecting to /login');
-    return redirect(`/login`);
+
+    if (error.response && error.response.status === 401) {
+      console.log('* Unauthorized... Redirecting to /login');
+      return redirect(`/login`);
+    } else {
+      console.log('* Response Error... Redirecting to /home');
+      return redirect(`/home`);
+    }
   }
 
   return null;

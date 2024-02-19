@@ -13,11 +13,17 @@ export const WriteLoader = async ({ request, params }) => {
     const termResponse = await axios.get(`/api/solarTerm`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
-    return { termResponse };
+    return { termData: termResponse.data };
   } catch (error) {
     console.error(error);
-    console.log('* Response Error... Redirecting to /login');
-    return redirect(`/login`);
+
+    if (error.response && error.response.status === 401) {
+      console.log('* Unauthorized... Redirecting to /login');
+      return redirect(`/login`);
+    } else {
+      console.log('* Response Error... Redirecting to /home');
+      return redirect(`/home`);
+    }
   }
 
   return null;

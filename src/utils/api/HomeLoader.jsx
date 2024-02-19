@@ -15,7 +15,6 @@ export const HomeLoader = async ({ request, params }) => {
   let category = url.searchParams.get('category'); // year || season || null
   category = category === null ? 'year' : category;
   category = category === 'season' ? 'term' : category;
-  console.log(category);
   const sendParam = category === 'year' ? year : term;
 
   try {
@@ -31,11 +30,21 @@ export const HomeLoader = async ({ request, params }) => {
     const newNotificationResponse = await axios.get(`/api/notification/new`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
-    return { homeResponse, termResponse, newNotificationResponse };
+    return {
+      homeData: homeResponse.data,
+      termData: termResponse.data,
+      newNotificationData: newNotificationResponse.data,
+    };
   } catch (error) {
     console.error(error);
-    console.log('* Response Error... Redirecting to /login');
-    return redirect(`/login`);
+
+    if (error.response && error.response.status === 401) {
+      console.log('* Unauthorized... Redirecting to /login');
+      return redirect(`/login`);
+    } else {
+      console.log('* Response Error... Redirecting to /home');
+      return redirect(`/home`);
+    }
   }
 
   return null;

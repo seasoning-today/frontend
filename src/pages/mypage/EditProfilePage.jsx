@@ -164,8 +164,8 @@ const ConfirmButton = styled.div`
 `;
 
 function EditProfilePage() {
-  const { response } = useLoaderData();
-  const [userData, setUserData] = useState(response.data);
+  const prevUserData = useLoaderData().userData;
+  const [userData, setUserData] = useState(prevUserData);
   const [isImageChanged, setIsImageChanged] = useState(false);
   const [isValidForm, setIsValidForm] = useState({
     uniqueId: true,
@@ -201,7 +201,7 @@ function EditProfilePage() {
     const newId = event.target.value.trim().slice(0, MAX_ID_LENGTH);
     setUserData({ ...userData, accountId: newId });
 
-    if (newId === response.data.accountId) {
+    if (newId === prevUserData.accountId) {
       setIsValidForm({ ...isValidForm, validId: true, uniqueId: true });
       return;
     }
@@ -251,7 +251,7 @@ function EditProfilePage() {
     const newName = event.target.value.trim().slice(0, MAX_NAME_LENGTH);
     setUserData({ ...userData, nickname: newName });
 
-    if (newName === response.data.nickname) {
+    if (newName === prevUserData.nickname) {
       setIsValidForm({ ...isValidForm, validNickname: true });
       return;
     }
@@ -309,7 +309,6 @@ function EditProfilePage() {
         },
       });
 
-      console.log('Profile updated successfully');
       navigate(`/mypage`);
     } catch (error) {
       console.error('Error:', error);
@@ -326,7 +325,6 @@ function EditProfilePage() {
     } else {
       setIsValidForm({ ...isValidForm, validForm: false });
     }
-    // console.log(isValidForm);
   }, [
     isValidForm.validId,
     isValidForm.uniqueId,
@@ -375,7 +373,7 @@ function EditProfilePage() {
               <input
                 type="text"
                 onChange={onChangeId}
-                placeholder={response.data.accountId}
+                placeholder={prevUserData.accountId}
                 value={userData.accountId}
               />
               <CheckIcon
@@ -403,7 +401,7 @@ function EditProfilePage() {
               <input
                 type="text"
                 onChange={onChangeName}
-                placeholder={response.data.nickname}
+                placeholder={prevUserData.nickname}
                 value={userData.nickname}
               />
             </section>

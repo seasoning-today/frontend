@@ -103,12 +103,6 @@ const ActionMenu = styled.div`
   }
 `;
 
-const PopupLayout = styled.div`
-  position: relative;
-  display: flex;
-  justify-content: center;
-`;
-
 const AccountPage = () => {
   const [searchEnabled, setSearchEnabled] = useState(true);
   const [showModal, setShowModal] = useState(false);

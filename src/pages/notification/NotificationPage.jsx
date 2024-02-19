@@ -58,8 +58,8 @@ const Line = styled.div`
 `;
 
 const NotificationPage = () => {
-  const { notificationResponse } = useLoaderData();
-  const [notifications, setNotifications] = useState(notificationResponse.data);
+  const { initialNotificationData } = useLoaderData();
+  const [notifications, setNotifications] = useState(initialNotificationData);
   const [friendRequests, setFriendRequests] = useState([]);
   const [otherNotifications, setOtherNotifications] = useState([]);
 

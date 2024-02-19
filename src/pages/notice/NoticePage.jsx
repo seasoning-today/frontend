@@ -75,8 +75,7 @@ const NoticeContainer = styled.div`
 `;
 
 const NoticePage = () => {
-  const { response } = useLoaderData();
-  console.log(response);
+  const { noticeData } = useLoaderData();
 
   return (
     <>

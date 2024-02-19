@@ -211,9 +211,9 @@ const ToolBar = styled.div`
 `;
 
 const WritePage = () => {
-  const { termResponse } = useLoaderData();
-  const currentTerm = termResponse.data.currentTerm.sequence;
-  const currentYear = termResponse.data.currentTerm.date;
+  const { termData } = useLoaderData();
+  const currentTerm = termData.currentTerm.sequence;
+  const currentYear = termData.currentTerm.date;
   let questions = SeasonalQuestions[currentTerm];
 
   const navigate = useNavigate();
@@ -328,7 +328,6 @@ const WritePage = () => {
   /* 질문 추가 */
   const handleQuestion = () => {
     if (questions.length === 0) {
-      console.log('더 이상 남은 질문이 없습니다.');
       return;
     }
 
@@ -393,8 +392,6 @@ const WritePage = () => {
 
   /* 콘텐츠 저장 */
   const handleSave = async () => {
-    // console.log(JSON.stringify(contents, null, '\t'));
-
     try {
       const accessToken = localStorage.getItem('accessToken');
       const formData = new FormData();
@@ -437,8 +434,6 @@ const WritePage = () => {
       });
 
       if (response.status === 200) {
-        console.log('Article saved successfully!');
-        console.log(response.data);
         navigate(`/article/${response.data}`);
       } else {
         console.error('Failed to save article.');
