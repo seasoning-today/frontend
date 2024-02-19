@@ -60,7 +60,6 @@ const Line = styled.div`
 const NotificationPage = () => {
   const { initialNotificationData } = useLoaderData();
   const [notifications, setNotifications] = useState(initialNotificationData);
-  console.log(notifications);
   const [friendRequests, setFriendRequests] = useState([]);
   const [otherNotifications, setOtherNotifications] = useState([]);
 
@@ -80,8 +79,6 @@ const NotificationPage = () => {
   const formatNotificationTime = (timestamp) => {
     const currentTime = new Date();
     const notificationTime = new Date(timestamp);
-    console.log(timestamp);
-    console.log(notificationTime);
     const timeDifference = currentTime - notificationTime;
 
     const minutes = Math.floor(timeDifference / 1000 / 60);
