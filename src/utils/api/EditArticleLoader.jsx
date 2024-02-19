@@ -23,7 +23,10 @@ export const EditArticleLoader = async ({ request, params }) => {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
 
-    /* todo: 위에서 articleResponse에서 본인이 작성자일 경우만 대조해서 통과시켜야 함 */
+    if (userResponse.data.id !== articleResponse.data.profile.id) {
+      return redirect(`/home`);
+    }
+
     return { articleData: articleResponse.data, termData: termResponse.data };
   } catch (error) {
     console.error(error);
