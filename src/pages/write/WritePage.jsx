@@ -214,7 +214,6 @@ const WritePage = () => {
   const { termData } = useLoaderData();
   const currentTerm = termData.currentTerm.sequence;
   const currentYear = termData.currentTerm.date;
-  let questions = SeasonalQuestions[currentTerm];
 
   const navigate = useNavigate();
 
@@ -224,6 +223,7 @@ const WritePage = () => {
   const imageInputRef = useRef(null);
 
   const [contents, setContents] = useState([{ type: 'single', text: '' }]);
+  const [questions, setQuestions] = useState(SeasonalQuestions[currentTerm]);
 
   const [published, setPublished] = useState(true);
 
@@ -331,55 +331,46 @@ const WritePage = () => {
       return;
     }
 
-    const newQuestion = questions.shift();
     setContents((contents) => [
       ...contents,
-      { type: 'question', text: newQuestion },
+      {
+        type: 'question',
+        text: questions[0].text,
+        number: questions[0].number,
+      },
       { type: 'answer', text: '' },
     ]);
-    //   if (Question.length < 3) {
-    //     let newQuestion;
-    //     /* 삭제된 질문이 있으면 해당 질문을 추가 */
-    //     if (deletedQuestions.length > 0) {
-    //       newQuestion = deletedQuestions.pop();
-    //     } else {
-    //       newQuestion = Qdata[Question.length].data;
-    //     }
-    //     setQuestion((prev) => [...prev, { question: newQuestion }]);
-    //     setAnswer((prev) => [...prev, '']);
-    //     setTimeout(() => {
-    //       textareasRefs.current[Question.length].current.focus();
-    //     }, 0);
-    //   }
+    setQuestions(questions.filter((_, index) => index !== 0));
   };
 
   /* 질문 삭제 */
-  // const handleDeleteQuestion = (index) => {
-  //   if (index >= 0 && index < Question.length && Answer[index].trim() === '') {
-  //     setDeletedQuestions((prevDeleted) => {
-  //       const deleted = [...prevDeleted, Question[index].question];
-  //       return deleted;
-  //     });
+  const handleDeleteQuestion = (event, idx) => {
+    if (event.key === 'Backspace' && contents[idx].text === '') {
+      event.preventDefault();
 
-  //     setQuestion((prevQuestion) => {
-  //       const newQuestion = [...prevQuestion];
-  //       newQuestion.splice(index, 1);
-  //       return newQuestion;
-  //     });
+      if (contents[idx].type === 'answer') {
+        setQuestions((prevQuestions) => {
+          let newQuestions = [
+            ...prevQuestions,
+            {
+              number: contents[idx - 1].number,
+              text: contents[idx - 1].text,
+            },
+          ];
+          newQuestions.sort((a, b) => a.number - b.number);
+          return newQuestions;
+        });
+      }
 
-  //     setAnswer((prevAnswer) => {
-  //       const newAnswer = [...prevAnswer];
-  //       newAnswer.splice(index, 1);
-  //       return newAnswer;
-  //     });
-
-  //     if (index > 0) {
-  //       textareasRefs.current[index - 1].current.focus();
-  //     } else if (index === 0) {
-  //       textareasRefs.current.current.focus();
-  //     }
-  //   }
-  // };
+      setContents((prevContents) =>
+        prevContents.filter((_, index) =>
+          contents[idx].type === 'answer'
+            ? index !== idx && index !== idx - 1
+            : index !== idx
+        )
+      );
+    }
+  };
 
   /* 콘텐츠 편집 */
   const handleTextChange = (text, idx) => {
@@ -392,8 +383,9 @@ const WritePage = () => {
 
   /* 콘텐츠 저장 */
   const handleSave = async () => {
+    const accessToken = localStorage.getItem('accessToken');
+
     try {
-      const accessToken = localStorage.getItem('accessToken');
       const formData = new FormData();
 
       if (
@@ -562,6 +554,7 @@ const WritePage = () => {
                   }
                   value={item.text}
                   onChange={(e) => handleTextChange(e.target.value, idx)}
+                  onKeyDown={(e) => handleDeleteQuestion(e, idx)}
                   // ref={textareasRefs.current}
                 />
               );
