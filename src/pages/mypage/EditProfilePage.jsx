@@ -10,24 +10,22 @@ const Layout = styled.div`
 
   display: flex;
   flex-direction: column;
-  row-gap: 1.18rem;
-`;
 
-const ScrollView = styled.div`
-  width: 100%;
-  height: calc(100% - 3.75rem);
-  padding-bottom: 2.5rem;
   overflow-y: scroll;
 `;
 
-const HeaderBox = styled.div`
+const Header = styled.header`
   width: 100%;
-  padding: 2.94rem 0;
+  padding: 3.56rem 0;
+  flex-shrink: 0;
 
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  row-gap: 4.12rem;
 
-  span {
+  .mypage__edit__title {
     color: #000;
     font-family: 'Apple SD Gothic Neo';
     font-size: 1.25rem;
@@ -72,22 +70,22 @@ const ProfileBox = styled.div`
 
 const InfoBox = styled.div`
   width: 100%;
-  margin-top: 5.63rem;
+
+  flex-grow: 1;
 
   display: flex;
   flex-direction: column;
-  row-gap: 2.94rem;
+  align-items: center;
+  row-gap: 1.69rem;
+  padding: 2.69rem 0;
 `;
 
 const InputBox = styled.div`
   position: relative;
   width: calc(100% - 4rem);
-  margin: 0 2rem;
 
   display: flex;
   flex-direction: column;
-
-  border-bottom: 0.0625rem solid #8e8c86;
 
   h2 {
     color: #333;
@@ -100,7 +98,6 @@ const InputBox = styled.div`
 
   section {
     position: relative;
-    background-color: red;
   }
 
   input {
@@ -118,13 +115,20 @@ const InputBox = styled.div`
     outline: none;
     background-color: white;
   }
+
+  .mypage__edit__line {
+    width: 100%;
+    min-height: 0.0625rem;
+
+    background-color: #8e8c86;
+  }
 `;
 
 const CheckIcon = styled.div`
   position: absolute;
   bottom: 0;
   right: 0;
-  padding-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
 
   cursor: pointer;
 
@@ -133,11 +137,25 @@ const CheckIcon = styled.div`
   }
 `;
 
+const Warning = styled.span`
+  margin-top: 0.44rem;
+
+  color: #ea0000;
+  font-family: 'Apple SD Gothic Neo';
+  font-size: 0.625rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 134%;
+
+  opacity: ${({ isValid }) => (isValid ? `0` : `1`)};
+
+  transition: opacity 0.2s ease-in-out;
+`;
+
 const ConfirmButton = styled.div`
-  position: absolute;
-  bottom: 0;
   width: 100%;
   height: 3.75rem;
+  flex-shrink: 0;
 
   display: flex;
   justify-content: center;
@@ -163,7 +181,7 @@ const ConfirmButton = styled.div`
   }
 `;
 
-function EditProfilePage() {
+const EditProfilePage = () => {
   const prevUserData = useLoaderData().userData;
   const [userData, setUserData] = useState(prevUserData);
   const [isImageChanged, setIsImageChanged] = useState(false);
@@ -334,10 +352,8 @@ function EditProfilePage() {
 
   return (
     <Layout>
-      <ScrollView>
-        <HeaderBox>
-          <span>프로필 수정</span>
-        </HeaderBox>
+      <Header>
+        <span className="mypage__edit__title">프로필 수정</span>
 
         <ProfileBox>
           <div className="profile-center" onClick={handleImageUpload}>
@@ -365,49 +381,51 @@ function EditProfilePage() {
             />
           </div>
         </ProfileBox>
+      </Header>
 
-        <InfoBox>
-          <InputBox>
-            <h2>아이디</h2>
-            <section>
-              <input
-                type="text"
-                onChange={onChangeId}
-                placeholder={prevUserData.accountId}
-                value={userData.accountId}
-              />
-              <CheckIcon
-                isValid={isValidForm.uniqueId}
-                onClick={onCheckUniqueId}
+      <InfoBox>
+        <InputBox>
+          <h2>아이디</h2>
+          <section>
+            <input
+              type="text"
+              onChange={onChangeId}
+              placeholder={prevUserData.accountId}
+              value={userData.accountId}
+            />
+            <CheckIcon isValid={isValidForm.uniqueId} onClick={onCheckUniqueId}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M9.00015 16.1698L5.53015 12.6998C5.34317 12.5129 5.08957 12.4078 4.82515 12.4078C4.56072 12.4078 4.30712 12.5129 4.12015 12.6998C3.93317 12.8868 3.82813 13.1404 3.82812 13.4048C3.82813 13.5358 3.85391 13.6654 3.90402 13.7864C3.95412 13.9073 4.02756 14.0173 4.12015 14.1098L8.30015 18.2898C8.69015 18.6798 9.32015 18.6798 9.71015 18.2898L20.2901 7.70983C20.4771 7.52286 20.5822 7.26926 20.5822 7.00483C20.5822 6.74041 20.4771 6.48681 20.2901 6.29983C20.1032 6.11286 19.8496 6.00781 19.5851 6.00781C19.3207 6.00781 19.0671 6.11286 18.8801 6.29983L9.00015 16.1698Z"
-                    fill="#c7c5ce"
-                  />
-                </svg>
-              </CheckIcon>
-            </section>
-          </InputBox>
+                <path
+                  d="M9.00015 16.1698L5.53015 12.6998C5.34317 12.5129 5.08957 12.4078 4.82515 12.4078C4.56072 12.4078 4.30712 12.5129 4.12015 12.6998C3.93317 12.8868 3.82813 13.1404 3.82812 13.4048C3.82813 13.5358 3.85391 13.6654 3.90402 13.7864C3.95412 13.9073 4.02756 14.0173 4.12015 14.1098L8.30015 18.2898C8.69015 18.6798 9.32015 18.6798 9.71015 18.2898L20.2901 7.70983C20.4771 7.52286 20.5822 7.26926 20.5822 7.00483C20.5822 6.74041 20.4771 6.48681 20.2901 6.29983C20.1032 6.11286 19.8496 6.00781 19.5851 6.00781C19.3207 6.00781 19.0671 6.11286 18.8801 6.29983L9.00015 16.1698Z"
+                  fill="#c7c5ce"
+                />
+              </svg>
+            </CheckIcon>
+          </section>
+          <div className="mypage__edit__line" />
+          <Warning isValid={isValidForm.validId}>
+            띄어쓰기, 특수문자 사용 불가합니다 등등 멘트
+          </Warning>
+        </InputBox>
 
-          <InputBox>
-            <h2>이름</h2>
-            <section>
-              <input
-                type="text"
-                onChange={onChangeName}
-                placeholder={prevUserData.nickname}
-                value={userData.nickname}
-              />
-            </section>
-          </InputBox>
-        </InfoBox>
-      </ScrollView>
+        <InputBox>
+          <h2>이름</h2>
+          <section>
+            <input
+              type="text"
+              onChange={onChangeName}
+              placeholder={prevUserData.nickname}
+              value={userData.nickname}
+            />
+          </section>
+          <div className="mypage__edit__line" />
+        </InputBox>
+      </InfoBox>
 
       <ConfirmButton
         isValidForm={isValidForm.validForm}
@@ -417,6 +435,6 @@ function EditProfilePage() {
       </ConfirmButton>
     </Layout>
   );
-}
+};
 
 export default EditProfilePage;
