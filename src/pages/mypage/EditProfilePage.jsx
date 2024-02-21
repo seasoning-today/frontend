@@ -409,7 +409,8 @@ const EditProfilePage = () => {
           </section>
           <div className="mypage__edit__line" />
           <Warning isValid={isValidForm.validId}>
-            띄어쓰기, 특수문자 사용 불가합니다 등등 멘트
+            영문 소문자, 숫자, 밑줄(’_’) 및 점(’.’)으로 구성된 5글자 이상 20글자
+            이하의 아이디만 가능합니다.
           </Warning>
         </InputBox>
 
