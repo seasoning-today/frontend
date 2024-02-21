@@ -25,30 +25,7 @@ const Layout = styled.div`
   }
 `;
 
-const Top = styled.div`
-  position: relative;
-  width: 100%;
-  flex-shrink: 0;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.81rem 1.31rem 0 1.62rem;
-
-  .write__save {
-    color: #000;
-    text-align: right;
-    font-family: 'Apple SD Gothic Neo';
-    font-size: 1rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-
-    cursor: pointer;
-  }
-`;
-
-const Title = styled.div`
+const Header = styled.div`
   position: relative;
   width: 100%;
   flex-shrink: 0;
@@ -56,7 +33,7 @@ const Title = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 0.87rem;
+  padding: 1rem 0;
 
   .write__title__chinese {
     color: #000;
@@ -78,17 +55,41 @@ const Title = styled.div`
     font-weight: 400;
     line-height: normal;
   }
+
+  .write__menus {
+    position: absolute;
+    top: 1.69rem;
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1.31rem;
+  }
+
+  .write__menu__save {
+    color: #000;
+    text-align: right;
+    font-family: 'Apple SD Gothic Neo';
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+
+    cursor: pointer;
+  }
 `;
 
 const ContentContainer = styled.div`
   position: relative;
   width: 100%;
+  flex-grow: 1;
 
   display: flex;
   align-items: center;
   flex-direction: column;
   row-gap: 1.5rem;
-  padding: 0 1.31rem 4.81rem 1.31rem;
+  padding: 0.5rem 1.31rem;
 
   overflow-y: auto;
 
@@ -181,10 +182,9 @@ const ChatBubble = styled.img`
 `;
 
 const ToolBar = styled.div`
-  position: absolute;
-  bottom: 0;
   width: 100%;
   height: 3.25rem;
+  flex-shrink: 0;
 
   display: flex;
   align-items: center;
@@ -485,35 +485,33 @@ const WritePage = () => {
 
   return (
     <Layout>
-      <Top>
-        <Link to={`/home`}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-          >
-            <path
-              d="M6.40002 18.6538L5.34619 17.6L10.9462 12L5.34619 6.40002L6.40002 5.34619L12 10.9462L17.6 5.34619L18.6538 6.40002L13.0538 12L18.6538 17.6L17.6 18.6538L12 13.0538L6.40002 18.6538Z"
-              fill="black"
-            />
-          </svg>
-        </Link>
-
-        <span className="write__save" onClick={handleSave}>
-          저장
-        </span>
-      </Top>
-
-      <Title>
+      <Header>
         <span className="write__title__chinese">
           {TermsToChinese[currentTerm]}
         </span>
         <span className="write__title__korean">
           {currentYear.split('-')[0]}, {TermsToKorean[currentTerm]}
         </span>
-      </Title>
+        <div className="write__menus">
+          <Link to={`/home`}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path
+                d="M6.40002 18.6538L5.34619 17.6L10.9462 12L5.34619 6.40002L6.40002 5.34619L12 10.9462L17.6 5.34619L18.6538 6.40002L13.0538 12L18.6538 17.6L17.6 18.6538L12 13.0538L6.40002 18.6538Z"
+                fill="black"
+              />
+            </svg>
+          </Link>
+          <span className="write__menu__save" onClick={handleSave}>
+            저장
+          </span>
+        </div>
+      </Header>
 
       <ContentContainer ref={scrollRef}>
         {selectedImages.length > 0 && (
