@@ -399,18 +399,15 @@ const WritePage = () => {
 
   /* 콘텐츠 저장 */
   const handleSave = async () => {
+    if (!selectedImages.length && !contents.some((item) => item.text.trim())) {
+      alert('내용을 입력하세요.');
+      return;
+    }
+
     const accessToken = localStorage.getItem('accessToken');
 
     try {
       const formData = new FormData();
-
-      if (
-        !selectedImages.length &&
-        !contents.some((item) => item.text.trim())
-      ) {
-        alert('내용을 입력하세요.');
-        return;
-      }
 
       if (selectedImages.length > 0) {
         selectedImages.forEach((selectedImage, idx) => {
