@@ -222,7 +222,8 @@ const WritePage = () => {
   const [activeDotIndex, setActiveDotIndex] = useState(0);
   const imageInputRef = useRef(null);
 
-  const [contents, setContents] = useState([{ type: 'single', text: '' }]);
+  const initialContent = [{ type: 'single', text: '' }];
+  const [contents, setContents] = useState(initialContent);
   const [questions, setQuestions] = useState(SeasonalQuestions[currentTerm]);
 
   const [published, setPublished] = useState(true);
@@ -331,15 +332,26 @@ const WritePage = () => {
       return;
     }
 
-    setContents((contents) => [
-      ...contents,
-      {
-        type: 'question',
-        text: questions[0].text,
-        number: questions[0].number,
-      },
-      { type: 'answer', text: '' },
-    ]);
+    setContents((contents) =>
+      contents !== initialContent
+        ? [
+            ...contents,
+            {
+              type: 'question',
+              text: questions[0].text,
+              number: questions[0].number,
+            },
+            { type: 'answer', text: '' },
+          ]
+        : [
+            {
+              type: 'question',
+              text: questions[0].text,
+              number: questions[0].number,
+            },
+            { type: 'answer', text: '' },
+          ]
+    );
     setQuestions(questions.filter((_, index) => index !== 0));
   };
 
@@ -347,6 +359,10 @@ const WritePage = () => {
   const handleDeleteQuestion = (event, idx) => {
     if (event.key === 'Backspace' && contents[idx].text === '') {
       event.preventDefault();
+
+      if (contents.length <= 2) {
+        return;
+      }
 
       if (contents[idx].type === 'answer') {
         setQuestions((prevQuestions) => {
