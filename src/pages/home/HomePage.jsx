@@ -179,7 +179,7 @@ const ContentArea = styled.div`
 
 const HomePage = () => {
   const { homeData, termData, newNotificationData } = useLoaderData();
-  // console.log(JSON.stringify(termData, null, '\t'));
+  console.log(JSON.stringify(homeData, null, '\t'));
 
   const [now, setNow] = useState(new Date());
 
@@ -327,7 +327,9 @@ const HomePage = () => {
       </Category>
 
       <ContentArea>
-        {selectedCategory === 'year' && <YearlyContent termData={termData} />}
+        {selectedCategory === 'year' && (
+          <YearlyContent homeData={homeData} termData={termData} />
+        )}
         {selectedCategory === 'season' && <SeasonalContent />}
       </ContentArea>
 

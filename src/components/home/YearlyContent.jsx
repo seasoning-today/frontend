@@ -39,52 +39,52 @@ const LastRow = styled.div`
   justify-content: right;
 `;
 
-const YearlyContent = ({ now, termData }) => {
+const YearlyContent = ({ homeData, termData }) => {
   return (
     <Layout>
       <FirstRow>
-        <SeasonCircle now={now} term={1} termData={termData} />
-        <SeasonCircle now={now} term={2} termData={termData} />
-        <SeasonCircle now={now} term={3} termData={termData} />
+        <SeasonCircle term={1} homeData={homeData} termData={termData} />
+        <SeasonCircle term={2} homeData={homeData} termData={termData} />
+        <SeasonCircle term={3} homeData={homeData} termData={termData} />
       </FirstRow>
       <Row>
-        <SeasonCircle now={now} term={5} termData={termData} />
-        <SeasonCircle now={now} term={4} termData={termData} />
+        <SeasonCircle term={5} homeData={homeData} termData={termData} />
+        <SeasonCircle term={4} homeData={homeData} termData={termData} />
       </Row>
       <Row>
-        <SeasonCircle now={now} term={6} termData={termData} />
-        <SeasonCircle now={now} term={7} termData={termData} />
-        <SeasonCircle now={now} term={8} termData={termData} />
+        <SeasonCircle term={6} homeData={homeData} termData={termData} />
+        <SeasonCircle term={7} homeData={homeData} termData={termData} />
+        <SeasonCircle term={8} homeData={homeData} termData={termData} />
       </Row>
       <Row>
-        <SeasonCircle now={now} term={10} termData={termData} />
-        <SeasonCircle now={now} term={9} termData={termData} />
+        <SeasonCircle term={10} homeData={homeData} termData={termData} />
+        <SeasonCircle term={9} homeData={homeData} termData={termData} />
       </Row>
       <Row>
-        <SeasonCircle now={now} term={11} termData={termData} />
-        <SeasonCircle now={now} term={12} termData={termData} />
-        <SeasonCircle now={now} term={13} termData={termData} />
+        <SeasonCircle term={11} homeData={homeData} termData={termData} />
+        <SeasonCircle term={12} homeData={homeData} termData={termData} />
+        <SeasonCircle term={13} homeData={homeData} termData={termData} />
       </Row>
       <Row>
-        <SeasonCircle now={now} term={15} termData={termData} />
-        <SeasonCircle now={now} term={14} termData={termData} />
+        <SeasonCircle term={15} homeData={homeData} termData={termData} />
+        <SeasonCircle term={14} homeData={homeData} termData={termData} />
       </Row>
       <Row>
-        <SeasonCircle now={now} term={16} termData={termData} />
-        <SeasonCircle now={now} term={17} termData={termData} />
-        <SeasonCircle now={now} term={18} termData={termData} />
+        <SeasonCircle term={16} homeData={homeData} termData={termData} />
+        <SeasonCircle term={17} homeData={homeData} termData={termData} />
+        <SeasonCircle term={18} homeData={homeData} termData={termData} />
       </Row>
       <Row>
-        <SeasonCircle now={now} term={20} termData={termData} />
-        <SeasonCircle now={now} term={19} termData={termData} />
+        <SeasonCircle term={20} homeData={homeData} termData={termData} />
+        <SeasonCircle term={19} homeData={homeData} termData={termData} />
       </Row>
       <Row>
-        <SeasonCircle now={now} term={21} termData={termData} />
-        <SeasonCircle now={now} term={22} termData={termData} />
-        <SeasonCircle now={now} term={23} termData={termData} />
+        <SeasonCircle term={21} homeData={homeData} termData={termData} />
+        <SeasonCircle term={22} homeData={homeData} termData={termData} />
+        <SeasonCircle term={23} homeData={homeData} termData={termData} />
       </Row>
       <LastRow>
-        <SeasonCircle now={now} term={24} termData={termData} />
+        <SeasonCircle term={24} homeData={homeData} termData={termData} />
       </LastRow>
     </Layout>
   );

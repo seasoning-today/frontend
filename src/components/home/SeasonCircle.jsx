@@ -63,6 +63,7 @@ const LinkContainer = styled(Link)`
   justify-content: center;
   align-items: center;
 
+  cursor: pointer;
   color: #1f1f1f;
 
   .circle__background__image {
@@ -194,8 +195,11 @@ const ProgressCircle = styled.circle`
 `;
 
 const SeasonCircle = (props) => {
-  const { term, termData } = props;
+  const { term, homeData, termData } = props;
   const { recordable, currentTerm, nextTerm } = termData;
+
+  const matchingItem = homeData.find((item) => item.term === term);
+  const articleId = matchingItem ? matchingItem.id : null;
 
   const [now, setNow] = useState(new Date());
 
@@ -230,7 +234,7 @@ const SeasonCircle = (props) => {
 
   if (status === `countdown`) {
     return (
-      <LinkContainer to={`/write`}>
+      <LinkContainer to={articleId ? `/article/${articleId}` : `/write`}>
         <Top>
           {days > 0 ? (
             <span className="circle__countdown-day">{`${days}일`}</span>

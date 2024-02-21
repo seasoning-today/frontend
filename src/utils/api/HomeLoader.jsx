@@ -9,7 +9,7 @@ export const HomeLoader = async ({ request, params }) => {
     return redirect(`/login`);
   }
 
-  const year = '2023'; // 임시로 2023로 고정
+  const year = '2024'; // 임시로 2023로 고정
   const term = '1'; // 임시로 첫 번째 절기로 고정
   const url = new URL(request.url);
   let category = url.searchParams.get('category'); // year || season || null
