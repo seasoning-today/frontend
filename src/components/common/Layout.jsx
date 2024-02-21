@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useMediaQuery } from 'react-responsive';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 
 import logo_text from '@assets/layout/logo_text.png';
-import background_image from '@assets/layout/background-img.png';
+import background_image from '@assets/layout/background_image.png';
 
 const Container = styled.div`
   position: relative;
@@ -13,12 +13,6 @@ const Container = styled.div`
 
   display: flex;
   justify-content: space-evenly;
-
-  background-image: url(${background_image});
-  background-repeat: no-repeat;
-  background-position: top center;
-  background-size: cover;
-  background-attachment: fixed;
 `;
 
 const LogoContainer = styled.div`
@@ -81,6 +75,23 @@ const ContentContainer = styled.div`
   }
 
   background-color: white;
+`;
+
+const Background = styled.div`
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+
+  background-color: yellow;
+
+  z-index: -1;
+
+  img {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 `;
 
 function Layout() {
@@ -153,6 +164,10 @@ function Layout() {
       <ContentContainer>
         <Outlet />
       </ContentContainer>
+
+      <Background>
+        <img src={background_image} />
+      </Background>
     </Container>
   );
 }
