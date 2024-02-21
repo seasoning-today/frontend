@@ -17,7 +17,7 @@ const SeasonQuestion = styled.div`
   line-height: normal;
 
   .write__question__aside {
-    width: 0.2rem;
+    min-width: 0.125rem;
     height: 100%;
 
     background-color: #919191;
