@@ -144,6 +144,8 @@ const Text = styled.span`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+
+  white-space: pre-wrap;
 `;
 
 const Bottom = styled.div`
