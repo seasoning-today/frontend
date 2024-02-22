@@ -4,7 +4,7 @@ import { useMediaQuery } from 'react-responsive';
 import { Outlet } from 'react-router-dom';
 
 import logo_text from '@assets/layout/logo_text.png';
-import background_image from '@assets/layout/background_image.png';
+import background_image from '@assets/layout/background_image.webp';
 
 const Container = styled.div`
   position: relative;

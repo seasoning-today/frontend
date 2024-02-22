@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import SeasonCircle from '@components/home/SeasonCircle';
 
-import yearly_line from '@assets/home/yearly_line.png';
+import yearly_line from '@assets/home/yearly_line.webp';
 
 const Layout = styled.section`
   position: relative;
