@@ -16,12 +16,16 @@ const Layout = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
+
+  display: flex;
+  flex-direction: column;
 `;
 
 const Season = styled.div`
   position: relative;
   width: 100%;
   height: 3.5625rem;
+  flex-shrink: 0;
 
   display: flex;
   justify-content: flex-start;
@@ -58,13 +62,14 @@ const Season = styled.div`
 `;
 
 const FortuneContainer = styled.div`
+  width: 100%;
+  height: 2.75rem;
+  flex-shrink: 0;
+
   display: flex;
   justify-content: center;
   align-items: flex-end;
   margin-top: 0.2rem;
-
-  width: 100%;
-  height: 2.75rem;
 `;
 
 const Fortune = styled.div`
@@ -119,11 +124,12 @@ const Category = styled.div`
   position: relative;
   width: 100%;
   height: 4.4375rem;
-  padding: 1.87rem 1.25rem 0.38rem;
+  flex-shrink: 0;
 
   display: flex;
   justify-content: space-between;
   align-content: flex-end;
+  padding: 1.87rem 1.25rem 0.38rem;
 
   background-color: #fff;
 `;
@@ -174,7 +180,7 @@ const ContentArea = styled.div`
   overflow-y: auto;
 
   width: 100%;
-  height: calc(100% - 2.5rem - 3.5625rem - 2.95rem - 4.4375rem);
+  flex-grow: 1;
   padding-bottom: 3.8125rem;
 `;
 
