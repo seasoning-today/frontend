@@ -196,7 +196,8 @@ const CollagePage = () => {
             />
           </svg>
         </Select>
-        <div className="collage__save-button" onClick={handleSaveImage}>
+        {/* 일단 다운로드 기능은 제외하기로 결정 */}
+        {/* <div className="collage__save-button" onClick={handleSaveImage}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -209,7 +210,7 @@ const CollagePage = () => {
               fill="black"
             />
           </svg>
-        </div>
+        </div> */}
       </OptionBox>
 
       <Content>
