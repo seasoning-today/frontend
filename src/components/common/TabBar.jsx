@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 const Container = styled.div`
   position: fixed;
@@ -34,11 +34,16 @@ const IconContainer = styled.div`
 `;
 
 const TabBar = () => {
+  const location = useLocation();
+  console.log(location);
+
   return (
     <Container>
       <NavLink
         to={`/home`}
-        className={({ isActive }) => (isActive ? 'active' : 'inactive')}
+        className={({ isActive }) =>
+          isActive || location.pathname === `/` ? 'active' : 'inactive'
+        }
       >
         <IconContainer>
           <svg
