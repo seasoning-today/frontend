@@ -92,35 +92,46 @@ const ContentContainer = styled.div`
   padding: 0.5rem 1.31rem;
 
   overflow-y: auto;
+`;
 
-  .dots__container {
-    display: flex;
-    column-gap: 0.4rem;
+const DotsContainer = styled.div`
+  position: absolute;
+  top: 16rem;
+  width: 100%;
 
-    margin-top: -3rem;
-    margin-bottom: 1.2rem;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 0.4rem;
+
+  z-index: 2000;
 `;
 
 const Dots = styled.div`
   display: flex;
 
-  width: 0.3125rem;
-  height: 0.3125rem;
+  width: ${({ active }) => (active ? '0.3125rem' : '0.25rem')};
+  height: ${({ active }) => (active ? '0.3125rem' : '0.25rem')};
   border-radius: 50%;
+
   cursor: pointer;
   background-color: ${({ active }) =>
     active ? '#FFF' : 'rgba(255, 255, 255, 0.40)'};
+
+  transition: all 0.2s ease-in-out;
 `;
 
 const ImagesContainer = styled.div`
+  position: relative;
+  width: 100%;
+  min-height: 17rem;
+
   display: flex;
+  align-items: center;
   overflow-x: scroll;
   gap: 1.5rem;
-  align-items: center;
-  min-height: 17rem;
-  width: 100%;
 
+  cursor: pointer;
   padding: 0.3rem;
 
   .with__delete__icon {
@@ -134,8 +145,6 @@ const ImagesContainer = styled.div`
       flex-shrink: 0;
       right: 2rem;
       top: 0.5rem;
-
-      cursor: pointer;
     }
   }
 `;
@@ -143,7 +152,7 @@ const ImagesContainer = styled.div`
 const Images = styled.img`
   width: 100%;
   height: 16.3125rem;
-  object-fit: ${({ isLarge }) => (isLarge ? 'contain' : 'cover')};
+  object-fit: cover;
   border-radius: 0.5rem;
   flex-shrink: 0;
 
@@ -248,25 +257,12 @@ const WritePage = () => {
 
   const handleImageScroll = () => {
     const scrollLeft = imagescrollRef.current.scrollLeft;
-    const clientWidth = imagescrollRef.current.clientWidth;
-    const scrollWidth = imagescrollRef.current.scrollWidth;
+    const imageWidth =
+      imagescrollRef.current.firstChild.offsetWidth +
+      parseFloat(getComputedStyle(imagescrollRef.current).gap);
+    const index = Math.round(scrollLeft / imageWidth);
 
-    const activeIndex =
-      scrollLeft === 0
-        ? 0
-        : Math.ceil(scrollLeft / clientWidth) ===
-          Math.floor(scrollWidth / clientWidth)
-        ? 1
-        : -1;
-
-    setActiveDotIndex(activeIndex);
-  };
-
-  /* 사진 컨테이너를 초과하는 너비인지 판단 */
-  const isLarge = (imageSrc) => {
-    const image = new Image();
-    image.src = imageSrc;
-    return image.width > 348;
+    setActiveDotIndex(index);
   };
 
   /* 사진 업로드 */
@@ -522,7 +518,6 @@ const WritePage = () => {
                   key={index}
                   src={image}
                   onClick={() => handleImageChange(index)}
-                  isLarge={isLarge(image)}
                 />
                 <svg
                   onClick={() => handleImageDelete(index)}
@@ -534,8 +529,8 @@ const WritePage = () => {
                 >
                   <path
                     d="M6.39953 18.6534L5.3457 17.5995L10.9457 11.9995L5.3457 6.39953L6.39953 5.3457L11.9995 10.9457L17.5995 5.3457L18.6534 6.39953L13.0534 11.9995L18.6534 17.5995L17.5995 18.6534L11.9995 13.0534L6.39953 18.6534Z"
-                    fill="black"
-                    fill-opacity="0.7"
+                    fill="white"
+                    fill-opacity="0.4"
                   />
                 </svg>
               </div>
@@ -543,7 +538,7 @@ const WritePage = () => {
           </ImagesContainer>
         )}
         {selectedImages.length > 1 && (
-          <div className="dots__container">
+          <DotsContainer>
             {selectedImages.map((_, index) => (
               <Dots
                 key={index}
@@ -551,7 +546,7 @@ const WritePage = () => {
                 active={index === activeDotIndex}
               />
             ))}
-          </div>
+          </DotsContainer>
         )}
 
         {contents.map((item, idx) => {
