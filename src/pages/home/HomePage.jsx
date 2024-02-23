@@ -187,23 +187,24 @@ const ContentArea = styled.div`
 const HomePage = () => {
   const { homeData, termData, newNotificationData } = useLoaderData();
   // console.log(JSON.stringify(homeData, null, '\t'));
+  const location = useLocation();
+  const navigate = useNavigate();
 
+  /* 공통 */
   const [now, setNow] = useState(new Date());
 
-  // useEffect(() => {
-  //   const Timer = setInterval(() => {
-  //     setNow(new Date());
-  //   }, 1000);
-  //   console.log('mount!');
+  /* 홈 */
+  const searchParams = new URLSearchParams(location.search);
+  const category = searchParams.get('category');
 
-  //   return () => {
-  //     clearInterval(Timer);
-  //     console.log('unmount!');
-  //   };
-  // }, []);
+  const handleCategoryChange = (event) => {
+    const changedCategory = event.target.value;
+    navigate(`/home?category=${changedCategory}`);
+  };
 
-  /* 운세 팝업 */
+  /* 운세 모달 */
   const [fortuneText, setFortuneText] = useState('');
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const fetchTodayFortune = async () => {
@@ -219,27 +220,6 @@ const HomePage = () => {
     };
     fetchTodayFortune();
   }, []);
-
-  const [showModal, setShowModal] = useState(false);
-
-  /* 홈 */
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [selectedCategory, setSelectedCategory] = useState('year');
-
-  useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    const categoryParam = searchParams.get('category');
-    if (categoryParam) {
-      setSelectedCategory(categoryParam);
-    }
-  }, [location.search]);
-
-  const handleCategoryChange = (event) => {
-    const newCategory = event.target.value;
-    setSelectedCategory(newCategory);
-    navigate(`/home?category=${newCategory}`);
-  };
 
   return (
     <Layout>
@@ -309,14 +289,12 @@ const HomePage = () => {
 
       <Category>
         <Year>
-          {selectedCategory === 'year'
-            ? now.getFullYear().toString()
-            : undefined}
+          {category === 'year' ? now.getFullYear().toString() : undefined}
         </Year>
         <Select>
-          <select value={selectedCategory} onChange={handleCategoryChange}>
+          <select value={category} onChange={handleCategoryChange}>
             <option value="year">연도별 보기</option>
-            <option value="season">절기별 보기</option>
+            <option value="term">절기별 보기</option>
           </select>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -354,10 +332,11 @@ const HomePage = () => {
       </Category>
 
       <ContentArea>
-        {selectedCategory === 'year' && (
+        {category === 'term' ? (
+          <SeasonalContent homeData={homeData} />
+        ) : (
           <YearlyContent homeData={homeData} termData={termData} />
         )}
-        {selectedCategory === 'season' && <SeasonalContent />}
       </ContentArea>
 
       <TabBar />

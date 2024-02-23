@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
+
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import SeasonMenu from '@components/home/SeasonMenu';
 import ArticleRow from '@components/home/ArticleRow';
@@ -46,29 +47,14 @@ const Line = styled.div`
   background-color: #a9a9a9;
 `;
 
-const SeasonalContent = () => {
+const SeasonalContent = ({ homeData }) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const searchParams = new URLSearchParams(location.search);
+  const selectedTerm =
+    searchParams.get('term') === null ? 1 : searchParams.get('term');
+
   const terms = Array.from({ length: 24 }, (_, i) => i + 1);
-  const [selectedTerm, setSelectedTerm] = useState(1);
-  const [articles, setArticles] = useState([]);
-
-  console.log(articles);
-
-  useEffect(() => {
-    console.log(`${selectedTerm}번 절기에 대한 글을 불러옵니다.`);
-
-    const fetchArticlesByTerm = async () => {
-      const accessToken = localStorage.getItem('accessToken');
-
-      await axios({
-        method: 'GET',
-        url: `/api/article/list/term/${selectedTerm}`,
-        headers: { Authorization: `Bearer ${accessToken}` },
-      }).then((res) => {
-        setArticles(res.data);
-      });
-    };
-    fetchArticlesByTerm();
-  }, [selectedTerm]);
 
   return (
     <Container>
@@ -77,14 +63,16 @@ const SeasonalContent = () => {
           <SeasonMenu
             key={term}
             term={term}
-            selectedTerm={selectedTerm}
-            onClick={() => setSelectedTerm(term)}
+            selectedTerm={parseInt(selectedTerm)}
+            onClick={() => {
+              navigate(`/home?category=term&term=${term}`);
+            }}
           />
         ))}
       </Menus>
 
       <Content>
-        {articles.map((article) => (
+        {homeData.map((article) => (
           <React.Fragment key={article.id}>
             <Line />
             <ArticleRow

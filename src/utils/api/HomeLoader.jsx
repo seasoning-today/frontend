@@ -9,17 +9,19 @@ export const HomeLoader = async ({ request, params }) => {
     return redirect(`/login`);
   }
 
-  const year = '2024'; // 임시로 2023로 고정
-  const term = '1'; // 임시로 첫 번째 절기로 고정
   const url = new URL(request.url);
-  let category = url.searchParams.get('category'); // year || season || null
-  category = category === null ? 'year' : category;
-  category = category === 'season' ? 'term' : category;
-  const sendParam = category === 'year' ? year : term;
+  const category =
+    url.searchParams.get('category') !== 'term' ? 'year' : 'term';
+  const year =
+    url.searchParams.get('year') === null
+      ? '2024'
+      : url.searchParams.get('year');
+  const term =
+    url.searchParams.get('term') === null ? '1' : url.searchParams.get('term');
 
   try {
     const homeResponse = await axios.get(
-      `/api/article/list/${category}/${sendParam}`,
+      `/api/article/list/${category}/${category === 'year' ? year : term}`,
       {
         headers: { Authorization: `Bearer ${accessToken}` },
       }
