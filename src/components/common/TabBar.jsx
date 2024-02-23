@@ -35,7 +35,6 @@ const IconContainer = styled.div`
 
 const TabBar = () => {
   const location = useLocation();
-  console.log(location);
 
   return (
     <Container>
