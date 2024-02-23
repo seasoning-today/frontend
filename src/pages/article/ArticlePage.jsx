@@ -19,48 +19,21 @@ const Layout = styled.div`
   align-items: center;
 `;
 
-const Top = styled.div`
+const Header = styled.div`
   position: relative;
   width: 100%;
-  height: 6.0625rem;
-  flex-shrink: 0;
-
-  display: flex;
-  justify-content: center;
-
-  .article__nav-item__left {
-    position: absolute;
-    top: 1.69rem;
-    left: 1.63rem;
-
-    cursor: pointer;
-  }
-
-  .article__nav-item__right {
-    position: absolute;
-    top: 1.69rem;
-    right: 1.31rem;
-
-    cursor: pointer;
-  }
-`;
-
-const Title = styled.div`
-  position: relative;
-  height: 100%;
   flex-shrink: 0;
 
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  padding-top: 0.25rem;
+  padding: 1rem 0;
 
   .article__title__chinese {
     color: #000;
     text-align: center;
     font-family: 'Noto Serif KR';
-    font-size: 2rem;
+    font-size: 1.875rem;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
@@ -75,6 +48,21 @@ const Title = styled.div`
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+  }
+
+  .article__menus {
+    position: absolute;
+    top: 1.69rem;
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1.31rem;
+
+    svg {
+      cursor: pointer;
+    }
   }
 `;
 
@@ -330,37 +318,32 @@ const ArticlePage = () => {
           }}
         />
       )}
-
-      <Top>
-        <div
-          className="article__nav-item__left"
-          onClick={() => {
-            navigate(-1);
-          }}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-          >
-            <path
-              d="M6.39953 18.6534L5.3457 17.5995L10.9457 11.9995L5.3457 6.39953L6.39953 5.3457L11.9995 10.9457L17.5995 5.3457L18.6534 6.39953L13.0534 11.9995L18.6534 17.5995L17.5995 18.6534L11.9995 13.0534L6.39953 18.6534Z"
-              fill="black"
-            />
-          </svg>
-        </div>
-        <Title>
-          <span className="article__title__chinese">
-            {TermsToChinese[articleData.term]}
-          </span>
-          <span className="article__title__korean">
-            {articleData.year}, {TermsToKorean[articleData.term]}
-          </span>
-        </Title>
-        {isAuthor && (
-          <div className="article__nav-item__right">
+      <Header>
+        <span className="article__title__chinese">
+          {TermsToChinese[articleData.term]}
+        </span>
+        <span className="article__title__korean">
+          {articleData.year}, {TermsToKorean[articleData.term]}
+        </span>
+        <div className="article__menus">
+          <Link to={`/home`}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              onClick={() => {
+                navigate(-1);
+              }}
+            >
+              <path
+                d="M6.39953 18.6534L5.3457 17.5995L10.9457 11.9995L5.3457 6.39953L6.39953 5.3457L11.9995 10.9457L17.5995 5.3457L18.6534 6.39953L13.0534 11.9995L18.6534 17.5995L17.5995 18.6534L11.9995 13.0534L6.39953 18.6534Z"
+                fill="black"
+              />
+            </svg>
+          </Link>
+          {isAuthor && (
             <svg
               onClick={handleMenu}
               xmlns="http://www.w3.org/2000/svg"
@@ -374,9 +357,9 @@ const ArticlePage = () => {
                 fill="black"
               />
             </svg>
-          </div>
-        )}
-      </Top>
+          )}
+        </div>
+      </Header>
 
       <ScrollView>
         <ContentContainer>
