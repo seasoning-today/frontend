@@ -275,6 +275,7 @@ const WritePage = () => {
 
     if (file && file.size > 10 * 1024 * 1024) {
       alert('이미지 파일 크기는 10MB를 초과할 수 없습니다.');
+      event.target.value = null;
       return;
     }
 
@@ -304,6 +305,8 @@ const WritePage = () => {
         reader.readAsDataURL(file);
       }
     }
+
+    event.target.value = null;
   };
 
   const handleImageChange = (index) => {
