@@ -9,7 +9,7 @@ const Card = styled(Link)`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #ccc;
+  background-color: #fff;
 
   background-size: cover;
   background-position: center;
@@ -21,13 +21,31 @@ const Card = styled(Link)`
     overflow: hidden;
   }
 
+  span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    color: var(--white-70, rgba(255, 255, 255, 0.7));
+    text-align: center;
+    font-family: 'Noto Serif KR';
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    opacity: 0.8;
+
+    z-index: 1000;
+  }
+
   cursor: ${({ to }) => (to ? `pointer` : `default`)};
 `;
 
-const CollageItem = ({ thumbnail, articleId }) => {
+const CollageItem = ({ thumbnail, articleId, char, imgStyle, spanStyle }) => {
   return (
     <Card to={articleId ? `/article/${articleId}` : ``}>
-      <img src={thumbnail} />
+      <img src={thumbnail} style={imgStyle} />
+      <span style={spanStyle}>{char}</span>
     </Card>
   );
 };

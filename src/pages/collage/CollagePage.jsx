@@ -11,8 +11,10 @@ import saveAs from 'file-saver';
 
 import TopBar from '@components/common/TopBar';
 import TabBar from '@components/common/TabBar';
-import { SeasonBackgrounds } from '@utils/image/SeasonBackgrounds';
 import CollageItem from '@components/collage/CollageItem';
+import { SeasonBackgrounds } from '@utils/image/SeasonBackgrounds';
+import { TermsToChinese } from '@utils/seasoning/TermsToChinese';
+import { TermsToKorean } from '@utils/seasoning/TermsToKorean';
 
 const Layout = styled.div`
   position: relative;
@@ -27,7 +29,7 @@ const Title = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1.69rem 0 0.5rem 0;
+  padding: 1.3rem 0 0.5rem 0;
 
   span {
     color: #333;
@@ -48,6 +50,10 @@ const OptionBox = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 0 2rem 0.69rem;
+
+  svg {
+    cursor: pointer;
+  }
 
   .collage__save-button:hover {
     cursor: pointer;
@@ -94,6 +100,22 @@ const Select = styled.div`
   }
 `;
 
+const Toggle = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+
+  span {
+    color: #333;
+
+    font-family: 'Apple SD Gothic Neo';
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+`;
+
 const Content = styled.div`
   width: 100%;
   height: calc(100% - 2.5rem - 4rem - 2rem);
@@ -107,6 +129,7 @@ const Content = styled.div`
     grid-template-columns: repeat(4, 1fr);
     grid-auto-rows: 6.1875rem;
     grid-gap: 0;
+
     overflow-y: scroll;
   }
 `;
@@ -114,12 +137,14 @@ const Content = styled.div`
 const CollagePage = () => {
   const { collageData, newNotificationData } = useLoaderData();
 
-  const navigate = useNavigate();
-  const location = useLocation();
-
   const [selectedCategory, setSelectedCategory] = useState(2024);
   const [now, setNow] = useState(new Date());
   const terms = Array.from({ length: 24 }, (_, i) => i + 1);
+  const [imgEnabled, setImgEnabled] = useState(true);
+  const [charEnabled, setCharEnabled] = useState(false);
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -135,8 +160,24 @@ const CollagePage = () => {
     navigate(`/collage?category=${newCategory}`);
   };
 
-  const contentRef = useRef(null);
+  const toggleImgEnabled = () => {
+    setImgEnabled((imgEnabled) => !imgEnabled);
+  };
 
+  const toggleCharEnabled = () => {
+    setCharEnabled((charEnabled) => !charEnabled);
+  };
+
+  const spanStyle = {
+    color: 'var(--primary-dark-75, rgba(2, 33, 29, 0.75))',
+  };
+
+  const imgStyle = {
+    filter: 'blur(1px)',
+  };
+
+  /* 일단 다운로드 기능은 제외하기로 결정 */
+  const contentRef = useRef(null);
   const handleSaveImage = async () => {
     if (!contentRef.current) return;
 
@@ -196,6 +237,60 @@ const CollagePage = () => {
             />
           </svg>
         </Select>
+        <Toggle>
+          <span>기본 이미지</span>
+          <div onClick={toggleImgEnabled}>
+            {imgEnabled ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="14"
+                viewBox="0 0 24 14"
+                fill="none"
+              >
+                <rect y="2" width="24" height="10" rx="5" fill="#333333" />
+                <circle cx="17" cy="7" r="6.5" fill="white" stroke="#333333" />
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="14"
+                viewBox="0 0 24 14"
+                fill="none"
+              >
+                <rect y="2" width="24" height="10" rx="5" fill="#D9D9D9" />
+                <circle cx="7" cy="7" r="6.5" fill="white" stroke="#D9D9D9" />
+              </svg>
+            )}
+          </div>
+          <span>24절기 글자</span>
+          <div onClick={toggleCharEnabled}>
+            {charEnabled ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="14"
+                viewBox="0 0 24 14"
+                fill="none"
+              >
+                <rect y="2" width="24" height="10" rx="5" fill="#333333" />
+                <circle cx="17" cy="7" r="6.5" fill="white" stroke="#333333" />
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="14"
+                viewBox="0 0 24 14"
+                fill="none"
+              >
+                <rect y="2" width="24" height="10" rx="5" fill="#D9D9D9" />
+                <circle cx="7" cy="7" r="6.5" fill="white" stroke="#D9D9D9" />
+              </svg>
+            )}
+          </div>
+        </Toggle>
         {/* 일단 다운로드 기능은 제외하기로 결정 */}
         {/* <div className="collage__save-button" onClick={handleSaveImage}>
           <svg
@@ -215,22 +310,55 @@ const CollagePage = () => {
 
       <Content>
         <div className="collage__capture__area" ref={contentRef}>
-          {terms.map((term) => (
-            <div key={term}>
-              {collageData.some((item) => item.term === term) ? (
-                <CollageItem
-                  articleId={
-                    collageData.find((item) => item.term === term).articleId
-                  }
-                  thumbnail={
-                    collageData.find((item) => item.term === term).image
-                  }
-                />
-              ) : (
-                <CollageItem thumbnail={SeasonBackgrounds[term]} />
-              )}
-            </div>
-          ))}
+          {terms.map((term) => {
+            const collageItemData = collageData.find(
+              (item) => item.term === term
+            );
+            const hasCollageItem = collageItemData !== undefined;
+
+            return (
+              <div key={term}>
+                {hasCollageItem ? (
+                  <CollageItem
+                    articleId={collageItemData.articleId}
+                    thumbnail={collageItemData.image}
+                    char={
+                      charEnabled
+                        ? TermsToChinese[term] + ' ' + TermsToKorean[term]
+                        : null
+                    }
+                    imgStyle={imgEnabled && charEnabled ? imgStyle : null}
+                  />
+                ) : (
+                  <>
+                    {imgEnabled && !charEnabled && (
+                      // 이미지 토글 활성화, 글자 토글 비활성화 : 디폴트
+                      <CollageItem thumbnail={SeasonBackgrounds[term]} />
+                    )}
+                    {imgEnabled && charEnabled && (
+                      // 이미지 토글 활성화, 글자 토글 활성화
+                      <CollageItem
+                        thumbnail={SeasonBackgrounds[term]}
+                        char={TermsToChinese[term] + ' ' + TermsToKorean[term]}
+                        imgStyle={imgStyle}
+                      />
+                    )}
+                    {!imgEnabled && charEnabled && (
+                      // 이미지 토글 비활성화, 글자 토글 활성화
+                      <CollageItem
+                        char={TermsToChinese[term] + ' ' + TermsToKorean[term]}
+                        spanStyle={spanStyle}
+                      />
+                    )}
+                    {!imgEnabled && !charEnabled && (
+                      // 이미지 토글 비활성화, 글자 토글 비활성화
+                      <div />
+                    )}
+                  </>
+                )}
+              </div>
+            );
+          })}
         </div>
       </Content>
 
