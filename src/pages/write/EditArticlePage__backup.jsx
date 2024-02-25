@@ -25,7 +25,30 @@ const Layout = styled.div`
   }
 `;
 
-const Header = styled.div`
+const Top = styled.div`
+  position: relative;
+  width: 100%;
+  flex-shrink: 0;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.81rem 1.31rem 0 1.62rem;
+
+  .write__save {
+    color: #000;
+    text-align: right;
+    font-family: 'Apple SD Gothic Neo';
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+
+    cursor: pointer;
+  }
+`;
+
+const Title = styled.div`
   position: relative;
   width: 100%;
   flex-shrink: 0;
@@ -33,13 +56,13 @@ const Header = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1rem 0;
+  padding-bottom: 0.87rem;
 
   .write__title__chinese {
     color: #000;
     text-align: center;
     font-family: 'Noto Serif KR';
-    font-size: 1.875rem;
+    font-size: 2rem;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
@@ -55,98 +78,45 @@ const Header = styled.div`
     font-weight: 400;
     line-height: normal;
   }
-
-  .write__menus {
-    position: absolute;
-    top: 1.69rem;
-    width: 100%;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 1.31rem;
-  }
-
-  .write__menu__save {
-    color: #000;
-    text-align: right;
-    font-family: 'Apple SD Gothic Neo';
-    font-size: 1rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-
-    cursor: pointer;
-  }
 `;
 
 const ContentContainer = styled.div`
   position: relative;
   width: 100%;
-  flex-grow: 1;
 
   display: flex;
   align-items: center;
   flex-direction: column;
   row-gap: 1.5rem;
-  padding: 0.5rem 1.31rem;
+  padding: 0 1.31rem 4.81rem 1.31rem;
 
   overflow-y: auto;
-`;
 
-const DotsContainer = styled.div`
-  position: absolute;
-  top: 16rem;
-  width: 100%;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  column-gap: 0.4rem;
-
-  z-index: 2000;
+  .dots__container {
+    display: flex;
+    column-gap: 0.5rem;
+  }
 `;
 
 const Dots = styled.div`
   display: flex;
 
-  width: ${({ active }) => (active ? '0.3125rem' : '0.25rem')};
-  height: ${({ active }) => (active ? '0.3125rem' : '0.25rem')};
+  width: 0.25rem;
+  height: 0.25rem;
   border-radius: 50%;
-
   cursor: pointer;
-  background-color: ${({ active }) =>
-    active ? '#FFF' : 'rgba(255, 255, 255, 0.40)'};
-
-  transition: all 0.2s ease-in-out;
+  background-color: ${({ active }) => (active ? '#AFAFAF' : '#E9E9E9')};
 `;
 
 const ImagesContainer = styled.div`
-  position: relative;
-  width: 100%;
-  min-height: 17rem;
-
   display: flex;
-  align-items: center;
   overflow-x: scroll;
   gap: 1.5rem;
+  align-items: center;
+  min-height: 17rem;
+  width: 100%;
 
-  cursor: pointer;
   padding: 0.3rem;
-
-  .with__delete__icon {
-    display: flex;
-    width: 100%;
-    height: 16.3125rem;
-    flex-shrink: 0;
-
-    svg {
-      position: relative;
-      flex-shrink: 0;
-      right: 2rem;
-      top: 0.5rem;
-    }
-  }
 `;
 
 const Images = styled.img`
@@ -161,6 +131,7 @@ const Images = styled.img`
 
 const Text = styled(Textarea)`
   width: 100%;
+  gap: 1.5rem;
   min-height: 1.2rem;
   color: #333;
   text-align: justify;
@@ -191,9 +162,10 @@ const ChatBubble = styled.img`
 `;
 
 const ToolBar = styled.div`
+  position: absolute;
+  bottom: 0;
   width: 100%;
   height: 3.25rem;
-  flex-shrink: 0;
 
   display: flex;
   align-items: center;
@@ -220,10 +192,9 @@ const ToolBar = styled.div`
 `;
 
 const EditArticlePage = () => {
-  const { articleData } = useLoaderData();
-  console.log(articleData.images);
-  const currentTerm = articleData.term;
-  const currentYear = articleData.year;
+  const { articleData, termData } = useLoaderData();
+  const currentTerm = termData.currentTerm.sequence;
+  let questions = SeasonalQuestions[currentTerm];
 
   const navigate = useNavigate();
 
@@ -232,9 +203,7 @@ const EditArticlePage = () => {
   const [activeDotIndex, setActiveDotIndex] = useState(0);
   const imageInputRef = useRef(null);
 
-  const initialContent = [{ type: 'single', text: '' }];
   const [contents, setContents] = useState(JSON.parse(articleData.contents));
-  const [questions, setQuestions] = useState(SeasonalQuestions[currentTerm]);
 
   const [published, setPublished] = useState(articleData.published);
 
@@ -258,21 +227,32 @@ const EditArticlePage = () => {
 
   const handleImageScroll = () => {
     const scrollLeft = imagescrollRef.current.scrollLeft;
-    const imageWidth =
-      imagescrollRef.current.firstChild.offsetWidth +
-      parseFloat(getComputedStyle(imagescrollRef.current).gap);
-    const index = Math.round(scrollLeft / imageWidth);
+    const clientWidth = imagescrollRef.current.clientWidth;
+    const scrollWidth = imagescrollRef.current.scrollWidth;
 
-    setActiveDotIndex(index);
+    const activeIndex =
+      scrollLeft === 0
+        ? 0
+        : Math.ceil(scrollLeft / clientWidth) ===
+          Math.floor(scrollWidth / clientWidth)
+        ? 1
+        : -1;
+
+    setActiveDotIndex(activeIndex);
   };
 
   /* 사진 업로드 */
-  const handleImageUpload = (event) => {
+  const handleImageUpload = (index) => {
+    imageInputRef.current.click();
+
+    setReplacingImageIndex(index);
+  };
+
+  const handleImageChange = (event) => {
     const file = event.target.files && event.target.files[0];
 
     if (file && file.size > 10 * 1024 * 1024) {
       alert('이미지 파일 크기는 10MB를 초과할 수 없습니다.');
-      event.target.value = null;
       return;
     }
 
@@ -302,18 +282,10 @@ const EditArticlePage = () => {
         reader.readAsDataURL(file);
       }
     }
-
-    event.target.value = null;
-  };
-
-  const handleImageChange = (index) => {
-    imageInputRef.current.click();
-
-    setReplacingImageIndex(index);
   };
 
   /* 사진 삭제 */
-  const handleImageDelete = (index) => {
+  const handleLongPress = (index) => {
     setSelectedImages((prevselectedImages) => {
       const newImages = [...prevselectedImages];
       newImages.splice(index, 1);
@@ -332,61 +304,55 @@ const EditArticlePage = () => {
       return;
     }
 
-    setContents((contents) =>
-      contents !== initialContent
-        ? [
-            ...contents,
-            {
-              type: 'question',
-              text: questions[0].text,
-              number: questions[0].number,
-            },
-            { type: 'answer', text: '' },
-          ]
-        : [
-            {
-              type: 'question',
-              text: questions[0].text,
-              number: questions[0].number,
-            },
-            { type: 'answer', text: '' },
-          ]
-    );
-    setQuestions(questions.filter((_, index) => index !== 0));
+    const newQuestion = questions.shift();
+    setContents((contents) => [
+      ...contents,
+      { type: 'question', text: newQuestion },
+      { type: 'answer', text: '' },
+    ]);
+    //   if (Question.length < 3) {
+    //     let newQuestion;
+    //     /* 삭제된 질문이 있으면 해당 질문을 추가 */
+    //     if (deletedQuestions.length > 0) {
+    //       newQuestion = deletedQuestions.pop();
+    //     } else {
+    //       newQuestion = Qdata[Question.length].data;
+    //     }
+    //     setQuestion((prev) => [...prev, { question: newQuestion }]);
+    //     setAnswer((prev) => [...prev, '']);
+    //     setTimeout(() => {
+    //       textareasRefs.current[Question.length].current.focus();
+    //     }, 0);
+    //   }
   };
 
   /* 질문 삭제 */
-  const handleDeleteQuestion = (event, idx) => {
-    if (event.key === 'Backspace' && contents[idx].text === '') {
-      event.preventDefault();
+  // const handleDeleteQuestion = (index) => {
+  //   if (index >= 0 && index < Question.length && Answer[index].trim() === '') {
+  //     setDeletedQuestions((prevDeleted) => {
+  //       const deleted = [...prevDeleted, Question[index].question];
+  //       return deleted;
+  //     });
 
-      if (contents.length <= 2) {
-        return;
-      }
+  //     setQuestion((prevQuestion) => {
+  //       const newQuestion = [...prevQuestion];
+  //       newQuestion.splice(index, 1);
+  //       return newQuestion;
+  //     });
 
-      if (contents[idx].type === 'answer') {
-        setQuestions((prevQuestions) => {
-          let newQuestions = [
-            ...prevQuestions,
-            {
-              number: contents[idx - 1].number,
-              text: contents[idx - 1].text,
-            },
-          ];
-          newQuestions.sort((a, b) => a.number - b.number);
-          return newQuestions;
-        });
-      }
+  //     setAnswer((prevAnswer) => {
+  //       const newAnswer = [...prevAnswer];
+  //       newAnswer.splice(index, 1);
+  //       return newAnswer;
+  //     });
 
-      setContents((prevContents) =>
-        prevContents.filter((_, index) =>
-          contents[idx].type === 'answer'
-            ? index !== idx && index !== idx - 1
-            : index !== idx
-        )
-      );
-    }
-  };
+  //     if (index > 0) {
+  //       textareasRefs.current[index - 1].current.focus();
+  //     } else if (index === 0) {
+  //       textareasRefs.current.current.focus();
+  //     }
+  //   }
+  // };
 
   /* 콘텐츠 편집 */
   const handleTextChange = (text, idx) => {
@@ -399,14 +365,8 @@ const EditArticlePage = () => {
 
   /* 콘텐츠 저장 */
   const handleSave = async () => {
-    if (!selectedImages.length && !contents.some((item) => item.text.trim())) {
-      alert('내용을 입력하세요.');
-      return;
-    }
-
-    const accessToken = localStorage.getItem('accessToken');
-
     try {
+      const accessToken = localStorage.getItem('accessToken');
       const formData = new FormData();
 
       if (selectedImages.length > 0) {
@@ -482,68 +442,56 @@ const EditArticlePage = () => {
 
   return (
     <Layout>
-      <Header>
+      <Top>
+        <Link to={`/home`}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <path
+              d="M6.40002 18.6538L5.34619 17.6L10.9462 12L5.34619 6.40002L6.40002 5.34619L12 10.9462L17.6 5.34619L18.6538 6.40002L13.0538 12L18.6538 17.6L17.6 18.6538L12 13.0538L6.40002 18.6538Z"
+              fill="black"
+            />
+          </svg>
+        </Link>
+        <span className="write__save" onClick={handleSave}>
+          저장
+        </span>
+      </Top>
+
+      <Title>
         <span className="write__title__chinese">
           {TermsToChinese[currentTerm]}
         </span>
         <span className="write__title__korean">
-          {currentYear}, {TermsToKorean[currentTerm]}
+          {TermsToKorean[currentTerm]}
         </span>
-        <div className="write__menus">
-          <Link to={`/home`}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <path
-                d="M6.40002 18.6538L5.34619 17.6L10.9462 12L5.34619 6.40002L6.40002 5.34619L12 10.9462L17.6 5.34619L18.6538 6.40002L13.0538 12L18.6538 17.6L17.6 18.6538L12 13.0538L6.40002 18.6538Z"
-                fill="black"
-              />
-            </svg>
-          </Link>
-          <span className="write__menu__save" onClick={handleSave}>
-            저장
-          </span>
-        </div>
-      </Header>
+      </Title>
 
       <ContentContainer ref={scrollRef}>
+        <div className="dots__container">
+          {selectedImages.map((_, index) => (
+            <Dots
+              key={index}
+              onClick={() => handleDotClick(index)}
+              active={index === activeDotIndex}
+            />
+          ))}
+        </div>
         {selectedImages.length > 0 && (
           <ImagesContainer ref={imagescrollRef} onScroll={handleImageScroll}>
             {selectedImages.map((image, index) => (
-              <div className="with__delete__icon" key={index}>
-                <Images src={image} onClick={() => handleImageChange(index)} />
-                <svg
-                  onClick={() => handleImageDelete(index)}
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
-                  <path
-                    d="M6.39953 18.6534L5.3457 17.5995L10.9457 11.9995L5.3457 6.39953L6.39953 5.3457L11.9995 10.9457L17.5995 5.3457L18.6534 6.39953L13.0534 11.9995L18.6534 17.5995L17.5995 18.6534L11.9995 13.0534L6.39953 18.6534Z"
-                    fill="white"
-                    fill-opacity="0.4"
-                  />
-                </svg>
-              </div>
-            ))}
-          </ImagesContainer>
-        )}
-        {selectedImages.length > 1 && (
-          <DotsContainer>
-            {selectedImages.map((_, index) => (
-              <Dots
+              <Images
                 key={index}
-                onClick={() => handleDotClick(index)}
-                active={index === activeDotIndex}
+                src={image}
+                onClick={() => handleImageUpload(index)}
+                onContextMenu={() => handleLongPress(index)}
               />
             ))}
-          </DotsContainer>
+          </ImagesContainer>
         )}
 
         {contents.map((item, idx) => {
@@ -555,12 +503,11 @@ const EditArticlePage = () => {
                   key={idx}
                   placeholder={
                     item.type === 'single'
-                      ? '오늘을 기록해 보세요.'
-                      : '이곳에 기록해 보세요.'
+                      ? '오늘을 기록해보세요'
+                      : '이곳에 기록해보세요'
                   }
                   value={item.text}
                   onChange={(e) => handleTextChange(e.target.value, idx)}
-                  onKeyDown={(e) => handleDeleteQuestion(e, idx)}
                   // ref={textareasRefs.current}
                 />
               );
@@ -580,7 +527,7 @@ const EditArticlePage = () => {
           className={`write__button__addimg ${
             selectedImages.length === 2 ? 'disabled' : ''
           }`}
-          onClick={handleImageUpload}
+          onClick={handleImageChange}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -649,7 +596,7 @@ const EditArticlePage = () => {
         accept="image/*"
         className="write__image-upload__input"
         ref={imageInputRef}
-        onChange={handleImageUpload}
+        onChange={handleImageChange}
       />
     </Layout>
   );

@@ -19,15 +19,12 @@ export const EditArticleLoader = async ({ request, params }) => {
         headers: { Authorization: `Bearer ${accessToken}` },
       }
     );
-    const termResponse = await axios.get(`/api/solarTerm`, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
 
     if (userResponse.data.id !== articleResponse.data.profile.id) {
       return redirect(`/home`);
     }
 
-    return { articleData: articleResponse.data, termData: termResponse.data };
+    return { articleData: articleResponse.data };
   } catch (error) {
     console.error(error);
 
