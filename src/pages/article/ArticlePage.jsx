@@ -87,14 +87,19 @@ const ContentContainer = styled.div`
   flex-direction: column;
   row-gap: 1.5rem;
   padding: 0.5rem 1.31rem 1rem 1.31rem;
+`;
 
-  .dots__container {
-    display: flex;
-    column-gap: 0.4rem;
+const DotsContainer = styled.div`
+  position: absolute;
+  top: 16rem;
+  width: 100%;
 
-    margin-top: -3rem;
-    margin-bottom: 1.2rem;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 0.4rem;
+
+  z-index: 2000;
 `;
 
 const Dots = styled.div`
@@ -109,17 +114,34 @@ const Dots = styled.div`
 `;
 
 const ImagesContainer = styled.div`
+  position: relative;
+  width: 100%;
+  min-height: 17rem;
+
   display: flex;
+  align-items: center;
   overflow-x: scroll;
   gap: 1.5rem;
-  align-items: center;
-  min-height: 17rem;
-  width: 100%;
 
+  cursor: pointer;
   padding: 0.3rem;
+
+  .article-image {
+    display: flex;
+    width: 100%;
+    height: 16.3125rem;
+    flex-shrink: 0;
+
+    svg {
+      position: relative;
+      flex-shrink: 0;
+      right: 2rem;
+      top: 0.5rem;
+    }
+  }
 `;
 
-const Images = styled.img`
+const Image = styled.img`
   width: 100%;
   height: 16.3125rem;
   object-fit: cover;
@@ -254,18 +276,12 @@ const ArticlePage = () => {
 
   const handleImageScroll = () => {
     const scrollLeft = imagescrollRef.current.scrollLeft;
-    const clientWidth = imagescrollRef.current.clientWidth;
-    const scrollWidth = imagescrollRef.current.scrollWidth;
+    const imageWidth =
+      imagescrollRef.current.firstChild.offsetWidth +
+      parseFloat(getComputedStyle(imagescrollRef.current).gap);
+    const index = Math.round(scrollLeft / imageWidth);
 
-    const activeIndex =
-      scrollLeft === 0
-        ? 0
-        : Math.ceil(scrollLeft / clientWidth) ===
-          Math.floor(scrollWidth / clientWidth)
-        ? 1
-        : -1;
-
-    setActiveDotIndex(activeIndex);
+    setActiveDotIndex(index);
   };
 
   /* 이모지 */
@@ -369,27 +385,24 @@ const ArticlePage = () => {
       <ScrollView>
         <ContentContainer>
           {articleData.images.length > 0 && (
-            <>
-              <ImagesContainer
-                ref={imagescrollRef}
-                onScroll={handleImageScroll}
-              >
-                {articleData.images.map((image, idx) => (
-                  <Images key={idx} src={image.url} />
-                ))}
-              </ImagesContainer>
-            </>
+            <ImagesContainer ref={imagescrollRef} onScroll={handleImageScroll}>
+              {articleData.images.map((image, index) => (
+                <div className="article-image">
+                  <Image key={index} src={image.url} />
+                </div>
+              ))}
+            </ImagesContainer>
           )}
           {articleData.images.length > 1 && (
-            <div className="dots__container">
-              {articleData.images.map((_, idx) => (
+            <DotsContainer>
+              {articleData.images.map((_, index) => (
                 <Dots
-                  key={idx}
-                  onClick={() => handleDotClick(idx)}
-                  active={idx === activeDotIndex}
+                  key={index}
+                  onClick={() => handleDotClick(index)}
+                  active={index === activeDotIndex}
                 />
               ))}
-            </div>
+            </DotsContainer>
           )}
 
           {contents.map((item, idx) => {
