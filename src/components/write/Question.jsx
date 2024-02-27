@@ -24,7 +24,7 @@ const SeasonQuestion = styled.div`
   }
 `;
 
-const AddQuestion = ({ q_value }) => {
+const Question = ({ q_value }) => {
   return (
     <SeasonQuestion>
       <div className="write__question__aside" />
@@ -33,4 +33,4 @@ const AddQuestion = ({ q_value }) => {
   );
 };
 
-export default AddQuestion;
+export default Question;

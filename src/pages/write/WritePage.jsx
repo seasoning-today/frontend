@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Link, useNavigate, useLoaderData } from 'react-router-dom';
 import Textarea from 'react-textarea-autosize';
 
-import AddQuestion from '@components/write/AddQuestion';
+import Question from '@components/write/Question';
 import { SeasonalQuestions } from '@utils/seasoning/SeasonalQuestions';
 import { TermsToChinese } from '@utils/seasoning/TermsToChinese';
 import { TermsToKorean } from '@utils/seasoning/TermsToKorean';
@@ -568,7 +568,7 @@ const WritePage = () => {
                 />
               );
             case 'question':
-              return <AddQuestion key={idx} q_value={item.text} />;
+              return <Question key={idx} q_value={item.text} />;
             default:
               return undefined;
           }

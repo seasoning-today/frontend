@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { useLoaderData, Link, useNavigate } from 'react-router-dom';
 
-import AddQuestion from '@components/write/AddQuestion';
+import Question from '@components/write/Question';
 import ArticleMenuModal from '@components/article/ArticleMenuModal';
 import ArticleDeleteModal from '@components/article/ArticleDeleteModal';
 import { TermsToChinese } from '@utils/seasoning/TermsToChinese';
@@ -67,14 +67,18 @@ const Header = styled.div`
 `;
 
 const ScrollView = styled.div`
-  /* position: relative; */
+  position: relative;
   width: 100%;
   flex-grow: 1;
+
+  display: flex;
+  flex-direction: column;
 
   overflow-y: auto;
 `;
 
 const ContentContainer = styled.div`
+  position: relative;
   width: 100%;
   min-height: calc(100% - 3.875rem);
 
@@ -318,6 +322,7 @@ const ArticlePage = () => {
           }}
         />
       )}
+
       <Header>
         <span className="article__title__chinese">
           {TermsToChinese[articleData.term]}
@@ -393,7 +398,7 @@ const ArticlePage = () => {
               case 'answer':
                 return <Text key={idx}>{item.text}</Text>;
               case 'question':
-                return <AddQuestion key={idx} q_value={item.text} />;
+                return <Question key={idx} q_value={item.text} />;
               default:
                 return undefined;
             }
