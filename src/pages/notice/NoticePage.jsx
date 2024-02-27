@@ -112,6 +112,15 @@ const Notice = styled.div`
 const NoticePage = () => {
   const { noticeData } = useLoaderData();
 
+  const parseDate = (dateString) => {
+    const noticeDate = new Date(dateString);
+    const year = noticeDate.getFullYear();
+    const month = `0${noticeDate.getMonth() + 1}`.slice(-2);
+    const day = `0${noticeDate.getDate()}`.slice(-2);
+
+    return `${year}/${month}/${day}`;
+  };
+
   return (
     <>
       <Top>
@@ -140,7 +149,7 @@ const NoticePage = () => {
           noticeData.map((notice, idx) => (
             <Notice key={idx}>
               <span className="notice__content">{notice.content}</span>
-              <span className="notice__date">{notice.date}</span>
+              <span className="notice__date">{parseDate(notice.date)}</span>
               <div className="notice__line" />
             </Notice>
           ))
