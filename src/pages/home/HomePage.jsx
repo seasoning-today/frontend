@@ -289,7 +289,7 @@ const HomePage = () => {
 
       <Category>
         <Year>
-          {category === 'year' ? now.getFullYear().toString() : undefined}
+          {category === 'term' ? undefined : now.getFullYear().toString()}
         </Year>
         <Select>
           <select value={category} onChange={handleCategoryChange}>
