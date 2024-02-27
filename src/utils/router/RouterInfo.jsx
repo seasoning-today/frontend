@@ -18,6 +18,8 @@ import ArticlePage from '@pages/article/ArticlePage';
 import NotificationPage from '@pages/notification/NotificationPage';
 import NoticePage from '@pages/notice/NoticePage';
 import ErrorPage from '@pages/error/ErrorPage';
+/* 개발 관련 임시 페이지 */
+import DevelopPage from '@pages/dev/DevelopPage';
 /* API Loaders */
 import { HomeLoader } from '@utils/api/HomeLoader';
 import { CollageLoader } from '@utils/api/CollageLoader';
@@ -30,6 +32,7 @@ import { ArticleLoader } from '@utils/api/ArticleLoader';
 import { WriteLoader } from '@utils/api/WriteLoader';
 import { EditArticleLoader } from '@utils/api/EditArticleLoader';
 import { UserRestrictLoader } from '@utils/api/UserRestrictLoader';
+import { DevPageLoader } from '@utils/api/DevPageLoader';
 
 export const RouterInfo = [
   {
@@ -118,6 +121,12 @@ export const RouterInfo = [
         path: 'notice',
         element: <NoticePage />,
         loader: NoticeLoader,
+      },
+      /* Dev pages */
+      {
+        path: 'dev',
+        element: <DevelopPage />,
+        loader: DevPageLoader,
       },
     ],
   },
