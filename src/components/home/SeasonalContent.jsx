@@ -6,8 +6,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import SeasonMenu from '@components/home/SeasonMenu';
 import ArticleRow from '@components/home/ArticleRow';
 
-import empty_articles from '@assets/home/empty_articles.jpg';
-
 const Container = styled.section`
   position: relative;
   width: 100%;
@@ -116,7 +114,6 @@ const SeasonalContent = ({ homeData }) => {
           ))
         ) : (
           <EmptyContents>
-            <img className="empty__illust" src={empty_articles} />
             <span className="empty__text">
               해당 절기에 대한 기록이 없습니다.
             </span>
