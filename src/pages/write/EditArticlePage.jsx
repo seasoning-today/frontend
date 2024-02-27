@@ -220,8 +220,7 @@ const ToolBar = styled.div`
 `;
 
 const EditArticlePage = () => {
-  const { articleData } = useLoaderData();
-  console.log(articleData.images);
+  const { articleId, articleData } = useLoaderData();
   const currentTerm = articleData.term;
   const currentYear = articleData.year;
 
@@ -241,6 +240,34 @@ const EditArticlePage = () => {
   const scrollRef = useRef();
   const imagescrollRef = useRef();
   // const textareasRefs = useRef(seasonalQuestions.map(() => useRef()));
+
+  useEffect(() => {
+    const convertToBase64 = async (url) => {
+      const modifiedUrl = url.replace(
+        'https://d2k8hhpgefvtqq.cloudfront.net',
+        '/article-images'
+      );
+
+      const response = await fetch(modifiedUrl);
+      const blob = await response.blob();
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    };
+
+    const processImages = async () => {
+      const promises = articleData.images.map((img) =>
+        convertToBase64(img.url)
+      );
+      const base64Strings = await Promise.all(promises);
+      setSelectedImages(base64Strings);
+    };
+
+    processImages();
+  }, []);
 
   /* 사진 좌우 스크롤과 Dots 색 조정 */
   const handleDotClick = (index) => {
@@ -404,6 +431,9 @@ const EditArticlePage = () => {
       return;
     }
 
+    // console.log(JSON.stringify(selectedImages, null, '\t'));
+    // return;
+
     const accessToken = localStorage.getItem('accessToken');
 
     try {
@@ -420,6 +450,7 @@ const EditArticlePage = () => {
       }
 
       const contentsJson = JSON.stringify({
+        image_modified: true,
         published: published,
         contents: JSON.stringify(contents),
       });
@@ -429,8 +460,8 @@ const EditArticlePage = () => {
       );
 
       const response = await axios({
-        method: 'POST',
-        url: `/api/article`,
+        method: 'PUT',
+        url: `/api/article/${articleId}`,
         data: formData,
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -439,7 +470,7 @@ const EditArticlePage = () => {
       });
 
       if (response.status === 200) {
-        navigate(`/article/${response.data}`);
+        navigate(`/article/${articleId}`);
       } else {
         console.error('Failed to save article.');
       }
@@ -527,7 +558,7 @@ const EditArticlePage = () => {
                   <path
                     d="M6.39953 18.6534L5.3457 17.5995L10.9457 11.9995L5.3457 6.39953L6.39953 5.3457L11.9995 10.9457L17.5995 5.3457L18.6534 6.39953L13.0534 11.9995L18.6534 17.5995L17.5995 18.6534L11.9995 13.0534L6.39953 18.6534Z"
                     fill="white"
-                    fill-opacity="0.4"
+                    fillOpacity="0.4"
                   />
                 </svg>
               </div>

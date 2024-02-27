@@ -403,6 +403,9 @@ const WritePage = () => {
       return;
     }
 
+    console.log(JSON.stringify(selectedImages, null, '\t'));
+    return;
+
     const accessToken = localStorage.getItem('accessToken');
 
     try {

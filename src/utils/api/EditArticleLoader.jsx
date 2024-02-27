@@ -24,7 +24,7 @@ export const EditArticleLoader = async ({ request, params }) => {
       return redirect(`/home`);
     }
 
-    return { articleData: articleResponse.data };
+    return { articleId: params.articleId, articleData: articleResponse.data };
   } catch (error) {
     console.error(error);
 

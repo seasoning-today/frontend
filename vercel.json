@@ -5,6 +5,10 @@
       "destination": "https://api.seasoning.today/:path*"
     },
     {
+      "source": "/article-images/:path*",
+      "destination": "https://d2k8hhpgefvtqq.cloudfront.net/:path*"
+    },
+    {
       "source": "/(.*)",
       "destination": "/"
     }

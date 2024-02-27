@@ -33,6 +33,11 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
+      '/article-images': {
+        target: 'https://d2k8hhpgefvtqq.cloudfront.net',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/article-images/, ''),
+      },
     },
   },
 });
