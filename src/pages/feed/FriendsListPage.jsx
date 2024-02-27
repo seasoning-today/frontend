@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { Link, useNavigate, useLoaderData } from 'react-router-dom';
 
 import UserProfileBox from '@components/common/UserProfileBox';
+import FriendDeleteModal from '@components/feed/FriendDeleteModal';
 
 const Top = styled.div`
   position: relative;
@@ -84,31 +85,27 @@ const Button = styled.div`
 
 const FriendsListPage = () => {
   const { friendListData } = useLoaderData();
+  const [selectedFriendId, setSelectedFriendId] = useState(null);
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
-  const unfriendRequest = async (friendId) => {
-    const accessToken = localStorage.getItem('accessToken');
-
-    try {
-      const unfriendResponse = await axios.delete(`/api/friend/unfriend`, {
-        data: {
-          id: friendId,
-        },
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
-
-      if (unfriendResponse.status === 200) {
-        navigate();
-      } else {
-        // console.error('Unexpected response:', response);
-      }
-    } catch (error) {
-      console.error('Error sending friend request:', error);
-    }
+  const handleFriendDelete = (friendId) => {
+    setSelectedFriendId(friendId);
+    setShowModal(true);
   };
 
   return (
     <>
+      {showModal && (
+        <FriendDeleteModal
+          friendId={selectedFriendId}
+          onCloseModal={() => {
+            setShowModal(false);
+            setSelectedFriendId(null);
+          }}
+        />
+      )}
+
       <Top>
         <h1>친구 목록</h1>
 
@@ -139,7 +136,7 @@ const FriendsListPage = () => {
               nickname={friend.nickname}
               accountId={friend.accountId}
             />
-            <Button onClick={() => unfriendRequest(friend.id)}>
+            <Button onClick={() => handleFriendDelete(friend.accountId)}>
               <span>친구 삭제</span>
             </Button>
           </List>
