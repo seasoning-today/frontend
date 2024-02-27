@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import debounce from 'lodash.debounce';
 
 import UserProfileBox from '@components/common/UserProfileBox';
 
@@ -131,10 +132,6 @@ const SearchPage = () => {
   const [searchResult, setSearchResult] = useState([]);
   const [keyword, setKeyword] = useState('');
 
-  const handleChangeKeyword = (event) => {
-    setKeyword(event.target.value);
-  };
-
   const handleSearch = async () => {
     const accessToken = localStorage.getItem('accessToken');
 
@@ -158,8 +155,19 @@ const SearchPage = () => {
   };
 
   useEffect(() => {
-    handleSearch();
+    if (keyword.trim() !== '') {
+      const debouncedSearch = debounce(handleSearch, 500);
+      debouncedSearch();
+
+      return () => {
+        debouncedSearch.cancel();
+      };
+    }
   }, [keyword]);
+
+  const handleChangeKeyword = (event) => {
+    setKeyword(event.target.value);
+  };
 
   const renderFriendshipStatus = (status) => {
     switch (status) {
