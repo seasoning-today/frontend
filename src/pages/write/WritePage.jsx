@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Link, useNavigate, useLoaderData } from 'react-router-dom';
 import Textarea from 'react-textarea-autosize';
 
+import ContentEditor from '@components/write/ContentEditor';
 import Question from '@components/write/Question';
 import { SeasonalQuestions } from '@utils/seasoning/SeasonalQuestions';
 import { TermsToChinese } from '@utils/seasoning/TermsToChinese';
@@ -403,8 +404,8 @@ const WritePage = () => {
       return;
     }
 
-    console.log(JSON.stringify(selectedImages, null, '\t'));
-    return;
+    // console.log(JSON.stringify(selectedImages, null, '\t'));
+    // return;
 
     const accessToken = localStorage.getItem('accessToken');
 
@@ -511,6 +512,8 @@ const WritePage = () => {
           </span>
         </div>
       </Header>
+
+      {/* <ContentEditor selectedImages={selectedImages} contents={contents} /> */}
 
       <ContentContainer ref={scrollRef}>
         {selectedImages.length > 0 && (
