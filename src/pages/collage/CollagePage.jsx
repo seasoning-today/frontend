@@ -20,11 +20,16 @@ const Layout = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const Title = styled.div`
   width: 100%;
   height: 4rem;
+  flex-shrink: 0;
 
   display: flex;
   justify-content: center;
@@ -45,6 +50,7 @@ const Title = styled.div`
 const OptionBox = styled.div`
   width: 100%;
   height: 2rem;
+  flex-shrink: 0;
 
   display: flex;
   justify-content: space-between;
@@ -118,7 +124,7 @@ const Toggle = styled.div`
 
 const Content = styled.div`
   width: 100%;
-  height: calc(100% - 2.5rem - 4rem - 2rem);
+  flex-grow: 1;
   padding: 0 1.88rem 3.8125rem 1.88rem;
 
   .collage__capture__area {

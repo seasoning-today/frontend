@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 const Layout = styled.div`
   position: relative;
   width: 100%;
-  height: 2.5rem;
+  height: 3.125rem;
+  flex-shrink: 0;
 
   display: flex;
   justify-content: space-between;
@@ -14,7 +15,7 @@ const Layout = styled.div`
 
 const LogoBox = styled.div`
   height: 100%;
-  margin: 0 1rem;
+  padding: 0.5rem 1rem 0;
 
   display: flex;
   align-items: center;
@@ -23,11 +24,11 @@ const LogoBox = styled.div`
 
 const NavBox = styled.div`
   height: 100%;
+  padding: 0.75rem 1rem 0;
 
   display: flex;
   align-items: center;
   gap: 0.88rem;
-  margin: 0 1rem;
 `;
 
 const TopBar = ({ isNewNotification }) => {
