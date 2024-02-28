@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 
+import NavigationHeader from '@components/common/NavigationHeader';
+
 const Layout = styled.div`
   position: relative;
   width: 100%;
@@ -13,39 +15,6 @@ const Layout = styled.div`
   align-items: center;
 
   overflow-y: scroll;
-`;
-
-const Header = styled.header`
-  position: relative;
-  width: 100%;
-  height: 3.3125rem;
-  flex-shrink: 0;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  row-gap: 4.12rem;
-
-  .mypage__edit__title {
-    color: #000;
-    font-family: 'Apple SD Gothic Neo';
-    font-size: 1.25rem;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
-  }
-
-  .mypage__edit__exit {
-    position: absolute;
-    left: 1.25rem;
-
-    color: #888;
-    font-family: 'Apple SD Gothic Neo';
-    font-size: 1rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-  }
 `;
 
 const ProfileBox = styled.div`
@@ -367,10 +336,7 @@ const EditProfilePage = () => {
 
   return (
     <Layout>
-      <Header>
-        <span className="mypage__edit__exit">취소</span>
-        <span className="mypage__edit__title">프로필 설정</span>
-      </Header>
+      <NavigationHeader title="프로필 수정" optionType="text" />
 
       <ProfileBox>
         <div className="profile-center" onClick={handleImageUpload}>
