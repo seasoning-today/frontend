@@ -1,14 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import { useLoaderData, Link, useNavigate } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 
+import Header from '@components/write/Header';
 import ImageSlider from '@components/write/ImageSlider';
 import Question from '@components/write/Question';
 import ArticleMenuModal from '@components/article/ArticleMenuModal';
 import ArticleDeleteModal from '@components/article/ArticleDeleteModal';
-import { TermsToChinese } from '@utils/seasoning/TermsToChinese';
-import { TermsToKorean } from '@utils/seasoning/TermsToKorean';
 
 const Layout = styled.div`
   position: relative;
@@ -18,53 +17,6 @@ const Layout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const Header = styled.div`
-  position: relative;
-  width: 100%;
-  flex-shrink: 0;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 1rem 0;
-
-  .article__title__chinese {
-    color: #000;
-    text-align: center;
-    font-family: 'Noto Serif KR';
-    font-size: 1.875rem;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
-  }
-
-  .article__title__korean {
-    color: #000;
-    text-align: center;
-
-    font-family: 'Noto Serif KR';
-    font-size: 0.9375rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-  }
-
-  .article__menus {
-    position: absolute;
-    top: 1.69rem;
-    width: 100%;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 1.31rem;
-
-    svg {
-      cursor: pointer;
-    }
-  }
 `;
 
 const ScrollView = styled.div`
@@ -253,34 +205,29 @@ const ArticlePage = () => {
         />
       )}
 
-      <Header>
-        <span className="article__title__chinese">
-          {TermsToChinese[articleData.term]}
-        </span>
-        <span className="article__title__korean">
-          {articleData.year}, {TermsToKorean[articleData.term]}
-        </span>
-        <div className="article__menus">
-          <Link to={`/home`}>
+      <Header
+        year={articleData.year}
+        term={articleData.term}
+        firstOptionItem={
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <path
+              d="M6.39953 18.6534L5.3457 17.5995L10.9457 11.9995L5.3457 6.39953L6.39953 5.3457L11.9995 10.9457L17.5995 5.3457L18.6534 6.39953L13.0534 11.9995L18.6534 17.5995L17.5995 18.6534L11.9995 13.0534L6.39953 18.6534Z"
+              fill="black"
+            />
+          </svg>
+        }
+        firstOptionAction={() => {
+          navigate(-1);
+        }}
+        secondOptionItem={
+          isAuthor ? (
             <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              onClick={() => {
-                navigate(-1);
-              }}
-            >
-              <path
-                d="M6.39953 18.6534L5.3457 17.5995L10.9457 11.9995L5.3457 6.39953L6.39953 5.3457L11.9995 10.9457L17.5995 5.3457L18.6534 6.39953L13.0534 11.9995L18.6534 17.5995L17.5995 18.6534L11.9995 13.0534L6.39953 18.6534Z"
-                fill="black"
-              />
-            </svg>
-          </Link>
-          {isAuthor && (
-            <svg
-              onClick={handleMenu}
               xmlns="http://www.w3.org/2000/svg"
               width="24"
               height="24"
@@ -292,9 +239,10 @@ const ArticlePage = () => {
                 fill="black"
               />
             </svg>
-          )}
-        </div>
-      </Header>
+          ) : undefined
+        }
+        secondOptionAction={isAuthor ? handleMenu : undefined}
+      />
 
       <ScrollView>
         <ContentContainer>

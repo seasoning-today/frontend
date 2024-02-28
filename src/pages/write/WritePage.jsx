@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import { Link, useNavigate, useLoaderData } from 'react-router-dom';
+import { useNavigate, useLoaderData } from 'react-router-dom';
 import Textarea from 'react-textarea-autosize';
 
+import Header from '@components/write/Header';
 import ContentEditor from '@components/write/ContentEditor';
 import ImageSlider from '@components/write/ImageSlider';
 import Question from '@components/write/Question';
 import { SeasonalQuestions } from '@utils/seasoning/SeasonalQuestions';
-import { TermsToChinese } from '@utils/seasoning/TermsToChinese';
-import { TermsToKorean } from '@utils/seasoning/TermsToKorean';
 
 import chat_bubble from '@assets/ChatBubble.png';
 
@@ -21,61 +20,6 @@ const Layout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const Header = styled.div`
-  position: relative;
-  width: 100%;
-  flex-shrink: 0;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 1rem 0;
-
-  .write__title__chinese {
-    color: #000;
-    text-align: center;
-    font-family: 'Noto Serif KR';
-    font-size: 1.875rem;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
-  }
-
-  .write__title__korean {
-    color: #000;
-    text-align: center;
-
-    font-family: 'Noto Serif KR';
-    font-size: 0.9375rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-  }
-
-  .write__menus {
-    position: absolute;
-    top: 1.69rem;
-    width: 100%;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 1.31rem;
-  }
-
-  .write__menu__save {
-    color: #000;
-    text-align: right;
-    font-family: 'Apple SD Gothic Neo';
-    font-size: 1rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-
-    cursor: pointer;
-  }
 `;
 
 const ContentContainer = styled.div`
@@ -375,33 +319,29 @@ const WritePage = () => {
 
   return (
     <Layout>
-      <Header>
-        <span className="write__title__chinese">
-          {TermsToChinese[currentTerm]}
-        </span>
-        <span className="write__title__korean">
-          {currentYear.split('-')[0]}, {TermsToKorean[currentTerm]}
-        </span>
-        <div className="write__menus">
-          <Link to={`/home`}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <path
-                d="M6.40002 18.6538L5.34619 17.6L10.9462 12L5.34619 6.40002L6.40002 5.34619L12 10.9462L17.6 5.34619L18.6538 6.40002L13.0538 12L18.6538 17.6L17.6 18.6538L12 13.0538L6.40002 18.6538Z"
-                fill="black"
-              />
-            </svg>
-          </Link>
-          <span className="write__menu__save" onClick={handleSave}>
-            저장
-          </span>
-        </div>
-      </Header>
+      <Header
+        year={currentYear.split('-')[0]}
+        term={currentTerm}
+        firstOptionItem={
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <path
+              d="M6.39953 18.6534L5.3457 17.5995L10.9457 11.9995L5.3457 6.39953L6.39953 5.3457L11.9995 10.9457L17.5995 5.3457L18.6534 6.39953L13.0534 11.9995L18.6534 17.5995L17.5995 18.6534L11.9995 13.0534L6.39953 18.6534Z"
+              fill="black"
+            />
+          </svg>
+        }
+        firstOptionAction={() => {
+          navigate(-1);
+        }}
+        secondOptionItem={<span>저장</span>}
+        secondOptionAction={handleSave}
+      />
 
       {/* <ContentEditor selectedImages={selectedImages} contents={contents} /> */}
 

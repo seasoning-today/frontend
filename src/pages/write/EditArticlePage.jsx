@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import { Link, useNavigate, useLoaderData } from 'react-router-dom';
+import { useNavigate, useLoaderData } from 'react-router-dom';
 import Textarea from 'react-textarea-autosize';
 
+import Header from '@components/write/Header';
 import ImageSlider from '@components/write/ImageSlider';
 import Question from '@components/write/Question';
 import { SeasonalQuestions } from '@utils/seasoning/SeasonalQuestions';
-import { TermsToChinese } from '@utils/seasoning/TermsToChinese';
-import { TermsToKorean } from '@utils/seasoning/TermsToKorean';
 
 import chat_bubble from '@assets/ChatBubble.png';
 
@@ -26,61 +25,6 @@ const Layout = styled.div`
   }
 `;
 
-const Header = styled.div`
-  position: relative;
-  width: 100%;
-  flex-shrink: 0;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 1rem 0;
-
-  .write__title__chinese {
-    color: #000;
-    text-align: center;
-    font-family: 'Noto Serif KR';
-    font-size: 1.875rem;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
-  }
-
-  .write__title__korean {
-    color: #000;
-    text-align: center;
-
-    font-family: 'Noto Serif KR';
-    font-size: 0.9375rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-  }
-
-  .write__menus {
-    position: absolute;
-    top: 1.69rem;
-    width: 100%;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 1.31rem;
-  }
-
-  .write__menu__save {
-    color: #000;
-    text-align: right;
-    font-family: 'Apple SD Gothic Neo';
-    font-size: 1rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-
-    cursor: pointer;
-  }
-`;
-
 const ContentContainer = styled.div`
   position: relative;
   width: 100%;
@@ -93,71 +37,6 @@ const ContentContainer = styled.div`
   padding: 0.5rem 1.31rem;
 
   overflow-y: auto;
-`;
-
-const DotsContainer = styled.div`
-  position: absolute;
-  top: 16rem;
-  width: 100%;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  column-gap: 0.4rem;
-
-  z-index: 2000;
-`;
-
-const Dots = styled.div`
-  display: flex;
-
-  width: ${({ active }) => (active ? '0.3125rem' : '0.25rem')};
-  height: ${({ active }) => (active ? '0.3125rem' : '0.25rem')};
-  border-radius: 50%;
-
-  cursor: pointer;
-  background-color: ${({ active }) =>
-    active ? '#FFF' : 'rgba(255, 255, 255, 0.40)'};
-
-  transition: all 0.2s ease-in-out;
-`;
-
-const ImagesContainer = styled.div`
-  position: relative;
-  width: 100%;
-  min-height: 17rem;
-
-  display: flex;
-  align-items: center;
-  overflow-x: scroll;
-  gap: 1.5rem;
-
-  cursor: pointer;
-  padding: 0.3rem;
-
-  .with__delete__icon {
-    display: flex;
-    width: 100%;
-    height: 16.3125rem;
-    flex-shrink: 0;
-
-    svg {
-      position: relative;
-      flex-shrink: 0;
-      right: 2rem;
-      top: 0.5rem;
-    }
-  }
-`;
-
-const Images = styled.img`
-  width: 100%;
-  height: 16.3125rem;
-  object-fit: cover;
-  border-radius: 0.5rem;
-  flex-shrink: 0;
-
-  cursor: pointer;
 `;
 
 const Text = styled(Textarea)`
@@ -473,33 +352,29 @@ const EditArticlePage = () => {
 
   return (
     <Layout>
-      <Header>
-        <span className="write__title__chinese">
-          {TermsToChinese[currentTerm]}
-        </span>
-        <span className="write__title__korean">
-          {currentYear}, {TermsToKorean[currentTerm]}
-        </span>
-        <div className="write__menus">
-          <Link to={`/home`}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <path
-                d="M6.40002 18.6538L5.34619 17.6L10.9462 12L5.34619 6.40002L6.40002 5.34619L12 10.9462L17.6 5.34619L18.6538 6.40002L13.0538 12L18.6538 17.6L17.6 18.6538L12 13.0538L6.40002 18.6538Z"
-                fill="black"
-              />
-            </svg>
-          </Link>
-          <span className="write__menu__save" onClick={handleSave}>
-            저장
-          </span>
-        </div>
-      </Header>
+      <Header
+        year={currentYear}
+        term={currentTerm}
+        firstOptionItem={
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <path
+              d="M6.40002 18.6538L5.34619 17.6L10.9462 12L5.34619 6.40002L6.40002 5.34619L12 10.9462L17.6 5.34619L18.6538 6.40002L13.0538 12L18.6538 17.6L17.6 18.6538L12 13.0538L6.40002 18.6538Z"
+              fill="black"
+            />
+          </svg>
+        }
+        firstOptionAction={() => {
+          navigate(-1);
+        }}
+        secondOptionItem={<span>저장</span>}
+        secondOptionAction={handleSave}
+      />
 
       <ContentContainer ref={scrollRef}>
         <ImageSlider
