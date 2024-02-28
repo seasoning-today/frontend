@@ -9,7 +9,7 @@ import ImageSlider from '@components/write/ImageSlider';
 import ContentEditor from '@components/write/ContentEditor';
 import { SeasonalQuestions } from '@utils/seasoning/SeasonalQuestions';
 
-import chat_bubble from '@assets/ChatBubble.png';
+import chat_bubble from '@assets/write/chat-bubble.webp';
 
 const Layout = styled.div`
   position: relative;
