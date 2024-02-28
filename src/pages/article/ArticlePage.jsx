@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { useLoaderData, Link, useNavigate } from 'react-router-dom';
 
+import ImageSlider from '@components/write/ImageSlider';
 import Question from '@components/write/Question';
 import ArticleMenuModal from '@components/article/ArticleMenuModal';
 import ArticleDeleteModal from '@components/article/ArticleDeleteModal';
@@ -87,66 +88,6 @@ const ContentContainer = styled.div`
   flex-direction: column;
   row-gap: 1.5rem;
   padding: 0.5rem 1.31rem 1rem 1.31rem;
-`;
-
-const DotsContainer = styled.div`
-  position: absolute;
-  top: 16rem;
-  width: 100%;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  column-gap: 0.4rem;
-
-  z-index: 2000;
-`;
-
-const Dots = styled.div`
-  display: flex;
-
-  width: 0.25rem;
-  height: 0.25rem;
-  border-radius: 50%;
-  cursor: pointer;
-  background-color: ${({ active }) =>
-    active ? '#FFF' : 'rgba(255, 255, 255, 0.40)'};
-`;
-
-const ImagesContainer = styled.div`
-  position: relative;
-  width: 100%;
-  min-height: 17rem;
-
-  display: flex;
-  align-items: center;
-  overflow-x: scroll;
-  gap: 1.5rem;
-
-  cursor: pointer;
-  padding: 0.3rem;
-
-  .article-image {
-    display: flex;
-    width: 100%;
-    height: 16.3125rem;
-    flex-shrink: 0;
-
-    svg {
-      position: relative;
-      flex-shrink: 0;
-      right: 2rem;
-      top: 0.5rem;
-    }
-  }
-`;
-
-const Image = styled.img`
-  width: 100%;
-  height: 16.3125rem;
-  object-fit: cover;
-  border-radius: 0.5rem;
-  flex-shrink: 0;
 `;
 
 const Text = styled.span`
@@ -252,37 +193,10 @@ const ArticlePage = () => {
   const [emojiCount, setEmojiCount] = useState(articleData.likesCount);
   const [isClickedEmoji, setIsClickedEmoji] = useState(articleData.userLikes);
 
-  const imagescrollRef = useRef();
-  const [activeDotIndex, setActiveDotIndex] = useState(0);
-
   const [showMenuModal, setShowMenuModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const navigate = useNavigate();
-
-  /* 사진 좌우 스크롤과 Dots 색 조정 */
-  const handleDotClick = (index) => {
-    if (index === 0) {
-      imagescrollRef.current.scrollTo({ left: 0, behavior: 'smooth' });
-    } else if (index === 1) {
-      const scrollRight =
-        imagescrollRef.current.scrollWidth - imagescrollRef.current.clientWidth;
-      imagescrollRef.current.scrollTo({
-        left: scrollRight,
-        behavior: 'smooth',
-      });
-    }
-  };
-
-  const handleImageScroll = () => {
-    const scrollLeft = imagescrollRef.current.scrollLeft;
-    const imageWidth =
-      imagescrollRef.current.firstChild.offsetWidth +
-      parseFloat(getComputedStyle(imagescrollRef.current).gap);
-    const index = Math.round(scrollLeft / imageWidth);
-
-    setActiveDotIndex(index);
-  };
 
   /* 이모지 */
   const handleEmojiClick = async () => {
@@ -384,26 +298,13 @@ const ArticlePage = () => {
 
       <ScrollView>
         <ContentContainer>
-          {articleData.images.length > 0 && (
-            <ImagesContainer ref={imagescrollRef} onScroll={handleImageScroll}>
-              {articleData.images.map((image, index) => (
-                <div className="article-image">
-                  <Image key={index} src={image.url} />
-                </div>
-              ))}
-            </ImagesContainer>
-          )}
-          {articleData.images.length > 1 && (
-            <DotsContainer>
-              {articleData.images.map((_, index) => (
-                <Dots
-                  key={index}
-                  onClick={() => handleDotClick(index)}
-                  active={index === activeDotIndex}
-                />
-              ))}
-            </DotsContainer>
-          )}
+          <ImageSlider
+            images={articleData.images.map((image) => image.url)}
+            // setImages={null}
+            // imageInputRef={null}
+            // setReplacingImageIndex={null}
+            // handleImageUpload={null}
+          />
 
           {contents.map((item, idx) => {
             switch (item.type) {

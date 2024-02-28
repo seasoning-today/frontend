@@ -5,6 +5,7 @@ import { Link, useNavigate, useLoaderData } from 'react-router-dom';
 import Textarea from 'react-textarea-autosize';
 
 import ContentEditor from '@components/write/ContentEditor';
+import ImageSlider from '@components/write/ImageSlider';
 import Question from '@components/write/Question';
 import { SeasonalQuestions } from '@utils/seasoning/SeasonalQuestions';
 import { TermsToChinese } from '@utils/seasoning/TermsToChinese';
@@ -20,10 +21,6 @@ const Layout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  .write__image-upload__input {
-    display: none;
-  }
 `;
 
 const Header = styled.div`
@@ -95,71 +92,6 @@ const ContentContainer = styled.div`
   overflow-y: auto;
 `;
 
-const DotsContainer = styled.div`
-  position: absolute;
-  top: 16rem;
-  width: 100%;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  column-gap: 0.4rem;
-
-  z-index: 2000;
-`;
-
-const Dots = styled.div`
-  display: flex;
-
-  width: ${({ active }) => (active ? '0.3125rem' : '0.25rem')};
-  height: ${({ active }) => (active ? '0.3125rem' : '0.25rem')};
-  border-radius: 50%;
-
-  cursor: pointer;
-  background-color: ${({ active }) =>
-    active ? '#FFF' : 'rgba(255, 255, 255, 0.40)'};
-
-  transition: all 0.2s ease-in-out;
-`;
-
-const ImagesContainer = styled.div`
-  position: relative;
-  width: 100%;
-  min-height: 17rem;
-
-  display: flex;
-  align-items: center;
-  overflow-x: scroll;
-  gap: 1.5rem;
-
-  cursor: pointer;
-  padding: 0.3rem;
-
-  .with__delete__icon {
-    display: flex;
-    width: 100%;
-    height: 16.3125rem;
-    flex-shrink: 0;
-
-    svg {
-      position: relative;
-      flex-shrink: 0;
-      right: 2rem;
-      top: 0.5rem;
-    }
-  }
-`;
-
-const Images = styled.img`
-  width: 100%;
-  height: 16.3125rem;
-  object-fit: cover;
-  border-radius: 0.5rem;
-  flex-shrink: 0;
-
-  cursor: pointer;
-`;
-
 const Text = styled(Textarea)`
   width: 100%;
   min-height: 1.2rem;
@@ -229,7 +161,6 @@ const WritePage = () => {
 
   const [selectedImages, setSelectedImages] = useState([]);
   const [replacingImageIndex, setReplacingImageIndex] = useState(null);
-  const [activeDotIndex, setActiveDotIndex] = useState(0);
   const imageInputRef = useRef(null);
 
   const initialContent = [{ type: 'single', text: '' }];
@@ -239,34 +170,8 @@ const WritePage = () => {
   const [published, setPublished] = useState(true);
 
   const scrollRef = useRef();
-  const imagescrollRef = useRef();
   // const textareasRefs = useRef(seasonalQuestions.map(() => useRef()));
 
-  /* 사진 좌우 스크롤과 Dots 색 조정 */
-  const handleDotClick = (index) => {
-    if (index === 0) {
-      imagescrollRef.current.scrollTo({ left: 0, behavior: 'smooth' });
-    } else if (index === 1) {
-      const scrollRight =
-        imagescrollRef.current.scrollWidth - imagescrollRef.current.clientWidth;
-      imagescrollRef.current.scrollTo({
-        left: scrollRight,
-        behavior: 'smooth',
-      });
-    }
-  };
-
-  const handleImageScroll = () => {
-    const scrollLeft = imagescrollRef.current.scrollLeft;
-    const imageWidth =
-      imagescrollRef.current.firstChild.offsetWidth +
-      parseFloat(getComputedStyle(imagescrollRef.current).gap);
-    const index = Math.round(scrollLeft / imageWidth);
-
-    setActiveDotIndex(index);
-  };
-
-  /* 사진 업로드 */
   const handleImageUpload = (event) => {
     const file = event.target.files && event.target.files[0];
 
@@ -276,8 +181,8 @@ const WritePage = () => {
       return;
     }
 
-    /* 첨부된 사진 변경 */
     if (replacingImageIndex !== null) {
+      /* 첨부된 사진 변경 */
       if (file) {
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -304,21 +209,6 @@ const WritePage = () => {
     }
 
     event.target.value = null;
-  };
-
-  const handleImageChange = (index) => {
-    imageInputRef.current.click();
-
-    setReplacingImageIndex(index);
-  };
-
-  /* 사진 삭제 */
-  const handleImageDelete = (index) => {
-    setSelectedImages((prevselectedImages) => {
-      const newImages = [...prevselectedImages];
-      newImages.splice(index, 1);
-      return newImages;
-    });
   };
 
   /* 공개 비공개 설정 */
@@ -516,44 +406,14 @@ const WritePage = () => {
       {/* <ContentEditor selectedImages={selectedImages} contents={contents} /> */}
 
       <ContentContainer ref={scrollRef}>
-        {selectedImages.length > 0 && (
-          <ImagesContainer ref={imagescrollRef} onScroll={handleImageScroll}>
-            {selectedImages.map((image, index) => (
-              <div className="with__delete__icon">
-                <Images
-                  key={index}
-                  src={image}
-                  onClick={() => handleImageChange(index)}
-                />
-                <svg
-                  onClick={() => handleImageDelete(index)}
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
-                  <path
-                    d="M6.39953 18.6534L5.3457 17.5995L10.9457 11.9995L5.3457 6.39953L6.39953 5.3457L11.9995 10.9457L17.5995 5.3457L18.6534 6.39953L13.0534 11.9995L18.6534 17.5995L17.5995 18.6534L11.9995 13.0534L6.39953 18.6534Z"
-                    fill="white"
-                    fill-opacity="0.4"
-                  />
-                </svg>
-              </div>
-            ))}
-          </ImagesContainer>
-        )}
-        {selectedImages.length > 1 && (
-          <DotsContainer>
-            {selectedImages.map((_, index) => (
-              <Dots
-                key={index}
-                onClick={() => handleDotClick(index)}
-                active={index === activeDotIndex}
-              />
-            ))}
-          </DotsContainer>
-        )}
+        <ImageSlider
+          editable
+          images={selectedImages}
+          setImages={setSelectedImages}
+          imageInputRef={imageInputRef}
+          setReplacingImageIndex={setReplacingImageIndex}
+          handleImageUpload={handleImageUpload}
+        />
 
         {contents.map((item, idx) => {
           switch (item.type) {
@@ -653,13 +513,6 @@ const WritePage = () => {
           </svg>
         </div>
       </ToolBar>
-      <input
-        type="file"
-        accept="image/*"
-        className="write__image-upload__input"
-        ref={imageInputRef}
-        onChange={handleImageUpload}
-      />
     </Layout>
   );
 };
