@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import kakao_btn from '@assets/login/kakao_btn.png';
-import login_background from '@assets/login/background.png';
+import kakao_btn from '@assets/login/kakao_btn.webp';
+import login_background from '@assets/login/login-background.webp';
 
 const Background = styled.div`
   position: relative;
