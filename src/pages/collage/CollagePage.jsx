@@ -12,7 +12,7 @@ import saveAs from 'file-saver';
 import TopBar from '@components/common/TopBar';
 import TabBar from '@components/common/TabBar';
 import CollageItem from '@components/collage/CollageItem';
-import { CollageBackgrounds } from '@utils/image/CollageBackgrounds';
+import { SeasonBackgrounds } from '@utils/image/SeasonBackgrounds';
 import { TermsToChinese } from '@utils/seasoning/TermsToChinese';
 import { TermsToKorean } from '@utils/seasoning/TermsToKorean';
 
@@ -334,12 +334,12 @@ const CollagePage = () => {
                   <>
                     {imgEnabled && !charEnabled && (
                       // 이미지 토글 활성화, 글자 토글 비활성화 : 디폴트
-                      <CollageItem thumbnail={CollageBackgrounds[term]} />
+                      <CollageItem thumbnail={SeasonBackgrounds[term]} />
                     )}
                     {imgEnabled && charEnabled && (
                       // 이미지 토글 활성화, 글자 토글 활성화
                       <CollageItem
-                        thumbnail={CollageBackgrounds[term]}
+                        thumbnail={SeasonBackgrounds[term]}
                         char={TermsToChinese[term] + ' ' + TermsToKorean[term]}
                         imgStyle={imgStyle}
                       />
