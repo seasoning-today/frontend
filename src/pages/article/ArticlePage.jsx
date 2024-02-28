@@ -246,13 +246,7 @@ const ArticlePage = () => {
 
       <ScrollView>
         <ContentContainer>
-          <ImageSlider
-            images={articleData.images.map((image) => image.url)}
-            // setImages={null}
-            // imageInputRef={null}
-            // setReplacingImageIndex={null}
-            // handleImageUpload={null}
-          />
+          <ImageSlider images={articleData.images.map((image) => image.url)} />
 
           <ContentEditor readOnly contents={contents} />
         </ContentContainer>
