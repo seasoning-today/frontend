@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import { useLoaderData, Link, useNavigate } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 
-import Question from '@components/write/Question';
+import Header from '@components/write/Header';
+import ImageSlider from '@components/write/ImageSlider';
+import ContentEditor from '@components/write/ContentEditor';
 import ArticleMenuModal from '@components/article/ArticleMenuModal';
 import ArticleDeleteModal from '@components/article/ArticleDeleteModal';
-import { TermsToChinese } from '@utils/seasoning/TermsToChinese';
-import { TermsToKorean } from '@utils/seasoning/TermsToKorean';
 
 const Layout = styled.div`
   position: relative;
@@ -17,53 +17,6 @@ const Layout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const Header = styled.div`
-  position: relative;
-  width: 100%;
-  flex-shrink: 0;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 1rem 0;
-
-  .article__title__chinese {
-    color: #000;
-    text-align: center;
-    font-family: 'Noto Serif KR';
-    font-size: 1.875rem;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
-  }
-
-  .article__title__korean {
-    color: #000;
-    text-align: center;
-
-    font-family: 'Noto Serif KR';
-    font-size: 0.9375rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-  }
-
-  .article__menus {
-    position: absolute;
-    top: 1.69rem;
-    width: 100%;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 1.31rem;
-
-    svg {
-      cursor: pointer;
-    }
-  }
 `;
 
 const ScrollView = styled.div`
@@ -87,66 +40,6 @@ const ContentContainer = styled.div`
   flex-direction: column;
   row-gap: 1.5rem;
   padding: 0.5rem 1.31rem 1rem 1.31rem;
-`;
-
-const DotsContainer = styled.div`
-  position: absolute;
-  top: 16rem;
-  width: 100%;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  column-gap: 0.4rem;
-
-  z-index: 2000;
-`;
-
-const Dots = styled.div`
-  display: flex;
-
-  width: 0.25rem;
-  height: 0.25rem;
-  border-radius: 50%;
-  cursor: pointer;
-  background-color: ${({ active }) =>
-    active ? '#FFF' : 'rgba(255, 255, 255, 0.40)'};
-`;
-
-const ImagesContainer = styled.div`
-  position: relative;
-  width: 100%;
-  min-height: 17rem;
-
-  display: flex;
-  align-items: center;
-  overflow-x: scroll;
-  gap: 1.5rem;
-
-  cursor: pointer;
-  padding: 0.3rem;
-
-  .article-image {
-    display: flex;
-    width: 100%;
-    height: 16.3125rem;
-    flex-shrink: 0;
-
-    svg {
-      position: relative;
-      flex-shrink: 0;
-      right: 2rem;
-      top: 0.5rem;
-    }
-  }
-`;
-
-const Image = styled.img`
-  width: 100%;
-  height: 16.3125rem;
-  object-fit: cover;
-  border-radius: 0.5rem;
-  flex-shrink: 0;
 `;
 
 const Text = styled.span`
@@ -252,37 +145,10 @@ const ArticlePage = () => {
   const [emojiCount, setEmojiCount] = useState(articleData.likesCount);
   const [isClickedEmoji, setIsClickedEmoji] = useState(articleData.userLikes);
 
-  const imagescrollRef = useRef();
-  const [activeDotIndex, setActiveDotIndex] = useState(0);
-
   const [showMenuModal, setShowMenuModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const navigate = useNavigate();
-
-  /* 사진 좌우 스크롤과 Dots 색 조정 */
-  const handleDotClick = (index) => {
-    if (index === 0) {
-      imagescrollRef.current.scrollTo({ left: 0, behavior: 'smooth' });
-    } else if (index === 1) {
-      const scrollRight =
-        imagescrollRef.current.scrollWidth - imagescrollRef.current.clientWidth;
-      imagescrollRef.current.scrollTo({
-        left: scrollRight,
-        behavior: 'smooth',
-      });
-    }
-  };
-
-  const handleImageScroll = () => {
-    const scrollLeft = imagescrollRef.current.scrollLeft;
-    const imageWidth =
-      imagescrollRef.current.firstChild.offsetWidth +
-      parseFloat(getComputedStyle(imagescrollRef.current).gap);
-    const index = Math.round(scrollLeft / imageWidth);
-
-    setActiveDotIndex(index);
-  };
 
   /* 이모지 */
   const handleEmojiClick = async () => {
@@ -339,34 +205,29 @@ const ArticlePage = () => {
         />
       )}
 
-      <Header>
-        <span className="article__title__chinese">
-          {TermsToChinese[articleData.term]}
-        </span>
-        <span className="article__title__korean">
-          {articleData.year}, {TermsToKorean[articleData.term]}
-        </span>
-        <div className="article__menus">
-          <Link to={`/home`}>
+      <Header
+        year={articleData.year}
+        term={articleData.term}
+        firstOptionItem={
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <path
+              d="M6.39953 18.6534L5.3457 17.5995L10.9457 11.9995L5.3457 6.39953L6.39953 5.3457L11.9995 10.9457L17.5995 5.3457L18.6534 6.39953L13.0534 11.9995L18.6534 17.5995L17.5995 18.6534L11.9995 13.0534L6.39953 18.6534Z"
+              fill="black"
+            />
+          </svg>
+        }
+        firstOptionAction={() => {
+          navigate(-1);
+        }}
+        secondOptionItem={
+          isAuthor ? (
             <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              onClick={() => {
-                navigate(-1);
-              }}
-            >
-              <path
-                d="M6.39953 18.6534L5.3457 17.5995L10.9457 11.9995L5.3457 6.39953L6.39953 5.3457L11.9995 10.9457L17.5995 5.3457L18.6534 6.39953L13.0534 11.9995L18.6534 17.5995L17.5995 18.6534L11.9995 13.0534L6.39953 18.6534Z"
-                fill="black"
-              />
-            </svg>
-          </Link>
-          {isAuthor && (
-            <svg
-              onClick={handleMenu}
               xmlns="http://www.w3.org/2000/svg"
               width="24"
               height="24"
@@ -378,44 +239,16 @@ const ArticlePage = () => {
                 fill="black"
               />
             </svg>
-          )}
-        </div>
-      </Header>
+          ) : undefined
+        }
+        secondOptionAction={isAuthor ? handleMenu : undefined}
+      />
 
       <ScrollView>
         <ContentContainer>
-          {articleData.images.length > 0 && (
-            <ImagesContainer ref={imagescrollRef} onScroll={handleImageScroll}>
-              {articleData.images.map((image, index) => (
-                <div className="article-image">
-                  <Image key={index} src={image.url} />
-                </div>
-              ))}
-            </ImagesContainer>
-          )}
-          {articleData.images.length > 1 && (
-            <DotsContainer>
-              {articleData.images.map((_, index) => (
-                <Dots
-                  key={index}
-                  onClick={() => handleDotClick(index)}
-                  active={index === activeDotIndex}
-                />
-              ))}
-            </DotsContainer>
-          )}
+          <ImageSlider images={articleData.images.map((image) => image.url)} />
 
-          {contents.map((item, idx) => {
-            switch (item.type) {
-              case 'single':
-              case 'answer':
-                return <Text key={idx}>{item.text}</Text>;
-              case 'question':
-                return <Question key={idx} q_value={item.text} />;
-              default:
-                return undefined;
-            }
-          })}
+          <ContentEditor readOnly contents={contents} />
         </ContentContainer>
 
         <Bottom>
