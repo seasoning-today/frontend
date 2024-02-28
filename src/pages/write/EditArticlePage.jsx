@@ -6,7 +6,7 @@ import Textarea from 'react-textarea-autosize';
 
 import Header from '@components/write/Header';
 import ImageSlider from '@components/write/ImageSlider';
-import Question from '@components/write/Question';
+import ContentEditor from '@components/write/ContentEditor';
 import { SeasonalQuestions } from '@utils/seasoning/SeasonalQuestions';
 
 import chat_bubble from '@assets/ChatBubble.png';
@@ -19,10 +19,6 @@ const Layout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  .write__image-upload__input {
-    display: none;
-  }
 `;
 
 const ContentContainer = styled.div`
@@ -221,48 +217,6 @@ const EditArticlePage = () => {
     setQuestions(questions.filter((_, index) => index !== 0));
   };
 
-  /* 질문 삭제 */
-  const handleDeleteQuestion = (event, idx) => {
-    if (event.key === 'Backspace' && contents[idx].text === '') {
-      event.preventDefault();
-
-      if (contents.length <= 2) {
-        return;
-      }
-
-      if (contents[idx].type === 'answer') {
-        setQuestions((prevQuestions) => {
-          let newQuestions = [
-            ...prevQuestions,
-            {
-              number: contents[idx - 1].number,
-              text: contents[idx - 1].text,
-            },
-          ];
-          newQuestions.sort((a, b) => a.number - b.number);
-          return newQuestions;
-        });
-      }
-
-      setContents((prevContents) =>
-        prevContents.filter((_, index) =>
-          contents[idx].type === 'answer'
-            ? index !== idx && index !== idx - 1
-            : index !== idx
-        )
-      );
-    }
-  };
-
-  /* 콘텐츠 편집 */
-  const handleTextChange = (text, idx) => {
-    setContents((contents) =>
-      contents.map((item, index) =>
-        index === idx ? { ...item, text: text } : item
-      )
-    );
-  };
-
   /* 콘텐츠 저장 */
   const handleSave = async () => {
     if (!selectedImages.length && !contents.some((item) => item.text.trim())) {
@@ -386,30 +340,11 @@ const EditArticlePage = () => {
           handleImageUpload={handleImageUpload}
         />
 
-        {contents.map((item, idx) => {
-          switch (item.type) {
-            case 'single':
-            case 'answer':
-              return (
-                <Text
-                  key={idx}
-                  placeholder={
-                    item.type === 'single'
-                      ? '오늘을 기록해 보세요.'
-                      : '이곳에 기록해 보세요.'
-                  }
-                  value={item.text}
-                  onChange={(e) => handleTextChange(e.target.value, idx)}
-                  onKeyDown={(e) => handleDeleteQuestion(e, idx)}
-                  // ref={textareasRefs.current}
-                />
-              );
-            case 'question':
-              return <Question key={idx} q_value={item.text} />;
-            default:
-              return undefined;
-          }
-        })}
+        <ContentEditor
+          contents={contents}
+          setContents={setContents}
+          setQuestions={setQuestions}
+        />
       </ContentContainer>
 
       {showChatBubble && (
@@ -484,13 +419,6 @@ const EditArticlePage = () => {
           </svg>
         </div>
       </ToolBar>
-      <input
-        type="file"
-        accept="image/*"
-        className="write__image-upload__input"
-        ref={imageInputRef}
-        onChange={handleImageUpload}
-      />
     </Layout>
   );
 };

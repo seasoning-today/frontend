@@ -5,7 +5,7 @@ import { useLoaderData, useNavigate } from 'react-router-dom';
 
 import Header from '@components/write/Header';
 import ImageSlider from '@components/write/ImageSlider';
-import Question from '@components/write/Question';
+import ContentEditor from '@components/write/ContentEditor';
 import ArticleMenuModal from '@components/article/ArticleMenuModal';
 import ArticleDeleteModal from '@components/article/ArticleDeleteModal';
 
@@ -254,17 +254,7 @@ const ArticlePage = () => {
             // handleImageUpload={null}
           />
 
-          {contents.map((item, idx) => {
-            switch (item.type) {
-              case 'single':
-              case 'answer':
-                return <Text key={idx}>{item.text}</Text>;
-              case 'question':
-                return <Question key={idx} q_value={item.text} />;
-              default:
-                return undefined;
-            }
-          })}
+          <ContentEditor readOnly contents={contents} />
         </ContentContainer>
 
         <Bottom>

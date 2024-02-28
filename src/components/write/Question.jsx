@@ -24,11 +24,11 @@ const SeasonQuestion = styled.div`
   }
 `;
 
-const Question = ({ q_value }) => {
+const Question = ({ text }) => {
   return (
     <SeasonQuestion>
       <div className="write__question__aside" />
-      {q_value}
+      {text}
     </SeasonQuestion>
   );
 };
