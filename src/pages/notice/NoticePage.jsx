@@ -57,17 +57,18 @@ const Notice = styled.div`
     text-align: left;
     color: #333;
     font-family: 'Apple SD Gothic Neo';
-    font-size: 0.6875rem;
+    font-size: 0.875rem;
     font-style: normal;
     font-weight: 400;
-    line-height: 135%;
+    line-height: normal;
+    white-space: pre-wrap;
   }
 
   .notice__date {
     width: 100%;
 
     padding: 0 0.63rem;
-    margin-top: 0.62rem;
+    margin-top: 0.75rem;
 
     text-align: left;
     color: #8c8c8c;
@@ -82,7 +83,7 @@ const Notice = styled.div`
     width: 100%;
     min-height: 0.03125rem;
 
-    margin-top: 1.12rem;
+    margin-top: 1rem;
 
     background-color: #a9a9a9;
   }
