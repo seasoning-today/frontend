@@ -19,6 +19,7 @@ const Layout = styled.div`
 
   display: flex;
   flex-direction: column;
+  align-items: center;
 `;
 
 const Season = styled.div`
@@ -177,16 +178,16 @@ const Select = styled.div`
 
 const ContentArea = styled.div`
   position: relative;
-  overflow-y: auto;
-
   width: 100%;
   flex-grow: 1;
+
   padding-bottom: 3.8125rem;
+
+  overflow-y: auto;
 `;
 
 const HomePage = () => {
   const { homeData, termData, newNotificationData } = useLoaderData();
-  // console.log(JSON.stringify(homeData, null, '\t'));
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -195,7 +196,9 @@ const HomePage = () => {
 
   /* 홈 */
   const searchParams = new URLSearchParams(location.search);
-  const category = searchParams.get('category');
+  const category = searchParams.get('category')
+    ? searchParams.get('category')
+    : `year`;
 
   const handleCategoryChange = (event) => {
     const changedCategory = event.target.value;

@@ -16,7 +16,7 @@ const ContentWrapper = styled.div`
   width: 100%;
   height: 100%;
 
-  padding: 1.5rem 0;
+  margin-top: 0.5rem;
 
   display: flex;
   flex-direction: column;
@@ -42,11 +42,10 @@ const LastRow = styled.div`
 
 const Background = styled.div`
   position: absolute;
-  top: 0;
+  top: -1rem;
   width: 100%;
   height: 100%;
 
-  background-color: black;
   background-color: white;
 
   z-index: 10;
@@ -61,6 +60,9 @@ const Background = styled.div`
 `;
 
 const YearlyContent = ({ homeData, termData }) => {
+  console.log(JSON.stringify(homeData, null, '\t'));
+  console.log(JSON.stringify(termData, null, '\t'));
+
   return (
     <Layout>
       <ContentWrapper>

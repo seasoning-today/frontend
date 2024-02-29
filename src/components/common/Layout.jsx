@@ -3,8 +3,11 @@ import styled from 'styled-components';
 import { useMediaQuery } from 'react-responsive';
 import { Outlet } from 'react-router-dom';
 
-import logo_text from '@assets/layout/logo_text.png';
-import background_image from '@assets/layout/background_image.webp';
+import logo_text from '@assets/layout/logo-text.webp';
+import background_spring from '@assets/layout/background-spring.webp';
+import background_summer from '@assets/layout/background-summer.webp';
+import background_autumn from '@assets/layout/background-autumn.webp';
+import background_winter from '@assets/layout/background-winter.webp';
 
 const Container = styled.div`
   position: relative;
@@ -166,7 +169,7 @@ function Layout() {
       </ContentContainer>
 
       <Background>
-        <img src={background_image} />
+        <img src={background_winter} />
       </Background>
     </Container>
   );
