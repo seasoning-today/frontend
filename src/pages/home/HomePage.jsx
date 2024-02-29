@@ -188,7 +188,6 @@ const ContentArea = styled.div`
 
 const HomePage = () => {
   const { homeData, termData, newNotificationData } = useLoaderData();
-  console.log(JSON.stringify(termData, null, '\t'));
   const location = useLocation();
   const navigate = useNavigate();
 

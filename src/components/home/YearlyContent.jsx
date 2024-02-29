@@ -60,6 +60,9 @@ const Background = styled.div`
 `;
 
 const YearlyContent = ({ homeData, termData }) => {
+  console.log(JSON.stringify(homeData, null, '\t'));
+  console.log(JSON.stringify(termData, null, '\t'));
+
   return (
     <Layout>
       <ContentWrapper>
