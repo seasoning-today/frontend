@@ -68,7 +68,7 @@ const FriendDeleteModal = ({ friendId, onCloseModal }) => {
 
   const unfriendRequest = async () => {
     const accessToken = localStorage.getItem('accessToken');
-    console.log(friendId);
+
     try {
       const unfriendResponse = await axios.delete(`/api/friend/unfriend`, {
         data: {
@@ -79,6 +79,7 @@ const FriendDeleteModal = ({ friendId, onCloseModal }) => {
 
       if (unfriendResponse.status === 200) {
         navigate();
+        onCloseModal();
       } else {
         // console.error('Unexpected response:', response);
       }

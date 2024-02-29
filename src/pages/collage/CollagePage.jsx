@@ -136,7 +136,6 @@ const Content = styled.div`
 
 const CollagePage = () => {
   const { collageData, newNotificationData } = useLoaderData();
-  console.log(collageData);
   const [selectedCategory, setSelectedCategory] = useState(2024);
   const [now, setNow] = useState(new Date());
   const terms = Array.from({ length: 24 }, (_, i) => i + 1);

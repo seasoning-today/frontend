@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import { Link, useNavigate, useLoaderData } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
 
 import UserProfileBox from '@components/common/UserProfileBox';
 import FriendDeleteModal from '@components/feed/FriendDeleteModal';
@@ -87,7 +87,6 @@ const FriendsListPage = () => {
   const { friendListData } = useLoaderData();
   const [selectedFriendId, setSelectedFriendId] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const navigate = useNavigate();
 
   const handleFriendDelete = (friendId) => {
     setSelectedFriendId(friendId);
@@ -136,7 +135,7 @@ const FriendsListPage = () => {
               nickname={friend.nickname}
               accountId={friend.accountId}
             />
-            <Button onClick={() => handleFriendDelete(friend.accountId)}>
+            <Button onClick={() => handleFriendDelete(friend.id)}>
               <span>친구 삭제</span>
             </Button>
           </List>
