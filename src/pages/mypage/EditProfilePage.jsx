@@ -60,7 +60,7 @@ const InfoBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  row-gap: 1.69rem;
+  row-gap: 0.75rem;
   padding: 2.69rem 0;
 `;
 
@@ -86,11 +86,11 @@ const InputBox = styled.div`
 
   input {
     width: 100%;
-    height: 2.75rem;
+    padding: 0.5rem 0 0.25rem;
 
     color: #333;
     font-family: 'Apple SD Gothic Neo';
-    font-size: 1rem;
+    font-size: 1.125rem;
     font-style: normal;
     font-weight: 400;
     line-height: 134%;
@@ -104,24 +104,13 @@ const InputBox = styled.div`
     width: 100%;
     min-height: 0.0625rem;
 
-    background-color: #8e8c86;
-  }
-`;
-
-const CheckIcon = styled.div`
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  padding-bottom: 0.5rem;
-
-  cursor: pointer;
-
-  svg path {
-    fill: ${(props) => (props.isValid ? '#28a745' : '#c7c5c3')};
+    background-color: ${({ isValid }) => (isValid ? `#8e8c86` : `#EA0000`)};
+    transition: all 0.2s ease-in-out;
   }
 `;
 
 const Warning = styled.span`
+  min-height: 1.75rem;
   margin-top: 0.44rem;
 
   color: #ea0000;
@@ -130,10 +119,6 @@ const Warning = styled.span`
   font-style: normal;
   font-weight: 400;
   line-height: 134%;
-
-  opacity: ${({ isValid }) => (isValid ? `0` : `1`)};
-
-  transition: opacity 0.2s ease-in-out;
 `;
 
 const ConfirmButton = styled.div`
@@ -169,8 +154,8 @@ const EditProfilePage = () => {
   const prevUserData = useLoaderData().userData;
   const [userData, setUserData] = useState(prevUserData);
   const [isImageChanged, setIsImageChanged] = useState(false);
+  const [warning, setWarning] = useState('');
   const [isValidForm, setIsValidForm] = useState({
-    uniqueId: true,
     validId: true,
     validNickname: true,
     validForm: true,
@@ -180,6 +165,19 @@ const EditProfilePage = () => {
 
   const MAX_ID_LENGTH = 20;
   const MAX_NAME_LENGTH = 10;
+
+  const warningMessages = (warningStatus) => {
+    switch (warningStatus) {
+      case `INVALID_ID`:
+        return `영문 소문자, 숫자, 밑줄(’_’) 및 점(’.’)으로 구성된 5글자 이상 20글자 이하의 아이디만 가능합니다.`;
+      case `INVALID_NICKNAME`:
+        return `영문, 한글 및 숫자로만 구성된 2글자 이상 10글자 이하의 닉네임만 가능합니다.`;
+      case `REDUNDANT_ID`:
+        return `중복된 아이디입니다.`;
+      default:
+        return ``;
+    }
+  };
 
   const handleImageUpload = () => {
     imageInputRef.current.click();
@@ -201,56 +199,25 @@ const EditProfilePage = () => {
 
   const onChangeId = (event) => {
     const newId = event.target.value.trim().slice(0, MAX_ID_LENGTH);
+    setWarning(``);
     setUserData({ ...userData, accountId: newId });
 
     if (newId === prevUserData.accountId) {
-      setIsValidForm({ ...isValidForm, validId: true, uniqueId: true });
+      setIsValidForm({ ...isValidForm, validId: true });
       return;
     }
 
     const regex = /^(?=[a-z0-9._]{5,20}$)(?!.*[.]{2})[^.].*[^.]$/;
     if (regex.test(newId)) {
-      setIsValidForm({ ...isValidForm, validId: true, uniqueId: false });
+      setIsValidForm({ ...isValidForm, validId: true });
     } else {
-      setIsValidForm({ ...isValidForm, validId: false, uniqueId: false });
-    }
-  };
-
-  const onCheckUniqueId = async () => {
-    if (isValidForm.uniqueId) {
-      return;
-    }
-
-    try {
-      const accessToken = localStorage.getItem('accessToken');
-      const getResponse = await axios({
-        method: 'GET',
-        url: `/api/user/check-account-id?id=${userData.accountId}`,
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      setIsValidForm({ ...isValidForm, uniqueId: true });
-      alert('사용 가능한 아이디입니다.');
-    } catch (error) {
-      if (error.response) {
-        switch (error.response.status) {
-          case 403:
-            alert('인증 오류가 발생했습니다. 로그인 정보를 확인해주세요.');
-            break;
-          case 409:
-            alert('이미 사용 중인 아이디입니다. 다른 아이디를 시도해주세요.');
-            break;
-          default:
-            console.error('Error:', error);
-            alert('오류가 발생했습니다. 나중에 다시 시도해주세요.');
-        }
-      }
+      setIsValidForm({ ...isValidForm, validId: false });
     }
   };
 
   const onChangeName = (event) => {
     const newName = event.target.value.trim().slice(0, MAX_NAME_LENGTH);
+    setWarning(``);
     setUserData({ ...userData, nickname: newName });
 
     if (newName === prevUserData.nickname) {
@@ -266,14 +233,60 @@ const EditProfilePage = () => {
     }
   };
 
+  useEffect(() => {
+    if (isValidForm.validId && isValidForm.validNickname) {
+      setIsValidForm({ ...isValidForm, validForm: true });
+    } else if (!isValidForm.validId) {
+      setIsValidForm({ ...isValidForm, validForm: false });
+      setWarning(warningMessages(`INVALID_ID`));
+    } else {
+      setIsValidForm({ ...isValidForm, validForm: false });
+      setWarning(warningMessages(`INVALID_NICKNAME`));
+    }
+  }, [isValidForm.validId, isValidForm.validNickname]);
+
   const onClickSubmit = async () => {
     if (!isValidForm.validForm) {
       alert('올바르지 않은 프로필 수정 내용입니다. 다시 한번 체크해 주세요.');
       return;
     }
 
+    const accessToken = localStorage.getItem('accessToken');
+
     try {
-      const accessToken = localStorage.getItem('accessToken');
+      if (userData.accountId !== prevUserData.accountId) {
+        const uniqueIdResponse = await axios({
+          method: 'GET',
+          url: `/api/user/check-account-id?id=${userData.accountId}`,
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+      }
+      console.log('사용 가능한 아이디입니다.');
+    } catch (error) {
+      if (error.response) {
+        switch (error.response.status) {
+          case 403:
+            console.log(
+              '인증 오류가 발생했습니다. 로그인 정보를 확인해주세요.'
+            );
+            navigate(`/login`);
+            break;
+          case 409:
+            setWarning(warningMessages(`REDUNDANT_ID`));
+            console.log(
+              '이미 사용 중인 아이디입니다. 다른 아이디를 시도해주세요.'
+            );
+            break;
+          default:
+            console.error('Error:', error);
+        }
+      }
+      return;
+    }
+
+    try {
       const formData = new FormData();
 
       if (isImageChanged) {
@@ -317,23 +330,6 @@ const EditProfilePage = () => {
     }
   };
 
-  useEffect(() => {
-    if (
-      isValidForm.validId &&
-      isValidForm.uniqueId &&
-      isValidForm.validNickname
-    ) {
-      setIsValidForm({ ...isValidForm, validForm: true });
-    } else {
-      setIsValidForm({ ...isValidForm, validForm: false });
-    }
-  }, [
-    isValidForm.validId,
-    isValidForm.uniqueId,
-    isValidForm.validNickname,
-    isValidForm.validForm,
-  ]);
-
   return (
     <Layout>
       <NavigationHeader title="프로필 수정" optionType="text" />
@@ -366,7 +362,12 @@ const EditProfilePage = () => {
       </ProfileBox>
 
       <InfoBox>
-        <InputBox>
+        <InputBox
+          isValid={
+            warning !== warningMessages(`INVALID_ID`) &&
+            warning !== warningMessages(`REDUNDANT_ID`)
+          }
+        >
           <h2>아이디</h2>
           <section>
             <input
@@ -375,28 +376,12 @@ const EditProfilePage = () => {
               placeholder={prevUserData.accountId}
               value={userData.accountId}
             />
-            <CheckIcon isValid={isValidForm.uniqueId} onClick={onCheckUniqueId}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M9.00015 16.1698L5.53015 12.6998C5.34317 12.5129 5.08957 12.4078 4.82515 12.4078C4.56072 12.4078 4.30712 12.5129 4.12015 12.6998C3.93317 12.8868 3.82813 13.1404 3.82812 13.4048C3.82813 13.5358 3.85391 13.6654 3.90402 13.7864C3.95412 13.9073 4.02756 14.0173 4.12015 14.1098L8.30015 18.2898C8.69015 18.6798 9.32015 18.6798 9.71015 18.2898L20.2901 7.70983C20.4771 7.52286 20.5822 7.26926 20.5822 7.00483C20.5822 6.74041 20.4771 6.48681 20.2901 6.29983C20.1032 6.11286 19.8496 6.00781 19.5851 6.00781C19.3207 6.00781 19.0671 6.11286 18.8801 6.29983L9.00015 16.1698Z"
-                  fill="#c7c5ce"
-                />
-              </svg>
-            </CheckIcon>
           </section>
           <div className="mypage__edit__line" />
-          <Warning isValid={isValidForm.validId}>
-            영문 소문자, 숫자, 밑줄(’_’) 및 점(’.’)으로 구성된 5글자 이상 20글자
-            이하의 아이디만 가능합니다.
-          </Warning>
+          <Warning>{warning}</Warning>
         </InputBox>
 
-        <InputBox>
+        <InputBox isValid={warning !== warningMessages(`INVALID_NICKNAME`)}>
           <h2>이름</h2>
           <section>
             <input
