@@ -154,9 +154,10 @@ const Select = styled.div`
   align-items: center;
 
   select {
+    /* width:  */
     height: 1.5rem;
 
-    padding: 0 0.38rem;
+    padding: 0 1.15rem 0 0.38rem;
 
     border: none;
     outline: none;
@@ -168,11 +169,18 @@ const Select = styled.div`
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+
+    z-index: 12;
   }
 
   /* IE */
   select::-ms-expand {
     display: none;
+  }
+
+  svg {
+    position: absolute;
+    right: 0.25rem;
   }
 `;
 
