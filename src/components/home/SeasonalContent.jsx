@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import SeasonMenu from '@components/home/SeasonMenu';
-import ArticleRow from '@components/home/ArticleRow';
+import SeasonThumbnail from '@components/home/SeasonThumbnail';
 
 const Container = styled.section`
   position: relative;
@@ -14,18 +14,18 @@ const Container = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
+  row-gap: 1.75rem;
 `;
 
 const Menus = styled.section`
   position: relative;
   width: 100%;
-  height: 7.31rem;
   flex-shrink: 0;
 
   display: flex;
-  align-items: flex-start;
-  padding: 0 1.31rem;
-  gap: 1.13rem;
+  align-items: center;
+  padding: 0 1.25rem;
+  gap: 0.5rem;
   overflow-x: scroll;
   overflow-y: hidden;
 `;
@@ -34,18 +34,14 @@ const Content = styled.section`
   position: relative;
   width: 100%;
   flex-grow: 1;
+  padding: 0 1.31rem;
 
   display: flex;
   flex-direction: column;
   align-items: center;
+  row-gap: 1.5rem;
   overflow-y: auto;
   overflow-x: hidden;
-`;
-
-const Line = styled.div`
-  width: calc(100% - 1.25rem);
-  min-height: 0.03125rem;
-  background-color: #a9a9a9;
 `;
 
 const EmptyContents = styled.div`
@@ -78,12 +74,12 @@ const EmptyContents = styled.div`
 
 const SeasonalContent = ({ homeData }) => {
   const location = useLocation();
-  const navigate = useNavigate();
   const searchParams = new URLSearchParams(location.search);
   const selectedTerm =
-    searchParams.get('term') === null ? 1 : searchParams.get('term');
+    searchParams.get('term') === null ? 0 : searchParams.get('term');
 
   const terms = Array.from({ length: 24 }, (_, i) => i + 1);
+  console.log(homeData);
 
   return (
     <Container>
@@ -93,9 +89,6 @@ const SeasonalContent = ({ homeData }) => {
             key={term}
             term={term}
             selectedTerm={parseInt(selectedTerm)}
-            onClick={() => {
-              navigate(`/home?category=term&term=${term}`);
-            }}
           />
         ))}
       </Menus>
@@ -103,14 +96,14 @@ const SeasonalContent = ({ homeData }) => {
       <Content>
         {homeData.length > 0 ? (
           homeData.map((article) => (
-            <React.Fragment key={article.id}>
-              <Line />
-              <ArticleRow
-                articleId={article.id}
-                thumbnail={article.image}
-                text={article.preview}
-              />
-            </React.Fragment>
+            <SeasonThumbnail
+              key={article.id}
+              articleId={article.id}
+              term={article.term}
+              year={article.year}
+              image={article.image}
+              preview={article.preview}
+            />
           ))
         ) : (
           <EmptyContents>
