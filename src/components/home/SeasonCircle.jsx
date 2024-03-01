@@ -161,6 +161,8 @@ const SeasonCircle = ({ term, statusData }) => {
       navigate(`/article/${statusData.articleId}`);
     } else if (status === `countdown`) {
       navigate(`/write`);
+    } else {
+      alert('현재 절기 기록장 오픈 기간이 아닙니다.');
     }
   };
 
