@@ -138,7 +138,7 @@ const ProfileBox = styled.div`
 `;
 
 const ArticlePage = () => {
-  const { articleId, articleData, userData } = useLoaderData();
+  const { articleId, articleData, userData, termData } = useLoaderData();
   const contents = JSON.parse(articleData.contents);
   const isAuthor = userData.id === articleData.profile.id;
 
@@ -188,6 +188,12 @@ const ArticlePage = () => {
     <Layout>
       {showMenuModal && (
         <ArticleMenuModal
+          editable={
+            termData.recordable &&
+            articleData.year ===
+              parseInt(termData.recordTerm.date.split('-')[0]) &&
+            articleData.term === termData.recordTerm.sequence
+          }
           articleId={articleId}
           onCloseModal={() => {
             setShowMenuModal(false);

@@ -17,7 +17,6 @@ const ModalOverlay = styled.div`
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 8rem;
   flex-shrink: 0;
   z-index: 1000;
 
@@ -25,8 +24,8 @@ const ModalOverlay = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  row-gap: 2.19rem;
-  padding: 2.37rem 0 2.63rem;
+  row-gap: 1.19rem;
+  padding: 1.37rem 0 1.63rem;
 
   background-color: #fff;
   border-radius: 1.0625rem 1.0625rem 0rem 0rem;
@@ -41,6 +40,7 @@ const ModalContent = styled.div`
 
   display: flex;
   justify-content: space-between;
+  padding: 0.5rem 0;
 
   cursor: pointer;
 
@@ -57,7 +57,12 @@ const ModalContent = styled.div`
   }
 `;
 
-const ArticleMenuModal = ({ articleId, onCloseModal, setShowDeleteModal }) => {
+const ArticleMenuModal = ({
+  editable,
+  articleId,
+  onCloseModal,
+  setShowDeleteModal,
+}) => {
   const navigate = useNavigate();
 
   const handleArticleDelete = () => {
@@ -67,13 +72,15 @@ const ArticleMenuModal = ({ articleId, onCloseModal, setShowDeleteModal }) => {
 
   return (
     <ModalOverlay>
-      <ModalContent
-        onClick={() => {
-          navigate(`/article/edit/${articleId}`);
-        }}
-      >
-        <span>수정하기</span>
-      </ModalContent>
+      {editable && (
+        <ModalContent
+          onClick={() => {
+            navigate(`/article/edit/${articleId}`);
+          }}
+        >
+          <span>수정하기</span>
+        </ModalContent>
+      )}
       <ModalContent warning onClick={handleArticleDelete}>
         <span>삭제하기</span>
       </ModalContent>

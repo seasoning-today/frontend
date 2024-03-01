@@ -19,10 +19,14 @@ export const ArticleLoader = async ({ request, params }) => {
     const userResponse = await axios.get(`/api/user/profile`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
+    const termResponse = await axios.get(`/api/solarTerm`, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
     return {
       articleId: params.articleId,
       articleData: articleResponse.data,
       userData: userResponse.data,
+      termData: termResponse.data,
     };
   } catch (error) {
     console.error(error);
