@@ -17,11 +17,13 @@ export const HomeLoader = async ({ request, params }) => {
       ? '2024'
       : url.searchParams.get('year');
   const term =
-    url.searchParams.get('term') === null ? '1' : url.searchParams.get('term');
+    url.searchParams.get('term') === null ? '0' : url.searchParams.get('term');
 
   try {
     const homeResponse = await axios.get(
-      `/api/article/list/${category}/${category === 'year' ? year : term}`,
+      category === 'year'
+        ? `/api/article/list/year/${year}`
+        : `/api/article/list/term?term=${term}`,
       {
         headers: { Authorization: `Bearer ${accessToken}` },
       }
