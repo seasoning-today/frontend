@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { SeasonBackgrounds } from '@utils/image/SeasonBackgrounds';
 import { TermsToChinese } from '@utils/seasoning/TermsToChinese';
@@ -18,39 +18,13 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
 
-  color: ${(props) =>
-    props.status === 'activated' ? `rgba(255, 255, 255, 0.75)` : `#1f1f1f`};
-
-  .circle__background__image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 6rem;
-    height: 6rem;
-    z-index: -10;
-    border-radius: 50%;
-  }
-
-  .circle__background__color {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 6rem;
-    height: 6rem;
-    z-index: -1;
-    border-radius: 50%;
-
-    background-color: ${(props) =>
-      props.status === 'activated'
-        ? `rgba(2, 33, 29, 0.75)`
-        : `rgba(255, 255, 255, 0.7)`};
-
-    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-  }
+  color: ${({ status }) => (status === `written` ? `#fff` : `#1f1f1f`)};
+  cursor: ${({ status }) =>
+    status === `written` || status === `countdown` ? `pointer` : `default`};
 `;
 
 const Top = styled.div`
-  flex: 6;
+  flex: 5.75;
   width: 100%;
   height: 100%;
 
@@ -74,13 +48,11 @@ const Top = styled.div`
   }
 
   .circle__countdown-number {
-    margin-bottom: 0.25rem;
-
     text-align: center;
     font-family: 'Noto Serif KR';
     font-size: 1.0625rem;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 300;
     line-height: normal;
     z-index: 10;
   }
@@ -90,14 +62,14 @@ const Top = styled.div`
     font-family: 'Noto Serif KR';
     font-size: 1.5rem;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 300;
     line-height: normal;
     z-index: 10;
   }
 `;
 
 const Bottom = styled.div`
-  flex: 4;
+  flex: 4.25;
   width: 100%;
   height: 100%;
 
@@ -116,13 +88,40 @@ const Bottom = styled.div`
   }
 `;
 
+const BackgroundImage = styled.img`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 6rem;
+  height: 6rem;
+  z-index: -10;
+  border-radius: 50%;
+`;
+
+const BackgroundColor = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 6rem;
+  height: 6rem;
+  z-index: -1;
+  border-radius: 50%;
+
+  background-color: ${({ status }) =>
+    status === `written`
+      ? `rgba(2, 33, 29, 0.65)`
+      : `rgba(255, 255, 255, 0.65)`};
+
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.45));
+`;
+
 const DonutContainer = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 7rem;
-  height: 7rem;
+  width: 7.1rem;
+  height: 7.1rem;
   z-index: 11;
   border-radius: 50%;
 
@@ -139,13 +138,13 @@ const DonutContainer = styled.div`
 const OuterCircle = styled.circle`
   fill: none;
   stroke: transparent;
-  stroke-width: 10;
+  stroke-width: 11;
 `;
 
 const ProgressCircle = styled.circle`
   fill: none;
   stroke: #496559;
-  stroke-width: 10;
+  stroke-width: 11;
   stroke-dasharray: ${(props) => 2 * Math.PI * 90};
   stroke-dashoffset: ${(props) => 2 * Math.PI * 90 * (1 - props.percentage)};
   stroke-linecap: round;
@@ -153,34 +152,20 @@ const ProgressCircle = styled.circle`
   transform-origin: center;
 `;
 
-const SeasonCircle = (props) => {
-  const { term, homeData, termData } = props;
-  const { recordable, currentTerm, nextTerm } = termData;
+const SeasonCircle = ({ term, statusData }) => {
+  const { status } = statusData; // [`deactivated`,`written`,`countdown`, `open`]
+  const navigate = useNavigate();
 
-  const matchingItem = homeData.find((item) => item.term === term);
-  const articleId = matchingItem ? matchingItem.id : null;
+  const handleClick = () => {
+    if (status === `written`) {
+      navigate(`/article/${statusData.articleId}`);
+    } else if (status === `countdown`) {
+      navigate(`/write`);
+    }
+  };
 
-  const [now, setNow] = useState(new Date());
-
-  useEffect(() => {
-    const Timer = setInterval(() => {
-      setNow(new Date());
-    }, 1000);
-
-    return () => {
-      clearInterval(Timer);
-    };
-  }, []);
-
-  const status =
-    term === currentTerm.sequence
-      ? `countdown` // 현재 카운트다운 중인 다음 절기
-      : term < currentTerm.sequence
-      ? `activated` // 이미 열린 절기
-      : `deactivated`; // 아직 열리지 않은 절기
-
-  const countDownTermDate = new Date(nextTerm.date);
-  const remainingTime = countDownTermDate - now;
+  const countDownTermDate = new Date(statusData.dueDate);
+  const remainingTime = countDownTermDate - statusData.now;
   const nextPercentage = 1 - remainingTime / 1314864000;
   const seconds = Math.floor(remainingTime / 1000) % 60;
   const minutes = Math.floor(remainingTime / 1000 / 60) % 60;
@@ -192,11 +177,9 @@ const SeasonCircle = (props) => {
     .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
   return (
-    <Container status={status}>
+    <Container status={status} onClick={handleClick}>
       <Top>
-        {status === `activated` ? (
-          <span className="circle__chinese">{TermsToChinese[props.term]}</span>
-        ) : (
+        {status === `deactivated` ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="32"
@@ -209,18 +192,38 @@ const SeasonCircle = (props) => {
               fill="#595959"
             />
           </svg>
+        ) : status === `countdown` ? (
+          <>
+            {days > 0 ? (
+              <span className="circle__countdown-day">{`${days}일`}</span>
+            ) : undefined}
+            <span className="circle__countdown-number">{formattedTime}</span>
+          </>
+        ) : (
+          <span className="circle__chinese">{TermsToChinese[term]}</span>
         )}
       </Top>
 
       <Bottom>
-        <span className="circle__korean">{TermsToKorean[props.term]}</span>
+        <span className="circle__korean">{TermsToKorean[term]}</span>
       </Bottom>
 
-      <img
-        className="circle__background__image"
-        src={SeasonBackgrounds[props.term]}
-      />
-      <div className="circle__background__color" />
+      {status === `countdown` && (
+        <DonutContainer>
+          <svg viewBox="0 0 200 200">
+            <OuterCircle cx="100" cy="100" r="90" />
+            <ProgressCircle
+              cx="100"
+              cy="100"
+              r="90"
+              percentage={nextPercentage}
+            />
+          </svg>
+        </DonutContainer>
+      )}
+
+      <BackgroundImage src={SeasonBackgrounds[term]} />
+      <BackgroundColor status={status} />
     </Container>
   );
 };

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useState, useEffect } from 'react';
 
 import SeasonCircle from '@components/home/SeasonCircle';
 
@@ -60,55 +61,83 @@ const Background = styled.div`
 `;
 
 const YearlyContent = ({ homeData, termData }) => {
-  console.log(JSON.stringify(homeData, null, '\t'));
-  console.log(JSON.stringify(termData, null, '\t'));
+  const getStatus = (term) => {
+    if (termData.currentTerm.sequence < term) {
+      return { status: `deactivated` };
+    } else if (homeData.find((item) => item.term === term)) {
+      return {
+        status: `written`,
+        articleId: homeData.find((item) => item.term === term).id,
+      };
+    } else if (termData.recordable && termData.recordTerm.sequence === term) {
+      return {
+        status: `countdown`,
+        now: now,
+        dueDate: termData.recordTerm?.date + 'T23:59:59+09:00',
+      };
+    } else {
+      return { status: `open` };
+    }
+  };
+
+  const [now, setNow] = useState(new Date());
+
+  useEffect(() => {
+    const Timer = setInterval(() => {
+      setNow(new Date());
+    }, 1000);
+
+    return () => {
+      clearInterval(Timer);
+    };
+  }, []);
 
   return (
     <Layout>
       <ContentWrapper>
         <Row>
-          <SeasonCircle term={1} homeData={homeData} termData={termData} />
-          <SeasonCircle term={2} homeData={homeData} termData={termData} />
-          <SeasonCircle term={3} homeData={homeData} termData={termData} />
+          <SeasonCircle term={1} statusData={getStatus(1)} />
+          <SeasonCircle term={2} statusData={getStatus(2)} />
+          <SeasonCircle term={3} statusData={getStatus(3)} />
         </Row>
         <Row>
-          <SeasonCircle term={5} homeData={homeData} termData={termData} />
-          <SeasonCircle term={4} homeData={homeData} termData={termData} />
+          <SeasonCircle term={5} statusData={getStatus(5)} />
+          <SeasonCircle term={4} statusData={getStatus(4)} />
         </Row>
         <Row>
-          <SeasonCircle term={6} homeData={homeData} termData={termData} />
-          <SeasonCircle term={7} homeData={homeData} termData={termData} />
-          <SeasonCircle term={8} homeData={homeData} termData={termData} />
+          <SeasonCircle term={6} statusData={getStatus(6)} />
+          <SeasonCircle term={7} statusData={getStatus(7)} />
+          <SeasonCircle term={8} statusData={getStatus(8)} />
         </Row>
         <Row>
-          <SeasonCircle term={10} homeData={homeData} termData={termData} />
-          <SeasonCircle term={9} homeData={homeData} termData={termData} />
+          <SeasonCircle term={10} statusData={getStatus(10)} />
+          <SeasonCircle term={9} statusData={getStatus(9)} />
         </Row>
         <Row>
-          <SeasonCircle term={11} homeData={homeData} termData={termData} />
-          <SeasonCircle term={12} homeData={homeData} termData={termData} />
-          <SeasonCircle term={13} homeData={homeData} termData={termData} />
+          <SeasonCircle term={11} statusData={getStatus(11)} />
+          <SeasonCircle term={12} statusData={getStatus(12)} />
+          <SeasonCircle term={13} statusData={getStatus(13)} />
         </Row>
         <Row>
-          <SeasonCircle term={15} homeData={homeData} termData={termData} />
-          <SeasonCircle term={14} homeData={homeData} termData={termData} />
+          <SeasonCircle term={15} statusData={getStatus(15)} />
+          <SeasonCircle term={14} statusData={getStatus(14)} />
         </Row>
         <Row>
-          <SeasonCircle term={16} homeData={homeData} termData={termData} />
-          <SeasonCircle term={17} homeData={homeData} termData={termData} />
-          <SeasonCircle term={18} homeData={homeData} termData={termData} />
+          <SeasonCircle term={16} statusData={getStatus(16)} />
+          <SeasonCircle term={17} statusData={getStatus(17)} />
+          <SeasonCircle term={18} statusData={getStatus(18)} />
         </Row>
         <Row>
-          <SeasonCircle term={20} homeData={homeData} termData={termData} />
-          <SeasonCircle term={19} homeData={homeData} termData={termData} />
+          <SeasonCircle term={20} statusData={getStatus(20)} />
+          <SeasonCircle term={19} statusData={getStatus(19)} />
         </Row>
         <Row>
-          <SeasonCircle term={21} homeData={homeData} termData={termData} />
-          <SeasonCircle term={22} homeData={homeData} termData={termData} />
-          <SeasonCircle term={23} homeData={homeData} termData={termData} />
+          <SeasonCircle term={21} statusData={getStatus(21)} />
+          <SeasonCircle term={22} statusData={getStatus(22)} />
+          <SeasonCircle term={23} statusData={getStatus(23)} />
         </Row>
         <LastRow>
-          <SeasonCircle term={24} homeData={homeData} termData={termData} />
+          <SeasonCircle term={24} statusData={getStatus(24)} />
         </LastRow>
       </ContentWrapper>
 
