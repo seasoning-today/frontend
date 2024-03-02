@@ -1,20 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import {
-  useNavigate,
-  useLocation,
-  Link,
-  useLoaderData,
-} from 'react-router-dom';
-import html2canvas from 'html2canvas';
-import saveAs from 'file-saver';
+import { useNavigate, useLocation, useLoaderData } from 'react-router-dom';
 
 import TopBar from '@components/common/TopBar';
 import TabBar from '@components/common/TabBar';
-import CollageItem from '@components/collage/CollageItem';
-import { SeasonBackgrounds } from '@utils/image/SeasonBackgrounds';
-import { TermsToChinese } from '@utils/seasoning/TermsToChinese';
-import { TermsToKorean } from '@utils/seasoning/TermsToKorean';
+import CollageCard from '@components/collage/CollageCard';
 
 const Layout = styled.div`
   position: relative;
@@ -102,25 +92,36 @@ const Select = styled.div`
 `;
 
 const Toggle = styled.div`
+  height: 100%;
+
   display: flex;
   align-items: center;
-  gap: 0.3rem;
+  gap: 0.75rem;
+
+  .toggle-menu {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
 
   span {
     color: #333;
-
     font-family: 'Apple SD Gothic Neo';
     font-size: 0.875rem;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
   }
+
+  svg {
+    vertical-align: middle;
+  }
 `;
 
 const Content = styled.div`
   width: 100%;
   flex-grow: 1;
-  padding: 0 1.88rem 3.8125rem 1.88rem;
+  padding: 0 1.88rem 5.8125rem 1.88rem;
 
   .collage__capture__area {
     width: 100%;
@@ -140,8 +141,8 @@ const CollagePage = () => {
   const [selectedCategory, setSelectedCategory] = useState(2024);
   const [now, setNow] = useState(new Date());
   const terms = Array.from({ length: 24 }, (_, i) => i + 1);
-  const [imgEnabled, setImgEnabled] = useState(true);
-  const [charEnabled, setCharEnabled] = useState(false);
+  const [imageEnabled, setImageEnabled] = useState(true);
+  const [labelEnabled, setLabelEnabled] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -161,11 +162,11 @@ const CollagePage = () => {
   };
 
   const toggleImgEnabled = () => {
-    setImgEnabled((imgEnabled) => !imgEnabled);
+    setImageEnabled((imageEnabled) => !imageEnabled);
   };
 
   const toggleCharEnabled = () => {
-    setCharEnabled((charEnabled) => !charEnabled);
+    setLabelEnabled((labelEnabled) => !labelEnabled);
   };
 
   const spanStyle = {
@@ -177,39 +178,38 @@ const CollagePage = () => {
   };
 
   /* 일단 다운로드 기능은 제외하기로 결정 */
-  const contentRef = useRef(null);
-  const handleSaveImage = async () => {
-    if (!contentRef.current) return;
+  // const handleSaveImage = async () => {
+  //   if (!contentRef.current) return;
 
-    try {
-      const div = contentRef.current;
+  //   try {
+  //     const div = contentRef.current;
 
-      const originalStyle = {
-        width: div.style.width,
-        height: div.style.height,
-      };
+  //     const originalStyle = {
+  //       width: div.style.width,
+  //       height: div.style.height,
+  //     };
 
-      div.style.width = `${div.scrollWidth}px`;
-      div.style.height = `${div.scrollHeight}px`;
+  //     div.style.width = `${div.scrollWidth}px`;
+  //     div.style.height = `${div.scrollHeight}px`;
 
-      const canvas = await html2canvas(div, {
-        scale: 2,
-        logging: false,
-        windowHeight: div.scrollHeight,
-        windowWidth: div.scrollWidth,
-      });
-      canvas.toBlob((blob) => {
-        if (blob !== null) {
-          saveAs(blob, 'collage.png');
-        }
-      });
+  //     const canvas = await html2canvas(div, {
+  //       scale: 2,
+  //       logging: false,
+  //       windowHeight: div.scrollHeight,
+  //       windowWidth: div.scrollWidth,
+  //     });
+  //     canvas.toBlob((blob) => {
+  //       if (blob !== null) {
+  //         saveAs(blob, 'collage.png');
+  //       }
+  //     });
 
-      div.style.width = originalStyle.width;
-      div.style.height = originalStyle.height;
-    } catch (error) {
-      console.error('Error converting div to image:', error);
-    }
-  };
+  //     div.style.width = originalStyle.width;
+  //     div.style.height = originalStyle.height;
+  //   } catch (error) {
+  //     console.error('Error converting div to image:', error);
+  //   }
+  // };
 
   return (
     <Layout>
@@ -258,57 +258,74 @@ const CollagePage = () => {
           </svg>
         </Select>
         <Toggle>
-          <span>기본 이미지</span>
-          <div onClick={toggleImgEnabled}>
-            {imgEnabled ? (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="14"
-                viewBox="0 0 24 14"
-                fill="none"
-              >
-                <rect y="2" width="24" height="10" rx="5" fill="#333333" />
-                <circle cx="17" cy="7" r="6.5" fill="white" stroke="#333333" />
-              </svg>
-            ) : (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="14"
-                viewBox="0 0 24 14"
-                fill="none"
-              >
-                <rect y="2" width="24" height="10" rx="5" fill="#D9D9D9" />
-                <circle cx="7" cy="7" r="6.5" fill="white" stroke="#D9D9D9" />
-              </svg>
-            )}
+          <div className="toggle-menu">
+            <span>기본 이미지</span>
+            <div onClick={toggleImgEnabled}>
+              {imageEnabled ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="14"
+                  viewBox="0 0 24 14"
+                  fill="none"
+                >
+                  <rect y="2" width="24" height="10" rx="5" fill="#333333" />
+                  <circle
+                    cx="17"
+                    cy="7"
+                    r="6.5"
+                    fill="white"
+                    stroke="#333333"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="14"
+                  viewBox="0 0 24 14"
+                  fill="none"
+                >
+                  <rect y="2" width="24" height="10" rx="5" fill="#D9D9D9" />
+                  <circle cx="7" cy="7" r="6.5" fill="white" stroke="#D9D9D9" />
+                </svg>
+              )}
+            </div>
           </div>
-          <span>24절기 글자</span>
-          <div onClick={toggleCharEnabled}>
-            {charEnabled ? (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="14"
-                viewBox="0 0 24 14"
-                fill="none"
-              >
-                <rect y="2" width="24" height="10" rx="5" fill="#333333" />
-                <circle cx="17" cy="7" r="6.5" fill="white" stroke="#333333" />
-              </svg>
-            ) : (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="14"
-                viewBox="0 0 24 14"
-                fill="none"
-              >
-                <rect y="2" width="24" height="10" rx="5" fill="#D9D9D9" />
-                <circle cx="7" cy="7" r="6.5" fill="white" stroke="#D9D9D9" />
-              </svg>
-            )}
+
+          <div className="toggle-menu">
+            <span>24절기 글자</span>
+            <div onClick={toggleCharEnabled}>
+              {labelEnabled ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="14"
+                  viewBox="0 0 24 14"
+                  fill="none"
+                >
+                  <rect y="2" width="24" height="10" rx="5" fill="#333333" />
+                  <circle
+                    cx="17"
+                    cy="7"
+                    r="6.5"
+                    fill="white"
+                    stroke="#333333"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="14"
+                  viewBox="0 0 24 14"
+                  fill="none"
+                >
+                  <rect y="2" width="24" height="10" rx="5" fill="#D9D9D9" />
+                  <circle cx="7" cy="7" r="6.5" fill="white" stroke="#D9D9D9" />
+                </svg>
+              )}
+            </div>
           </div>
         </Toggle>
         {/* 일단 다운로드 기능은 제외하기로 결정 */}
@@ -329,55 +346,30 @@ const CollagePage = () => {
       </OptionBox>
 
       <Content>
-        <div className="collage__capture__area" ref={contentRef}>
+        <div className="collage__capture__area">
           {terms.map((term) => {
             const collageItemData = collageData.find(
               (item) => item.term === term
             );
-            const hasCollageItem =
-              collageItemData !== undefined && collageItemData.image !== null;
 
             return (
-              <div key={term}>
-                {hasCollageItem ? (
-                  <CollageItem
-                    articleId={collageItemData.articleId}
-                    thumbnail={collageItemData.image}
-                    char={
-                      charEnabled
-                        ? TermsToChinese[term] + ' ' + TermsToKorean[term]
-                        : null
-                    }
-                    imgStyle={imgEnabled && charEnabled ? imgStyle : null}
-                  />
-                ) : (
-                  <>
-                    {imgEnabled && !charEnabled && (
-                      // 이미지 토글 활성화, 글자 토글 비활성화 : 디폴트
-                      <CollageItem thumbnail={SeasonBackgrounds[term]} />
-                    )}
-                    {imgEnabled && charEnabled && (
-                      // 이미지 토글 활성화, 글자 토글 활성화
-                      <CollageItem
-                        thumbnail={SeasonBackgrounds[term]}
-                        char={TermsToChinese[term] + ' ' + TermsToKorean[term]}
-                        imgStyle={imgStyle}
-                      />
-                    )}
-                    {!imgEnabled && charEnabled && (
-                      // 이미지 토글 비활성화, 글자 토글 활성화
-                      <CollageItem
-                        char={TermsToChinese[term] + ' ' + TermsToKorean[term]}
-                        spanStyle={spanStyle}
-                      />
-                    )}
-                    {!imgEnabled && !charEnabled && (
-                      // 이미지 토글 비활성화, 글자 토글 비활성화
-                      <div />
-                    )}
-                  </>
-                )}
-              </div>
+              <CollageCard
+                key={term}
+                term={term}
+                image={
+                  collageItemData !== undefined &&
+                  collageItemData.image !== null
+                    ? collageItemData.image
+                    : null
+                }
+                articleId={
+                  collageItemData !== undefined
+                    ? collageItemData.articleId
+                    : null
+                }
+                imageEnabled={imageEnabled}
+                labelEnabled={labelEnabled}
+              />
             );
           })}
         </div>
