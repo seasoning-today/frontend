@@ -215,7 +215,7 @@ const WritePage = () => {
       });
 
       if (response.status === 200) {
-        navigate(`/article/${response.data}`);
+        navigate(`/article/${response.data}`, { replace: true });
       } else {
         console.error('Failed to save article.');
       }

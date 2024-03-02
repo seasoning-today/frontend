@@ -62,9 +62,9 @@ const SeasonMenu = ({ term, selectedTerm }) => {
 
   const onClickMenu = () => {
     if (term !== selectedTerm) {
-      navigate(`/home?category=term&term=${term}`);
+      navigate(`/home?category=term&term=${term}`, { replace: true });
     } else {
-      navigate(`/home?category=term`);
+      navigate(`/home?category=term`, { replace: true });
     }
   };
 
