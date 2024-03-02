@@ -74,7 +74,7 @@ const ArticleDeleteModal = ({ articleId, onCloseModal }) => {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
 
-      navigate(`/home`);
+      navigate(`/home`, { replace: true });
     } catch (error) {
       console.error('Error trying delete article:', error);
     }
