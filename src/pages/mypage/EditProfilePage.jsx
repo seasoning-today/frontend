@@ -189,7 +189,7 @@ const EditProfilePage = () => {
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        setUserData({ ...userData, profileImageUrl: e.target.result });
+        setUserData({ ...userData, image: e.target.result });
       };
       reader.readAsDataURL(file);
 
@@ -291,7 +291,7 @@ const EditProfilePage = () => {
 
       if (isImageChanged) {
         /* 1. 프로필 이미지가 새로 업데이트된 경우 */
-        const imageResponse = await fetch(userData.profileImageUrl);
+        const imageResponse = await fetch(userData.image);
         const imageBlob = await imageResponse.blob();
         formData.append('image', imageBlob);
       } else {
