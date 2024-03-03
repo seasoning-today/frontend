@@ -109,12 +109,14 @@ const EditArticlePage = () => {
   const initialContent = [{ type: 'single', text: '' }];
   const [contents, setContents] = useState(JSON.parse(articleData.contents));
   const [questions, setQuestions] = useState(
-    SeasonalQuestions[currentTerm].filter((question) => {
-      console.log(question);
-    })
+    SeasonalQuestions[currentTerm].filter(
+      (question) =>
+        !contents.some(
+          (content) =>
+            content.type === 'question' && content.text === question.text
+        )
+    )
   );
-  console.log(questions);
-
   const [published, setPublished] = useState(articleData.published);
 
   const scrollRef = useRef();
