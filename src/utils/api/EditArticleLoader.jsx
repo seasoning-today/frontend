@@ -13,6 +13,9 @@ export const EditArticleLoader = async ({ request, params }) => {
     const userResponse = await axios.get(`/api/user/profile`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
+    const termResponse = await axios.get(`/api/solarTerm`, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
     const articleResponse = await axios.get(
       `/api/article/${params.articleId}`,
       {
@@ -21,6 +24,15 @@ export const EditArticleLoader = async ({ request, params }) => {
     );
 
     if (userResponse.data.id !== articleResponse.data.profile.id) {
+      console.log('나의 작성글만 수정할 수 있습니다.');
+      return redirect(`/home`);
+    } else if (
+      !termResponse.data.recordable ||
+      articleResponse.data.year !==
+        parseInt(termResponse.data.recordTerm.date.split('-')[0]) ||
+      articleResponse.data.term !== termResponse.data.recordTerm.sequence
+    ) {
+      console.log('현재 수정 가능한 작성글이 아닙니다.');
       return redirect(`/home`);
     }
 
