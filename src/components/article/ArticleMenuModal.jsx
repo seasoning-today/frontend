@@ -75,7 +75,7 @@ const ArticleMenuModal = ({
       {editable && (
         <ModalContent
           onClick={() => {
-            navigate(`/article/edit/${articleId}`);
+            navigate(`/article/edit/${articleId}`, { replace: true });
           }}
         >
           <span>수정하기</span>

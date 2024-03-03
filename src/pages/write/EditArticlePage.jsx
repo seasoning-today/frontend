@@ -108,7 +108,12 @@ const EditArticlePage = () => {
 
   const initialContent = [{ type: 'single', text: '' }];
   const [contents, setContents] = useState(JSON.parse(articleData.contents));
-  const [questions, setQuestions] = useState(SeasonalQuestions[currentTerm]);
+  const [questions, setQuestions] = useState(
+    SeasonalQuestions[currentTerm].filter((question) => {
+      console.log(question);
+    })
+  );
+  console.log(questions);
 
   const [published, setPublished] = useState(articleData.published);
 
@@ -263,7 +268,7 @@ const EditArticlePage = () => {
       });
 
       if (response.status === 200) {
-        navigate(`/article/${articleId}`);
+        navigate(`/article/${articleId}`, { replace: true });
       } else {
         console.error('Failed to save article.');
       }
