@@ -13,7 +13,11 @@ export const WriteLoader = async ({ request, params }) => {
     const termResponse = await axios.get(`/api/solarTerm`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
-    return { termData: termResponse.data };
+    if (termResponse.data.recordable) {
+      return { termData: termResponse.data };
+    } else {
+      return redirect(`/home`);
+    }
   } catch (error) {
     console.error(error);
 

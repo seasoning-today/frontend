@@ -79,8 +79,8 @@ const ToolBar = styled.div`
 
 const WritePage = () => {
   const { termData } = useLoaderData();
-  const currentTerm = termData.currentTerm.sequence;
-  const currentYear = termData.currentTerm.date;
+  const currentTerm = termData.recordTerm.sequence;
+  const currentYear = termData.recordTerm.date;
 
   const navigate = useNavigate();
 
