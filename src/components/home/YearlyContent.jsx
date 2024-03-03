@@ -62,9 +62,7 @@ const Background = styled.div`
 
 const YearlyContent = ({ homeData, termData }) => {
   const getStatus = (term) => {
-    if (termData.currentTerm.sequence < term) {
-      return { status: `deactivated` };
-    } else if (homeData.find((item) => item.term === term)) {
+    if (homeData.find((item) => item.term === term)) {
       return {
         status: `written`,
         articleId: homeData.find((item) => item.term === term).id,
@@ -75,6 +73,8 @@ const YearlyContent = ({ homeData, termData }) => {
         now: now,
         dueDate: termData.recordTerm?.date + 'T23:59:59+09:00',
       };
+    } else if (termData.currentTerm.sequence < term) {
+      return { status: `deactivated` };
     } else {
       return { status: `open` };
     }
