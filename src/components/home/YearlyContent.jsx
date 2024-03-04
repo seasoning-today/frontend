@@ -63,10 +63,19 @@ const Background = styled.div`
 const YearlyContent = ({ homeData, termData }) => {
   const getStatus = (term) => {
     if (homeData.find((item) => item.term === term)) {
-      return {
-        status: `written`,
-        articleId: homeData.find((item) => item.term === term).id,
-      };
+      if (termData.recordable && termData.recordTerm.sequence === term) {
+        return {
+          status: `written-countdown`,
+          articleId: homeData.find((item) => item.term === term).id,
+          now: now,
+          dueDate: termData.recordTerm?.date + 'T23:59:59+09:00',
+        };
+      } else {
+        return {
+          status: `written`,
+          articleId: homeData.find((item) => item.term === term).id,
+        };
+      }
     } else if (termData.recordable && termData.recordTerm.sequence === term) {
       return {
         status: `countdown`,

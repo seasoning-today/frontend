@@ -18,9 +18,16 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
 
-  color: ${({ status }) => (status === `written` ? `#fff` : `#1f1f1f`)};
+  color: ${({ status }) =>
+    status === `written` || status === `written-countdown`
+      ? `#fff`
+      : `#1f1f1f`};
   cursor: ${({ status }) =>
-    status === `written` || status === `countdown` ? `pointer` : `default`};
+    status === `written` ||
+    status === `written-countdown` ||
+    status === `countdown`
+      ? `pointer`
+      : `default`};
 `;
 
 const Top = styled.div`
@@ -108,7 +115,7 @@ const BackgroundColor = styled.div`
   border-radius: 50%;
 
   background-color: ${({ status }) =>
-    status === `written`
+    status === `written` || status === `written-countdown`
       ? `rgba(2, 33, 29, 0.65)`
       : `rgba(255, 255, 255, 0.65)`};
 
@@ -120,8 +127,8 @@ const DonutContainer = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 7.1rem;
-  height: 7.1rem;
+  width: 7rem;
+  height: 7rem;
   z-index: 11;
   border-radius: 50%;
 
@@ -145,7 +152,7 @@ const ProgressCircle = styled.circle`
   fill: none;
   stroke: #496559;
   stroke-width: 11;
-  stroke-dasharray: ${(props) => 2 * Math.PI * 90};
+  stroke-dasharray: ${() => 2 * Math.PI * 90};
   stroke-dashoffset: ${(props) => 2 * Math.PI * 90 * (1 - props.percentage)};
   stroke-linecap: round;
   transform: rotate(-90deg);
@@ -153,11 +160,11 @@ const ProgressCircle = styled.circle`
 `;
 
 const SeasonCircle = ({ term, statusData }) => {
-  const { status } = statusData; // [`deactivated`,`written`,`countdown`, `open`]
+  const { status } = statusData; // [`deactivated`,`written`,`written-countdown`,`countdown`, `open`]
   const navigate = useNavigate();
 
   const handleClick = () => {
-    if (status === `written`) {
+    if (status === `written` || status === `written-countdown`) {
       navigate(`/article/${statusData.articleId}`);
     } else if (status === `countdown`) {
       navigate(`/write`);
@@ -194,7 +201,7 @@ const SeasonCircle = ({ term, statusData }) => {
               fill="#595959"
             />
           </svg>
-        ) : status === `countdown` ? (
+        ) : status === `countdown` || status === `written-countdown` ? (
           <>
             {days > 0 ? (
               <span className="circle__countdown-day">{`${days}일`}</span>
@@ -210,7 +217,7 @@ const SeasonCircle = ({ term, statusData }) => {
         <span className="circle__korean">{TermsToKorean[term]}</span>
       </Bottom>
 
-      {status === `countdown` && (
+      {status === `countdown` || status === `written-countdown` ? (
         <DonutContainer>
           <svg viewBox="0 0 200 200">
             <OuterCircle cx="100" cy="100" r="90" />
@@ -222,7 +229,7 @@ const SeasonCircle = ({ term, statusData }) => {
             />
           </svg>
         </DonutContainer>
-      )}
+      ) : undefined}
 
       <BackgroundImage src={SeasonBackgrounds[term]} />
       <BackgroundColor status={status} />
