@@ -26,6 +26,8 @@ const ScrollView = styled.div`
 
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 
   overflow-y: auto;
 `;
@@ -33,26 +35,12 @@ const ScrollView = styled.div`
 const ContentContainer = styled.div`
   position: relative;
   width: 100%;
-  min-height: calc(100% - 3.875rem);
 
   display: flex;
   align-items: center;
   flex-direction: column;
   row-gap: 1.5rem;
   padding: 0.5rem 1.31rem 1rem 1.31rem;
-`;
-
-const Text = styled.span`
-  width: 100%;
-
-  color: #333;
-  font-family: 'Apple SD Gothic Neo';
-  font-size: 0.875rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-
-  white-space: pre-wrap;
 `;
 
 const Bottom = styled.div`
