@@ -19,6 +19,7 @@ import NotificationPage from '@pages/notification/NotificationPage';
 import NoticePage from '@pages/notice/NoticePage';
 import ErrorPage from '@pages/error/ErrorPage';
 /* 개발 관련 임시 페이지 */
+import NoticeAdminPage from '@pages/notice/NoticeAdminPage';
 import DevelopPage from '@pages/dev/DevelopPage';
 /* API Loaders */
 import { HomeLoader } from '@utils/api/HomeLoader';
@@ -123,6 +124,11 @@ export const RouterInfo = [
         loader: NoticeLoader,
       },
       /* Dev pages */
+      {
+        path: 'notice/admin',
+        element: <NoticeAdminPage />,
+        loader: NoticeLoader,
+      },
       {
         path: 'dev',
         element: <DevelopPage />,
