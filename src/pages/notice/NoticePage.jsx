@@ -61,6 +61,8 @@ const Notice = styled.div`
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+
+    overflow: auto;
     white-space: pre-wrap;
   }
 
