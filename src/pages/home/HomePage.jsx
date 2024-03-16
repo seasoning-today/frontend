@@ -70,6 +70,7 @@ const FortuneContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: flex-end;
+  padding: 0 1.25rem;
   margin-top: 0.2rem;
 `;
 
@@ -79,7 +80,7 @@ const Fortune = styled.div`
   justify-content: space-between;
   align-items: center;
 
-  width: 21.875rem;
+  width: 100%;
   height: 2rem;
   padding: 0 1rem;
   margin-bottom: 0.2rem;

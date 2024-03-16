@@ -11,16 +11,15 @@ import background_winter from '@assets/layout/background-winter.webp';
 
 const Container = styled.div`
   position: relative;
-  width: 100vw;
-  height: 100vh;
+  width: 100svw;
+  height: 100svh;
 
   display: flex;
   justify-content: space-evenly;
 `;
 
 const LogoContainer = styled.div`
-  max-width: 34rem;
-
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -31,7 +30,7 @@ const LogoContainer = styled.div`
     width: 75%;
 
     padding: 0;
-    margin: 1.5rem 0 0 0;
+    margin-top: 1.5rem;
 
     img {
       width: 100%;
@@ -43,7 +42,7 @@ const LogoContainer = styled.div`
     position: relative;
 
     padding: 0;
-    margin: 1rem 0 0 0;
+    margin-top: 1rem;
 
     color: #bfbfbf;
     text-align: center;
@@ -67,15 +66,11 @@ const Logo = styled.div`
 
 const ContentContainer = styled.div`
   position: relative;
-  width: 24.375rem;
+  width: 100%;
+  max-width: 26.875rem;
   height: 100%;
 
   overflow-y: auto;
-
-  /* iOS Safari */
-  @supports (-webkit-touch-callout: none) {
-    padding-bottom: 5rem;
-  }
 
   background-color: white;
 `;
