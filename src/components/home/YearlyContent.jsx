@@ -10,11 +10,15 @@ const Layout = styled.section`
   width: 100%;
   height: 100%;
 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
   overflow-y: scroll;
 `;
 
 const ContentWrapper = styled.div`
-  width: 100%;
+  width: 24.375rem;
   height: 100%;
 
   margin-top: 0.5rem;
@@ -44,19 +48,15 @@ const LastRow = styled.div`
 const Background = styled.div`
   position: absolute;
   top: -1rem;
-  width: 100%;
+  width: 24.375rem;
   height: 100%;
 
   background-color: white;
-
   z-index: 10;
 
   img {
-    /* position: absolute; */
     width: 100%;
-    /* margin-top: 1rem; */
-    /* padding: 1rem 0; */
-    /* object-fit: cover; */
+    object-fit: cover;
   }
 `;
 
