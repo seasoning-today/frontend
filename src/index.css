@@ -1,13 +1,7 @@
-/* iOS only */
-/* @supports (-webkit-touch-callout: none) {
-  height: -webkit-fill-available;
-} */
-
 html {
-  /* height: -webkit-fill-available; */
   /* 익스플로러 IE 10 확대 제어 */
-  /* -ms-content-zooming: none; */
-  /* -ms-touch-action: pan-x pan-y; */
+  -ms-content-zooming: none;
+  -ms-touch-action: pan-x pan-y;
 }
 
 * {
@@ -29,11 +23,9 @@ body {
   position: fixed;
   margin: 0;
   padding: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  /* height: -webkit-fill-available; */
-  min-height: 100vh;
+  min-width: 20rem;
+  width: 100svw;
+  height: 100svh;
 }
 
 a {

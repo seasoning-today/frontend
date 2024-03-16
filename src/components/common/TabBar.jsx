@@ -3,15 +3,15 @@ import styled from 'styled-components';
 import { NavLink, useLocation } from 'react-router-dom';
 
 const Container = styled.div`
-  position: fixed;
+  position: absolute;
   bottom: 0;
 
-  width: 24.375rem;
+  width: 100%;
   height: 3.8125rem;
 
   display: flex;
-  justify-content: center;
-  gap: 3.56rem;
+  justify-content: space-between;
+  padding: 0 2.88rem;
 
   background-color: white;
 
