@@ -202,6 +202,10 @@ const HomePage = () => {
 
   /* 공통 */
   const [now, setNow] = useState(new Date());
+  const displayTerm =
+    termData.recordable === true
+      ? termData.recordTerm.sequence
+      : termData.currentTerm.sequence;
 
   /* 홈 */
   const searchParams = new URLSearchParams(location.search);
@@ -248,13 +252,9 @@ const HomePage = () => {
       <TopBar isNewNotification={newNotificationData} />
 
       <Season>
-        <div className="season__title">
-          {TermsToChinese[termData.currentTerm.sequence]}
-        </div>
+        <div className="season__title">{TermsToChinese[displayTerm]}</div>
         <div className="season__description">
-          {`${TermsToKorean[termData.currentTerm.sequence]}, ${
-            termData.currentTerm.sequence
-          }번째 절기`}
+          {`${TermsToKorean[displayTerm]}, ${displayTerm}번째 절기`}
         </div>
       </Season>
 
