@@ -119,21 +119,16 @@ const Toggle = styled.div`
 `;
 
 const Content = styled.div`
+  position: relative;
   width: 100%;
   flex-grow: 1;
   padding: 0 1.88rem 5.8125rem 1.88rem;
+  overflow-y: scroll;
 
-  .collage__capture__area {
-    width: 100%;
-    height: 100%;
-
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-auto-rows: 6.1875rem;
-    grid-gap: 0;
-
-    overflow-y: scroll;
-  }
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 6.1875rem;
+  grid-gap: 0;
 `;
 
 const CollagePage = () => {
@@ -346,33 +341,28 @@ const CollagePage = () => {
       </OptionBox>
 
       <Content>
-        <div className="collage__capture__area">
-          {terms.map((term) => {
-            const collageItemData = collageData.find(
-              (item) => item.term === term
-            );
+        {terms.map((term) => {
+          const collageItemData = collageData.find(
+            (item) => item.term === term
+          );
 
-            return (
-              <CollageCard
-                key={term}
-                term={term}
-                image={
-                  collageItemData !== undefined &&
-                  collageItemData.image !== null
-                    ? collageItemData.image
-                    : null
-                }
-                articleId={
-                  collageItemData !== undefined
-                    ? collageItemData.articleId
-                    : null
-                }
-                imageEnabled={imageEnabled}
-                labelEnabled={labelEnabled}
-              />
-            );
-          })}
-        </div>
+          return (
+            <CollageCard
+              key={term}
+              term={term}
+              image={
+                collageItemData !== undefined && collageItemData.image !== null
+                  ? collageItemData.image
+                  : null
+              }
+              articleId={
+                collageItemData !== undefined ? collageItemData.articleId : null
+              }
+              imageEnabled={imageEnabled}
+              labelEnabled={labelEnabled}
+            />
+          );
+        })}
       </Content>
 
       <TabBar />
