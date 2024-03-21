@@ -4,10 +4,10 @@ import { useMediaQuery } from 'react-responsive';
 import { Outlet } from 'react-router-dom';
 
 import logo_text from '@assets/layout/logo-text.webp';
-import background_spring from '@assets/layout/background-spring.webp';
-import background_summer from '@assets/layout/background-summer.webp';
-import background_autumn from '@assets/layout/background-autumn.webp';
-import background_winter from '@assets/layout/background-winter.webp';
+import background_spring from '@assets/layout/background-spring.jpg';
+import background_summer from '@assets/layout/background-summer.jpg';
+import background_autumn from '@assets/layout/background-autumn.jpg';
+import background_winter from '@assets/layout/background-winter.jpg';
 
 const Container = styled.div`
   position: relative;
