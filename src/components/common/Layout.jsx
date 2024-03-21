@@ -96,6 +96,32 @@ function Layout() {
   // const isMobile = useMediaQuery({ maxWidth: 768 });
   const isMobile = useMediaQuery({ maxWidth: 900 });
 
+  const getBackground = () => {
+    const currentMonth = new Date().getMonth() + 1;
+
+    switch (currentMonth) {
+      case 3:
+      case 4:
+      case 5:
+        return background_spring;
+      case 6:
+      case 7:
+      case 8:
+        return background_summer;
+      case 9:
+      case 10:
+        return background_autumn;
+      case 11:
+      case 12:
+      case 1:
+      case 2:
+        return background_winter;
+
+      default:
+        break;
+    }
+  };
+
   return (
     <Container>
       {!isMobile && (
@@ -164,7 +190,7 @@ function Layout() {
       </ContentContainer>
 
       <Background>
-        <img src={background_winter} />
+        <img src={getBackground()} />
       </Background>
     </Container>
   );
