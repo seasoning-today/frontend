@@ -153,13 +153,14 @@ const ConfirmButton = styled.div`
 const EditProfilePage = () => {
   const prevUserData = useLoaderData().userData;
   const [userData, setUserData] = useState(prevUserData);
-  const [isImageChanged, setIsImageChanged] = useState(false);
-  const [warning, setWarning] = useState('');
+  const [warningType, setWarningType] = useState(`NO_WARNING`);
+  const [warningText, setWarningText] = useState('');
   const [isValidForm, setIsValidForm] = useState({
     validId: true,
     validNickname: true,
     validForm: true,
   });
+  const [isImageChanged, setIsImageChanged] = useState(false);
   const imageInputRef = useRef(null);
   const navigate = useNavigate();
 
@@ -174,6 +175,8 @@ const EditProfilePage = () => {
         return `영문, 한글 및 숫자로만 구성된 2글자 이상 10글자 이하의 닉네임만 가능합니다.`;
       case `REDUNDANT_ID`:
         return `중복된 아이디입니다.`;
+      case `NO_WARNING`:
+        return ``;
       default:
         return ``;
     }
@@ -199,7 +202,8 @@ const EditProfilePage = () => {
 
   const onChangeId = (event) => {
     const newId = event.target.value.trim().slice(0, MAX_ID_LENGTH);
-    setWarning(``);
+    setWarningType(`NO_WARNING`);
+    setWarningText(``);
     setUserData({ ...userData, accountId: newId });
 
     if (newId === prevUserData.accountId) {
@@ -217,7 +221,8 @@ const EditProfilePage = () => {
 
   const onChangeName = (event) => {
     const newName = event.target.value.trim().slice(0, MAX_NAME_LENGTH);
-    setWarning(``);
+    setWarningType(`NO_WARNING`);
+    setWarningText(``);
     setUserData({ ...userData, nickname: newName });
 
     if (newName === prevUserData.nickname) {
@@ -238,12 +243,14 @@ const EditProfilePage = () => {
       setIsValidForm({ ...isValidForm, validForm: true });
     } else if (!isValidForm.validId) {
       setIsValidForm({ ...isValidForm, validForm: false });
-      setWarning(warningMessages(`INVALID_ID`));
+      setWarningType(`INVALID_ID`);
+      setWarningText(warningMessages(`INVALID_ID`));
     } else {
       setIsValidForm({ ...isValidForm, validForm: false });
-      setWarning(warningMessages(`INVALID_NICKNAME`));
+      setWarningType(`INVALID_NICKNAME`);
+      setWarningText(warningMessages(`INVALID_NICKNAME`));
     }
-  }, [isValidForm.validId, isValidForm.validNickname]);
+  }, [userData]);
 
   const onClickSubmit = async () => {
     if (!isValidForm.validForm) {
@@ -268,13 +275,13 @@ const EditProfilePage = () => {
       if (error.response) {
         switch (error.response.status) {
           case 403:
-            console.log(
-              '인증 오류가 발생했습니다. 로그인 정보를 확인해주세요.'
-            );
+            alert('인증 오류가 발생했습니다. 로그인 정보를 확인해주세요.');
             navigate(`/login`);
             break;
           case 409:
-            setWarning(warningMessages(`REDUNDANT_ID`));
+            setWarningType(`REDUNDANT_ID`);
+            setWarningText(warningMessages(`REDUNDANT_ID`));
+            setIsValidForm({ ...isValidForm, validForm: false });
             console.log(
               '이미 사용 중인 아이디입니다. 다른 아이디를 시도해주세요.'
             );
@@ -364,8 +371,7 @@ const EditProfilePage = () => {
       <InfoBox>
         <InputBox
           isValid={
-            warning !== warningMessages(`INVALID_ID`) &&
-            warning !== warningMessages(`REDUNDANT_ID`)
+            warningType !== `INVALID_ID` && warningType !== `REDUNDANT_ID`
           }
         >
           <h2>아이디</h2>
@@ -378,10 +384,14 @@ const EditProfilePage = () => {
             />
           </section>
           <div className="mypage__edit__line" />
-          <Warning>{warning}</Warning>
+          <Warning>
+            {warningType === `INVALID_ID` || warningType === `REDUNDANT_ID`
+              ? warningText
+              : ''}
+          </Warning>
         </InputBox>
 
-        <InputBox isValid={warning !== warningMessages(`INVALID_NICKNAME`)}>
+        <InputBox isValid={warningType !== `INVALID_NICKNAME`}>
           <h2>이름</h2>
           <section>
             <input
@@ -392,6 +402,9 @@ const EditProfilePage = () => {
             />
           </section>
           <div className="mypage__edit__line" />
+          <Warning>
+            {warningType === `INVALID_NICKNAME` ? warningText : ''}
+          </Warning>
         </InputBox>
       </InfoBox>
 
