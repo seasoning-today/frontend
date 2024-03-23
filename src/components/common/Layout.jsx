@@ -151,13 +151,13 @@ function Layout() {
                   y2="276.5"
                   gradientUnits="userSpaceOnUse"
                 >
-                  <stop stop-color="#959595" />
+                  <stop stopColor="#959595" />
                   <stop
                     offset="0.479167"
-                    stop-color="#EDEDED"
-                    stop-opacity="0.92"
+                    stopColor="#EDEDED"
+                    stopOpacity="0.92"
                   />
-                  <stop offset="1" stop-color="white" stop-opacity="0.6" />
+                  <stop offset="1" stopColor="white" stopOpacity="0.6" />
                 </linearGradient>
                 <linearGradient
                   id="paint1_linear_669_2925"
@@ -167,13 +167,13 @@ function Layout() {
                   y2="276.5"
                   gradientUnits="userSpaceOnUse"
                 >
-                  <stop stop-color="#959595" />
+                  <stop stopColor="#959595" />
                   <stop
                     offset="0.479167"
-                    stop-color="#EDEDED"
-                    stop-opacity="0.92"
+                    stopColor="#EDEDED"
+                    stopOpacity="0.92"
                   />
-                  <stop offset="1" stop-color="white" stop-opacity="0.6" />
+                  <stop offset="1" stopColor="white" stopOpacity="0.6" />
                 </linearGradient>
               </defs>
             </svg>
