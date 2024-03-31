@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import kakao_btn from '@assets/login/kakao_btn.webp';
 import login_background from '@assets/login/login-background.webp';
+import onboarding0 from '@assets/login/onboarding0.png';
 import onboarding1 from '@assets/login/onboarding1.png';
 import onboarding2 from '@assets/login/onboarding2.png';
 import onboarding3 from '@assets/login/onboarding3.png';
@@ -16,7 +17,7 @@ const Background = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
 
   overflow: hidden;
 `;
@@ -29,9 +30,10 @@ const OnboardingContainer = styled.div`
 
   display: flex;
   align-items: center;
-  margin-top: 3rem;
+  margin-top: 2rem;
   overflow-x: auto;
   column-gap: 1.5rem;
+  padding: 0 0.5rem;
 
   scroll-snap-type: x mandatory;
 `;
@@ -73,7 +75,7 @@ const ButtonRow = styled.div`
   position: absolute;
   bottom: 0;
   width: 100%;
-  margin-bottom: 1rem;
+  margin-bottom: 2.5rem;
 
   display: flex;
   justify-content: center;
@@ -103,6 +105,7 @@ function LoginPage() {
   const imageScrollRef = useRef();
 
   const onboardingImageURLs = [
+    onboarding0,
     onboarding1,
     onboarding2,
     onboarding3,
