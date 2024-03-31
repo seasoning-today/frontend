@@ -3,11 +3,11 @@ import styled from 'styled-components';
 
 import kakao_btn from '@assets/login/kakao_btn.webp';
 import login_background from '@assets/login/login-background.webp';
-import onboarding0 from '@assets/login/onboarding0.png';
-import onboarding1 from '@assets/login/onboarding1.png';
-import onboarding2 from '@assets/login/onboarding2.png';
-import onboarding3 from '@assets/login/onboarding3.png';
-import onboarding4 from '@assets/login/onboarding4.png';
+import onboarding0 from '@assets/login/onboarding0.webp';
+import onboarding1 from '@assets/login/onboarding1.webp';
+import onboarding2 from '@assets/login/onboarding2.webp';
+import onboarding3 from '@assets/login/onboarding3.webp';
+import onboarding4 from '@assets/login/onboarding4.webp';
 
 const Background = styled.div`
   position: relative;
