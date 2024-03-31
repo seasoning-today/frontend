@@ -32,12 +32,16 @@ const OnboardingContainer = styled.div`
   margin-top: 3rem;
   overflow-x: auto;
   column-gap: 1.5rem;
+
+  scroll-snap-type: x mandatory;
 `;
 
 const OnboardingImages = styled.img`
   width: 100%;
   height: 36.6875rem;
   flex-shrink: 0;
+
+  scroll-snap-align: center;
 `;
 
 const DotsContainer = styled.div`
