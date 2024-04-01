@@ -1,15 +1,28 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 
 import FeedItem from '@components/feed/FeedItem';
 import TabBar from '@components/common/TabBar';
+import useRefFocusEffect from '@utils/hooks/useRefFocusEffect';
+
+const Layout = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 const Top = styled.div`
   position: relative;
   width: 100%;
   height: 3.3125rem;
+  flex-shrink: 0;
 
   display: flex;
   justify-content: space-between;
@@ -42,7 +55,7 @@ const NavBox = styled.div`
 const ContentArea = styled.div`
   position: relative;
   width: 100%;
-  height: calc(100% - 3.3125rem);
+  flex-grow: 1;
   padding: 1.5rem 1.31rem 5.3125rem;
 
   display: flex;
@@ -55,9 +68,48 @@ const ContentArea = styled.div`
 const FeedPage = () => {
   const { initialFeedData } = useLoaderData();
   const [feedData, setFeedData] = useState(initialFeedData);
+  const [lastFeedItemId, setLastFeedItemId] = useState(
+    initialFeedData.length > 0 ? initialFeedData.at(-1).article.id : null
+  );
+  const navigate = useNavigate();
+
+  const fetchFeedData = async () => {
+    console.log(lastFeedItemId);
+    if (!lastFeedItemId) return;
+
+    const size = 10;
+
+    try {
+      const accessToken = localStorage.getItem('accessToken');
+      const feedResponse = await axios.get(
+        `/api/article/friends?size=${size}&lastId=${lastFeedItemId}`,
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }
+      );
+      if (feedResponse.data.length === 0) {
+        setLastFeedItemId(null);
+      } else {
+        setFeedData((feedData) => [...feedData, ...feedResponse.data]);
+        setLastFeedItemId(feedResponse.data.at(-1).article.id);
+      }
+    } catch (error) {
+      console.error(error);
+      setLastFeedItemId(null);
+
+      if (error.response && error.response.status === 401) {
+        console.log('* Unauthorized... Redirecting to /login');
+        navigate(`/login`);
+      } else {
+        console.log('* Response Error... Redirecting to /home');
+        navigate(`/home`);
+      }
+    }
+  };
+  const { focusElementRef } = useRefFocusEffect(fetchFeedData, []);
 
   return (
-    <>
+    <Layout>
       <Top>
         <h1>친구들의 24절기</h1>
         <NavBox>
@@ -108,10 +160,12 @@ const FeedPage = () => {
         {feedData.map((data, id) => (
           <FeedItem key={id} data={data} />
         ))}
+
+        <div ref={focusElementRef} />
       </ContentArea>
 
       <TabBar />
-    </>
+    </Layout>
   );
 };
 

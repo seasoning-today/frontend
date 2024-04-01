@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 
+import useRefFocusEffect from '@utils/hooks/useRefFocusEffect';
 import NavigationHeader from '@components/common/NavigationHeader';
 import FriendRequest from '@components/notification/FriendRequest';
 import FriendReaction from '@components/notification/FriendReaction';
@@ -42,6 +44,50 @@ const NotificationPage = () => {
   const [notifications, setNotifications] = useState(initialNotificationData);
   const [friendRequests, setFriendRequests] = useState([]);
   const [otherNotifications, setOtherNotifications] = useState([]);
+  const [lastNotificationId, setLastNotificationId] = useState(
+    initialNotificationData.length > 0
+      ? initialNotificationData.at(-1).id
+      : null
+  );
+  const navigate = useNavigate();
+
+  const fetchNotificationData = async () => {
+    console.log(lastNotificationId);
+    if (!lastNotificationId) return;
+
+    const size = 20;
+
+    try {
+      const accessToken = localStorage.getItem('accessToken');
+      const notiResponse = await axios.get(
+        `/api/notification?size=${size}&lastId=${lastNotificationId}`,
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }
+      );
+      if (notiResponse.data.length === 0) {
+        setLastNotificationId(null);
+      } else {
+        setNotifications((notifications) => [
+          ...notifications,
+          ...notiResponse.data,
+        ]);
+        setLastNotificationId(notiResponse.data.at(-1).id);
+      }
+    } catch (error) {
+      console.error(error);
+      setLastNotificationId(null);
+
+      if (error.response && error.response.status === 401) {
+        console.log('* Unauthorized... Redirecting to /login');
+        navigate(`/login`);
+      } else {
+        console.log('* Response Error... Redirecting to /home');
+        navigate(`/home`);
+      }
+    }
+  };
+  const { focusElementRef } = useRefFocusEffect(fetchNotificationData, []);
 
   useEffect(() => {
     setFriendRequests(
@@ -127,6 +173,8 @@ const NotificationPage = () => {
               return undefined;
           }
         })}
+
+        <div ref={focusElementRef} />
       </NotificationContainer>
     </Layout>
   );

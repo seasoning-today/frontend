@@ -1,9 +1,6 @@
 import axios from 'axios';
 import { redirect } from 'react-router-dom';
 
-const size = 1;
-const articleId = 1;
-
 export const FeedLoader = async ({ request, params }) => {
   /* (공통 로직) localStorage에 “accessToken” 이 존재하지 않는 경우 처리 */
   const accessToken = localStorage.getItem('accessToken');
@@ -11,15 +8,12 @@ export const FeedLoader = async ({ request, params }) => {
     console.log('* No Access Token... Redirecting to /login');
     return redirect(`/login`);
   }
+  const size = 10;
 
   try {
-    const feedResponse = await axios.get(
-      // `/api/article/friends?size=${size}&lastId=${articleId}`,
-      `/api/article/friends`,
-      {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      }
-    );
+    const feedResponse = await axios.get(`/api/article/friends?size=${size}`, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
     return { initialFeedData: feedResponse.data };
   } catch (error) {
     console.error(error);
