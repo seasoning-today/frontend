@@ -76,6 +76,7 @@ const NotificationPage = () => {
       }
     } catch (error) {
       console.error(error);
+      setLastNotificationId(null);
 
       if (error.response && error.response.status === 401) {
         console.log('* Unauthorized... Redirecting to /login');
