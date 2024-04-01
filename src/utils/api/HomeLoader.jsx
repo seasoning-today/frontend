@@ -23,7 +23,7 @@ export const HomeLoader = async ({ request, params }) => {
     const homeResponse = await axios.get(
       category === 'year'
         ? `/api/article/list/year/${year}`
-        : `/api/article/list/term?term=${term}`,
+        : `/api/article/list/term?term=${term}&size=20`,
       {
         headers: { Authorization: `Bearer ${accessToken}` },
       }
