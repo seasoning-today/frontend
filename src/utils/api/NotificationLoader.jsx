@@ -8,13 +8,11 @@ export const NotificationLoader = async ({ request, params }) => {
     console.log('* No Access Token... Redirecting to /login');
     return redirect(`/login`);
   }
-
-  const size = 10;
-  const lastId = '';
+  const size = 20;
 
   try {
     const notificationResponse = await axios.get(
-      `/api/notification?size=${size}&lastId=${lastId}`,
+      `/api/notification?size=${size}`,
       {
         headers: { Authorization: `Bearer ${accessToken}` },
       }
