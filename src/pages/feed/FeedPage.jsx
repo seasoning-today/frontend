@@ -69,7 +69,7 @@ const FeedPage = () => {
   const { initialFeedData } = useLoaderData();
   const [feedData, setFeedData] = useState(initialFeedData);
   const [lastFeedItemId, setLastFeedItemId] = useState(
-    initialFeedData.at(-1).article.id
+    initialFeedData.length > 0 ? initialFeedData.at(-1).article.id : null
   );
   const navigate = useNavigate();
 

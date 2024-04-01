@@ -45,7 +45,9 @@ const NotificationPage = () => {
   const [friendRequests, setFriendRequests] = useState([]);
   const [otherNotifications, setOtherNotifications] = useState([]);
   const [lastNotificationId, setLastNotificationId] = useState(
-    initialNotificationData.at(-1).id
+    initialNotificationData.length > 0
+      ? initialNotificationData.at(-1).id
+      : null
   );
   const navigate = useNavigate();
 
