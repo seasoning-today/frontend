@@ -63,6 +63,27 @@ const Button = styled.div`
   }
 `;
 
+const EmptyContents = styled.div`
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 4rem;
+
+  .empty__text {
+    color: #8c8c8c;
+    text-align: center;
+    font-family: 'Apple SD Gothic Neo';
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+`;
+
 const FriendsListPage = () => {
   const { friendListData } = useLoaderData();
   const [selectedFriendId, setSelectedFriendId] = useState(null);
@@ -88,19 +109,25 @@ const FriendsListPage = () => {
       <NavigationHeader title="친구 목록" optionType="icon" />
 
       <ContentArea>
-        {friendListData.map((friend, idx) => (
-          <List key={idx}>
-            <UserProfileBox
-              key={idx}
-              profileImage={friend.profileImageUrl}
-              nickname={friend.nickname}
-              accountId={friend.accountId}
-            />
-            <Button onClick={() => handleFriendDelete(friend.id)}>
-              <span>친구 삭제</span>
-            </Button>
-          </List>
-        ))}
+        {friendListData.length > 0 ? (
+          friendListData.map((friend, idx) => (
+            <List key={idx}>
+              <UserProfileBox
+                key={idx}
+                profileImage={friend.profileImageUrl}
+                nickname={friend.nickname}
+                accountId={friend.accountId}
+              />
+              <Button onClick={() => handleFriendDelete(friend.id)}>
+                <span>친구 삭제</span>
+              </Button>
+            </List>
+          ))
+        ) : (
+          <EmptyContents>
+            <span className="empty__text">현재 추가된 친구가 없습니다.</span>
+          </EmptyContents>
+        )}
       </ContentArea>
     </Layout>
   );
