@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 
 import kakao_btn from '@assets/login/kakao_btn.webp';
@@ -93,8 +93,8 @@ const ButtonRow = styled.div`
 
 function LoginPage() {
   /* 로그인 */
-  const KAKAO_REST_API_KEY = `c574e4572cdf6171c9cb1fe3af45bf75`;
-  const REDIRECT_URI = 'https://seasoning.today/callback/kakao/login';
+  const KAKAO_REST_API_KEY = import.meta.env.VITE_KAKAO_REST_API_KEY;
+  const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI;
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${KAKAO_REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
 
   const handleKakaoLogin = () => {
