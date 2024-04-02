@@ -16,6 +16,7 @@ const Background = styled.div`
 
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-direction: column;
   gap: 1rem;
 
@@ -24,23 +25,23 @@ const Background = styled.div`
 
 const OnboardingContainer = styled.div`
   position: relative;
-  width: 100%;
-  height: 37rem;
+  width: 78%;
+  height: 28rem;
   flex-shrink: 0;
+  column-gap: 1.5rem;
 
   display: flex;
   align-items: center;
-  margin-top: 2rem;
-  overflow-x: auto;
-  column-gap: 1.5rem;
   padding: 0 0.5rem;
+
+  overflow-x: auto;
 
   scroll-snap-type: x mandatory;
 `;
 
 const OnboardingImages = styled.img`
   width: 100%;
-  height: 36.6875rem;
+  height: 100%;
   flex-shrink: 0;
 
   scroll-snap-align: center;
@@ -58,11 +59,11 @@ const DotsContainer = styled.div`
 `;
 
 const Dots = styled.div`
-  display: flex;
-  flex-shrink: 0;
-
   width: 0.4375rem;
   height: 0.4375rem;
+  flex-shrink: 0;
+  display: flex;
+
   border-radius: 0.5rem;
   background-color: ${({ active }) =>
     active ? '#195A53;' : 'var(--D9, #D9D9D9)'};
