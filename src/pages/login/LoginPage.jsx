@@ -1,21 +1,23 @@
 import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 
-import kakao_btn from '@assets/login/kakao_btn.webp';
-import login_background from '@assets/login/login-background.webp';
-import onboarding0 from '@assets/login/onboarding0.webp';
-import onboarding1 from '@assets/login/onboarding1.webp';
-import onboarding2 from '@assets/login/onboarding2.webp';
-import onboarding3 from '@assets/login/onboarding3.webp';
-import onboarding4 from '@assets/login/onboarding4.webp';
+import OnboardingTitle from '@components/login/OnboardingTitle';
+import OnboardingItem from '@components/login/OnboardingItem';
 
-const Background = styled.div`
+import kakao_btn from '@assets/login/kakao_btn.webp';
+import onboarding_1 from '@assets/login/onboarding-1.webp';
+import onboarding_2 from '@assets/login/onboarding-2.webp';
+import onboarding_3 from '@assets/login/onboarding-3.webp';
+import onboarding_4 from '@assets/login/onboarding-4.webp';
+
+const Layout = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
 
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-direction: column;
   gap: 1rem;
 
@@ -25,44 +27,35 @@ const Background = styled.div`
 const OnboardingContainer = styled.div`
   position: relative;
   width: 100%;
-  height: 37rem;
-  flex-shrink: 0;
+  flex-grow: 1;
 
   display: flex;
   align-items: center;
-  margin-top: 2rem;
   overflow-x: auto;
-  column-gap: 1.5rem;
-  padding: 0 0.5rem;
 
   scroll-snap-type: x mandatory;
 `;
 
-const OnboardingImages = styled.img`
-  width: 100%;
-  height: 36.6875rem;
-  flex-shrink: 0;
-
-  scroll-snap-align: center;
-`;
-
 const DotsContainer = styled.div`
+  position: relative;
   width: 100%;
-  height: 1rem;
+  height: 10svw;
+  max-height: 4rem;
   flex-shrink: 0;
   column-gap: 0.5rem;
+  padding-top: 1rem;
 
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
 `;
 
 const Dots = styled.div`
-  display: flex;
-  flex-shrink: 0;
-
   width: 0.4375rem;
   height: 0.4375rem;
+  flex-shrink: 0;
+  display: flex;
+
   border-radius: 0.5rem;
   background-color: ${({ active }) =>
     active ? '#195A53;' : 'var(--D9, #D9D9D9)'};
@@ -72,8 +65,7 @@ const Dots = styled.div`
 `;
 
 const ButtonRow = styled.div`
-  position: absolute;
-  bottom: 0;
+  position: relative;
   width: 100%;
   margin-bottom: 2.5rem;
 
@@ -92,8 +84,8 @@ const ButtonRow = styled.div`
 
 function LoginPage() {
   /* 로그인 */
-  const KAKAO_REST_API_KEY = `c574e4572cdf6171c9cb1fe3af45bf75`;
-  const REDIRECT_URI = 'https://seasoning.today/callback/kakao/login';
+  const KAKAO_REST_API_KEY = import.meta.env.VITE_KAKAO_REST_API_KEY;
+  const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI;
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${KAKAO_REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
 
   const handleKakaoLogin = () => {
@@ -104,12 +96,31 @@ function LoginPage() {
   const [activeDotIndex, setActiveDotIndex] = useState(0);
   const imageScrollRef = useRef();
 
-  const onboardingImageURLs = [
-    onboarding0,
-    onboarding1,
-    onboarding2,
-    onboarding3,
-    onboarding4,
+  const onboardingItemData = [
+    {
+      mainText: '한 해를 기록하는\n나만의 방식',
+      subText: '24절기로 나의 1년을 모아 볼 수 있어요',
+    },
+    {
+      mainText: '매 절기마다\n기록장이 열려요',
+      subText: '절기의 앞뒤로 이틀의 기간 동안만\n기록장을 쓸 수 있어요',
+      imageURL: onboarding_1,
+    },
+    {
+      mainText: '절기마다 다양한\n질문에 답하면서 기록해봐요',
+      subText: '어떤 내용을 써야할 지 모르겠다면\n‘질문’을 추가해봐요',
+      imageURL: onboarding_2,
+    },
+    {
+      mainText: '나만의 24절기를\n한 눈에 모아봐요',
+      subText: '기록장에 올리는 사진들이 모여\n자동으로 콜라주가 만들어져요',
+      imageURL: onboarding_3,
+    },
+    {
+      mainText: '친구들과 기록을\n공유해봐요',
+      subText: '친구 추가 후\n서로의 기록장을 볼 수 있어요',
+      imageURL: onboarding_4,
+    },
   ];
 
   const handleDotClick = (index) => {
@@ -129,15 +140,28 @@ function LoginPage() {
   };
 
   return (
-    <Background>
+    <Layout>
       <OnboardingContainer ref={imageScrollRef} onScroll={handleImageScroll}>
-        {onboardingImageURLs.map((imageURL, index) => (
-          <OnboardingImages key={index} src={imageURL} />
-        ))}
+        {onboardingItemData.map(({ mainText, subText, imageURL }, index) =>
+          index === 0 ? (
+            <OnboardingTitle
+              key={index}
+              mainText={mainText}
+              subText={subText}
+            />
+          ) : (
+            <OnboardingItem
+              key={index}
+              mainText={mainText}
+              subText={subText}
+              imageURL={imageURL}
+            />
+          )
+        )}
       </OnboardingContainer>
 
       <DotsContainer>
-        {onboardingImageURLs.map((_, index) => (
+        {onboardingItemData.map((_, index) => (
           <Dots
             key={index}
             onClick={() => handleDotClick(index)}
@@ -149,7 +173,7 @@ function LoginPage() {
       <ButtonRow onClick={handleKakaoLogin}>
         <img src={kakao_btn} />
       </ButtonRow>
-    </Background>
+    </Layout>
   );
 }
 
