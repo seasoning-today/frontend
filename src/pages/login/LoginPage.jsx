@@ -5,10 +5,10 @@ import OnboardingTitle from '@components/login/OnboardingTitle';
 import OnboardingItem from '@components/login/OnboardingItem';
 
 import kakao_btn from '@assets/login/kakao_btn.webp';
-import onboarding_1 from '@assets/login/onboarding-1.jpg';
-import onboarding_2 from '@assets/login/onboarding-2.jpg';
-import onboarding_3 from '@assets/login/onboarding-3.jpg';
-import onboarding_4 from '@assets/login/onboarding-4.jpg';
+import onboarding_1 from '@assets/login/onboarding-1.webp';
+import onboarding_2 from '@assets/login/onboarding-2.webp';
+import onboarding_3 from '@assets/login/onboarding-3.webp';
+import onboarding_4 from '@assets/login/onboarding-4.webp';
 
 const Layout = styled.div`
   position: relative;
@@ -34,16 +34,6 @@ const OnboardingContainer = styled.div`
   overflow-x: auto;
 
   scroll-snap-type: x mandatory;
-`;
-
-const OnboardingImages = styled.img`
-  position: relative;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  /* flex-shrink: 0; */
-
-  scroll-snap-align: center;
 `;
 
 const DotsContainer = styled.div`
