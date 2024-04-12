@@ -5,11 +5,11 @@ export const Layout = styled.span`
   height: auto;
 
   font-family: 'Apple SD Gothic Neo';
-  font-size: 1rem;
+  font-size: ${({ size }) => `${size}rem`};
+  font-weight: ${({ weight }) => weight};
   font-style: normal;
-  font-weight: 400;
   line-height: normal;
   text-align: left;
 
-  color: #333;
+  color: ${({ color }) => color};
 `;
