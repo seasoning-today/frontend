@@ -1,5 +1,9 @@
 import * as S from './style';
 
-export default function Row({ spacing = 0, children, ...props }) {
-  return <S.Layout {...props}>{children}</S.Layout>;
+export default function Row({ spacing = 0, padding = 0, children, ...props }) {
+  return (
+    <S.Layout spacing={spacing} padding={padding} {...props}>
+      {children}
+    </S.Layout>
+  );
 }
