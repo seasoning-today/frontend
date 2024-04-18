@@ -52,7 +52,6 @@ const NotificationPage = () => {
   const navigate = useNavigate();
 
   const fetchNotificationData = async () => {
-    console.log(lastNotificationId);
     if (!lastNotificationId) return;
 
     const size = 20;

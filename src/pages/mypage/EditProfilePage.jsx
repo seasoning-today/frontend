@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 
 import NavigationHeader from '@components/common/NavigationHeader';
+import useFallBackImage from '@utils/hooks/useFallBackImage';
 
 const Layout = styled.div`
   position: relative;
@@ -162,6 +163,7 @@ const EditProfilePage = () => {
   });
   const [isImageChanged, setIsImageChanged] = useState(false);
   const imageInputRef = useRef(null);
+  const { onLoadFallBackImage } = useFallBackImage();
   const navigate = useNavigate();
 
   const MAX_ID_LENGTH = 20;
@@ -343,7 +345,7 @@ const EditProfilePage = () => {
 
       <ProfileBox>
         <div className="profile-center" onClick={handleImageUpload}>
-          <img src={userData.image} />
+          <img src={userData.image} onError={onLoadFallBackImage} />
           <div className="profile-icon">
             <svg
               xmlns="http://www.w3.org/2000/svg"

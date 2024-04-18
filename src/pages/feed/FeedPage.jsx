@@ -74,7 +74,6 @@ const FeedPage = () => {
   const navigate = useNavigate();
 
   const fetchFeedData = async () => {
-    console.log(lastFeedItemId);
     if (!lastFeedItemId) return;
 
     const size = 10;

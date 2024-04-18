@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
+import useFallBackImage from '@utils/hooks/useFallBackImage';
+
 const Layout = styled(Link)`
   width: 100%;
 
@@ -64,13 +66,11 @@ const FriendReaction = ({
   profileImageUrl,
   createdAt,
 }) => {
+  const { onLoadFallBackImage } = useFallBackImage();
+
   return (
     <Layout to={`/article/${articleId}`}>
-      {profileImageUrl ? (
-        <ProfileImage src={profileImageUrl} />
-      ) : (
-        <ProfileImage />
-      )}
+      <ProfileImage src={profileImageUrl} onError={onLoadFallBackImage} />
 
       <Content>
         <div className=".row">

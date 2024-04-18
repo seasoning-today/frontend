@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+
+import useFallBackImage from '@utils/hooks/useFallBackImage';
 
 const Layout = styled.div`
   width: 100%;
@@ -104,7 +106,7 @@ const FriendRequest = ({
   setNotifications,
   createdAt,
 }) => {
-  console.log(createdAt);
+  const { onLoadFallBackImage } = useFallBackImage();
 
   const handleFriendRequest = async (action) => {
     const accessToken = localStorage.getItem('accessToken');
@@ -145,11 +147,7 @@ const FriendRequest = ({
 
   return (
     <Layout>
-      {profileImageUrl ? (
-        <ProfileImage src={profileImageUrl} />
-      ) : (
-        <ProfileImage />
-      )}
+      <ProfileImage src={profileImageUrl} onError={onLoadFallBackImage} />
 
       <Content>
         <span className="notification__name">{profileName}</span>

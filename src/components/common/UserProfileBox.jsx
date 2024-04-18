@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import useFallBackImage from '@utils/hooks/useFallBackImage';
+
 const Layout = styled.div`
   display: flex;
 
@@ -47,10 +49,13 @@ const Layout = styled.div`
 `;
 
 const UserProfileBox = ({ profileImage, nickname, accountId }) => {
+  const { onLoadFallBackImage } = useFallBackImage();
+
   return (
     <Layout>
       <section className="profile__personal">
-        {profileImage !== false ? <img src={profileImage} /> : <img />}
+        <img src={profileImage} onError={onLoadFallBackImage} />
+
         <div className="profile__personal__data">
           <span className="profile__personal__data__nickname">{nickname}</span>
           <span className="profile__personal__data__account">{`@${accountId}`}</span>
