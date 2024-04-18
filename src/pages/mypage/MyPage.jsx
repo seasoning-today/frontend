@@ -2,7 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link, useLoaderData, useNavigate } from 'react-router-dom';
 
-import TabBar from '@components/common/TabBar';
+import Text from '@components/atoms/Text';
+import Row from '@components/atoms/Row';
+import Column from '@components/atoms/Column';
+import Image from '@components/atoms/Image';
+
+import TabBar from '@components/molecules/TabBar';
 
 const Layout = styled.div`
   width: 100%;
@@ -43,15 +48,6 @@ const ProfileBox = styled.div`
     display: flex;
     flex-direction: column;
     row-gap: 0.25rem;
-  }
-
-  h2 {
-    color: #333;
-    font-family: 'Apple SD Gothic Neo';
-    font-size: 1.25rem;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
   }
 
   span {
@@ -170,14 +166,18 @@ const MyPage = () => {
 
   return (
     <Layout>
-      <ProfileBox>
-        <div className="mypage__personal-data">
-          <h2>{userData.nickname}</h2>
-          <span>{`@${userData.accountId}`}</span>
-        </div>
+      <Row style={{ padding: '2rem 2.5rem', justifyContent: 'space-between' }}>
+        <Column style={{ alignItems: 'flex-start', rowGap: '0.25rem' }}>
+          <Text style={{ fontSize: '1.25rem', fontWeight: 600 }}>
+            {userData.nickname}
+          </Text>
+          <Text
+            style={{ fontSize: '0.75rem' }}
+          >{`@${userData.accountId}`}</Text>
+        </Column>
 
-        <img src={userData.image} />
-      </ProfileBox>
+        <Image width={5.125} height={5.125} radius="50%" src={userData.image} />
+      </Row>
 
       <section>
         <MenuBox>

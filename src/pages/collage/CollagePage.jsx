@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useNavigate, useLocation, useLoaderData } from 'react-router-dom';
 
 import TopBar from '@components/common/TopBar';
-import TabBar from '@components/common/TabBar';
+import TabBar from '@components/molecules/TabBar';
 import CollageCard from '@components/collage/CollageCard';
 
 const Layout = styled.div`

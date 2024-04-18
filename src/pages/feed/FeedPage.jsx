@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 
 import FeedItem from '@components/feed/FeedItem';
-import TabBar from '@components/common/TabBar';
+import TabBar from '@components/molecules/TabBar';
 import useRefFocusEffect from '@utils/hooks/useRefFocusEffect';
 
 const Layout = styled.div`

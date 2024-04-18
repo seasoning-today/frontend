@@ -7,7 +7,8 @@ import TopBar from '@components/common/TopBar';
 import FortuneModal from '@components/home/FortuneModal';
 import YearlyContent from '@components/home/YearlyContent';
 import SeasonalContent from '@components/home/SeasonalContent';
-import TabBar from '@components/common/TabBar';
+
+import TabBar from '@components/molecules/TabBar';
 
 import { TermsToChinese } from '@utils/seasoning/TermsToChinese';
 import { TermsToKorean } from '@utils/seasoning/TermsToKorean';
