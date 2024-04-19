@@ -153,7 +153,10 @@ const ConfirmButton = styled.div`
 
 const EditProfilePage = () => {
   const prevUserData = useLoaderData().userData;
-  const [userData, setUserData] = useState(prevUserData);
+  const [userData, setUserData] = useState({
+    ...prevUserData,
+    image: { imageData: prevUserData.image },
+  });
   const [warningType, setWarningType] = useState(`NO_WARNING`);
   const [warningText, setWarningText] = useState('');
   const [isValidForm, setIsValidForm] = useState({
@@ -189,12 +192,30 @@ const EditProfilePage = () => {
   };
 
   const handleImageChange = (event) => {
-    const file = event.target.files[0];
+    const file = event.target.files && event.target.files[0];
+
+    if (file && file.size > 10 * 1024 * 1024) {
+      alert('이미지 파일 크기는 10MB를 초과할 수 없습니다.');
+      event.target.value = null;
+      return;
+    }
+
+    const fileName = file ? file.name : null;
+    const fileExtension = fileName ? fileName.split('.').pop() : null;
+    const fileType = fileName ? file.type : null;
 
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        setUserData({ ...userData, image: e.target.result });
+        setUserData({
+          ...userData,
+          image: {
+            imageName: fileName,
+            imageExtension: fileExtension,
+            imageType: fileType,
+            imageData: e.target.result,
+          },
+        });
       };
       reader.readAsDataURL(file);
 
@@ -300,9 +321,13 @@ const EditProfilePage = () => {
 
       if (isImageChanged) {
         /* 1. 프로필 이미지가 새로 업데이트된 경우 */
-        const imageResponse = await fetch(userData.image);
-        const imageBlob = await imageResponse.blob();
-        formData.append('image', imageBlob);
+        const base64Data = userData.image.imageData.split(',')[1];
+        const imageBlob = base64ToBlob(base64Data, userData.image.imageType);
+        formData.append(
+          `image`,
+          imageBlob,
+          `profile.${userData.image.imageExtension}`
+        );
       } else {
         /* 2. 프로필 이미지가 수정되지 않은 경우 */
         const emptyImageJSON = JSON.stringify({
@@ -339,13 +364,23 @@ const EditProfilePage = () => {
     }
   };
 
+  function base64ToBlob(base64, mimeType) {
+    const byteCharacters = atob(base64);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    return new Blob([byteArray], { type: mimeType });
+  }
+
   return (
     <Layout>
       <NavigationHeader title="프로필 수정" optionType="text" />
 
       <ProfileBox>
         <div className="profile-center" onClick={handleImageUpload}>
-          <img src={userData.image} onError={onLoadFallBackImage} />
+          <img src={userData.image.imageData} onError={onLoadFallBackImage} />
           <div className="profile-icon">
             <svg
               xmlns="http://www.w3.org/2000/svg"
