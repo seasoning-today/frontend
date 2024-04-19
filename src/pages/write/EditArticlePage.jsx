@@ -140,11 +140,23 @@ const EditArticlePage = () => {
     };
 
     const processImages = async () => {
-      const promises = articleData.images.map((img) =>
-        convertToBase64(img.url)
-      );
-      const base64Strings = await Promise.all(promises);
-      setSelectedImages(base64Strings);
+      const promises = articleData.images.map(async (img) => {
+        const base64String = await convertToBase64(img.url);
+        const fileName = img.url.split('/').pop(); // 이미지 URL에서 파일 이름 추출
+        const fileExtension = fileName.split('.').pop(); // 파일 이름에서 확장자 추출
+        const fileType = img.type; // 이미지의 MIME 타입 사용
+
+        return {
+          imageName: fileName,
+          imageExtension: fileExtension,
+          imageType: fileType,
+          imageData: base64String,
+        };
+      });
+
+      const imageObjects = await Promise.all(promises);
+      console.log(imageObjects);
+      setSelectedImages(imageObjects);
     };
 
     processImages();
@@ -160,16 +172,27 @@ const EditArticlePage = () => {
       return;
     }
 
+    const fileName = file ? file.name : null;
+    const fileExtension = fileName ? fileName.split('.').pop() : null;
+    const fileType = fileName ? file.type : null;
+
     /* 첨부된 사진 변경 */
     if (replacingImageIndex !== null) {
       if (file) {
         const reader = new FileReader();
         reader.onload = (e) => {
-          setSelectedImages((prev) => {
-            const newImages = [...prev];
-            newImages[replacingImageIndex] = e.target.result;
-            return newImages;
-          });
+          setSelectedImages((prev) =>
+            prev.map((image, index) =>
+              index === replacingImageIndex
+                ? {
+                    imageName: fileName,
+                    imageExtension: fileExtension,
+                    imageType: fileType,
+                    imageData: e.target.result,
+                  }
+                : image
+            )
+          );
         };
         reader.readAsDataURL(file);
       }
@@ -181,7 +204,15 @@ const EditArticlePage = () => {
       if (file) {
         const reader = new FileReader();
         reader.onload = (e) => {
-          setSelectedImages((prev) => [...prev, e.target.result]);
+          setSelectedImages((prev) => [
+            ...prev,
+            {
+              imageName: fileName,
+              imageExtension: fileExtension,
+              imageType: fileType,
+              imageData: e.target.result,
+            },
+          ]);
         };
         reader.readAsDataURL(file);
       }
@@ -231,9 +262,6 @@ const EditArticlePage = () => {
       return;
     }
 
-    // console.log(JSON.stringify(selectedImages, null, '\t'));
-    // return;
-
     const accessToken = localStorage.getItem('accessToken');
 
     try {
@@ -241,9 +269,13 @@ const EditArticlePage = () => {
 
       if (selectedImages.length > 0) {
         selectedImages.forEach((selectedImage, idx) => {
-          const base64Data = selectedImage.split(',')[1];
-          const imageBlob = base64ToBlob(base64Data, 'image/jpeg');
-          formData.append(`images`, imageBlob, `image-${idx}.jpg`);
+          const base64Data = selectedImage.imageData.split(',')[1];
+          const imageBlob = base64ToBlob(base64Data, selectedImage.imageType);
+          formData.append(
+            `images`,
+            imageBlob,
+            `image-${idx}.${selectedImage.imageExtension}`
+          );
         });
       } else {
         formData.append('images', null);
@@ -340,7 +372,7 @@ const EditArticlePage = () => {
       <ContentContainer ref={scrollRef}>
         <ImageSlider
           editable
-          images={selectedImages}
+          images={selectedImages.map((image) => image.imageData)}
           setImages={setSelectedImages}
           imageInputRef={imageInputRef}
           setReplacingImageIndex={setReplacingImageIndex}

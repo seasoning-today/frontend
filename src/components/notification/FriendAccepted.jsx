@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import useFallBackImage from '@utils/hooks/useFallBackImage';
+
 const Layout = styled.div`
   width: 100%;
 
@@ -58,13 +60,11 @@ const Content = styled.div`
 `;
 
 const FriendAccepted = ({ profileName, profileImageUrl, createdAt }) => {
+  const { onLoadFallBackImage } = useFallBackImage();
+
   return (
     <Layout>
-      {profileImageUrl ? (
-        <ProfileImage src={profileImageUrl} />
-      ) : (
-        <ProfileImage />
-      )}
+      <ProfileImage src={profileImageUrl} onError={onLoadFallBackImage} />
 
       <Content>
         <div className=".row">

@@ -8,6 +8,7 @@ import ImageSlider from '@components/write/ImageSlider';
 import ContentEditor from '@components/write/ContentEditor';
 import ArticleMenuModal from '@components/article/ArticleMenuModal';
 import ArticleDeleteModal from '@components/article/ArticleDeleteModal';
+import useFallBackImage from '@utils/hooks/useFallBackImage';
 
 const Layout = styled.div`
   position: relative;
@@ -136,6 +137,7 @@ const ArticlePage = () => {
   const [showMenuModal, setShowMenuModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
+  const { onLoadFallBackImage } = useFallBackImage();
   const navigate = useNavigate();
 
   /* 이모지 */
@@ -290,7 +292,10 @@ const ArticlePage = () => {
               </span>
               <span className="profile__personal__data__account">{`@${articleData.profile.accountId}`}</span>
             </div>
-            <img src={articleData.profile.image} />
+            <img
+              src={articleData.profile.image}
+              onError={onLoadFallBackImage}
+            />
           </ProfileBox>
         </Bottom>
       </ScrollView>

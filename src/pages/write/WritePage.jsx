@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useNavigate, useLoaderData } from 'react-router-dom';
-import Textarea from 'react-textarea-autosize';
 
 import Header from '@components/write/Header';
 import ImageSlider from '@components/write/ImageSlider';
@@ -106,16 +105,27 @@ const WritePage = () => {
       return;
     }
 
+    const fileName = file ? file.name : null;
+    const fileExtension = fileName ? fileName.split('.').pop() : null;
+    const fileType = fileName ? file.type : null;
+
     if (replacingImageIndex !== null) {
       /* 첨부된 사진 변경 */
       if (file) {
         const reader = new FileReader();
         reader.onload = (e) => {
-          setSelectedImages((prev) => {
-            const newImages = [...prev];
-            newImages[replacingImageIndex] = e.target.result;
-            return newImages;
-          });
+          setSelectedImages((prev) =>
+            prev.map((image, index) =>
+              index === replacingImageIndex
+                ? {
+                    imageName: fileName,
+                    imageExtension: fileExtension,
+                    imageType: fileType,
+                    imageData: e.target.result,
+                  }
+                : image
+            )
+          );
         };
         reader.readAsDataURL(file);
       }
@@ -127,7 +137,15 @@ const WritePage = () => {
       if (file) {
         const reader = new FileReader();
         reader.onload = (e) => {
-          setSelectedImages((prev) => [...prev, e.target.result]);
+          setSelectedImages((prev) => [
+            ...prev,
+            {
+              imageName: fileName,
+              imageExtension: fileExtension,
+              imageType: fileType,
+              imageData: e.target.result,
+            },
+          ]);
         };
         reader.readAsDataURL(file);
       }
@@ -177,9 +195,6 @@ const WritePage = () => {
       return;
     }
 
-    // console.log(JSON.stringify(selectedImages, null, '\t'));
-    // return;
-
     const accessToken = localStorage.getItem('accessToken');
 
     try {
@@ -187,9 +202,13 @@ const WritePage = () => {
 
       if (selectedImages.length > 0) {
         selectedImages.forEach((selectedImage, idx) => {
-          const base64Data = selectedImage.split(',')[1];
-          const imageBlob = base64ToBlob(base64Data, 'image/jpeg');
-          formData.append(`images`, imageBlob, `image-${idx}.jpg`);
+          const base64Data = selectedImage.imageData.split(',')[1];
+          const imageBlob = base64ToBlob(base64Data, selectedImage.imageType);
+          formData.append(
+            `images`,
+            imageBlob,
+            `image-${idx}.${selectedImage.imageExtension}`
+          );
         });
       } else {
         formData.append('images', null);
@@ -285,7 +304,7 @@ const WritePage = () => {
       <ContentContainer ref={scrollRef}>
         <ImageSlider
           editable
-          images={selectedImages}
+          images={selectedImages.map((image) => image.imageData)}
           setImages={setSelectedImages}
           imageInputRef={imageInputRef}
           setReplacingImageIndex={setReplacingImageIndex}
