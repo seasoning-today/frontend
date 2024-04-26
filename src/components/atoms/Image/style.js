@@ -5,15 +5,13 @@ export const Layout = styled.div`
 
   width: ${({ width }) => `${width}rem`};
   height: ${({ height }) => `${height}rem`};
-  border-radius: ${({ radius }) => `${radius}`};
+  border-radius: ${({ circle, radius }) => (circle ? `50%` : `${radius}`)};
   flex-shrink: 0;
 
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
-
-  cursor: pointer;
 `;
 
 export const Image = styled.img`
