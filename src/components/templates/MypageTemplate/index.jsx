@@ -40,6 +40,10 @@ export default function MypageTemplate({ userData, menuListsData }) {
       {/* todo: 서비스 심사 이후 푸터 없애기 */}
       <S.Footer>
         <span>
+          상호: 시즈닝 | 주소 : 충청남도 천안시 서북구 늘푸른 1길 50, 403동
+          1504호
+        </span>
+        <span>
           대표자 : 김동철 | 사업자등록번호 : 228-30-01619 | 호스팅제공자 :
           메가존(주)
         </span>
