@@ -1,0 +1,68 @@
+import styled from 'styled-components';
+
+export const Layout = styled.div`
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+`;
+
+export const ProfileContainer = styled.div`
+  width: 100%;
+  height: 9.125rem;
+
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem 2.5rem;
+`;
+
+export const ProfileColumn = styled.div`
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  row-gap: 0.25rem;
+`;
+
+export const MenuContainer = styled.div`
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem 1rem;
+  row-gap: 1.25rem;
+`;
+
+export const Footer = styled.footer`
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 0.5rem;
+  padding: 1rem;
+
+  .row {
+    display: flex;
+    align-items: center;
+    column-gap: 0.2rem;
+  }
+
+  svg {
+    width: 0.8rem;
+    height: 0.8rem;
+    vertical-align: center;
+  }
+
+  span {
+    color: #8c8c8c;
+    font-family: 'Apple SD Gothic Neo';
+    font-size: 0.625rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+`;
