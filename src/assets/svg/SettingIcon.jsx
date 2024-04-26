@@ -1,4 +1,4 @@
-export default function SettingsIcon() {
+export default function SettingIcon() {
   return (
     <svg
       width="32"
