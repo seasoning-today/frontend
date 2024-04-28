@@ -1,4 +1,4 @@
-import Layout from '@components/common/Layout';
+import RootLayout from '@pages/common/RootLayout';
 /* 기본 4개 탭에 대한 페이지 */
 import HomePage from '@pages/home/HomePage';
 import CollagePage from '@pages/collage/CollagePage';
@@ -38,7 +38,7 @@ import { DevPageLoader } from '@utils/api/DevPageLoader';
 export const RouterInfo = [
   {
     path: '/',
-    element: <Layout />,
+    element: <RootLayout />,
     /* 404 에러 페이지 라우팅 */
     errorElement: <ErrorPage />,
     children: [
