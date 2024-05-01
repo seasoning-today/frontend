@@ -1,26 +1,35 @@
+/* 공통 레이아웃 페이지 */
 import RootLayout from '@pages/common/RootLayout';
-/* 기본 4개 탭에 대한 페이지 */
-import HomePage from '@pages/home/HomePage';
-import CollagePage from '@pages/collage/CollagePage';
-import FeedPage from '@pages/feed/FeedPage';
-import FriendsListPage from '@pages/feed/FriendsListPage';
-import MyPage from '@pages/mypage/MyPage';
-import EditProfilePage from '@pages/mypage/EditProfilePage';
-import AccountPage from '@pages/mypage/AccountPage';
-/* 소셜 로그인에 대한 페이지 */
-import LoginPage from '@pages/login/LoginPage';
-import CallBackPage from '@pages/login/CallBackPage';
+/* home 하위 페이지 */
+import HomePage from '@pages/home';
+/* collage 하위 페이지 */
+import CollagePage from '@pages/collage';
+/* feed 하위 페이지 */
+import FeedPage from '@pages/feed';
+import FriendsListPage from '@pages/feed/friends-list';
+import SearchPage from '@pages/feed/friends-search';
+/* mypage 하위 페이지 */
+import MyPage from '@pages/mypage';
+import AccountPage from '@pages/mypage/account';
+import EditProfilePage from '@pages/mypage/edit';
+/* article 하위 페이지 */
+import ArticlePage from '@pages/article';
+import EditArticlePage from '@pages/article/edit';
+/* write 하위 페이지 */
+import WritePage from '@pages/write';
+/* notification 하위 페이지 */
+import NotificationPage from '@pages/notification';
+/* notice 하위 페이지 */
+import NoticePage from '@pages/notice';
+import NoticeAdminPage from '@pages/notice/admin';
+/* login 하위 페이지 */
+import LoginPage from '@pages/login';
+import CallBackPage from '@pages/login/callback/kakao';
+/* dev 하위 페이지 */
+import DevelopPage from '@pages/dev';
 /* 기타 페이지 */
-import SearchPage from '@pages/feed/SearchPage';
-import WritePage from '@pages/write/WritePage';
-import EditArticlePage from '@pages/write/EditArticlePage';
-import ArticlePage from '@pages/article/ArticlePage';
-import NotificationPage from '@pages/notification/NotificationPage';
-import NoticePage from '@pages/notice/NoticePage';
-import ErrorPage from '@pages/error/ErrorPage';
-/* 개발 관련 임시 페이지 */
-import NoticeAdminPage from '@pages/notice/NoticeAdminPage';
-import DevelopPage from '@pages/dev/DevelopPage';
+import Error404Page from '@pages/error/404';
+
 /* API Loaders */
 import { HomeLoader } from '@utils/api/HomeLoader';
 import { CollageLoader } from '@utils/api/CollageLoader';
@@ -40,7 +49,7 @@ export const RouterInfo = [
     path: '/',
     element: <RootLayout />,
     /* 404 에러 페이지 라우팅 */
-    errorElement: <ErrorPage />,
+    errorElement: <Error404Page />,
     children: [
       /* 기본 4개 탭에 대한 페이지 라우팅 */
       {
@@ -69,6 +78,11 @@ export const RouterInfo = [
         loader: FriendsListLoader,
       },
       {
+        path: 'feed/friends-search',
+        element: <SearchPage />,
+        loader: UserRestrictLoader,
+      },
+      {
         path: 'mypage',
         element: <MyPage />,
         loader: UserRestrictLoader,
@@ -94,11 +108,6 @@ export const RouterInfo = [
       },
       /* 기타 페이지 라우팅 */
       {
-        path: 'feed/friends-search',
-        element: <SearchPage />,
-        loader: UserRestrictLoader,
-      },
-      {
         path: 'write',
         element: <WritePage />,
         loader: WriteLoader,
@@ -119,6 +128,7 @@ export const RouterInfo = [
         loader: NotificationLoader,
       },
       {
+        element: <NoticeAdminPage />,
         path: 'notice',
         element: <NoticePage />,
         loader: NoticeLoader,
@@ -126,7 +136,6 @@ export const RouterInfo = [
       /* Dev pages */
       {
         path: 'notice/admin',
-        element: <NoticeAdminPage />,
         loader: NoticeLoader,
       },
       {

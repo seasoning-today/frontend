@@ -3,14 +3,18 @@ import styled from 'styled-components';
 export const Layout = styled.div`
   position: relative;
   width: 100svw;
-  height: 100svh;
+  height: auto;
+  min-height: 100svh;
 
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
 `;
 
 export const LogoContainer = styled.div`
-  position: relative;
+  position: fixed;
+  left: 5svw;
+  width: 40svw;
+  height: 100svh;
 
   display: flex;
   flex-direction: column;
@@ -32,7 +36,6 @@ export const LogoContainer = styled.div`
 `;
 
 export const LogoWrapper = styled.div`
-  position: relative;
   width: 7.5rem;
 
   svg {
@@ -42,20 +45,23 @@ export const LogoWrapper = styled.div`
 `;
 
 export const ContentContainer = styled.div`
-  position: relative;
+  position: absolute;
+  ${({ isPadSize }) => (!isPadSize ? `right: 5svw;` : ``)}
+
   width: 100%;
   max-width: 26.875rem;
-  height: 100%;
+  height: auto;
+  min-height: 100svh;
 
-  overflow-y: auto;
+  overflow-y: scroll;
 
   background-color: white;
 `;
 
 export const BackgroundContainer = styled.div`
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
+  position: fixed;
+  width: 100svw;
+  height: 100svh;
   z-index: -1;
 
   background-color: black;

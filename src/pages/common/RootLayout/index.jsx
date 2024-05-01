@@ -13,7 +13,8 @@ import background_autumn from '@assets/layout/background-autumn.jpg';
 import background_winter from '@assets/layout/background-winter.jpg';
 
 export default function RootLayout() {
-  const isMobile = useMediaQuery({ maxWidth: 900 });
+  const isPadSize = useMediaQuery({ maxWidth: 900 });
+  const isMobileSize = useMediaQuery({ maxWidth: 430 });
 
   const getSeasonalBackground = () => {
     const currentMonth = new Date().getMonth() + 1;
@@ -43,7 +44,7 @@ export default function RootLayout() {
 
   return (
     <S.Layout>
-      {!isMobile && (
+      {!isPadSize && (
         <S.LogoContainer>
           <S.LogoWrapper>
             <Logo />
@@ -57,13 +58,15 @@ export default function RootLayout() {
         </S.LogoContainer>
       )}
 
-      <S.ContentContainer>
+      <S.ContentContainer isPadSize={isPadSize}>
         <Outlet />
       </S.ContentContainer>
 
-      <S.BackgroundContainer>
-        <img src={getSeasonalBackground()} />
-      </S.BackgroundContainer>
+      {!isMobileSize && (
+        <S.BackgroundContainer>
+          <img src={getSeasonalBackground()} />
+        </S.BackgroundContainer>
+      )}
     </S.Layout>
   );
 }
