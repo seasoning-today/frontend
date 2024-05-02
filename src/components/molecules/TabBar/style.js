@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 
 export const Layout = styled.div`
-  position: absolute;
+  position: fixed;
   bottom: 0;
 
   width: 100%;
+  max-width: 26.875rem;
   height: 3.8125rem;
 
   display: flex;
@@ -15,5 +16,5 @@ export const Layout = styled.div`
   background-color: white;
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
 
-  z-index: 1000;
+  z-index: 30;
 `;
