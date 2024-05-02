@@ -1,5 +1,6 @@
 import * as S from './style';
 
+import BackIcon from '@assets/svg/BackIcon';
 import CollageIcon from '@assets/svg/CollageIcon';
 import FeedIcon from '@assets/svg/FeedIcon';
 import HomeIcon from '@assets/svg/HomeIcon';
@@ -14,6 +15,7 @@ export default function Icon({
 }) {
   return (
     <S.Layout width={width} height={height} {...props}>
+      {type === 'back' && <BackIcon />}
       {type === 'collage' && <CollageIcon />}
       {type === 'feed' && <FeedIcon />}
       {type === 'home' && <HomeIcon />}
