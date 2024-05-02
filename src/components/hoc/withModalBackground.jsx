@@ -10,8 +10,10 @@ const fadeIn = keyframes`
 `;
 
 const ModalBackground = styled.div`
-  position: absolute;
+  position: fixed;
+  top: 0;
   width: 100%;
+  max-width: 26.875rem;
   height: 100%;
 
   display: flex;
@@ -23,7 +25,7 @@ const ModalBackground = styled.div`
   z-index: 1001;
 `;
 
-const withModalBackground = (WrappedModal) => {
+export default function withModalBackground(WrappedModal) {
   return (props) => {
     const handleBackgroundClick = (event) => {
       if (event.target === event.currentTarget) {
@@ -37,6 +39,4 @@ const withModalBackground = (WrappedModal) => {
       </ModalBackground>
     );
   };
-};
-
-export default withModalBackground;
+}
