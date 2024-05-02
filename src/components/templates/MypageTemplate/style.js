@@ -6,15 +6,23 @@ export const Layout = styled.div`
 
   display: flex;
   flex-direction: column;
+  padding-top: 9.125rem;
+  padding-bottom: 3.8125rem;
 `;
 
 export const ProfileContainer = styled.div`
+  position: fixed;
+  top: 0;
+
   width: 100%;
+  max-width: 26.875rem;
   height: 9.125rem;
 
   display: flex;
   justify-content: space-between;
   padding: 2rem 2.5rem;
+
+  background-color: #fff;
 `;
 
 export const ProfileColumn = styled.div`
@@ -43,7 +51,7 @@ export const Footer = styled.footer`
   flex-direction: column;
   align-items: center;
   row-gap: 0.5rem;
-  padding: 1rem;
+  padding: 1rem 1rem 4rem;
 
   .row {
     display: flex;
