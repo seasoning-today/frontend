@@ -1,6 +1,7 @@
 import * as S from './style';
 import axios from 'axios';
 
+import Button from '@components/atoms/Button';
 import Image from '@components/atoms/Image';
 import Text from '@components/atoms/Text';
 import LogoSymbol from '@assets/svg/LogoSymbol';
@@ -139,26 +140,22 @@ export default function NotificationListItem({
 
       {type === 'FRIENDSHIP_REQUEST' && (
         <S.ButtonContainer>
-          <S.Button
-            approve
+          <Button
+            text="수락"
+            color="#fff"
+            backgroundColor="#0d6b38"
             onClick={() => {
               handleFriendRequest('accept');
             }}
-          >
-            <Text size="0.875" color="#fff">
-              수락
-            </Text>
-          </S.Button>
-          <S.Button
-            decline
+          />
+          <Button
+            text="거절"
+            color="#000"
+            backgroundColor="#f0f0f0"
             onClick={() => {
               handleFriendRequest('decline');
             }}
-          >
-            <Text size="0.875" color="#000">
-              거절
-            </Text>
-          </S.Button>
+          />
         </S.ButtonContainer>
       )}
     </S.Layout>

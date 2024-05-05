@@ -39,19 +39,3 @@ export const ButtonContainer = styled.div`
   column-gap: 0.5rem;
   margin-left: 0.75rem;
 `;
-
-export const Button = styled.button`
-  width: auto;
-  min-width: 3.4375rem;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: none;
-  border-radius: 0.5rem;
-  padding: 0.3rem 0.7rem;
-
-  cursor: pointer;
-
-  background-color: ${({ approve }) => (approve ? '#0d6b38' : '#f0f0f0')};
-`;
