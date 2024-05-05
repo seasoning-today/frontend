@@ -6,8 +6,6 @@ export const Layout = styled(Link)`
 
   display: flex;
   flex-direction: column;
-
-  background-color: yellow;
 `;
 
 export const ProfileContainer = styled.div`
