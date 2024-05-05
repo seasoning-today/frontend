@@ -13,6 +13,7 @@ export const Layout = styled.header`
   justify-content: center;
   align-items: center;
 
+  z-index: 50;
   background-color: #fff;
 `;
 
