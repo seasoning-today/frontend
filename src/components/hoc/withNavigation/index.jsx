@@ -4,12 +4,17 @@ import NavigationHeader from '@components/molecules/NavigationHeader';
 
 export default function withNavigation(
   navigationTitle = 'Empty Title',
-  WrappedContent
+  WrappedContent,
+  CustomBackButton
 ) {
   return (props) => {
     return (
       <S.Layout>
-        <NavigationHeader title={navigationTitle} optionType="icon" />
+        <NavigationHeader
+          title={navigationTitle}
+          CustomBackButton={CustomBackButton}
+        />
+
         <WrappedContent {...props} />
       </S.Layout>
     );

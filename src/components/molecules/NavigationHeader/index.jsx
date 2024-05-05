@@ -5,7 +5,7 @@ import Text from '@components/atoms/Text';
 
 import { useNavigate } from 'react-router-dom';
 
-export default function NavigationHeader({ title }) {
+export default function NavigationHeader({ title, CustomBackButton }) {
   const navigate = useNavigate();
 
   const handleBack = () => {
@@ -19,7 +19,11 @@ export default function NavigationHeader({ title }) {
       </Text>
 
       <S.Back onClick={handleBack}>
-        <Icon width="1.5" height="1.5" type="back" />
+        {CustomBackButton ? (
+          CustomBackButton
+        ) : (
+          <Icon width="1.5" height="1.5" type="back" />
+        )}
       </S.Back>
     </S.Layout>
   );
