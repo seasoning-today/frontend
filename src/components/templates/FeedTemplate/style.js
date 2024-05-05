@@ -43,5 +43,5 @@ export const FeedList = styled.ul`
   flex-direction: column;
   align-items: center;
   row-gap: 1.75rem;
-  padding: 1.5rem 1.31rem 5.3125rem;
+  padding: 1.5rem 1.31rem 0;
 `;
