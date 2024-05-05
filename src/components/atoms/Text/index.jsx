@@ -1,6 +1,7 @@
 import * as S from './style';
 
 export default function Text({
+  notoserif,
   size = 1,
   weight = 400,
   color = `#333`,
@@ -8,7 +9,13 @@ export default function Text({
   ...props
 }) {
   return (
-    <S.Layout size={size} weight={weight} color={color} {...props}>
+    <S.Layout
+      notoserif={notoserif}
+      size={size}
+      weight={weight}
+      color={color}
+      {...props}
+    >
       {children}
     </S.Layout>
   );
