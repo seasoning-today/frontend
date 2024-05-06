@@ -13,7 +13,9 @@ export const Layout = styled.div`
 export const SearchContainer = styled.div`
   position: fixed;
   top: 0;
+
   width: 100%;
+  max-width: 26.875rem;
   height: 3.62rem;
 
   display: flex;

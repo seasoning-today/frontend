@@ -50,15 +50,6 @@ export default function SearchTemplate() {
     setKeyword(event.target.value);
   };
 
-  const renderFriendshipStatus = (status) => {
-    switch (status) {
-      case 'FRIEND':
-        return '친구';
-      default:
-        return '대기 중...';
-    }
-  };
-
   const sendFriendRequest = async (friendId) => {
     const accessToken = localStorage.getItem('accessToken');
 
@@ -155,15 +146,14 @@ export default function SearchTemplate() {
                   }}
                 />
               )}
-              {friendshipStatus !== `SELF` && (
+              {friendshipStatus === `FRIEND` && (
                 <Button
-                  text={renderFriendshipStatus(friendshipStatus)}
+                  text="친구"
                   size="0.78"
                   color="#f0f0f0"
                   backgroundColor="#0d6b38"
                   style={{
                     padding: '0.4rem 0.8rem',
-                    opacity: friendshipStatus === `FRIEND` ? '1' : '0.7',
                   }}
                 />
               )}
