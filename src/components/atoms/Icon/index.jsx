@@ -10,6 +10,7 @@ import MoreIcon from '@assets/svg/MoreIcon';
 import NotificationIcon from '@assets/svg/NotificationIcon';
 import SearchMenuIcon from '@assets/svg/SearchMenuIcon';
 import SettingIcon from '@assets/svg/SettingIcon';
+import ToggleIcon from '@assets/svg/ToggleIcon';
 
 export default function Icon({
   type = 'home',
@@ -30,6 +31,8 @@ export default function Icon({
       {type === 'notification-off' && <NotificationIcon />}
       {type === 'search-menu' && <SearchMenuIcon />}
       {type === 'setting' && <SettingIcon />}
+      {type === 'toggle-on' && <ToggleIcon on />}
+      {type === 'toggle-off' && <ToggleIcon />}
     </S.Layout>
   );
 }
