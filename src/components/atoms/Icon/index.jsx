@@ -5,6 +5,7 @@ import CameraIcon from '@assets/svg/CameraIcon';
 import CollageIcon from '@assets/svg/CollageIcon';
 import DropDownIcon from '@assets/svg/DropDownIcon';
 import FeedIcon from '@assets/svg/FeedIcon';
+import FortuneIcon from '@assets/svg/FortuneIcon';
 import FriendsListIcon from '@assets/svg/FriendsListIcon';
 import HomeIcon from '@assets/svg/HomeIcon';
 import MoreIcon from '@assets/svg/MoreIcon';
@@ -26,6 +27,7 @@ export default function Icon({
       {type === 'collage' && <CollageIcon />}
       {type === 'drop-down' && <DropDownIcon />}
       {type === 'feed' && <FeedIcon />}
+      {type === 'fortune' && <FortuneIcon />}
       {type === 'friends-list' && <FriendsListIcon />}
       {type === 'home' && <HomeIcon />}
       {type === 'more' && <MoreIcon />}
