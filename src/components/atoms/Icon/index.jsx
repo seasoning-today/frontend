@@ -3,6 +3,7 @@ import * as S from './style';
 import BackIcon from '@assets/svg/BackIcon';
 import CameraIcon from '@assets/svg/CameraIcon';
 import CollageIcon from '@assets/svg/CollageIcon';
+import DropDownIcon from '@assets/svg/DropDownIcon';
 import FeedIcon from '@assets/svg/FeedIcon';
 import FriendsListIcon from '@assets/svg/FriendsListIcon';
 import HomeIcon from '@assets/svg/HomeIcon';
@@ -23,6 +24,7 @@ export default function Icon({
       {type === 'back' && <BackIcon />}
       {type === 'camera' && <CameraIcon />}
       {type === 'collage' && <CollageIcon />}
+      {type === 'drop-down' && <DropDownIcon />}
       {type === 'feed' && <FeedIcon />}
       {type === 'friends-list' && <FriendsListIcon />}
       {type === 'home' && <HomeIcon />}
