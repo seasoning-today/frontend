@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 
 import Icon from '@components/atoms/Icon';
 import Text from '@components/atoms/Text';
-import FeedListItem from '@components/molecules/FeedListItem';
 import TabBar from '@components/molecules/TabBar';
+import FriendsFeedListItem from '@components/organisms/FriendsFeedListItem';
 
 export default function FeedTemplate({ feedData, focusElementRef }) {
   return (
@@ -25,7 +25,11 @@ export default function FeedTemplate({ feedData, focusElementRef }) {
 
       <S.FeedList>
         {feedData.map(({ profile, article }) => (
-          <FeedListItem key={article.id} profile={profile} article={article} />
+          <FriendsFeedListItem
+            key={article.id}
+            profile={profile}
+            article={article}
+          />
         ))}
 
         <div ref={focusElementRef} />
