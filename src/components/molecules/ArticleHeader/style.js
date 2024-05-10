@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const Layout = styled.header`
   position: fixed;
   top: 0;
+  z-index: 50;
 
   width: 100%;
   max-width: 26.875rem;
