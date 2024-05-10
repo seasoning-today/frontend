@@ -11,9 +11,11 @@ import HomeIcon from '@assets/svg/HomeIcon';
 import LockIcon from '@assets/svg/LockIcon';
 import MoreIcon from '@assets/svg/MoreIcon';
 import NotificationIcon from '@assets/svg/NotificationIcon';
+import OptionIcon from '@assets/svg/OptionIcon';
 import SearchMenuIcon from '@assets/svg/SearchMenuIcon';
 import SettingIcon from '@assets/svg/SettingIcon';
 import ToggleIcon from '@assets/svg/ToggleIcon';
+import QuitIcon from '@assets/svg/QuitIcon';
 
 export default function Icon({
   type = 'home',
@@ -35,10 +37,12 @@ export default function Icon({
       {type === 'more' && <MoreIcon />}
       {type === 'notification-on' && <NotificationIcon on />}
       {type === 'notification-off' && <NotificationIcon />}
+      {type === 'option' && <OptionIcon />}
       {type === 'search-menu' && <SearchMenuIcon />}
       {type === 'setting' && <SettingIcon />}
       {type === 'toggle-on' && <ToggleIcon on />}
       {type === 'toggle-off' && <ToggleIcon />}
+      {type === 'quit' && <QuitIcon />}
     </S.Layout>
   );
 }
