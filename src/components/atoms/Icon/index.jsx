@@ -8,6 +8,7 @@ import FeedIcon from '@assets/svg/FeedIcon';
 import FortuneIcon from '@assets/svg/FortuneIcon';
 import FriendsListIcon from '@assets/svg/FriendsListIcon';
 import HomeIcon from '@assets/svg/HomeIcon';
+import LockIcon from '@assets/svg/LockIcon';
 import MoreIcon from '@assets/svg/MoreIcon';
 import NotificationIcon from '@assets/svg/NotificationIcon';
 import SearchMenuIcon from '@assets/svg/SearchMenuIcon';
@@ -30,6 +31,7 @@ export default function Icon({
       {type === 'fortune' && <FortuneIcon />}
       {type === 'friends-list' && <FriendsListIcon />}
       {type === 'home' && <HomeIcon />}
+      {type === 'lock' && <LockIcon />}
       {type === 'more' && <MoreIcon />}
       {type === 'notification-on' && <NotificationIcon on />}
       {type === 'notification-off' && <NotificationIcon />}
