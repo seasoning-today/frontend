@@ -5,7 +5,7 @@ export const Layout = styled.div`
 
   width: ${({ width }) => `${width}rem`};
   height: ${({ height }) => `${height}rem`};
-  border-radius: ${({ circle, radius }) => (circle ? `50%` : `${radius}`)};
+  border-radius: ${({ circle, radius }) => (circle ? `50%` : `${radius}rem`)};
   flex-shrink: 0;
 
   display: flex;
