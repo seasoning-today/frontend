@@ -7,6 +7,7 @@ import DropDownIcon from '@assets/svg/DropDownIcon';
 import FeedIcon from '@assets/svg/FeedIcon';
 import FortuneIcon from '@assets/svg/FortuneIcon';
 import FriendsListIcon from '@assets/svg/FriendsListIcon';
+import HeartIcon from '@assets/svg/HeartIcon';
 import HomeIcon from '@assets/svg/HomeIcon';
 import LockIcon from '@assets/svg/LockIcon';
 import MoreIcon from '@assets/svg/MoreIcon';
@@ -32,6 +33,8 @@ export default function Icon({
       {type === 'feed' && <FeedIcon />}
       {type === 'fortune' && <FortuneIcon />}
       {type === 'friends-list' && <FriendsListIcon />}
+      {type === 'heart-on' && <HeartIcon on />}
+      {type === 'heart-off' && <HeartIcon />}
       {type === 'home' && <HomeIcon />}
       {type === 'lock' && <LockIcon />}
       {type === 'more' && <MoreIcon />}
