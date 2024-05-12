@@ -16,6 +16,7 @@ export const ProfileContainer = styled.div`
 
   display: flex;
   justify-content: space-between;
+  padding: 0 0.38rem 0 0.13rem;
 
   section {
     display: flex;
