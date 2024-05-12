@@ -1,9 +1,9 @@
 import * as S from './style';
-
-import { useMediaQuery } from 'react-responsive';
 import { Outlet } from 'react-router-dom';
 
 import Text from '@components/atoms/Text';
+
+import { useMediaQuery } from 'react-responsive';
 
 import Logo from '@assets/svg/Logo';
 import logo_text from '@assets/layout/logo-text.webp';
@@ -46,15 +46,17 @@ export default function RootLayout() {
     <S.Layout>
       {!isPadSize && (
         <S.LogoContainer>
-          <S.LogoWrapper>
-            <Logo />
-          </S.LogoWrapper>
-          <div className="logo__header">
-            <img src={logo_text} />
-          </div>
-          <Text size="1" color="#bfbfbf" style={{ marginTop: '1rem' }}>
-            24개의 절기를 나의 입맛에 맞게
-          </Text>
+          <section>
+            <S.LogoWrapper>
+              <Logo />
+            </S.LogoWrapper>
+            <div className="logo__header">
+              <img src={logo_text} />
+            </div>
+            <Text size="1" color="#bfbfbf" style={{ marginTop: '1rem' }}>
+              24개의 절기를 나의 입맛에 맞게
+            </Text>
+          </section>
         </S.LogoContainer>
       )}
 

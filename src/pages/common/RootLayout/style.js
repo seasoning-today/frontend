@@ -7,19 +7,22 @@ export const Layout = styled.div`
   min-height: 100svh;
 
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
 `;
 
 export const LogoContainer = styled.div`
-  position: fixed;
-  left: 5svw;
   width: 40svw;
-  height: 100svh;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  section {
+    position: fixed;
+    width: 40svw;
+    height: 100svh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 
   .logo__header {
     position: relative;
@@ -45,9 +48,7 @@ export const LogoWrapper = styled.div`
 `;
 
 export const ContentContainer = styled.div`
-  position: absolute;
-  ${({ isPadSize }) => (!isPadSize ? `right: 5svw;` : ``)}
-
+  position: relative;
   width: 100%;
   max-width: 26.875rem;
   height: auto;
