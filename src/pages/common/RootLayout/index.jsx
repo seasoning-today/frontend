@@ -53,7 +53,7 @@ export default function RootLayout() {
             <img src={logo_text} />
           </div>
           <Text size="1" color="#bfbfbf" style={{ marginTop: '1rem' }}>
-            24개의 계절을 나의 입맛에 맞게
+            24개의 절기를 나의 입맛에 맞게
           </Text>
         </S.LogoContainer>
       )}
