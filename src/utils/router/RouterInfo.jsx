@@ -21,7 +21,6 @@ import WritePage from '@pages/write';
 import NotificationPage from '@pages/notification';
 /* notice 하위 페이지 */
 import NoticePage from '@pages/notice';
-import NoticeAdminPage from '@pages/notice/admin';
 /* login 하위 페이지 */
 import LoginPage from '@pages/login';
 import CallBackPage from '@pages/login/callback/kakao';
@@ -128,16 +127,11 @@ export const RouterInfo = [
         loader: NotificationLoader,
       },
       {
-        element: <NoticeAdminPage />,
         path: 'notice',
         element: <NoticePage />,
         loader: NoticeLoader,
       },
       /* Dev pages */
-      {
-        path: 'notice/admin',
-        loader: NoticeLoader,
-      },
       {
         path: 'dev',
         element: <DevelopPage />,
