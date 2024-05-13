@@ -1,6 +1,6 @@
 import * as S from './style';
 
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import Icon from '@components/atoms/Icon';
 
@@ -9,7 +9,7 @@ export default function TabBar() {
 
   return (
     <S.Layout>
-      <Link to={`/home`}>
+      <S.TabBarItem to={`/home`}>
         <Icon
           type="home"
           width={2}
@@ -18,8 +18,8 @@ export default function TabBar() {
             opacity: pathname === `/` || pathname === `/home` ? '1' : '0.3',
           }}
         />
-      </Link>
-      <Link to={`/collage`}>
+      </S.TabBarItem>
+      <S.TabBarItem to={`/collage`}>
         <Icon
           type="collage"
           width={2}
@@ -28,8 +28,8 @@ export default function TabBar() {
             opacity: pathname === `/collage` ? '1' : '0.3',
           }}
         />
-      </Link>
-      <Link to={`/feed`}>
+      </S.TabBarItem>
+      <S.TabBarItem to={`/feed`}>
         <Icon
           type="feed"
           width={2}
@@ -38,8 +38,8 @@ export default function TabBar() {
             opacity: pathname === `/feed` ? '1' : '0.3',
           }}
         />
-      </Link>
-      <Link to={`/mypage`}>
+      </S.TabBarItem>
+      <S.TabBarItem to={`/mypage`}>
         <Icon
           type="setting"
           width={2}
@@ -48,7 +48,7 @@ export default function TabBar() {
             opacity: pathname === `/mypage` ? '1' : '0.3',
           }}
         />
-      </Link>
+      </S.TabBarItem>
     </S.Layout>
   );
 }
