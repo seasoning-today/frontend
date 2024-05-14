@@ -6,13 +6,7 @@ import FeedItem from '@components/molecules/FeedItem';
 import { TermsToChinese } from '@utils/seasoning/TermsToChinese';
 import { TermsToKorean } from '@utils/seasoning/TermsToKorean';
 
-export default function SeasonFeedItem({
-  articleId,
-  term,
-  year,
-  image,
-  preview,
-}) {
+export default function MyFeedItem({ articleId, term, year, image, preview }) {
   return (
     <S.Layout to={`/article/${articleId}`}>
       <S.InfoContainer>
