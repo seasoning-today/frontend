@@ -85,12 +85,8 @@ export const ToggleContainer = styled.div`
   }
 `;
 
-export const CollageContainer = styled.div`
+export const CollageGridContainer = styled.div`
   width: 100%;
 
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-auto-rows: 6.1875rem;
-  grid-gap: 0;
   padding: 0 1.88rem;
 `;

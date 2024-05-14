@@ -2,9 +2,9 @@ import * as S from './style';
 
 import Icon from '@components/atoms/Icon';
 import Text from '@components/atoms/Text';
-import CollageCard from '@components/molecules/CollageCard';
 import NotificationHeader from '@components/molecules/NotificationHeader';
 import TabBar from '@components/molecules/TabBar';
+import CollageGrid from '@components/organisms/CollageGrid';
 
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -15,8 +15,6 @@ export default function CollageTemplate({ collageData, isNewNotification }) {
   const [labelEnabled, setLabelEnabled] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-
-  const terms = Array.from({ length: 24 }, (_, i) => i + 1);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -90,30 +88,13 @@ export default function CollageTemplate({ collageData, isNewNotification }) {
         </S.OptionContainer>
       </S.MenuContainer>
 
-      <S.CollageContainer>
-        {terms.map((term) => {
-          const collageItemData = collageData.find(
-            (item) => item.term === term
-          );
-
-          return (
-            <CollageCard
-              key={term}
-              term={term}
-              image={
-                collageItemData !== undefined && collageItemData.image !== null
-                  ? collageItemData.image
-                  : null
-              }
-              articleId={
-                collageItemData !== undefined ? collageItemData.articleId : null
-              }
-              imageEnabled={imageEnabled}
-              labelEnabled={labelEnabled}
-            />
-          );
-        })}
-      </S.CollageContainer>
+      <S.CollageGridContainer>
+        <CollageGrid
+          collageData={collageData}
+          imageEnabled={imageEnabled}
+          labelEnabled={labelEnabled}
+        />
+      </S.CollageGridContainer>
 
       <TabBar />
     </S.Layout>
