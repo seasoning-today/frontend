@@ -14,7 +14,7 @@ export default function NoticeListItem({ content, date }) {
 
   return (
     <S.Layout>
-      <Text size="0.875" color="#333" style={{ whiteSpace: 'pre-wrap' }}>
+      <Text size="0.8125" color="#333" style={{ whiteSpace: 'pre-wrap' }}>
         {content}
       </Text>
       <Text size="0.6875" color="#8c8c8c">
