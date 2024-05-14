@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Layout = styled.div`
+export const Layout = styled.li`
   width: 100%;
 
   display: flex;
