@@ -8,7 +8,7 @@ export const Layout = styled.div`
   flex-direction: column;
   align-items: center;
 
-  .notice__empty {
+  .notice-empty {
     width: 100%;
     height: 100%;
 
@@ -18,13 +18,9 @@ export const Layout = styled.div`
   }
 `;
 
-export const NoticeList = styled.div`
+export const NoticeListContainer = styled.div`
   width: 100%;
-  flex-grow: 1;
+  height: 100%;
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   padding: 1.12rem 1rem;
-  row-gap: 1rem;
 `;
