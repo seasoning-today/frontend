@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Icon from '@components/atoms/Icon';
 import Text from '@components/atoms/Text';
 import TabBar from '@components/molecules/TabBar';
-import FriendsFeedItem from '@components/organisms/FriendsFeedItem';
+import FriendsFeedItem from '@components/molecules/FriendsFeedItem';
 
 export default function FeedTemplate({ feedData, focusElementRef }) {
   return (
