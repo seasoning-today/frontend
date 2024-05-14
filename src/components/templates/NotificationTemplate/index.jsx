@@ -1,7 +1,8 @@
 import * as S from './style';
 
 import Divider from '@components/atoms/Divider';
-import NotificationListItem from '@components/molecules/NotificationListItem';
+
+import NotificationList from '@components/organisms/NotificationList';
 import withNavigation from '@components/hoc/withNavigation';
 
 function NotificationTemplate({
@@ -11,35 +12,17 @@ function NotificationTemplate({
 }) {
   return (
     <S.Layout>
-      <S.NotificationList>
-        {friendRequests.map((notification) => (
-          <NotificationListItem
-            key={notification.id}
-            type={notification.type}
-            message={notification.profile.id}
-            imageUrl={notification.profile.image}
-            profileName={notification.profile.nickname}
-            date={notification.created}
-          />
-        ))}
+      <S.NotificationListContainer>
+        <NotificationList notificationData={friendRequests} />
 
         {friendRequests.length > 0 && notifications.length > 0 ? (
           <Divider borderWidth="0.0625" color="#e3e3e3" />
         ) : undefined}
 
-        {notifications.map((notification) => (
-          <NotificationListItem
-            key={notification.id}
-            type={notification.type}
-            message={notification.message}
-            imageUrl={notification.profile.image}
-            profileName={notification.profile.nickname}
-            date={notification.created}
-          />
-        ))}
+        <NotificationList notificationData={notifications} />
 
         <div ref={focusElementRef} />
-      </S.NotificationList>
+      </S.NotificationListContainer>
     </S.Layout>
   );
 }
