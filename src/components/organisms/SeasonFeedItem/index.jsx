@@ -1,7 +1,7 @@
 import * as S from './style';
 
 import Text from '@components/atoms/Text';
-import FeedListItemBody from '@components/molecules/FeedListItemBody';
+import FeedItem from '@components/molecules/FeedItem';
 
 import { TermsToChinese } from '@utils/seasoning/TermsToChinese';
 import { TermsToKorean } from '@utils/seasoning/TermsToKorean';
@@ -40,7 +40,7 @@ export default function SeasonFeedItem({
         </Text>
       </S.InfoContainer>
 
-      <FeedListItemBody image={image} preview={preview} />
+      <FeedItem image={image} preview={preview} />
     </S.Layout>
   );
 }

@@ -1,12 +1,12 @@
 import * as S from './style';
 
-import NotificationListItem from '@components/molecules/NotificationListItem';
+import NotificationItem from '@components/molecules/NotificationItem';
 
 export default function NotificationList({ notificationData }) {
   return (
     <S.Layout>
       {notificationData.map(({ id, type, message, profile, created }) => (
-        <NotificationListItem
+        <NotificationItem
           key={id}
           type={type}
           message={type === `FRIENDSHIP_REQUEST` ? profile.id : message}

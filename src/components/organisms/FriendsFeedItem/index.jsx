@@ -1,7 +1,7 @@
 import * as S from './style';
 
 import Text from '@components/atoms/Text';
-import FeedListItemBody from '@components/molecules/FeedListItemBody';
+import FeedItem from '@components/molecules/FeedItem';
 import UserProfile from '@components/molecules/UserProfile';
 
 import { TermsToChinese } from '@utils/seasoning/TermsToChinese';
@@ -31,7 +31,7 @@ export default function FriendsFeedItem({ profile, article }) {
         </section>
       </S.ProfileContainer>
 
-      <FeedListItemBody image={article.image} preview={article.preview} />
+      <FeedItem image={article.image} preview={article.preview} />
     </S.Layout>
   );
 }

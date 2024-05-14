@@ -1,14 +1,14 @@
 import * as S from './style';
 
 import Text from '@components/atoms/Text';
-import SeasonFeedListItem from '@components/organisms/SeasonFeedListItem';
+import SeasonFeedItem from '@components/organisms/SeasonFeedItem';
 
 export default function SeasonTemplate({ homeData }) {
   return (
     <S.Layout>
       {homeData.length > 0 ? (
         homeData.map(({ id, term, year, image, preview }) => (
-          <SeasonFeedListItem
+          <SeasonFeedItem
             key={id}
             articleId={id}
             term={term}

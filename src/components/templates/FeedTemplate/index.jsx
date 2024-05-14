@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Icon from '@components/atoms/Icon';
 import Text from '@components/atoms/Text';
 import TabBar from '@components/molecules/TabBar';
-import FriendsFeedListItem from '@components/organisms/FriendsFeedListItem';
+import FriendsFeedItem from '@components/organisms/FriendsFeedItem';
 
 export default function FeedTemplate({ feedData, focusElementRef }) {
   return (
@@ -25,7 +25,7 @@ export default function FeedTemplate({ feedData, focusElementRef }) {
 
       <S.FeedList>
         {feedData.map(({ profile, article }) => (
-          <FriendsFeedListItem
+          <FriendsFeedItem
             key={article.id}
             profile={profile}
             article={article}
