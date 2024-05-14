@@ -5,7 +5,7 @@ import Text from '@components/atoms/Text';
 
 import Toggle from '@components/molecules/Toggle';
 
-export default function MenuListItem({
+export default function MenuItem({
   type,
   to,
   value,

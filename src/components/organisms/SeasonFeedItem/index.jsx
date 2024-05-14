@@ -6,7 +6,7 @@ import FeedListItemBody from '@components/molecules/FeedListItemBody';
 import { TermsToChinese } from '@utils/seasoning/TermsToChinese';
 import { TermsToKorean } from '@utils/seasoning/TermsToKorean';
 
-export default function SeasonFeedListItem({
+export default function SeasonFeedItem({
   articleId,
   term,
   year,

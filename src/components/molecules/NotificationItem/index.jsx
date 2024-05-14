@@ -30,7 +30,7 @@ const formatNotificationTime = (timestamp) => {
   }
 };
 
-export default function NotificationListItem({
+export default function NotificationItem({
   type,
   message,
   imageUrl,

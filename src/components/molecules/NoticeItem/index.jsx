@@ -2,7 +2,7 @@ import * as S from './style';
 
 import Text from '@components/atoms/Text';
 
-export default function NoticeListItem({ content, date }) {
+export default function NoticeItem({ content, date }) {
   const parseDate = (dateString) => {
     const noticeDate = new Date(dateString);
     const year = noticeDate.getFullYear();

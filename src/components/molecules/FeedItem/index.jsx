@@ -3,7 +3,7 @@ import * as S from './style';
 import Image from '@components/atoms/Image';
 import Text from '@components/atoms/Text';
 
-export default function FeedListItemBody({ image, preview }) {
+export default function FeedItem({ image, preview }) {
   return (
     <S.Layout>
       {image && (

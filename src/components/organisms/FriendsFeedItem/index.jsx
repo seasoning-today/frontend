@@ -7,7 +7,7 @@ import UserProfile from '@components/molecules/UserProfile';
 import { TermsToChinese } from '@utils/seasoning/TermsToChinese';
 import { TermsToKorean } from '@utils/seasoning/TermsToKorean';
 
-export default function FriendsFeedListItem({ profile, article }) {
+export default function FriendsFeedItem({ profile, article }) {
   return (
     <S.Layout to={`/article/${article.id}`}>
       <S.ProfileContainer>
