@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Layout = styled.div`
+export const Layout = styled.ul`
   position: relative;
   width: 100%;
   border-radius: 0.5rem;
@@ -25,31 +25,6 @@ export const Carousel = styled.ul`
   column-gap: 1.5rem;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-`;
-
-export const CarouselItem = styled.div`
-  position: relative;
-  width: 100%;
-  min-width: 100%;
-  height: 100%;
-  border-radius: 0.5rem;
-
-  scroll-snap-align: center;
-
-  cursor: ${({ readOnly }) => (!readOnly ? `pointer` : `default`)};
-
-  svg {
-    position: absolute;
-    top: 0.62rem;
-    right: 0.62rem;
-
-    cursor: pointer;
-  }
-
-  path {
-    fill: white;
-    fill-opacity: 0.7;
-  }
 `;
 
 export const Indicator = styled.ul`
