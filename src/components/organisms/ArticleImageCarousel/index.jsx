@@ -29,7 +29,7 @@ export default function ArticleImageCarousel({
           {images.map((image, index) => (
             <ArticleImageCarouselItem
               key={index}
-              readOnly
+              readOnly={readOnly}
               imageIndex={index}
               image={image}
               {...props}
