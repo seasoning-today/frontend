@@ -69,3 +69,8 @@ select::-ms-expand {
 svg {
   vertical-align: middle;
 }
+
+ul {
+  list-style: none;
+  padding-left: 0px;
+}
