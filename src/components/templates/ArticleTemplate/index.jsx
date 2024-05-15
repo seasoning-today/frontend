@@ -12,8 +12,8 @@ import Icon from '@components/atoms/Icon';
 import Image from '@components/atoms/Image';
 import Text from '@components/atoms/Text';
 import ArticleHeader from '@components/molecules/ArticleHeader';
-import ImageCarousel from '@components/molecules/ImageCarousel';
 import ContentEditor from '@components/molecules/ContentEditor';
+import ArticleImageCarousel from '@components/organisms/ArticleImageCarousel';
 
 export default function ArticleTemplate({
   articleId,
@@ -105,7 +105,7 @@ export default function ArticleTemplate({
       />
 
       <S.ContentContainer>
-        <ImageCarousel
+        <ArticleImageCarousel
           readOnly
           images={articleData.images.map((image) => image.url)}
         />
