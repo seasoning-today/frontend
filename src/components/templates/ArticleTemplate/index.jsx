@@ -1,9 +1,6 @@
 import * as S from './style';
 import axios from 'axios';
 
-import ArticleMenuModal from '@components/article/ArticleMenuModal';
-import ArticleDeleteModal from '@components/article/ArticleDeleteModal';
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useFallBackImage from '@utils/hooks/useFallBackImage';
@@ -11,6 +8,8 @@ import useFallBackImage from '@utils/hooks/useFallBackImage';
 import Icon from '@components/atoms/Icon';
 import Image from '@components/atoms/Image';
 import Text from '@components/atoms/Text';
+import ArticleDeleteModal from '@components/molecules/ArticleDeleteModal';
+import ArticleMenuModal from '@components/molecules/ArticleMenuModal';
 import ArticleHeader from '@components/molecules/ArticleHeader';
 import ContentEditor from '@components/molecules/ContentEditor';
 import ArticleImageCarousel from '@components/organisms/ArticleImageCarousel';
