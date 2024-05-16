@@ -1,15 +1,13 @@
 import * as S from './style';
 
-import WithdrawModal from '@components/account/WithdrawModal';
-
-import withNavigation from '@components/hoc/withNavigation';
-
+import AccountWithdrawModal from '@components/molecules/AccountWithdrawModal';
 import MenuList from '@components/organisms/MenuList';
+import withNavigation from '@components/hoc/withNavigation';
 
 function AccountTemplate({ showModal, handleCloseModal, menuListsData }) {
   return (
     <S.Layout>
-      {showModal && <WithdrawModal onCloseModal={handleCloseModal} />}
+      {showModal && <AccountWithdrawModal onCloseModal={handleCloseModal} />}
 
       <S.MenuContainer>
         {menuListsData.map((menuListData, index) => (
