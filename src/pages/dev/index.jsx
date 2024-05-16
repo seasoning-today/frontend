@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { useLoaderData } from 'react-router-dom';
 
 const Layout = styled.div`
   width: 100%;
