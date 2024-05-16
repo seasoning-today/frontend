@@ -24,8 +24,6 @@ import NoticePage from '@pages/notice';
 /* login 하위 페이지 */
 import LoginPage from '@pages/login';
 import CallBackPage from '@pages/login/callback/kakao';
-/* dev 하위 페이지 */
-import DevelopPage from '@pages/dev';
 /* 기타 페이지 */
 import Error404Page from '@pages/error/404';
 
@@ -130,12 +128,6 @@ export const RouterInfo = [
         path: 'notice',
         element: <NoticePage />,
         loader: NoticeLoader,
-      },
-      /* Dev pages */
-      {
-        path: 'dev',
-        element: <DevelopPage />,
-        loader: DevPageLoader,
       },
     ],
   },
