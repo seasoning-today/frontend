@@ -32,6 +32,10 @@ a {
   text-decoration: none;
 }
 
+button {
+  border: none;
+}
+
 img {
   -webkit-user-select: none;
   -khtml-user-select: none;
