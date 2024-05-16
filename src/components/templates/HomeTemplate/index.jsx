@@ -6,13 +6,13 @@ import Text from '@components/atoms/Text';
 import NotificationHeader from '@components/molecules/NotificationHeader';
 import SeasonMenuItem from '@components/molecules/SeasonMenuItem';
 import TabBar from '@components/molecules/TabBar';
+import FortuneModal from '@components/molecules/FortuneModal';
 import SeasonTemplate from '@components/templates/HomeTemplate/Season';
 import YearTemplate from '@components/templates/HomeTemplate/Year';
 
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-import FortuneModal from '@components/home/FortuneModal';
 import { TermsToChinese } from '@utils/seasoning/TermsToChinese';
 import { TermsToKorean } from '@utils/seasoning/TermsToKorean';
 
