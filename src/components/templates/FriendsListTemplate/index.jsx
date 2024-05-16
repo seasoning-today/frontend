@@ -1,7 +1,7 @@
 import * as S from './style';
 import { useState } from 'react';
 
-import FriendDeleteModal from '@components/feed/FriendDeleteModal';
+import FriendsDeleteModal from '@components/molecules/FriendsDeleteModal';
 
 import Button from '@components/atoms/Button';
 import Text from '@components/atoms/Text';
@@ -20,7 +20,7 @@ function FriendsListTemplate({ friendListData }) {
   return (
     <S.Layout>
       {showModal && (
-        <FriendDeleteModal
+        <FriendsDeleteModal
           friendId={selectedFriendId}
           onCloseModal={() => {
             setShowModal(false);
