@@ -13,6 +13,7 @@ export const Layout = styled.div`
 
 export const OnboardingCarouselContainer = styled.div`
   width: 100%;
+  flex-grow: 1;
 
   padding: 0 2rem;
 `;
@@ -25,4 +26,5 @@ export const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-bottom: 2.25rem;
 `;
