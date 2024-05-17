@@ -18,14 +18,14 @@ export const Carousel = styled.ul`
   display: flex;
   align-items: center;
   column-gap: 1.5rem;
-  padding-bottom: 1rem;
+  padding-bottom: 1.5rem;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
 `;
 
 export const Indicator = styled.ul`
   position: absolute;
-  bottom: 0;
+  bottom: 1.5rem;
   width: 100%;
   z-index: 11;
 

@@ -30,7 +30,12 @@ export default function OnboardingCarouselItem({
       <S.ImageContainer>
         <Image
           src={imageUrl}
-          style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+          style={{
+            position: 'relative',
+            width: '100%',
+            height: '100%',
+            objectFit: 'contain',
+          }}
         />
       </S.ImageContainer>
     </S.Layout>

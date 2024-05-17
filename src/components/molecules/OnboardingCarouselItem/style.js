@@ -8,10 +8,9 @@ export const Layout = styled.li`
 
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
-  row-gap: 1rem;
-  padding: 1rem 0;
+  padding: 1.5rem 0;
 
   scroll-snap-align: center;
 `;
@@ -33,6 +32,6 @@ export const TextContainer = styled.div`
 export const ImageContainer = styled.div`
   position: relative;
   width: 100%;
-  height: 55%;
   flex-grow: 1;
+  padding: 1.5rem;
 `;
