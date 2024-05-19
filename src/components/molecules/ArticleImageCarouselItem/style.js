@@ -8,7 +8,6 @@ export const Layout = styled.li`
   border-radius: 0.5rem;
 
   scroll-snap-align: center;
-  background-color: yellow;
 
   cursor: ${({ readOnly }) => (!readOnly ? `pointer` : `default`)};
 
