@@ -9,4 +9,9 @@ export const Layout = styled.div`
   align-items: center;
 
   cursor: pointer;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
 `;
