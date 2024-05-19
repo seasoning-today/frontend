@@ -12,6 +12,7 @@ import SearchPage from '@pages/feed/friends-search';
 import MyPage from '@pages/mypage';
 import AccountPage from '@pages/mypage/account';
 import EditProfilePage from '@pages/mypage/edit';
+import KakaoFriendsPage from '@pages/mypage/kakao-friends';
 /* article 하위 페이지 */
 import ArticlePage from '@pages/article';
 import EditArticlePage from '@pages/article/edit';
@@ -87,6 +88,11 @@ export const RouterInfo = [
       {
         path: 'mypage/edit',
         element: <EditProfilePage />,
+        loader: UserRestrictLoader,
+      },
+      {
+        path: 'mypage/kakao-friends',
+        element: <KakaoFriendsPage />,
         loader: UserRestrictLoader,
       },
       {
