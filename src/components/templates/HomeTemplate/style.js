@@ -15,6 +15,23 @@ export const Layout = styled.div`
   padding-bottom: 3.8125rem;
 `;
 
+export const Popup = styled.aside`
+  position: fixed;
+  bottom: 6rem;
+  right: 0;
+  z-index: 50;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  cursor: pointer;
+
+  section {
+    padding: 0.25rem;
+  }
+`;
+
 export const MenuContainer = styled.div`
   position: fixed;
   top: 3.125rem;

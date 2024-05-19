@@ -2,6 +2,7 @@ import * as S from './style';
 import axios from 'axios';
 
 import Icon from '@components/atoms/Icon';
+import Image from '@components/atoms/Image';
 import Text from '@components/atoms/Text';
 import NotificationHeader from '@components/molecules/NotificationHeader';
 import SeasonMenuItem from '@components/molecules/SeasonMenuItem';
@@ -12,9 +13,10 @@ import YearTemplate from '@components/templates/HomeTemplate/Year';
 
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-
 import { TermsToChinese } from '@utils/seasoning/TermsToChinese';
 import { TermsToKorean } from '@utils/seasoning/TermsToKorean';
+
+import ghost_popup from '@assets/home/ghost-popup.webp';
 
 export default function HomeTemplate({
   homeData,
@@ -34,6 +36,11 @@ export default function HomeTemplate({
   /* 운세 모달 */
   const [fortuneText, setFortuneText] = useState('');
   const [showModal, setShowModal] = useState(false);
+  /* 채널 친구 추가 팝업 */
+  const isShownKakaoFriendsPopup = localStorage.getItem(
+    'isShownKakaoFriendsPopup'
+  );
+  console.log(isShownKakaoFriendsPopup);
   /* 홈 */
   const searchParams = new URLSearchParams(location.search);
   const category = searchParams.get('category')
@@ -42,6 +49,16 @@ export default function HomeTemplate({
   /* 절기별 보기 */
   const selectedTerm =
     searchParams.get('term') === null ? 0 : searchParams.get('term');
+
+  /* 이벤트 처리 */
+  const handleClickPopup = () => {
+    window.open('https://pf.kakao.com/_GbxmxmG/friend', '_blank');
+  };
+
+  const handleClosePopup = () => {
+    localStorage.setItem('isShownKakaoFriendsPopup', true);
+    navigate('/', { replace: true });
+  };
 
   const handleCategoryChange = (event) => {
     const changedCategory = event.target.value;
@@ -73,6 +90,19 @@ export default function HomeTemplate({
             setShowModal(false);
           }}
         />
+      )}
+
+      {!isShownKakaoFriendsPopup && (
+        <S.Popup>
+          <section onClick={handleClosePopup}>
+            <Icon width="1.5" height="1.5" type="quit" />
+          </section>
+          <Image
+            src={ghost_popup}
+            onClick={handleClickPopup}
+            style={{ width: '100%', maxWidth: '16.625rem', height: 'auto' }}
+          />
+        </S.Popup>
       )}
 
       <NotificationHeader isNewNotification={isNewNotification} />
