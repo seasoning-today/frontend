@@ -13,10 +13,13 @@ import LockIcon from '@assets/svg/LockIcon';
 import MoreIcon from '@assets/svg/MoreIcon';
 import NotificationIcon from '@assets/svg/NotificationIcon';
 import OptionIcon from '@assets/svg/OptionIcon';
+import PictureIcon from '@assets/svg/PictureIcon';
+import PrivacyIcon from '@assets/svg/PrivacyIcon';
+import QuestionStackIcon from '@assets/svg/QuestionStackIcon';
+import QuitIcon from '@assets/svg/QuitIcon';
 import SearchMenuIcon from '@assets/svg/SearchMenuIcon';
 import SettingIcon from '@assets/svg/SettingIcon';
 import ToggleIcon from '@assets/svg/ToggleIcon';
-import QuitIcon from '@assets/svg/QuitIcon';
 
 export default function Icon({
   type = 'home',
@@ -41,11 +44,15 @@ export default function Icon({
       {type === 'notification-on' && <NotificationIcon on />}
       {type === 'notification-off' && <NotificationIcon />}
       {type === 'option' && <OptionIcon />}
+      {type === 'picture' && <PictureIcon />}
+      {type === 'privacy-on' && <PrivacyIcon on />}
+      {type === 'privacy-off' && <PrivacyIcon off />}
+      {type === 'question-stack' && <QuestionStackIcon />}
+      {type === 'quit' && <QuitIcon />}
       {type === 'search-menu' && <SearchMenuIcon />}
       {type === 'setting' && <SettingIcon />}
       {type === 'toggle-on' && <ToggleIcon on />}
       {type === 'toggle-off' && <ToggleIcon />}
-      {type === 'quit' && <QuitIcon />}
     </S.Layout>
   );
 }
