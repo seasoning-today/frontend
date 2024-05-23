@@ -27,20 +27,24 @@ export const ContentRow = styled.div`
   display: flex;
   justify-content: center;
   column-gap: 1.31rem;
+`;
 
-  &:last-child {
-    margin-right: 5.5rem;
-    justify-content: right;
-  }
+export const EmptyCircle = styled.div`
+  width: 6rem;
+  height: 6rem;
+  z-index: 10;
+  border-radius: 50%;
 `;
 
 export const Background = styled.div`
   position: absolute;
   top: 0.25rem;
-  width: 100%;
+  width: 24.375rem;
   max-width: 24.375rem;
+  min-width: 24.375rem;
   height: 100%;
   z-index: 10;
 
   background-color: white;
+  background-color: yellow;
 `;

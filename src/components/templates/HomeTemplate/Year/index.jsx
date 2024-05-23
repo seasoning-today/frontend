@@ -93,6 +93,7 @@ export default function YearTemplate({ homeData, termData }) {
           <SeasonCircle term={23} statusData={getStatus(23)} />
         </S.ContentRow>
         <S.ContentRow>
+          <S.EmptyCircle />
           <SeasonCircle term={24} statusData={getStatus(24)} />
         </S.ContentRow>
       </S.ContentContainer>
