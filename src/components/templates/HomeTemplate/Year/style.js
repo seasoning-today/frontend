@@ -46,5 +46,4 @@ export const Background = styled.div`
   z-index: 10;
 
   background-color: white;
-  background-color: yellow;
 `;
