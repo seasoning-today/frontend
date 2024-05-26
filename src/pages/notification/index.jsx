@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
-import { useLoaderData, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import NotificationTemplate from '@components/templates/NotificationTemplate';
 
-import useRefFocusEffect from '@utils/hooks/useRefFocusEffect';
+import { useState, useEffect } from 'react';
+import { useLoaderData, useNavigate } from 'react-router-dom';
+import useIntersectionFocus from '@utils/hooks/useIntersectionFocus';
 
 const NotificationPage = () => {
   const { initialNotificationData } = useLoaderData();
@@ -53,7 +53,7 @@ const NotificationPage = () => {
       }
     }
   };
-  const { focusElementRef } = useRefFocusEffect(fetchNotificationData, []);
+  const { observerRef } = useIntersectionFocus(fetchNotificationData, []);
 
   useEffect(() => {
     setFriendRequests(
@@ -72,7 +72,7 @@ const NotificationPage = () => {
     <NotificationTemplate
       friendRequests={friendRequests}
       notifications={otherNotifications}
-      focusElementRef={focusElementRef}
+      observerRef={observerRef}
     />
   );
 };

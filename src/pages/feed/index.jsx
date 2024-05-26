@@ -1,9 +1,10 @@
 import axios from 'axios';
-import { useState } from 'react';
-import { useLoaderData, useNavigate } from 'react-router-dom';
-import useRefFocusEffect from '@utils/hooks/useRefFocusEffect';
 
 import FeedTemplate from '@components/templates/FeedTemplate';
+
+import { useState } from 'react';
+import { useLoaderData, useNavigate } from 'react-router-dom';
+import useIntersectionFocus from '@utils/hooks/useIntersectionFocus';
 
 export default function FeedPage() {
   const { initialFeedData } = useLoaderData();
@@ -45,7 +46,7 @@ export default function FeedPage() {
       }
     }
   };
-  const { focusElementRef } = useRefFocusEffect(fetchFeedData, []);
+  const { observerRef } = useIntersectionFocus(fetchFeedData, []);
 
-  return <FeedTemplate feedData={feedData} focusElementRef={focusElementRef} />;
+  return <FeedTemplate feedData={feedData} observerRef={observerRef} />;
 }

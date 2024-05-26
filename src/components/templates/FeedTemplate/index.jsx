@@ -6,7 +6,7 @@ import Text from '@components/atoms/Text';
 import TabBar from '@components/molecules/TabBar';
 import FriendsFeedItem from '@components/molecules/FriendsFeedItem';
 
-export default function FeedTemplate({ feedData, focusElementRef }) {
+export default function FeedTemplate({ feedData, observerRef }) {
   return (
     <S.Layout>
       <S.MenuContainer>
@@ -32,7 +32,7 @@ export default function FeedTemplate({ feedData, focusElementRef }) {
           />
         ))}
 
-        <div ref={focusElementRef} />
+        <div ref={observerRef} />
       </S.FeedList>
 
       <TabBar />

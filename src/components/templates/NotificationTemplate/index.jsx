@@ -5,23 +5,19 @@ import Divider from '@components/atoms/Divider';
 import NotificationList from '@components/organisms/NotificationList';
 import withNavigation from '@components/hoc/withNavigation';
 
-function NotificationTemplate({
-  friendRequests,
-  notifications,
-  focusElementRef,
-}) {
+function NotificationTemplate({ friendRequests, notifications, observerRef }) {
   return (
     <S.Layout>
       <S.NotificationListContainer>
         <NotificationList notificationData={friendRequests} />
 
-        {friendRequests.length > 0 && notifications.length > 0 ? (
+        {friendRequests.length > 0 && notifications.length > 0 && (
           <Divider borderWidth="0.0625" color="#e3e3e3" />
-        ) : undefined}
+        )}
 
         <NotificationList notificationData={notifications} />
 
-        <div ref={focusElementRef} />
+        <div ref={observerRef} />
       </S.NotificationListContainer>
     </S.Layout>
   );
