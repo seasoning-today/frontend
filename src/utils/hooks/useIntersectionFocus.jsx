@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react';
 
-export default function useRefFocusEffect(onFocusCallback, deps) {
-  const ref = useRef(null);
+export default function useIntersectionFocus(onFocusCallback, deps) {
+  const observerRef = useRef(null);
 
   useEffect(() => {
-    if (ref.current) {
+    if (observerRef.current) {
       const observer = new IntersectionObserver(
         (entries) =>
           entries.forEach((entry) => entry.isIntersecting && onFocusCallback()),
@@ -12,12 +12,13 @@ export default function useRefFocusEffect(onFocusCallback, deps) {
           threshold: 1,
         }
       );
-      observer.observe(ref.current);
+      observer.observe(observerRef.current);
+
       return () => {
-        if (ref.current) observer.unobserve(ref.current);
+        if (observerRef.current) observer.unobserve(observerRef.current);
       };
     }
   }, [deps]);
 
-  return { focusElementRef: ref };
+  return { observerRef: observerRef };
 }
