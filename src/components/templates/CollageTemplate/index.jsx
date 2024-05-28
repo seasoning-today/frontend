@@ -6,16 +6,21 @@ import NotificationHeader from '@components/molecules/NotificationHeader';
 import TabBar from '@components/molecules/TabBar';
 import CollageGrid from '@components/organisms/CollageGrid';
 
-export default function CollageTemplate({
-  isNewNotification,
-  collageData,
-  selectedCategory,
-  handleCategoryChange,
-  imageEnabled,
-  labelEnabled,
-  toggleImageEnabled,
-  toggleLabelEnabled,
-}) {
+import { CollageContext } from '@contexts/useCollageContext';
+import { useContext } from 'react';
+
+export default function CollageTemplate() {
+  const {
+    isNewNotification,
+    collageData,
+    selectedCategory,
+    imageEnabled,
+    labelEnabled,
+    handleCategoryChange,
+    toggleImageEnabled,
+    toggleLabelEnabled,
+  } = useContext(CollageContext);
+
   return (
     <S.Layout>
       <NotificationHeader isNewNotification={isNewNotification} />
