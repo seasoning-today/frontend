@@ -6,7 +6,7 @@ import NotificationHeader from '@components/molecules/NotificationHeader';
 import TabBar from '@components/molecules/TabBar';
 import CollageGrid from '@components/organisms/CollageGrid';
 
-import { CollageContext } from '@contexts/useCollageContext';
+import { CollageContext } from '@contexts/CollageContext';
 import { useContext } from 'react';
 
 export default function CollageTemplate() {

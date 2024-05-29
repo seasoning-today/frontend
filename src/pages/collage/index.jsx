@@ -1,7 +1,7 @@
 import CollageTemplate from '@components/templates/CollageTemplate';
 
-import { CollageContext, useCollageContext } from '@contexts/useCollageContext';
 import { useLoaderData } from 'react-router-dom';
+import { CollageContext, useCollageContext } from '@contexts/CollageContext';
 
 export default function CollagePage() {
   const loaderData = useLoaderData();
