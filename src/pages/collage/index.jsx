@@ -3,7 +3,7 @@ import CollageTemplate from '@components/templates/CollageTemplate';
 import { CollageContext, useCollageContext } from '@contexts/useCollageContext';
 import { useLoaderData } from 'react-router-dom';
 
-function CollagePage() {
+export default function CollagePage() {
   const loaderData = useLoaderData();
   const collageContextValue = useCollageContext(loaderData);
 
@@ -13,5 +13,3 @@ function CollagePage() {
     </CollageContext.Provider>
   );
 }
-
-export default CollagePage;
