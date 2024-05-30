@@ -1,5 +1,6 @@
 import { useState, useEffect, createContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import useToggleState from '@utils/hooks/useToggleState';
 
 export const CollageContext = createContext();
 
@@ -9,8 +10,8 @@ export function useCollageContext(loaderData) {
   const { collageData, newNotificationData } = loaderData;
 
   const [selectedCategory, setSelectedCategory] = useState(2024);
-  const [imageEnabled, setImageEnabled] = useState(true);
-  const [labelEnabled, setLabelEnabled] = useState(false);
+  const [imageEnabled, toggleImageEnabled] = useToggleState(true);
+  const [labelEnabled, toggleLabelEnabled] = useToggleState(false);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -23,14 +24,8 @@ export function useCollageContext(loaderData) {
   const handleCategoryChange = (event) => {
     const newCategory = event.target.value;
     setSelectedCategory(newCategory);
-    navigate(`/collage?category=${newCategory}`);
+    navigate(`/collage?category=${newCategory}`, { replace: true });
   };
-
-  const toggleImageEnabled = () =>
-    setImageEnabled((imageEnabled) => !imageEnabled);
-
-  const toggleLabelEnabled = () =>
-    setLabelEnabled((labelEnabled) => !labelEnabled);
 
   return {
     isNewNotification: newNotificationData,
