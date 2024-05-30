@@ -1,11 +1,16 @@
 import * as S from './style';
 
 import Divider from '@components/atoms/Divider';
-
 import NotificationList from '@components/organisms/NotificationList';
 import withNavigation from '@components/hoc/withNavigation';
 
-function NotificationTemplate({ friendRequests, notifications, observerRef }) {
+import { NotificationContext } from '@contexts/NotificationContext';
+import { useContext } from 'react';
+
+function NotificationTemplate() {
+  const { friendRequests, notifications, observerRef } =
+    useContext(NotificationContext);
+
   return (
     <S.Layout>
       <S.NotificationListContainer>
