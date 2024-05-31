@@ -5,14 +5,11 @@ import OnboardingCarousel from '@components/organisms/OnboardingCarousel';
 
 import kakao_btn from '@assets/login/kakao_btn.webp';
 
-export default function LoginTemplate({ onboardingData }) {
-  const KAKAO_REST_API_KEY = import.meta.env.VITE_KAKAO_REST_API_KEY;
-  const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI;
-  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${KAKAO_REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
+import { useContext } from 'react';
+import { LoginContext } from '@contexts/LoginContext';
 
-  const handleKakaoLogin = () => {
-    window.location.href = KAKAO_AUTH_URL;
-  };
+export default function LoginTemplate() {
+  const { onboardingData, handleKakaoLogin } = useContext(LoginContext);
 
   return (
     <S.Layout>
