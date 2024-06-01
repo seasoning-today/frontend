@@ -1,11 +1,18 @@
+import { useLoaderData } from 'react-router-dom';
+import {
+  EditArticleContext,
+  useEditArticleContext,
+} from '@contexts/EditArticleContext';
+
 import EditArticleTemplate from '@components/templates/EditArticleTemplate';
 
-import { useLoaderData } from 'react-router-dom';
-
 export default function EditArticlePage() {
-  const { articleId, articleData } = useLoaderData();
+  const loaderData = useLoaderData();
+  const editArticleContextValue = useEditArticleContext(loaderData);
 
   return (
-    <EditArticleTemplate articleId={articleId} articleData={articleData} />
+    <EditArticleContext.Provider value={editArticleContextValue}>
+      <EditArticleTemplate />
+    </EditArticleContext.Provider>
   );
 }
