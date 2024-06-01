@@ -1,5 +1,4 @@
 import * as S from './style';
-import axios from 'axios';
 
 import Icon from '@components/atoms/Icon';
 import Image from '@components/atoms/Image';
@@ -11,84 +10,36 @@ import FortuneModal from '@components/molecules/FortuneModal';
 import SeasonTemplate from '@components/templates/HomeTemplate/Season';
 import YearTemplate from '@components/templates/HomeTemplate/Year';
 
-import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import ghost_popup from '@assets/home/ghost-popup.webp';
 import { TermsToChinese } from '@utils/seasoning/TermsToChinese';
 import { TermsToKorean } from '@utils/seasoning/TermsToKorean';
 
-import ghost_popup from '@assets/home/ghost-popup.webp';
+import { useContext } from 'react';
+import { HomeContext } from '@contexts/HomeContext';
 
-export default function HomeTemplate({
-  homeData,
-  termData,
-  isNewNotification,
-}) {
-  const displayTerm =
-    termData.recordable === true
-      ? termData.recordTerm.sequence
-      : termData.currentTerm.sequence;
-  const terms = Array.from({ length: 24 }, (_, i) => i + 1);
-
-  /* 공통 */
-  const [now, setNow] = useState(new Date());
-  const location = useLocation();
-  const navigate = useNavigate();
-  /* 운세 모달 */
-  const [fortuneText, setFortuneText] = useState('');
-  const [showModal, setShowModal] = useState(false);
-  /* 채널 친구 추가 팝업 */
-  const isShownKakaoFriendsPopup = localStorage.getItem(
-    'isShownKakaoFriendsPopup'
-  );
-  console.log(isShownKakaoFriendsPopup);
-  /* 홈 */
-  const searchParams = new URLSearchParams(location.search);
-  const category = searchParams.get('category')
-    ? searchParams.get('category')
-    : 'year'; // 'year' | 'term'
-  /* 절기별 보기 */
-  const selectedTerm =
-    searchParams.get('term') === null ? 0 : searchParams.get('term');
-
-  /* 이벤트 처리 */
-  const handleClickPopup = () => {
-    window.open('https://pf.kakao.com/_GbxmxmG/friend', '_blank');
-  };
-
-  const handleClosePopup = () => {
-    localStorage.setItem('isShownKakaoFriendsPopup', true);
-    navigate('/', { replace: true });
-  };
-
-  const handleCategoryChange = (event) => {
-    const changedCategory = event.target.value;
-    navigate(`/home?category=${changedCategory}`);
-  };
-
-  useEffect(() => {
-    const fetchTodayFortune = async () => {
-      const accessToken = localStorage.getItem('accessToken');
-
-      await axios({
-        method: 'GET',
-        url: `/api/today-fortune`,
-        headers: { Authorization: `Bearer ${accessToken}` },
-      }).then((res) => {
-        setFortuneText(res.data);
-      });
-    };
-    fetchTodayFortune();
-  }, []);
+export default function HomeTemplate() {
+  const {
+    isNewNotification,
+    currentDate,
+    displayTerm,
+    selectedTerm,
+    category,
+    fortuneText,
+    showModal,
+    isShownKakaoFriendsPopup,
+    setShowModal,
+    handleClickPopup,
+    handleClosePopup,
+    handleCategoryChange,
+  } = useContext(HomeContext);
 
   return (
     <S.Layout category={category}>
       {showModal && (
         <FortuneModal
-          now={now}
+          now={currentDate}
           fortuneText={fortuneText}
-          onCloseModal={() => {
-            setShowModal(false);
-          }}
+          onCloseModal={() => setShowModal(false)}
         />
       )}
 
@@ -118,24 +69,22 @@ export default function HomeTemplate({
         </S.TitleContainer>
 
         <S.FortuneContainer>
-          <S.FortuneButton
-            onClick={() => {
-              setShowModal(true);
-            }}
-          >
+          <S.FortuneButton onClick={() => setShowModal(true)}>
             <div className="fortune-title">
               <Icon width="0.8" height="0.75" type="fortune" />
               <Text size="0.875">오늘의 운세</Text>
             </div>
             <Text size="0.75" color="#bfbfbf">
-              {`${now.getMonth() + 1}월 ${now.getDate()}일`}
+              {`${currentDate.getMonth() + 1}월 ${currentDate.getDate()}일`}
             </Text>
           </S.FortuneButton>
         </S.FortuneContainer>
 
         <S.OptionContainer>
           <Text notoserif size="1.625" weight="700">
-            {category === 'term' ? undefined : now.getFullYear().toString()}
+            {category === 'term'
+              ? undefined
+              : currentDate.getFullYear().toString()}
           </Text>
 
           <S.Select>
@@ -149,7 +98,7 @@ export default function HomeTemplate({
 
         {category === 'term' && (
           <S.SeasonMenuContainer>
-            {terms.map((term) => (
+            {Array.from({ length: 24 }, (_, i) => i + 1).map((term) => (
               <SeasonMenuItem
                 key={term}
                 term={term}
@@ -161,10 +110,8 @@ export default function HomeTemplate({
       </S.MenuContainer>
 
       <S.ContentContainer>
-        {category === 'year' && (
-          <YearTemplate homeData={homeData} termData={termData} />
-        )}
-        {category === 'term' && <SeasonTemplate homeData={homeData} />}
+        {category === 'year' && <YearTemplate />}
+        {category === 'term' && <SeasonTemplate />}
       </S.ContentContainer>
 
       <TabBar />

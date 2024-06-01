@@ -3,7 +3,12 @@ import * as S from './style';
 import Text from '@components/atoms/Text';
 import MyFeedItem from '@components/molecules/MyFeedItem';
 
-export default function SeasonTemplate({ homeData }) {
+import { useContext } from 'react';
+import { HomeContext } from '@contexts/HomeContext';
+
+export default function SeasonTemplate() {
+  const { homeData } = useContext(HomeContext);
+
   return (
     <S.Layout>
       {homeData.length > 0 ? (
