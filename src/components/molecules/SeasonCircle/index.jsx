@@ -30,7 +30,7 @@ export default function SeasonCircle({ term, statusData }) {
         const hours = Math.floor(remainingTime / (1000 * 60 * 60)) % 24;
 
         setDays(Math.floor(remainingTime / (1000 * 60 * 60 * 24)));
-        setNextPercentage(1 - remainingTime / 1314864000);
+        setNextPercentage(1 - remainingTime / 432000000);
         setFormattedTime(
           `${hours.toString().padStart(2, '0')}:${minutes
             .toString()
