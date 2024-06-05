@@ -29,18 +29,17 @@ import CallBackPage from '@pages/login/callback/kakao';
 import Error404Page from '@pages/error/404';
 
 /* API Loaders */
-import { HomeLoader } from '@utils/api/HomeLoader';
-import { CollageLoader } from '@utils/api/CollageLoader';
-import { FeedLoader } from '@utils/api/FeedLoader';
-import { FriendsListLoader } from '@utils/api/FriendsListLoader';
-import { NotificationLoader } from '@utils/api/NotificationLoader';
-import { NoticeLoader } from '@utils/api/NoticeLoader';
-import { AccountLoader } from '@utils/api/AccountLoader';
-import { ArticleLoader } from '@utils/api/ArticleLoader';
-import { WriteLoader } from '@utils/api/WriteLoader';
-import { EditArticleLoader } from '@utils/api/EditArticleLoader';
-import { UserRestrictLoader } from '@utils/api/UserRestrictLoader';
-import { DevPageLoader } from '@utils/api/DevPageLoader';
+import { HomeLoader } from '@utils/loader/HomeLoader';
+import { CollageLoader } from '@utils/loader/CollageLoader';
+import { FeedLoader } from '@utils/loader/FeedLoader';
+import { FriendsListLoader } from '@utils/loader/FriendsListLoader';
+import { NotificationLoader } from '@utils/loader/NotificationLoader';
+import { NoticeLoader } from '@utils/loader/NoticeLoader';
+import { AccountLoader } from '@utils/loader/AccountLoader';
+import { ArticleLoader } from '@utils/loader/ArticleLoader';
+import { WriteLoader } from '@utils/loader/WriteLoader';
+import { EditArticleLoader } from '@utils/loader/EditArticleLoader';
+import { UserRestrictLoader } from '@utils/loader/UserRestrictLoader';
 
 export const RouterInfo = [
   {
