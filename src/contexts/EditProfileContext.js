@@ -227,6 +227,8 @@ export function useEditProfileContext(loaderData) {
   };
 
   return {
+    prevNickname: prevUserData.nickname,
+    prevAccountId: prevUserData.accountId,
     userData,
     warningType,
     warningText,

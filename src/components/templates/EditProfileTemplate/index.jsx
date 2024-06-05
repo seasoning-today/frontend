@@ -11,6 +11,8 @@ import useFallBackImage from '@utils/hooks/useFallBackImage';
 
 function EditProfileTemplate() {
   const {
+    prevNickname,
+    prevAccountId,
     userData,
     warningType,
     warningText,
@@ -33,6 +35,7 @@ function EditProfileTemplate() {
           height="5.625"
           circle
           onError={onLoadFallBackImage}
+          style={{ cursor: 'pointer' }}
         />
         <Icon
           type="camera"
@@ -59,7 +62,7 @@ function EditProfileTemplate() {
             <input
               type="text"
               onChange={handleChangeId}
-              placeholder={prevUserData.accountId}
+              placeholder={prevAccountId}
               value={userData.accountId}
             />
           </section>
@@ -77,7 +80,7 @@ function EditProfileTemplate() {
             <input
               type="text"
               onChange={handleChangeName}
-              placeholder={prevUserData.nickname}
+              placeholder={prevNickname}
               value={userData.nickname}
             />
           </section>
