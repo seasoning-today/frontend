@@ -10,6 +10,7 @@ import ArticleImageCarousel from '@components/organisms/ArticleImageCarousel';
 
 import { EditArticleContext } from '@contexts/EditArticleContext';
 import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function EditArticleTemplate() {
   const {
@@ -31,6 +32,7 @@ export default function EditArticleTemplate() {
     handleSave,
     handleChatBubbleClick,
   } = useContext(EditArticleContext);
+  const navigate = useNavigate();
 
   return (
     <S.Layout>
