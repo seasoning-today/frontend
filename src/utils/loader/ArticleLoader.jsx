@@ -1,6 +1,6 @@
 import api from '@utils/api/APIService';
 
-export const ArticleLoader = async ({ params }) => {
+export async function ArticleLoader({ params }) {
   const articleResponse = await api.get(`/article/${params.articleId}`);
   const userResponse = await api.get(`/user/profile`);
   const termResponse = await api.get(`/solarTerm`);
@@ -11,4 +11,4 @@ export const ArticleLoader = async ({ params }) => {
     userData: userResponse.data,
     termData: termResponse.data,
   };
-};
+}

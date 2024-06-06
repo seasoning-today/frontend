@@ -1,43 +1,17 @@
-import axios from 'axios';
-import { redirect } from 'react-router-dom';
+import api from '@utils/api/APIService';
 
-export const CollageLoader = async ({ request, params }) => {
-  /* (공통 로직) localStorage에 “accessToken” 이 존재하지 않는 경우 처리 */
-  const accessToken = localStorage.getItem('accessToken');
-  if (accessToken === null) {
-    console.log('* No Access Token... Redirecting to /login');
-    return redirect(`/login`);
-  }
-
+export async function CollageLoader({ request }) {
   const url = new URL(request.url);
-  let yearParam = url.searchParams.get('year'); // string || null
-  yearParam = yearParam === null ? '2024' : yearParam;
+  const yearParam =
+    url.searchParams.get('year') === null
+      ? '2024'
+      : url.searchParams.get('year');
 
-  try {
-    const collageResponse = await axios.get(
-      `/api/article/collage?year=${yearParam}`,
-      {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      }
-    );
-    const newNotificationResponse = await axios.get(`/api/notification/new`, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
-    return {
-      collageData: collageResponse.data,
-      newNotificationData: newNotificationResponse.data,
-    };
-  } catch (error) {
-    console.error(error);
+  const collageResponse = await api.get(`/article/collage?year=${yearParam}`);
+  const newNotificationResponse = await api.get(`/notification/new`);
 
-    if (error.response && error.response.status === 401) {
-      console.log('* Unauthorized... Redirecting to /login');
-      return redirect(`/login`);
-    } else {
-      console.log('* Response Error... Redirecting to /home');
-      return redirect(`/home`);
-    }
-  }
-
-  return null;
-};
+  return {
+    collageData: collageResponse.data,
+    newNotificationData: newNotificationResponse.data,
+  };
+}
