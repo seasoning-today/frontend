@@ -9,6 +9,7 @@ import ArticleImageCarousel from '@components/organisms/ArticleImageCarousel';
 
 import { WriteContext } from '@contexts/WriteContext';
 import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import chat_bubble from '@assets/write/chat-bubble.webp';
 
@@ -32,6 +33,7 @@ export default function WriteTemplate() {
     handleSave,
     handleChatBubbleClick,
   } = useContext(WriteContext);
+  const navigate = useNavigate();
 
   return (
     <S.Layout>
