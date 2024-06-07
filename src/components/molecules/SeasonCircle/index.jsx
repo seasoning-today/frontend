@@ -25,6 +25,10 @@ export default function SeasonCircle({ term, statusData }) {
     const minutes = Math.floor(remainingTime / 1000 / 60) % 60;
     const hours = Math.floor(remainingTime / (1000 * 60 * 60)) % 24;
 
+    if (remainingTime <= 0) {
+      navigate(`/home`, { replace: true });
+    }
+
     setDays(Math.floor(remainingTime / (1000 * 60 * 60 * 24)));
     setNextPercentage(remainingTime / 432000000);
     setFormattedTime(
