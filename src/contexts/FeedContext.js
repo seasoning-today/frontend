@@ -1,12 +1,10 @@
-import axios from 'axios';
+import api from '@utils/api/APIService';
 import { useState, createContext } from 'react';
-import { useNavigate } from 'react-router-dom';
 import useIntersectionFocus from '@utils/hooks/useIntersectionFocus';
 
 export const FeedContext = createContext();
 
 export function useFeedContext(loaderData) {
-  const navigate = useNavigate();
   const { initialFeedData } = loaderData;
 
   const [feedData, setFeedData] = useState(initialFeedData);
@@ -20,12 +18,8 @@ export function useFeedContext(loaderData) {
     const size = 5;
 
     try {
-      const accessToken = localStorage.getItem('accessToken');
-      const feedResponse = await axios.get(
-        `/api/article/friends?size=${size}&lastId=${lastFeedItemId}`,
-        {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        }
+      const feedResponse = await api.get(
+        `/article/friends?size=${size}&lastId=${lastFeedItemId}`
       );
       if (feedResponse.data.length === 0) {
         setLastFeedItemId(null);
@@ -36,14 +30,6 @@ export function useFeedContext(loaderData) {
     } catch (error) {
       console.error(error);
       setLastFeedItemId(null);
-
-      if (error.response && error.response.status === 401) {
-        console.log('* Unauthorized... Redirecting to /login');
-        navigate(`/login`);
-      } else {
-        console.log('* Response Error... Redirecting to /home');
-        navigate(`/home`);
-      }
     }
   };
 

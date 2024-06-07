@@ -1,5 +1,5 @@
-import axios from 'axios';
 import { useState, createContext } from 'react';
+import api from '@utils/api/APIService';
 
 export const AccountContext = createContext();
 
@@ -9,20 +9,8 @@ export function useAccountContext(loaderData) {
   const [showModal, setShowModal] = useState(false);
 
   const toggleSearchEnabled = async () => {
-    const accessToken = localStorage.getItem('accessToken');
-
-    try {
-      const response = await axios.put(
-        `/api/user?searchable=${searchEnabled ? `false` : `true`}`,
-        {},
-        {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        }
-      );
-      setSearchEnabled((searchEnabled) => !searchEnabled);
-    } catch (error) {
-      console.error('Error handling id search toggles:', error);
-    }
+    await api.put(`/user?searchable=${searchEnabled ? `false` : `true`}`, {});
+    setSearchEnabled((searchEnabled) => !searchEnabled);
   };
 
   const menuListsData = [

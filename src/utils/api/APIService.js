@@ -1,12 +1,12 @@
 import axios from 'axios';
-import { redirect } from 'react-router-dom';
+// import { redirect } from 'react-router-dom';
 
 const api = axios.create({
   baseURL: '/api',
   headers: {
-    'Content-Type': 'application/json',
+    'Content-Type': 'application/json; charset=utf-8',
   },
-  timeout: 75000,
+  timeout: 15000,
 });
 
 const getAccessToken = () => {
@@ -16,7 +16,6 @@ const getAccessToken = () => {
     return accessToken;
   } else {
     console.log('* No Access Token... Redirecting to /login');
-    redirect('/login');
     throw new Error('No access token');
   }
 };
@@ -28,6 +27,7 @@ api.interceptors.request.use(
       config.headers.Authorization = `Bearer ${accessToken}`;
     } catch (error) {
       console.error('Access token error:', error.message);
+      window.location.href = '/login';
       throw new axios.Cancel('Operation canceled');
     }
     return config;
@@ -42,10 +42,9 @@ api.interceptors.response.use(
   (error) => {
     if (error.response && error.response.status === 401) {
       console.log('* Unauthorized... Redirecting to /login');
-      redirect('/login');
+      window.location.href = '/login';
     } else if (error.response) {
-      console.log('* Response Error... Redirecting to /home');
-      redirect('/home');
+      console.log('* Response Error...');
     }
     return Promise.reject(error);
   }

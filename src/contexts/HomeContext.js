@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from '@utils/api/APIService';
 import { useState, useEffect, createContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
@@ -47,19 +47,12 @@ export function useHomeContext(loaderData) {
     navigate(`/home?category=${changedCategory}`);
   };
 
+  const fetchTodayFortune = async () => {
+    const fortuneResponse = await api.get(`/today-fortune`);
+    setFortuneText(fortuneResponse.data);
+  };
+
   useEffect(() => {
-    const fetchTodayFortune = async () => {
-      const accessToken = localStorage.getItem('accessToken');
-
-      await axios({
-        method: 'GET',
-        url: `/api/today-fortune`,
-        headers: { Authorization: `Bearer ${accessToken}` },
-      }).then((res) => {
-        setFortuneText(res.data);
-      });
-    };
-
     fetchTodayFortune();
   }, []);
 

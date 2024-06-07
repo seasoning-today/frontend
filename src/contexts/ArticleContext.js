@@ -1,5 +1,5 @@
 import { useState, createContext } from 'react';
-import axios from 'axios';
+import api from '@utils/api/APIService';
 
 export const ArticleContext = createContext();
 
@@ -18,31 +18,14 @@ export function useArticleContext(loaderData) {
     articleData.term === termData.recordTerm.sequence;
 
   const handleEmojiClick = async () => {
-    const accessToken = localStorage.getItem('accessToken');
-
-    try {
-      if (!isClickedEmoji) {
-        const likeResponse = await axios.post(
-          `/api/article/${articleId}/like`,
-          {},
-          {
-            headers: { Authorization: `Bearer ${accessToken}` },
-          }
-        );
-        setEmojiCount((emojiCount) => emojiCount + 1);
-        setIsClickedEmoji(true);
-      } else {
-        const unlikeResponse = await axios.delete(
-          `/api/article/${articleId}/like`,
-          {
-            headers: { Authorization: `Bearer ${accessToken}` },
-          }
-        );
-        setEmojiCount((emojiCount) => emojiCount - 1);
-        setIsClickedEmoji(false);
-      }
-    } catch (error) {
-      console.error('Error while handling emoji click:', error);
+    if (!isClickedEmoji) {
+      await api.post(`article/${articleId}/like`, {});
+      setEmojiCount((emojiCount) => emojiCount + 1);
+      setIsClickedEmoji(true);
+    } else {
+      await api.delete(`/article/${articleId}/like`);
+      setEmojiCount((emojiCount) => emojiCount - 1);
+      setIsClickedEmoji(false);
     }
   };
 
