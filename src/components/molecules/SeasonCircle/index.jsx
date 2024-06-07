@@ -17,26 +17,29 @@ export default function SeasonCircle({ term, statusData }) {
   const [nextPercentage, setNextPercentage] = useState(1);
   const [formattedTime, setFormattedTime] = useState('');
 
+  const updateIntervalData = () => {
+    const now = new Date();
+    const countDownDueDate = new Date(statusData.dueDate);
+    const remainingTime = countDownDueDate - now;
+    const seconds = Math.floor(remainingTime / 1000) % 60;
+    const minutes = Math.floor(remainingTime / 1000 / 60) % 60;
+    const hours = Math.floor(remainingTime / (1000 * 60 * 60)) % 24;
+
+    setDays(Math.floor(remainingTime / (1000 * 60 * 60 * 24)));
+    setNextPercentage(remainingTime / 432000000);
+    setFormattedTime(
+      `${hours.toString().padStart(2, '0')}:${minutes
+        .toString()
+        .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
+    );
+  };
+
   useEffect(() => {
     let CountDownTimer;
 
     if (status === `countdown` || status === `written-countdown`) {
-      CountDownTimer = setInterval(() => {
-        const now = new Date();
-        const countDownDueDate = new Date(statusData.dueDate);
-        const remainingTime = countDownDueDate - now;
-        const seconds = Math.floor(remainingTime / 1000) % 60;
-        const minutes = Math.floor(remainingTime / 1000 / 60) % 60;
-        const hours = Math.floor(remainingTime / (1000 * 60 * 60)) % 24;
-
-        setDays(Math.floor(remainingTime / (1000 * 60 * 60 * 24)));
-        setNextPercentage(1 - remainingTime / 432000000);
-        setFormattedTime(
-          `${hours.toString().padStart(2, '0')}:${minutes
-            .toString()
-            .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
-        );
-      }, 1000);
+      updateIntervalData();
+      CountDownTimer = setInterval(updateIntervalData, 1000);
     }
 
     return () => {
