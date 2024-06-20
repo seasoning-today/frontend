@@ -1,9 +1,13 @@
-import { createContext } from 'react';
+import { createContext, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export const MypageContext = createContext();
 
-export function useMypageContext(loaderData) {
+export function useMypageContext() {
+  return useContext(MypageContext);
+}
+
+export function createMypageContext(loaderData) {
   const navigate = useNavigate();
   const { userData } = loaderData;
 

@@ -5,12 +5,11 @@ import Image from '@components/atoms/Image';
 import TabBar from '@components/molecules/TabBar';
 import MenuList from '@components/organisms/MenuList';
 
-import { MypageContext } from '@contexts/MypageContext';
-import { useContext } from 'react';
+import { useMypageContext } from '@contexts/MypageContext';
 import useFallBackImage from '@utils/hooks/useFallBackImage';
 
 export default function MypageTemplate() {
-  const { userData, menuListsData } = useContext(MypageContext);
+  const { userData, menuListsData } = useMypageContext();
   const { onLoadFallBackImage } = useFallBackImage();
 
   return (

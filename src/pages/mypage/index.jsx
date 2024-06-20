@@ -1,11 +1,11 @@
 import MypageTemplate from '@components/templates/MypageTemplate';
 
 import { useLoaderData } from 'react-router-dom';
-import { MypageContext, useMypageContext } from '@contexts/MypageContext';
+import { MypageContext, createMypageContext } from '@contexts/MypageContext';
 
 export default function MyPage() {
   const loaderData = useLoaderData();
-  const mypageContextValue = useMypageContext(loaderData);
+  const mypageContextValue = createMypageContext(loaderData);
 
   return (
     <MypageContext.Provider value={mypageContextValue}>
