@@ -1,10 +1,14 @@
 import api from '@utils/api/APIService';
-import { useState, createContext } from 'react';
+import { useState, createContext, useContext } from 'react';
 import useIntersectionFocus from '@utils/hooks/useIntersectionFocus';
 
 export const FeedContext = createContext();
 
-export function useFeedContext(loaderData) {
+export function useFeedContext() {
+  return useContext(FeedContext);
+}
+
+export function createFeedContext(loaderData) {
   const { initialFeedData } = loaderData;
 
   const [feedData, setFeedData] = useState(initialFeedData);

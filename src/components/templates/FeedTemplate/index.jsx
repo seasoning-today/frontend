@@ -6,11 +6,10 @@ import Text from '@components/atoms/Text';
 import TabBar from '@components/molecules/TabBar';
 import FriendsFeedItem from '@components/molecules/FriendsFeedItem';
 
-import { FeedContext } from '@contexts/FeedContext';
-import { useContext } from 'react';
+import { useFeedContext } from '@contexts/FeedContext';
 
 export default function FeedTemplate() {
-  const { feedData, observerRef } = useContext(FeedContext);
+  const { feedData, observerRef } = useFeedContext();
 
   return (
     <S.Layout>

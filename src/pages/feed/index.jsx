@@ -1,11 +1,11 @@
 import { useLoaderData } from 'react-router-dom';
-import { FeedContext, useFeedContext } from '@contexts/FeedContext';
+import { FeedContext, createFeedContext } from '@contexts/FeedContext';
 
 import FeedTemplate from '@components/templates/FeedTemplate';
 
 export default function FeedPage() {
   const loaderData = useLoaderData();
-  const feedContextValue = useFeedContext(loaderData);
+  const feedContextValue = createFeedContext(loaderData);
 
   return (
     <FeedContext.Provider value={feedContextValue}>
