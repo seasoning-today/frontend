@@ -7,7 +7,7 @@ export function useArticleContext() {
   return useContext(ArticleContext);
 }
 
-export function useArticleContext(loaderData) {
+export function createArticleContext(loaderData) {
   const { articleId, articleData, userData, termData } = loaderData;
 
   const [showMenuModal, setShowMenuModal] = useState(false);
