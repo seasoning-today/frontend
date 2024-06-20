@@ -1,11 +1,11 @@
 import { useLoaderData } from 'react-router-dom';
-import { HomeContext, useHomeContext } from '@contexts/HomeContext';
+import { HomeContext, createHomeContext } from '@contexts/HomeContext';
 
 import HomeTemplate from '@components/templates/HomeTemplate';
 
 const HomePage = () => {
   const loaderData = useLoaderData();
-  const homeContextValue = useHomeContext(loaderData);
+  const homeContextValue = createHomeContext(loaderData);
 
   return (
     <HomeContext.Provider value={homeContextValue}>

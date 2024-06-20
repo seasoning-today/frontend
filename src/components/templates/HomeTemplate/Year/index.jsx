@@ -4,11 +4,10 @@ import yearly_line from '@assets/home/yearly_line.webp';
 import Image from '@components/atoms/Image';
 import SeasonCircle from '@components/molecules/SeasonCircle';
 
-import { HomeContext } from '@contexts/HomeContext';
-import { useContext } from 'react';
+import { useHomeContext } from '@contexts/HomeContext';
 
 export default function YearTemplate() {
-  const { getStatusData } = useContext(HomeContext);
+  const { getStatusData } = useHomeContext();
 
   return (
     <S.Layout>

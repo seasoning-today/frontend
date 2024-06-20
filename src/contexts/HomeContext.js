@@ -1,10 +1,14 @@
 import api from '@utils/api/APIService';
-import { useState, useEffect, createContext } from 'react';
+import { useState, useEffect, createContext, useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 export const HomeContext = createContext();
 
-export function useHomeContext(loaderData) {
+export function useHomeContext() {
+  return useContext(HomeContext);
+}
+
+export function createHomeContext(loaderData) {
   const { homeData, termData, newNotificationData } = loaderData;
 
   const displayTerm =

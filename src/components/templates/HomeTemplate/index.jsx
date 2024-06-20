@@ -14,8 +14,7 @@ import ghost_popup from '@assets/home/ghost-popup.webp';
 import { TermsToChinese } from '@utils/seasoning/TermsToChinese';
 import { TermsToKorean } from '@utils/seasoning/TermsToKorean';
 
-import { useContext } from 'react';
-import { HomeContext } from '@contexts/HomeContext';
+import { useHomeContext } from '@contexts/HomeContext';
 
 export default function HomeTemplate() {
   const {
@@ -31,7 +30,7 @@ export default function HomeTemplate() {
     handleClickPopup,
     handleClosePopup,
     handleCategoryChange,
-  } = useContext(HomeContext);
+  } = useHomeContext();
 
   return (
     <S.Layout category={category}>
