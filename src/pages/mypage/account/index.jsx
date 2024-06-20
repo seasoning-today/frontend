@@ -1,11 +1,11 @@
-import { AccountContext, useAccountContext } from '@contexts/AccountContext';
+import { AccountContext, createAccountContext } from '@contexts/AccountContext';
 import { useLoaderData } from 'react-router-dom';
 
 import AccountTemplate from '@components/templates/AccountTemplate';
 
 export default function AccountPage() {
   const loaderData = useLoaderData();
-  const accountContextValue = useAccountContext(loaderData);
+  const accountContextValue = createAccountContext(loaderData);
 
   return (
     <AccountContext.Provider value={accountContextValue}>

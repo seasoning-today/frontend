@@ -1,9 +1,13 @@
-import { useState, createContext } from 'react';
+import { useState, createContext, useContext } from 'react';
 import api from '@utils/api/APIService';
 
 export const AccountContext = createContext();
 
-export function useAccountContext(loaderData) {
+export function useAccountContext() {
+  return useContext(AccountContext);
+}
+
+export function createAccountContext(loaderData) {
   const { userSearchable } = loaderData;
   const [searchEnabled, setSearchEnabled] = useState(userSearchable);
   const [showModal, setShowModal] = useState(false);
