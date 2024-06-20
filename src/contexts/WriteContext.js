@@ -1,10 +1,14 @@
-import { useState, useEffect, createContext } from 'react';
+import { useState, useEffect, createContext, useContext } from 'react';
 import { SeasonalQuestions } from '@utils/seasoning/SeasonalQuestions';
 import useArticleForm from '@utils/hooks/useArticleForm';
 
 export const WriteContext = createContext();
 
-export function useWriteContext(loaderData) {
+export function useWriteContext() {
+  return useContext(WriteContext);
+}
+
+export function createWriteContext(loaderData) {
   const { termData } = loaderData;
   const currentYear = termData.recordTerm.date.split('-')[0];
   const currentTerm = termData.recordTerm.sequence;

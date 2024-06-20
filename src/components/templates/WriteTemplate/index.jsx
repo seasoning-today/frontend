@@ -7,8 +7,7 @@ import ArticleHeader from '@components/molecules/ArticleHeader';
 import ContentEditor from '@components/molecules/ContentEditor';
 import ArticleImageCarousel from '@components/organisms/ArticleImageCarousel';
 
-import { WriteContext } from '@contexts/WriteContext';
-import { useContext } from 'react';
+import { useWriteContext } from '@contexts/WriteContext';
 import { useNavigate } from 'react-router-dom';
 
 import chat_bubble from '@assets/write/chat-bubble.webp';
@@ -32,7 +31,7 @@ export default function WriteTemplate() {
     handleQuestion,
     handleSave,
     handleChatBubbleClick,
-  } = useContext(WriteContext);
+  } = useWriteContext();
   const navigate = useNavigate();
 
   return (
