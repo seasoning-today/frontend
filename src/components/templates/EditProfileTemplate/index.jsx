@@ -5,8 +5,7 @@ import Image from '@components/atoms/Image';
 import Text from '@components/atoms/Text';
 import withNavigation from '@components/hoc/withNavigation';
 
-import { EditProfileContext } from '@contexts/EditProfileContext';
-import { useContext } from 'react';
+import { useEditProfileContext } from '@contexts/EditProfileContext';
 import useFallBackImage from '@utils/hooks/useFallBackImage';
 
 function EditProfileTemplate() {
@@ -23,7 +22,7 @@ function EditProfileTemplate() {
     handleChangeId,
     handleChangeName,
     handleClickSubmit,
-  } = useContext(EditProfileContext);
+  } = useEditProfileContext();
   const { onLoadFallBackImage } = useFallBackImage();
 
   return (

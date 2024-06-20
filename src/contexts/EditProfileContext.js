@@ -1,10 +1,14 @@
 import axios from 'axios';
-import { useEffect, useState, useRef, createContext } from 'react';
+import { useEffect, useState, useRef, createContext, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export const EditProfileContext = createContext();
 
-export function useEditProfileContext(loaderData) {
+export function useEditProfileContext() {
+  return useContext(EditProfileContext);
+}
+
+export function createEditProfileContext(loaderData) {
   const prevUserData = loaderData.userData;
   const MAX_ID_LENGTH = 20;
   const MAX_NAME_LENGTH = 10;
