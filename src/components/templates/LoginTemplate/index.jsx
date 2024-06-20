@@ -1,15 +1,13 @@
 import * as S from './style';
+import kakao_btn from '@assets/login/kakao_btn.webp';
 
 import Image from '@components/atoms/Image';
 import OnboardingCarousel from '@components/organisms/OnboardingCarousel';
 
-import kakao_btn from '@assets/login/kakao_btn.webp';
-
-import { useContext } from 'react';
-import { LoginContext } from '@contexts/LoginContext';
+import { useLoginContext } from '@contexts/LoginContext';
 
 export default function LoginTemplate() {
-  const { onboardingData, handleKakaoLogin } = useContext(LoginContext);
+  const { onboardingData, handleKakaoLogin } = useLoginContext();
 
   return (
     <S.Layout>

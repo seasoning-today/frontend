@@ -1,4 +1,4 @@
-import { createContext } from 'react';
+import { createContext, useContext } from 'react';
 
 import onboarding_1 from '@assets/login/onboarding-1.webp';
 import onboarding_2 from '@assets/login/onboarding-2.webp';
@@ -8,6 +8,10 @@ import onboarding_4 from '@assets/login/onboarding-4.webp';
 export const LoginContext = createContext();
 
 export function useLoginContext() {
+  return useContext(LoginContext);
+}
+
+export function createLoginContext() {
   const KAKAO_REST_API_KEY = import.meta.env.VITE_KAKAO_REST_API_KEY;
   const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI;
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${KAKAO_REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;

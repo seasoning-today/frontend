@@ -1,9 +1,9 @@
 import LoginTemplate from '@components/templates/LoginTemplate';
 
-import { LoginContext, useLoginContext } from '@contexts/LoginContext';
+import { LoginContext, createLoginContext } from '@contexts/LoginContext';
 
 export default function LoginPage() {
-  const loginContextValue = useLoginContext();
+  const loginContextValue = createLoginContext();
 
   return (
     <LoginContext.Provider value={loginContextValue}>
