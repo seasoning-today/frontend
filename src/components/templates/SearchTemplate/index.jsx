@@ -6,8 +6,7 @@ import Divider from '@components/atoms/Divider';
 import Icon from '@components/atoms/Icon';
 import UserProfile from '@components/molecules/UserProfile';
 
-import { SearchContext } from '@contexts/SearchContext';
-import { useContext } from 'react';
+import { useSearchContext } from '@contexts/SearchContext';
 
 export default function SearchTemplate() {
   const {
@@ -16,7 +15,7 @@ export default function SearchTemplate() {
     handleChangeKeyword,
     sendFriendRequest,
     cancelFriendRequest,
-  } = useContext(SearchContext);
+  } = useSearchContext();
 
   return (
     <S.Layout>

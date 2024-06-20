@@ -1,10 +1,14 @@
 import api from '@utils/api/APIService';
 import debounce from 'lodash.debounce';
-import { useState, useEffect, createContext } from 'react';
+import { useState, useEffect, createContext, useContext } from 'react';
 
 export const SearchContext = createContext();
 
 export function useSearchContext() {
+  return useContext(SearchContext);
+}
+
+export function createSearchContext() {
   const [searchResult, setSearchResult] = useState([]);
   const [keyword, setKeyword] = useState('');
 

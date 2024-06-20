@@ -1,9 +1,9 @@
 import SearchTemplate from '@components/templates/SearchTemplate';
 
-import { SearchContext, useSearchContext } from '@contexts/SearchContext';
+import { SearchContext, createSearchContext } from '@contexts/SearchContext';
 
 export default function SearchPage() {
-  const searchContextValue = useSearchContext();
+  const searchContextValue = createSearchContext();
 
   return (
     <SearchContext.Provider value={searchContextValue}>
