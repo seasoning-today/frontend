@@ -6,8 +6,7 @@ import UserProfile from '@components/molecules/UserProfile';
 import FriendsDeleteModal from '@components/molecules/FriendsDeleteModal';
 import withNavigation from '@components/hoc/withNavigation';
 
-import { FriendsListContext } from '@contexts/FriendsListContext';
-import { useContext } from 'react';
+import { useFriendsListContext } from '@contexts/FriendsListContext';
 
 function FriendsListTemplate() {
   const {
@@ -16,7 +15,7 @@ function FriendsListTemplate() {
     selectedFriendId,
     handleFriendDelete,
     handleCloseModal,
-  } = useContext(FriendsListContext);
+  } = useFriendsListContext();
 
   return (
     <S.Layout>

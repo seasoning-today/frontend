@@ -1,8 +1,12 @@
-import { useState, createContext } from 'react';
+import { useState, createContext, useContext } from 'react';
 
 export const FriendsListContext = createContext();
 
-export function useFriendsListContext(loaderData) {
+export function useFriendsListContext() {
+  return useContext(FriendsListContext);
+}
+
+export function createFriendsListContext(loaderData) {
   const { friendListData } = loaderData;
 
   const [showModal, setShowModal] = useState(false);
