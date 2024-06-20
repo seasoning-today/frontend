@@ -1,7 +1,11 @@
-import { useState, createContext } from 'react';
+import { useState, createContext, useContext } from 'react';
 import api from '@utils/api/APIService';
 
 export const ArticleContext = createContext();
+
+export function useArticleContext() {
+  return useContext(ArticleContext);
+}
 
 export function useArticleContext(loaderData) {
   const { articleId, articleData, userData, termData } = loaderData;

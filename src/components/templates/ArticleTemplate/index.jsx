@@ -9,8 +9,7 @@ import ArticleMenuModal from '@components/molecules/ArticleMenuModal';
 import ContentEditor from '@components/molecules/ContentEditor';
 import ArticleImageCarousel from '@components/organisms/ArticleImageCarousel';
 
-import { ArticleContext } from '@contexts/ArticleContext';
-import { useContext } from 'react';
+import { useArticleContext } from '@contexts/ArticleContext';
 import { useNavigate } from 'react-router-dom';
 import useFallBackImage from '@utils/hooks/useFallBackImage';
 
@@ -28,7 +27,7 @@ export default function ArticleTemplate() {
     setShowMenuModal,
     setShowDeleteModal,
     handleEmojiClick,
-  } = useContext(ArticleContext);
+  } = useArticleContext();
   const { onLoadFallBackImage } = useFallBackImage();
   const { year, term, images, contents, profile } = articleData;
 
