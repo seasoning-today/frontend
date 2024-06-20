@@ -4,12 +4,12 @@ import { useLoaderData } from 'react-router-dom';
 
 import {
   NotificationContext,
-  useNotificationContext,
+  createNotificationContext,
 } from '@contexts/NotificationContext';
 
 const NotificationPage = () => {
   const loaderData = useLoaderData();
-  const notificationContextValue = useNotificationContext(loaderData);
+  const notificationContextValue = createNotificationContext(loaderData);
 
   return (
     <NotificationContext.Provider value={notificationContextValue}>

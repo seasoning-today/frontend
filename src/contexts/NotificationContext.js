@@ -1,10 +1,14 @@
 import api from '@utils/api/APIService';
-import { useState, useEffect, createContext } from 'react';
+import { useState, useEffect, createContext, useContext } from 'react';
 import useIntersectionFocus from '@utils/hooks/useIntersectionFocus';
 
 export const NotificationContext = createContext();
 
-export function useNotificationContext(loaderData) {
+export function useNotificationContext() {
+  return useContext(NotificationContext);
+}
+
+export function createNotificationContext(loaderData) {
   const { initialNotificationData } = loaderData;
 
   const [notifications, setNotifications] = useState(initialNotificationData);
