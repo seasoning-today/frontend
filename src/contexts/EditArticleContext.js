@@ -1,10 +1,14 @@
-import { useState, useEffect, createContext } from 'react';
+import { useState, useEffect, createContext, useContext } from 'react';
 import { SeasonalQuestions } from '@utils/seasoning/SeasonalQuestions';
 import useArticleForm from '@utils/hooks/useArticleForm';
 
 export const EditArticleContext = createContext();
 
-export function useEditArticleContext(loaderData) {
+export function useEditArticleContext() {
+  return useContext(EditArticleContext);
+}
+
+export function createEditArticleContext(loaderData) {
   const { articleId, articleData } = loaderData;
   const currentYear = articleData.year;
   const currentTerm = articleData.term;

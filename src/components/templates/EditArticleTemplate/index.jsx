@@ -8,8 +8,7 @@ import ArticleHeader from '@components/molecules/ArticleHeader';
 import ContentEditor from '@components/molecules/ContentEditor';
 import ArticleImageCarousel from '@components/organisms/ArticleImageCarousel';
 
-import { EditArticleContext } from '@contexts/EditArticleContext';
-import { useContext } from 'react';
+import { useEditArticleContext } from '@contexts/EditArticleContext';
 import { useNavigate } from 'react-router-dom';
 
 export default function EditArticleTemplate() {
@@ -31,7 +30,7 @@ export default function EditArticleTemplate() {
     handleQuestion,
     handleSave,
     handleChatBubbleClick,
-  } = useContext(EditArticleContext);
+  } = useEditArticleContext();
   const navigate = useNavigate();
 
   return (
