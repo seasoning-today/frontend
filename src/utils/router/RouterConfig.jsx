@@ -41,7 +41,7 @@ import { WriteLoader } from '@utils/loader/WriteLoader';
 import { EditArticleLoader } from '@utils/loader/EditArticleLoader';
 import { UserRestrictLoader } from '@utils/loader/UserRestrictLoader';
 
-export const RouterInfo = [
+export const RouterConfig = [
   {
     path: '/',
     element: <RootLayout />,
