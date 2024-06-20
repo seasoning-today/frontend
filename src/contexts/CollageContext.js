@@ -1,10 +1,14 @@
-import { useState, useEffect, createContext } from 'react';
+import { useState, useEffect, createContext, useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import useToggleState from '@utils/hooks/useToggleState';
 
 export const CollageContext = createContext();
 
-export function useCollageContext(loaderData) {
+export function useCollageContext() {
+  return useContext(CollageContext);
+}
+
+export function createCollageContext(loaderData) {
   const navigate = useNavigate();
   const location = useLocation();
   const { collageData, newNotificationData } = loaderData;

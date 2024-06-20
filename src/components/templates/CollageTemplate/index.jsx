@@ -6,8 +6,7 @@ import NotificationHeader from '@components/molecules/NotificationHeader';
 import TabBar from '@components/molecules/TabBar';
 import CollageGrid from '@components/organisms/CollageGrid';
 
-import { CollageContext } from '@contexts/CollageContext';
-import { useContext } from 'react';
+import { useCollageContext } from '@contexts/CollageContext';
 
 export default function CollageTemplate() {
   const {
@@ -19,7 +18,7 @@ export default function CollageTemplate() {
     handleCategoryChange,
     toggleImageEnabled,
     toggleLabelEnabled,
-  } = useContext(CollageContext);
+  } = useCollageContext();
 
   return (
     <S.Layout>
