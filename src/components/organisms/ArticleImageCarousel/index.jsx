@@ -7,10 +7,8 @@ import { useRef, useState } from 'react';
 export default function ArticleImageCarousel({
   readOnly,
   images,
-  setImages,
-  imageInputRef,
-  setReplacingImageIndex,
-  handleImageUpload,
+  handleImageReplace,
+  handleImageDelete,
 }) {
   const [activeDotIndex, setActiveDotIndex] = useState(0);
   const imageScrollRef = useRef();
@@ -33,9 +31,8 @@ export default function ArticleImageCarousel({
               readOnly={readOnly}
               imageIndex={index}
               image={image}
-              imageInputRef={imageInputRef}
-              setImages={setImages}
-              setReplacingImageIndex={setReplacingImageIndex}
+              handleImageReplace={handleImageReplace}
+              handleImageDelete={handleImageDelete}
             />
           ))}
         </S.Carousel>
@@ -47,13 +44,6 @@ export default function ArticleImageCarousel({
           ))}
         </S.Indicator>
       )}
-
-      <input
-        type="file"
-        accept="image/*"
-        ref={imageInputRef}
-        onChange={handleImageUpload}
-      />
     </S.Layout>
   );
 }

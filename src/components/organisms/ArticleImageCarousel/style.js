@@ -9,10 +9,6 @@ export const Layout = styled.ul`
   flex-direction: column;
   align-items: center;
   overflow: hidden;
-
-  input {
-    display: none;
-  }
 `;
 
 export const Carousel = styled.ul`
