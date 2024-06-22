@@ -1,12 +1,36 @@
 import { useState, useRef } from 'react';
 
-export default function useImageForm() {
+const getFileInfo = (file) => {
+  const fileName = file ? file.name : null;
+  const fileExtension = fileName ? fileName.split('.').pop() : null;
+  const fileType = fileName ? file.type : null;
+
+  return { fileName, fileExtension, fileType };
+};
+
+export default function useImageForm(MAX_IMAGES) {
   const [images, setImages] = useState([]);
   const [replacingImageIndex, setReplacingImageIndex] = useState(null);
   const imageInputRef = useRef(null);
 
-  const handleImageUpload = (event) => {
+  const handleImageUpload = () => {
+    if (images.length < MAX_IMAGES) {
+      imageInputRef.current.click();
+    }
+  };
+
+  const handleImageReplace = (replacingImageIndex) => {
     imageInputRef.current.click();
+    setReplacingImageIndex(replacingImageIndex);
+  };
+
+  const handleImageDelete = (deleteImageIndex) => {
+    setImages((images) =>
+      images.filter((_, index) => index !== deleteImageIndex)
+    );
+  };
+
+  const handleImageChange = (event) => {
     const file = event.target.files && event.target.files[0];
 
     if (file && file.size > 10 * 1024 * 1024) {
@@ -15,9 +39,7 @@ export default function useImageForm() {
       return;
     }
 
-    const fileName = file ? file.name : null;
-    const fileExtension = fileName ? fileName.split('.').pop() : null;
-    const fileType = fileName ? file.type : null;
+    const { fileName, fileExtension, fileType } = getFileInfo(file);
 
     if (replacingImageIndex !== null) {
       // 첨부된 사진을 교체합니다.
@@ -40,7 +62,7 @@ export default function useImageForm() {
         reader.readAsDataURL(file);
         setReplacingImageIndex(null);
       }
-    } else if (images.length < 2) {
+    } else {
       // 새로운 사진을 첨부합니다.
       if (file) {
         const reader = new FileReader();
@@ -64,9 +86,10 @@ export default function useImageForm() {
 
   return {
     images,
-    setImages,
-    setReplacingImageIndex,
-    handleImageUpload,
     imageInputRef,
+    handleImageUpload,
+    handleImageReplace,
+    handleImageDelete,
+    handleImageChange,
   };
 }
