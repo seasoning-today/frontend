@@ -16,18 +16,19 @@ export default function WriteTemplate() {
   const {
     currentYear,
     currentTerm,
-    selectedImages,
+    images,
     contents,
     questions,
     published,
     showChatBubble,
     imageInputRef,
-    setReplacingImageIndex,
-    setSelectedImages,
     setContents,
     setQuestions,
     togglePublished,
     handleImageUpload,
+    handleImageReplace,
+    handleImageDelete,
+    handleImageChange,
     handleQuestion,
     handleSave,
     handleChatBubbleClick,
@@ -36,6 +37,13 @@ export default function WriteTemplate() {
 
   return (
     <S.Layout>
+      <input
+        type="file"
+        accept="image/*"
+        ref={imageInputRef}
+        onChange={handleImageChange}
+      />
+
       <ArticleHeader
         year={currentYear}
         term={currentTerm}
@@ -53,11 +61,9 @@ export default function WriteTemplate() {
 
       <S.ContentContainer>
         <ArticleImageCarousel
-          images={selectedImages.map((image) => image.imageData)}
-          setImages={setSelectedImages}
-          imageInputRef={imageInputRef}
-          setReplacingImageIndex={setReplacingImageIndex}
-          handleImageUpload={handleImageUpload}
+          images={images.map((image) => image.imageData)}
+          handleImageReplace={handleImageReplace}
+          handleImageDelete={handleImageDelete}
         />
 
         <ContentEditor
@@ -73,7 +79,7 @@ export default function WriteTemplate() {
           height="1.5"
           type="picture"
           onClick={handleImageUpload}
-          style={{ opacity: selectedImages.length === 2 ? '0.3' : '1' }}
+          style={{ opacity: images.length === 2 ? '0.3' : '1' }}
         />
         <Icon
           width="1.5"

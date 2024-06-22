@@ -13,7 +13,7 @@ export function createWriteContext(loaderData) {
   const currentYear = termData.recordTerm.date.split('-')[0];
   const currentTerm = termData.recordTerm.sequence;
 
-  const { imageForm, articleForm } = useArticleForm({
+  const { handleImageForm, handleArticleForm } = useArticleForm({
     mode: 'write',
     initialContents: [{ type: 'single', text: '' }],
     initialQuestions: SeasonalQuestions[currentTerm],
@@ -21,11 +21,12 @@ export function createWriteContext(loaderData) {
   });
   const {
     images,
-    setImages,
-    setReplacingImageIndex,
-    handleImageUpload,
     imageInputRef,
-  } = imageForm;
+    handleImageUpload,
+    handleImageReplace,
+    handleImageDelete,
+    handleImageChange,
+  } = handleImageForm;
   const {
     contents,
     questions,
@@ -35,7 +36,7 @@ export function createWriteContext(loaderData) {
     togglePublished,
     handleQuestion,
     handleSave,
-  } = articleForm;
+  } = handleArticleForm;
   const [showChatBubble, setShowChatBubble] = useState(false);
 
   useEffect(() => {
@@ -54,18 +55,19 @@ export function createWriteContext(loaderData) {
   return {
     currentYear,
     currentTerm,
-    selectedImages: images,
+    images,
     contents,
     questions,
     published,
     showChatBubble,
     imageInputRef,
-    setSelectedImages: setImages,
-    setReplacingImageIndex,
     setContents,
     setQuestions,
     togglePublished,
     handleImageUpload,
+    handleImageReplace,
+    handleImageDelete,
+    handleImageChange,
     handleQuestion,
     handleSave,
     handleChatBubbleClick,
