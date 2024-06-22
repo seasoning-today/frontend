@@ -14,11 +14,12 @@ export default function useArticleForm({
   const navigate = useNavigate();
   const {
     images,
-    setImages,
-    setReplacingImageIndex,
-    handleImageUpload,
     imageInputRef,
-  } = useImageForm();
+    handleImageUpload,
+    handleImageReplace,
+    handleImageDelete,
+    handleImageChange,
+  } = useImageForm(2);
 
   const [contents, setContents] = useState(initialContents);
   const [questions, setQuestions] = useState(
@@ -30,7 +31,8 @@ export default function useArticleForm({
                 content.type === 'question' && content.text === question.text
             )
         )
-      : initialQuestions
+      : // mode === 'write'
+        initialQuestions
   );
   const [published, togglePublished] = useToggleState(initialPublished);
 
@@ -139,14 +141,15 @@ export default function useArticleForm({
   };
 
   return {
-    imageForm: {
+    handleImageForm: {
       images,
-      setImages,
-      setReplacingImageIndex,
-      handleImageUpload,
       imageInputRef,
+      handleImageUpload,
+      handleImageReplace,
+      handleImageDelete,
+      handleImageChange,
     },
-    articleForm: {
+    handleArticleForm: {
       contents,
       questions,
       published,
