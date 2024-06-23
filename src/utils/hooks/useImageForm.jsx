@@ -86,6 +86,7 @@ export default function useImageForm(MAX_IMAGES) {
 
   return {
     images,
+    setImages,
     imageInputRef,
     handleImageUpload,
     handleImageReplace,
