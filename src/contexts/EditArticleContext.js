@@ -13,7 +13,7 @@ export function createEditArticleContext(loaderData) {
   const currentYear = articleData.year;
   const currentTerm = articleData.term;
 
-  const { imageForm, articleForm } = useArticleForm({
+  const { handleImageForm, handleArticleForm } = useArticleForm({
     mode: 'edit',
     initialContents: JSON.parse(articleData.contents),
     initialQuestions: SeasonalQuestions[currentTerm],
@@ -23,10 +23,12 @@ export function createEditArticleContext(loaderData) {
   const {
     images,
     setImages,
-    setReplacingImageIndex,
-    handleImageUpload,
     imageInputRef,
-  } = imageForm;
+    handleImageUpload,
+    handleImageReplace,
+    handleImageDelete,
+    handleImageChange,
+  } = handleImageForm;
   const {
     contents,
     questions,
@@ -36,7 +38,7 @@ export function createEditArticleContext(loaderData) {
     togglePublished,
     handleQuestion,
     handleSave,
-  } = articleForm;
+  } = handleArticleForm;
   const [showChatBubble, setShowChatBubble] = useState(false);
 
   useEffect(() => {
@@ -93,18 +95,19 @@ export function createEditArticleContext(loaderData) {
   return {
     currentYear,
     currentTerm,
-    selectedImages: images,
+    images,
     contents,
     questions,
     published,
     showChatBubble,
     imageInputRef,
-    setSelectedImages: setImages,
-    setReplacingImageIndex,
     setContents,
     setQuestions,
     togglePublished,
     handleImageUpload,
+    handleImageReplace,
+    handleImageDelete,
+    handleImageChange,
     handleQuestion,
     handleSave,
     handleChatBubbleClick,
