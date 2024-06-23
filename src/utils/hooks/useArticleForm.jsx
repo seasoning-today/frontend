@@ -14,6 +14,7 @@ export default function useArticleForm({
   const navigate = useNavigate();
   const {
     images,
+    setImages,
     imageInputRef,
     handleImageUpload,
     handleImageReplace,
@@ -143,6 +144,7 @@ export default function useArticleForm({
   return {
     handleImageForm: {
       images,
+      setImages,
       imageInputRef,
       handleImageUpload,
       handleImageReplace,
