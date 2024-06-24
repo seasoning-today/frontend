@@ -12,12 +12,13 @@ function EditProfileTemplate() {
   const {
     prevNickname,
     prevAccountId,
+    image,
     userData,
     warningType,
     warningText,
     isValidForm,
     imageInputRef,
-    handleImageUpload,
+    handleImageReplace,
     handleImageChange,
     handleChangeId,
     handleChangeName,
@@ -27,9 +28,9 @@ function EditProfileTemplate() {
 
   return (
     <S.Layout>
-      <S.ProfileContainer onClick={handleImageUpload}>
+      <S.ProfileContainer onClick={handleImageReplace}>
         <Image
-          src={userData.image.imageData}
+          src={image ? image.imageData : userData.image}
           width="5.625"
           height="5.625"
           circle
