@@ -8,8 +8,8 @@ const getFileInfo = (file) => {
   return { fileName, fileExtension, fileType };
 };
 
-export default function useImageForm(MAX_IMAGES) {
-  const [images, setImages] = useState([]);
+export default function useImageForm(initialImages, MAX_IMAGES) {
+  const [images, setImages] = useState([...initialImages]);
   const [replacingImageIndex, setReplacingImageIndex] = useState(null);
   const imageInputRef = useRef(null);
 
