@@ -20,7 +20,7 @@ export default function useArticleForm({
     handleImageReplace,
     handleImageDelete,
     handleImageChange,
-  } = useImageForm(2);
+  } = useImageForm([], 2);
 
   const [contents, setContents] = useState(initialContents);
   const [questions, setQuestions] = useState(
