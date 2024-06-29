@@ -1,16 +1,16 @@
 import { useLoaderData } from 'react-router-dom';
+import { HomeContext, createHomeContext } from '@contexts/HomeContext';
 
 import HomeTemplate from '@components/templates/HomeTemplate';
 
 const HomePage = () => {
-  const { homeData, termData, newNotificationData } = useLoaderData();
+  const loaderData = useLoaderData();
+  const homeContextValue = createHomeContext(loaderData);
 
   return (
-    <HomeTemplate
-      homeData={homeData}
-      termData={termData}
-      isNewNotification={newNotificationData}
-    />
+    <HomeContext.Provider value={homeContextValue}>
+      <HomeTemplate />
+    </HomeContext.Provider>
   );
 };
 

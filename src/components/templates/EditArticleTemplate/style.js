@@ -9,6 +9,10 @@ export const Layout = styled.div`
   flex-direction: column;
   align-items: center;
   padding-top: 5.8125rem;
+
+  input {
+    display: none;
+  }
 `;
 
 export const ContentContainer = styled.div`

@@ -1,100 +1,61 @@
 import * as S from './style';
-
-import { useState, useEffect } from 'react';
+import yearly_line from '@assets/home/yearly_line.webp';
 
 import Image from '@components/atoms/Image';
 import SeasonCircle from '@components/molecules/SeasonCircle';
 
-import yearly_line from '@assets/home/yearly_line.webp';
+import { useHomeContext } from '@contexts/HomeContext';
 
-export default function YearTemplate({ homeData, termData }) {
-  const getStatus = (term) => {
-    if (homeData.find((item) => item.term === term)) {
-      if (termData.recordable && termData.recordTerm.sequence === term) {
-        return {
-          status: `written-countdown`,
-          articleId: homeData.find((item) => item.term === term).id,
-          now: now,
-          dueDate: termData.recordTerm?.date + 'T23:59:59+09:00',
-        };
-      } else {
-        return {
-          status: `written`,
-          articleId: homeData.find((item) => item.term === term).id,
-        };
-      }
-    } else if (termData.recordable && termData.recordTerm.sequence === term) {
-      return {
-        status: `countdown`,
-        now: now,
-        dueDate: termData.recordTerm?.date + 'T23:59:59+09:00',
-      };
-    } else if (termData.currentTerm.sequence < term) {
-      return { status: `deactivated` };
-    } else {
-      return { status: `open` };
-    }
-  };
-
-  const [now, setNow] = useState(new Date());
-
-  useEffect(() => {
-    const Timer = setInterval(() => {
-      setNow(new Date());
-    }, 1000);
-
-    return () => {
-      clearInterval(Timer);
-    };
-  }, []);
+export default function YearTemplate() {
+  const { getStatusData } = useHomeContext();
 
   return (
     <S.Layout>
       <S.ContentContainer>
         <S.ContentRow>
-          <SeasonCircle term={1} statusData={getStatus(1)} />
-          <SeasonCircle term={2} statusData={getStatus(2)} />
-          <SeasonCircle term={3} statusData={getStatus(3)} />
+          <SeasonCircle term={1} statusData={getStatusData(1)} />
+          <SeasonCircle term={2} statusData={getStatusData(2)} />
+          <SeasonCircle term={3} statusData={getStatusData(3)} />
         </S.ContentRow>
         <S.ContentRow>
-          <SeasonCircle term={5} statusData={getStatus(5)} />
-          <SeasonCircle term={4} statusData={getStatus(4)} />
+          <SeasonCircle term={5} statusData={getStatusData(5)} />
+          <SeasonCircle term={4} statusData={getStatusData(4)} />
         </S.ContentRow>
         <S.ContentRow>
-          <SeasonCircle term={6} statusData={getStatus(6)} />
-          <SeasonCircle term={7} statusData={getStatus(7)} />
-          <SeasonCircle term={8} statusData={getStatus(8)} />
+          <SeasonCircle term={6} statusData={getStatusData(6)} />
+          <SeasonCircle term={7} statusData={getStatusData(7)} />
+          <SeasonCircle term={8} statusData={getStatusData(8)} />
         </S.ContentRow>
         <S.ContentRow>
-          <SeasonCircle term={10} statusData={getStatus(10)} />
-          <SeasonCircle term={9} statusData={getStatus(9)} />
+          <SeasonCircle term={10} statusData={getStatusData(10)} />
+          <SeasonCircle term={9} statusData={getStatusData(9)} />
         </S.ContentRow>
         <S.ContentRow>
-          <SeasonCircle term={11} statusData={getStatus(11)} />
-          <SeasonCircle term={12} statusData={getStatus(12)} />
-          <SeasonCircle term={13} statusData={getStatus(13)} />
+          <SeasonCircle term={11} statusData={getStatusData(11)} />
+          <SeasonCircle term={12} statusData={getStatusData(12)} />
+          <SeasonCircle term={13} statusData={getStatusData(13)} />
         </S.ContentRow>
         <S.ContentRow>
-          <SeasonCircle term={15} statusData={getStatus(15)} />
-          <SeasonCircle term={14} statusData={getStatus(14)} />
+          <SeasonCircle term={15} statusData={getStatusData(15)} />
+          <SeasonCircle term={14} statusData={getStatusData(14)} />
         </S.ContentRow>
         <S.ContentRow>
-          <SeasonCircle term={16} statusData={getStatus(16)} />
-          <SeasonCircle term={17} statusData={getStatus(17)} />
-          <SeasonCircle term={18} statusData={getStatus(18)} />
+          <SeasonCircle term={16} statusData={getStatusData(16)} />
+          <SeasonCircle term={17} statusData={getStatusData(17)} />
+          <SeasonCircle term={18} statusData={getStatusData(18)} />
         </S.ContentRow>
         <S.ContentRow>
-          <SeasonCircle term={20} statusData={getStatus(20)} />
-          <SeasonCircle term={19} statusData={getStatus(19)} />
+          <SeasonCircle term={20} statusData={getStatusData(20)} />
+          <SeasonCircle term={19} statusData={getStatusData(19)} />
         </S.ContentRow>
         <S.ContentRow>
-          <SeasonCircle term={21} statusData={getStatus(21)} />
-          <SeasonCircle term={22} statusData={getStatus(22)} />
-          <SeasonCircle term={23} statusData={getStatus(23)} />
+          <SeasonCircle term={21} statusData={getStatusData(21)} />
+          <SeasonCircle term={22} statusData={getStatusData(22)} />
+          <SeasonCircle term={23} statusData={getStatusData(23)} />
         </S.ContentRow>
         <S.ContentRow>
           <S.EmptyCircle />
-          <SeasonCircle term={24} statusData={getStatus(24)} />
+          <SeasonCircle term={24} statusData={getStatusData(24)} />
         </S.ContentRow>
       </S.ContentContainer>
 

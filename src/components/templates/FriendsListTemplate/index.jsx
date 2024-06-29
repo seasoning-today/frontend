@@ -1,31 +1,28 @@
 import * as S from './style';
-import { useState } from 'react';
-
-import FriendsDeleteModal from '@components/molecules/FriendsDeleteModal';
 
 import Button from '@components/atoms/Button';
 import Text from '@components/atoms/Text';
 import UserProfile from '@components/molecules/UserProfile';
+import FriendsDeleteModal from '@components/molecules/FriendsDeleteModal';
 import withNavigation from '@components/hoc/withNavigation';
 
-function FriendsListTemplate({ friendListData }) {
-  const [showModal, setShowModal] = useState(false);
-  const [selectedFriendId, setSelectedFriendId] = useState(null);
+import { useFriendsListContext } from '@contexts/FriendsListContext';
 
-  const handleFriendDelete = (friendId) => {
-    setSelectedFriendId(friendId);
-    setShowModal(true);
-  };
+function FriendsListTemplate() {
+  const {
+    friendListData,
+    showModal,
+    selectedFriendId,
+    handleFriendDelete,
+    handleCloseModal,
+  } = useFriendsListContext();
 
   return (
     <S.Layout>
       {showModal && (
         <FriendsDeleteModal
           friendId={selectedFriendId}
-          onCloseModal={() => {
-            setShowModal(false);
-            setSelectedFriendId(null);
-          }}
+          onCloseModal={handleCloseModal}
         />
       )}
 

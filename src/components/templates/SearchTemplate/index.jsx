@@ -1,99 +1,21 @@
 import * as S from './style';
 import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import debounce from 'lodash.debounce';
 
 import Button from '@components/atoms/Button';
 import Divider from '@components/atoms/Divider';
 import Icon from '@components/atoms/Icon';
 import UserProfile from '@components/molecules/UserProfile';
 
+import { useSearchContext } from '@contexts/SearchContext';
+
 export default function SearchTemplate() {
-  const [searchResult, setSearchResult] = useState([]);
-  const [keyword, setKeyword] = useState('');
-
-  const handleSearch = async () => {
-    const accessToken = localStorage.getItem('accessToken');
-
-    try {
-      const response = await axios.get(
-        `/api/friend/search?keyword=${keyword}`,
-        {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        }
-      );
-      if (response.status === 200) {
-        setSearchResult([response.data]);
-      } else {
-        setSearchResult([]);
-        console.error('Unexpected response:', response);
-      }
-    } catch (error) {
-      setSearchResult([]);
-      console.error('Error fetching search results:', error);
-    }
-  };
-
-  useEffect(() => {
-    if (keyword.trim() !== '') {
-      const debouncedSearch = debounce(handleSearch, 500);
-      debouncedSearch();
-
-      return () => {
-        debouncedSearch.cancel();
-      };
-    }
-  }, [keyword]);
-
-  const handleChangeKeyword = (event) => {
-    setKeyword(event.target.value);
-  };
-
-  const sendFriendRequest = async (friendId) => {
-    const accessToken = localStorage.getItem('accessToken');
-
-    try {
-      const response = await axios.post(
-        `/api/friend/add`,
-        {
-          id: friendId,
-        },
-        {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        }
-      );
-
-      if (response.status === 200) {
-        handleSearch();
-      } else {
-        console.error('Unexpected response:', response);
-      }
-    } catch (error) {
-      console.error('Error sending friend request:', error);
-    }
-  };
-
-  const cancelFriendRequest = async (friendId) => {
-    const accessToken = localStorage.getItem('accessToken');
-
-    try {
-      const response = await axios.delete(`/api/friend/add/cancel`, {
-        data: {
-          id: friendId,
-        },
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
-
-      if (response.status === 200) {
-        handleSearch();
-      } else {
-        console.error('Unexpected response:', response);
-      }
-    } catch (error) {
-      console.error('Error sending friend request:', error);
-    }
-  };
+  const {
+    keyword,
+    searchResult,
+    handleChangeKeyword,
+    sendFriendRequest,
+    cancelFriendRequest,
+  } = useSearchContext();
 
   return (
     <S.Layout>

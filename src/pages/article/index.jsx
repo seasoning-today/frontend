@@ -1,18 +1,15 @@
-import { useLoaderData } from 'react-router-dom';
-
 import ArticleTemplate from '@components/templates/ArticleTemplate';
 
-const ArticlePage = () => {
-  const { articleId, articleData, userData, termData } = useLoaderData();
+import { useLoaderData } from 'react-router-dom';
+import { ArticleContext, createArticleContext } from '@contexts/ArticleContext';
+
+export default function ArticlePage() {
+  const loaderData = useLoaderData();
+  const articleContextValue = createArticleContext(loaderData);
 
   return (
-    <ArticleTemplate
-      articleId={articleId}
-      articleData={articleData}
-      userData={userData}
-      termData={termData}
-    />
+    <ArticleContext.Provider value={articleContextValue}>
+      <ArticleTemplate />
+    </ArticleContext.Provider>
   );
-};
-
-export default ArticlePage;
+}

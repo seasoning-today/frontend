@@ -1,9 +1,18 @@
 import { useLoaderData } from 'react-router-dom';
+import {
+  FriendsListContext,
+  createFriendsListContext,
+} from '@contexts/FriendsListContext';
 
 import FriendsListTemplate from '@components/templates/FriendsListTemplate';
 
 export default function FriendsListPage() {
-  const { friendListData } = useLoaderData();
+  const loaderData = useLoaderData();
+  const friendsListContextValue = createFriendsListContext(loaderData);
 
-  return <FriendsListTemplate friendListData={friendListData} />;
+  return (
+    <FriendsListContext.Provider value={friendsListContextValue}>
+      <FriendsListTemplate />
+    </FriendsListContext.Provider>
+  );
 }

@@ -73,10 +73,11 @@ export const ProgressCircle = styled.circle`
   stroke: #496559;
   stroke-width: 11;
   stroke-dasharray: ${() => 2 * Math.PI * 90};
-  stroke-dashoffset: ${(props) => 2 * Math.PI * 90 * (1 - props.percentage)};
+  stroke-dashoffset: ${({ percentage }) => 2 * Math.PI * 90 * percentage};
   stroke-linecap: round;
   transform: rotate(-90deg);
   transform-origin: center;
+  transition: stroke-dashoffset 1s ease-out;
 `;
 
 export const BackgroundImage = styled.img`

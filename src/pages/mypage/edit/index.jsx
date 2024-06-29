@@ -1,9 +1,18 @@
+import { useLoaderData } from 'react-router-dom';
+import {
+  EditProfileContext,
+  createEditProfileContext,
+} from '@contexts/EditProfileContext';
+
 import EditProfileTemplate from '@components/templates/EditProfileTemplate';
 
-import { useLoaderData } from 'react-router-dom';
-
 export default function EditProfilePage() {
-  const { userData } = useLoaderData();
+  const loaderData = useLoaderData();
+  const editProfileContextValue = createEditProfileContext(loaderData);
 
-  return <EditProfileTemplate prevUserData={userData} />;
+  return (
+    <EditProfileContext.Provider value={editProfileContextValue}>
+      <EditProfileTemplate />
+    </EditProfileContext.Provider>
+  );
 }

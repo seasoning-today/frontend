@@ -2,14 +2,14 @@ import * as S from './style';
 
 import Text from '@components/atoms/Text';
 import Image from '@components/atoms/Image';
-
 import TabBar from '@components/molecules/TabBar';
-
 import MenuList from '@components/organisms/MenuList';
 
+import { useMypageContext } from '@contexts/MypageContext';
 import useFallBackImage from '@utils/hooks/useFallBackImage';
 
-export default function MypageTemplate({ userData, menuListsData }) {
+export default function MypageTemplate() {
+  const { userData, menuListsData } = useMypageContext();
   const { onLoadFallBackImage } = useFallBackImage();
 
   return (

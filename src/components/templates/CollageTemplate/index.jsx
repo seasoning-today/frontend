@@ -6,37 +6,19 @@ import NotificationHeader from '@components/molecules/NotificationHeader';
 import TabBar from '@components/molecules/TabBar';
 import CollageGrid from '@components/organisms/CollageGrid';
 
-import { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useCollageContext } from '@contexts/CollageContext';
 
-export default function CollageTemplate({ collageData, isNewNotification }) {
-  const [selectedCategory, setSelectedCategory] = useState(2024);
-  const [imageEnabled, setImageEnabled] = useState(true);
-  const [labelEnabled, setLabelEnabled] = useState(false);
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    const categoryParam = searchParams.get('category');
-    if (categoryParam) {
-      setSelectedCategory(categoryParam);
-    }
-  }, [location.search]);
-
-  const handleCategoryChange = (event) => {
-    const newCategory = event.target.value;
-    setSelectedCategory(newCategory);
-    navigate(`/collage?category=${newCategory}`);
-  };
-
-  const toggleImgEnabled = () => {
-    setImageEnabled((imageEnabled) => !imageEnabled);
-  };
-
-  const toggleCharEnabled = () => {
-    setLabelEnabled((labelEnabled) => !labelEnabled);
-  };
+export default function CollageTemplate() {
+  const {
+    isNewNotification,
+    collageData,
+    selectedCategory,
+    imageEnabled,
+    labelEnabled,
+    handleCategoryChange,
+    toggleImageEnabled,
+    toggleLabelEnabled,
+  } = useCollageContext();
 
   return (
     <S.Layout>
@@ -65,7 +47,7 @@ export default function CollageTemplate({ collageData, isNewNotification }) {
           <S.ToggleContainer>
             <div className="toggle-item">
               <Text size="0.875">기본 이미지</Text>
-              <div onClick={toggleImgEnabled}>
+              <div onClick={toggleImageEnabled}>
                 {imageEnabled ? (
                   <Icon width="1.5" height="0.75" type="toggle-on" />
                 ) : (
@@ -76,7 +58,7 @@ export default function CollageTemplate({ collageData, isNewNotification }) {
 
             <div className="toggle-item">
               <Text size="0.875">24절기 글자</Text>
-              <div onClick={toggleCharEnabled}>
+              <div onClick={toggleLabelEnabled}>
                 {labelEnabled ? (
                   <Icon width="1.5" height="0.75" type="toggle-on" />
                 ) : (

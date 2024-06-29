@@ -1,18 +1,13 @@
 import * as S from './style';
+import kakao_btn from '@assets/login/kakao_btn.webp';
 
 import Image from '@components/atoms/Image';
 import OnboardingCarousel from '@components/organisms/OnboardingCarousel';
 
-import kakao_btn from '@assets/login/kakao_btn.webp';
+import { useLoginContext } from '@contexts/LoginContext';
 
-export default function LoginTemplate({ onboardingData }) {
-  const KAKAO_REST_API_KEY = import.meta.env.VITE_KAKAO_REST_API_KEY;
-  const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI;
-  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${KAKAO_REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
-
-  const handleKakaoLogin = () => {
-    window.location.href = KAKAO_AUTH_URL;
-  };
+export default function LoginTemplate() {
+  const { onboardingData, handleKakaoLogin } = useLoginContext();
 
   return (
     <S.Layout>

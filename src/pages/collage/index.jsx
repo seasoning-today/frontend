@@ -1,16 +1,15 @@
-import { useLoaderData } from 'react-router-dom';
-
 import CollageTemplate from '@components/templates/CollageTemplate';
 
-const CollagePage = () => {
-  const { collageData, newNotificationData } = useLoaderData();
+import { useLoaderData } from 'react-router-dom';
+import { CollageContext, createCollageContext } from '@contexts/CollageContext';
+
+export default function CollagePage() {
+  const loaderData = useLoaderData();
+  const collageContextValue = createCollageContext(loaderData);
 
   return (
-    <CollageTemplate
-      collageData={collageData}
-      isNewNotification={newNotificationData}
-    />
+    <CollageContext.Provider value={collageContextValue}>
+      <CollageTemplate />
+    </CollageContext.Provider>
   );
-};
-
-export default CollagePage;
+}

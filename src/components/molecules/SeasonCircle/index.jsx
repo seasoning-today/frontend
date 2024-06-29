@@ -3,14 +3,55 @@ import * as S from './style';
 import Icon from '@components/atoms/Icon';
 import Text from '@components/atoms/Text';
 
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SeasonBackgrounds } from '@utils/image/SeasonBackgrounds';
 import { TermsToChinese } from '@utils/seasoning/TermsToChinese';
 import { TermsToKorean } from '@utils/seasoning/TermsToKorean';
 
 export default function SeasonCircle({ term, statusData }) {
-  const { status } = statusData; // `deactivated` | `written` | `written-countdown` | `countdown` | `open`
   const navigate = useNavigate();
+  const { status } = statusData; // `deactivated` | `written` | `written-countdown` | `countdown` | `open`
+
+  const [days, setDays] = useState(0);
+  const [nextPercentage, setNextPercentage] = useState(1);
+  const [formattedTime, setFormattedTime] = useState('');
+
+  const updateIntervalData = () => {
+    const now = new Date();
+    const countDownDueDate = new Date(statusData.dueDate);
+    const remainingTime = countDownDueDate - now;
+    const seconds = Math.floor(remainingTime / 1000) % 60;
+    const minutes = Math.floor(remainingTime / 1000 / 60) % 60;
+    const hours = Math.floor(remainingTime / (1000 * 60 * 60)) % 24;
+
+    if (remainingTime <= 0) {
+      navigate(`/home`, { replace: true });
+    }
+
+    setDays(Math.floor(remainingTime / (1000 * 60 * 60 * 24)));
+    setNextPercentage(remainingTime / 432000000);
+    setFormattedTime(
+      `${hours.toString().padStart(2, '0')}:${minutes
+        .toString()
+        .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
+    );
+  };
+
+  useEffect(() => {
+    let CountDownTimer;
+
+    if (status === `countdown` || status === `written-countdown`) {
+      updateIntervalData();
+      CountDownTimer = setInterval(updateIntervalData, 1000);
+    }
+
+    return () => {
+      if (CountDownTimer) {
+        clearInterval(CountDownTimer);
+      }
+    };
+  }, [status, statusData.dueDate]);
 
   const handleClick = () => {
     if (status === `written` || status === `written-countdown`) {
@@ -21,18 +62,6 @@ export default function SeasonCircle({ term, statusData }) {
       alert('현재 절기 기록장 오픈 기간이 아닙니다.');
     }
   };
-
-  const countDownTermDate = new Date(statusData.dueDate);
-  const remainingTime = countDownTermDate - statusData.now;
-  const nextPercentage = 1 - remainingTime / 1314864000;
-  const seconds = Math.floor(remainingTime / 1000) % 60;
-  const minutes = Math.floor(remainingTime / 1000 / 60) % 60;
-  const hours = Math.floor(remainingTime / (1000 * 60 * 60)) % 24;
-  const days = Math.floor(remainingTime / (1000 * 60 * 60) / 24);
-
-  const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes
-    .toString()
-    .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
   return (
     <S.Layout status={status} onClick={handleClick}>

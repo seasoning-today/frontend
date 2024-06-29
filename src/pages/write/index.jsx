@@ -1,9 +1,15 @@
 import WriteTemplate from '@components/templates/WriteTemplate';
 
 import { useLoaderData } from 'react-router-dom';
+import { WriteContext, createWriteContext } from '@contexts/WriteContext';
 
 export default function WritePage() {
-  const { termData } = useLoaderData();
+  const loaderData = useLoaderData();
+  const writeContextValue = createWriteContext(loaderData);
 
-  return <WriteTemplate recordTerm={termData.recordTerm} />;
+  return (
+    <WriteContext.Provider value={writeContextValue}>
+      <WriteTemplate />
+    </WriteContext.Provider>
+  );
 }
