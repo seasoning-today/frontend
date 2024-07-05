@@ -5,6 +5,8 @@
 <div align="center">
     <h1>Seasoning</h1>
     <span>🌸 24개의 절기를 나의 입맛에 맞게</span>
+    <br />
+    <a href="https://seasoning.today">seasoning.today</a>
 </div>
 <br />
 
