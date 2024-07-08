@@ -1,4 +1,14 @@
 import * as S from './style';
+import React from 'react';
+
+interface TextProps {
+  notoserif?: boolean;
+  size?: number;
+  weight?: number;
+  color?: string;
+  children: React.ReactNode;
+  [key: string]: any;
+}
 
 export default function Text({
   notoserif,
@@ -7,7 +17,7 @@ export default function Text({
   color = `#333`,
   children,
   ...props
-}) {
+}: TextProps) {
   return (
     <S.Layout
       notoserif={notoserif}

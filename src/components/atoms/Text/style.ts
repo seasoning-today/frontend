@@ -1,6 +1,13 @@
 import styled from 'styled-components';
 
-export const Layout = styled.span`
+interface LayoutProps {
+  notoserif?: boolean;
+  size?: number;
+  weight?: number;
+  color?: string;
+}
+
+export const Layout = styled.span<LayoutProps>`
   width: fit-content;
   height: auto;
 
