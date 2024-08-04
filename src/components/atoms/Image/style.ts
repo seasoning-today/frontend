@@ -1,6 +1,13 @@
 import styled from 'styled-components';
 
-export const Layout = styled.div`
+interface LayoutProps {
+  width: number;
+  height: number;
+  circle?: boolean;
+  radius?: number;
+}
+
+export const Layout = styled.div<LayoutProps>`
   position: relative;
 
   width: ${({ width }) => `${width}rem`};
