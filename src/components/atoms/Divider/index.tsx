@@ -9,7 +9,7 @@ interface DividerProps {
 export default function Divider({
   borderWidth = 1,
   margin = 0,
-  color = '#f0f0f0',
+  color = `#f0f0f0`,
   ...props
 }: DividerProps) {
   return (
