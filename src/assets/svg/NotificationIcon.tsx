@@ -1,4 +1,8 @@
-export default function NotificationIcon({ on }) {
+interface NotificationIconProps {
+  on?: boolean;
+}
+
+export default function NotificationIcon({ on }: NotificationIconProps) {
   return (
     <>
       {on ? (

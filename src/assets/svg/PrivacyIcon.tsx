@@ -1,4 +1,9 @@
-export default function PrivacyIcon({ on }) {
+interface PrivacyIconProps {
+  on?: boolean;
+  off?: boolean;
+}
+
+export default function PrivacyIcon({ on }: PrivacyIconProps) {
   return (
     <>
       {on ? (

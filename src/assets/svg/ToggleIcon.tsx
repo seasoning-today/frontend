@@ -1,4 +1,8 @@
-export default function ToggleIcon({ on }) {
+interface ToggleIconProps {
+  on?: boolean;
+}
+
+export default function ToggleIcon({ on }: ToggleIconProps) {
   return (
     <>
       {on ? (

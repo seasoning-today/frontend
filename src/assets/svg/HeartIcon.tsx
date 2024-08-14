@@ -1,4 +1,8 @@
-export default function HeartIcon({ on }) {
+interface HeartIconProps {
+  on?: boolean;
+}
+
+export default function HeartIcon({ on }: HeartIconProps) {
   return (
     <>
       {on ? (

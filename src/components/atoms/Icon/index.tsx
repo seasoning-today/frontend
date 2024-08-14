@@ -21,12 +21,43 @@ import SearchMenuIcon from '@assets/svg/SearchMenuIcon';
 import SettingIcon from '@assets/svg/SettingIcon';
 import ToggleIcon from '@assets/svg/ToggleIcon';
 
+interface IconProps {
+  type?:
+    | 'back'
+    | 'camera'
+    | 'collage'
+    | 'drop-down'
+    | 'feed'
+    | 'fortune'
+    | 'friends-list'
+    | 'heart-on'
+    | 'heart-off'
+    | 'home'
+    | 'lock'
+    | 'more'
+    | 'notification-on'
+    | 'notification-off'
+    | 'option'
+    | 'picture'
+    | 'privacy-on'
+    | 'privacy-off'
+    | 'question-stack'
+    | 'quit'
+    | 'search-menu'
+    | 'setting'
+    | 'toggle-on'
+    | 'toggle-off';
+  width?: number;
+  height?: number;
+  [key: string]: any;
+}
+
 export default function Icon({
   type = 'home',
   width = 1,
   height = 1,
   ...props
-}) {
+}: IconProps) {
   return (
     <S.Layout width={width} height={height} {...props}>
       {type === 'back' && <BackIcon />}
